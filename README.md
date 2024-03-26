@@ -16,7 +16,7 @@ comes with a LSP for Vim users.
 `npx nx g @nrwl/angular:lib <library-name>` Generate a new library in the libs folder
 `npx nx g @nrwl/angular:app <app-name>` Generate a new app/micro front-end
 `npx nx build los` Build the LOS app shell
-`npx nx g component components/example --project=los` Generate a component with the name "example" in the components directory in the LOS app
+`nx g @nx/angular:component step1 --directory apps/quoting\src/app/routes/step1 --module=app.module.ts` Generate a component with the name "step1" in the components directory in the quoting app
 
 ## Build for production
 

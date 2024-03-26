@@ -17,7 +17,7 @@
     "paths": {
       "$libs": ["./libs"],
       "@dashboard/*": ["apps/dashboard/src/*"],
-      "@los/masterpage": ["libs/masterpage/src/index.ts"],
+      "@quoting/*": ["apps/quoting/src/*"],
       "@sandbox/*": ["apps/sandbox/src/*"]
     }
   },
