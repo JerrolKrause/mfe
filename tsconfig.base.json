@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "$libs": ["./libs"],
+      "@dashboard/*": ["apps/dashboard/src/*"],
+      "@los/masterpage": ["libs/masterpage/src/index.ts"],
+      "@sandbox/*": ["apps/sandbox/src/*"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

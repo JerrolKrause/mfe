@@ -10,9 +10,13 @@ Enhance your Nx experience by installing [Nx Console](https://nx.dev/nx-console)
 provides an interactive UI to view your projects, run tasks, generate code, and more! Available for VSCode, IntelliJ and
 comes with a LSP for Vim users.
 
-## Start the application
+## Handy Commands
 
-Run `npx nx serve los` to start the development server. Happy coding!
+`npx nx serve los` Start the LOS app shell
+`npx nx g @nrwl/angular:lib <library-name>` Generate a new library in the libs folder
+`npx nx g @nrwl/angular:app <app-name>` Generate a new app/micro front-end
+`npx nx build los` Build the LOS app shell
+`npx nx g component components/example --project=los` Generate a component with the name "example" in the components directory in the LOS app
 
 ## Build for production
 
