@@ -12,7 +12,13 @@ export const appRoutes: Route[] = [
       {
         path: 'step1',
         component: Step1Component,
-        data: { title: 'Quoting' },
+        data: { title: 'Step 1' },
+        children: [],
+      },
+      {
+        path: 'step2',
+        component: Step1Component,
+        data: { title: 'Step 2' },
         children: [],
       },
       {
