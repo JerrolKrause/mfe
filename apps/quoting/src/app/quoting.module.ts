@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
-import { appRoutes } from './app.routes';
+import { AppComponent } from './quoting.component';
+import { appRoutes } from './quoting.routes';
 import { Step1Component } from './routes/step1/step1.component';
 
 @NgModule({
@@ -13,4 +13,4 @@ import { Step1Component } from './routes/step1/step1.component';
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class QuotingModule {}

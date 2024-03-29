@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AppComponent } from './app.component';
+import { AppComponent } from './quoting.component';
 import { HomeComponent } from './routes/home/home.component';
 import { Step1Component } from './routes/step1/step1.component';
 
