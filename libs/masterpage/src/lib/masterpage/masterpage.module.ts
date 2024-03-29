@@ -1,13 +1,15 @@
-
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MasterpageComponent } from './masterpage.component';
 import { RouterModule } from '@angular/router';
-
+import { ConfirmationService } from 'primeng/api';
+import { SidebarModule } from 'primeng/sidebar';
+import { HeaderComponent } from './header/header.component';
+import { MasterpageComponent } from './masterpage.component';
+import { NavComponent } from './nav/nav.component';
 @NgModule({
-  imports: [CommonModule, RouterModule ],
-  declarations: [MasterpageComponent ],
-  providers: [],
+  imports: [CommonModule, RouterModule, SidebarModule],
+  declarations: [MasterpageComponent, HeaderComponent, NavComponent],
+  providers: [ConfirmationService],
   exports: [MasterpageComponent],
 })
 export class MasterpageModule {}

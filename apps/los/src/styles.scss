@@ -1,3 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'primeng/resources/primeng.min.css'; // 7k
 @import 'primeng/resources/themes/nova/theme.css'; // 134k
+
+// Option 1: Import only parts of Bootstrap - 99k
+@import 'bootstrap/scss/bootstrap-utilities';
+@import 'bootstrap/scss/reboot';
+// Components
+@import 'bootstrap/scss/buttons';
+@import 'bootstrap/scss/card';
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/grid';
+@import 'bootstrap/scss/nav';
+@import 'bootstrap/scss/navbar';
+@import 'bootstrap/scss/tables';
+@import 'bootstrap/scss/type';
+
+@import 'styles/typography';

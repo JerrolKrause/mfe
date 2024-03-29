@@ -1,6 +1,6 @@
+import { MasterpageModule } from '$libs';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {MasterpageModule} from '$libs'
 
 @Component({
   standalone: true,

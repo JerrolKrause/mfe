@@ -1,0 +1,85 @@
+<div id="nav">
+  <div class="d-none d-lg-flex">
+    @for (nav of navMenu; track nav) {
+    <a
+      class="nav-menu-link main-menu"
+      [routerLink]="nav.routerLink ? [nav.routerLink] : null"
+      (click)="nav.command ? nav.command() : null"
+    >
+      @if (!!nav.icon) { } <span [innerHtml]="nav.label"></span>
+    </a>
+    }
+    <div class="menu-container align-self-center ms-auto" #temp>
+      <a label="Show" class="menu-bar-toggle"> - </a>
+      <div class="menu-bar">
+        <div class="menu-bar-container">
+          @for (nav of utilityMenu; track nav) {
+          <a
+            class="nav-menu-link main-menu d-block thin"
+            [routerLink]="nav.routerLink ? [nav.routerLink] : null"
+            (click)="nav.command ? nav.command() : null"
+          >
+            <!--
+            @if (!!nav.icon) {
+            <app-icons
+              [icon]="nav?.icon || 'question'"
+              class="me-2"
+            ></app-icons>
+            }-->
+            <span [innerHtml]="nav.label"></span>
+          </a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toggle sidebar -->
+  <div class="pt-2 float-end d-block d-lg-none">
+    <a (click)="sidebarVisible.set(true)" class="p-2">
+      <!--
+      <app-icons icon="bars" class="me-2 fa-lg"></app-icons>
+      -->
+    </a>
+  </div>
+
+  <!--
+    Flyout sidebar
+    -->
+  <p-sidebar
+    [visible]="sidebarVisible()"
+    (onHide)="sidebarVisible.set(false)"
+    [style]="{ 'z-index': 10000 }"
+    appendTo="body"
+    [baseZIndex]="10000"
+    [dismissible]="true"
+    [showCloseIcon]="false"
+  >
+    <a (click)="sidebarVisible.set(false)" class="sidebar-close float-end">
+      <!--
+      <app-icons icon="x"></app-icons>
+      -->
+    </a>
+
+    @for (nav of navMenu; track nav) {
+    <a class="nav-menu-link main-menu d-block" [routerLink]="[nav.routerLink]">
+      @if (!!nav.icon) {
+      <!--
+      <app-icons [icon]="nav?.icon || 'question'" class="me-2"></app-icons>
+      -->
+      } <span [innerHtml]="nav.label"></span>
+    </a>
+    }
+    <hr />
+    @for (nav of utilityMenu; track nav) {
+    <a class="nav-menu-link main-menu d-block" [routerLink]="[nav.routerLink]">
+      @if (!!nav.icon) {
+      <!--
+      <app-icons [icon]="nav?.icon || 'question'" class="me-2"></app-icons>
+      -->
+      }
+      <span [innerHtml]="nav.label"></span>
+    </a>
+    }
+  </p-sidebar>
+</div>

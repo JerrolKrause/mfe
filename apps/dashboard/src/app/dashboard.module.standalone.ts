@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { DashboardComponent } from './routes/dashboard/dashboard.component';
-import { DashboardRoutes } from './dashboard.routes';
-import { RouterModule } from '@angular/router';
 import { MasterpageModule } from '$libs';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { DashboardRoutes } from './dashboard.routes';
+import { DashboardComponent } from './routes/dashboard/dashboard.component';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(DashboardRoutes),
-    MasterpageModule
+    MasterpageModule,
   ],
   declarations: [DashboardComponent],
   providers: [],
