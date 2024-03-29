@@ -12,14 +12,16 @@
     "prod:static": "http-server ./dist/static -o -g",
     "build:qa": "ng build --configuration=qa",
     "build:uat": "ng build --configuration=uat",
-    "build:prod": "ng build --configuration=production",
+    "build:prod": "npx nx build los --configuration=prod",
     "build": "ng build",
     "build:stats": "ng build --configuration=production --stats-json && npm run bundle-report",
     "build:source": "ng build --configuration=production --source-map",
     "bundle-report": "webpack-bundle-analyzer dist/browser/stats.json -p 8887",
     "docs": "compodoc -p tsconfig.json",
     "docs:serve": "compodoc -p tsconfig.json -s",
-    "docs:watch": "compodoc -p tsconfig.json -s -w"
+    "docs:watch": "compodoc -p tsconfig.json -s -w",
+    "deploy": "npx nx build los --configuration=prod --configuration=production --base-href /mfe/ && angular-cli-ghpages --no-silent --dir=dist/apps/los/browser",
+    "deploy:ssr": "ng run financial-status-check:deploy-ssr --routes-file routes.txt && angular-cli-ghpages --no-silent --dir=dist/browser"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +43,7 @@
     "@fortawesome/free-solid-svg-icons": "6.5.1",
     "@ngneat/until-destroy": "^10.0.0",
     "@nx/angular": "18.1.3",
+    "angular-cli-ghpages": "^2.0.0-beta.2",
     "express": "~4.18.2",
     "primeicons": "^6.0.1",
     "primeng": "17.12.0",
