@@ -1,0 +1,1431 @@
+{
+  "graph": {
+    "nodes": {
+      "dashboard-e2e": {
+        "name": "dashboard-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "apps/dashboard-e2e",
+          "projectType": "application",
+          "targets": {
+            "e2e": {
+              "options": {
+                "cwd": "apps/dashboard-e2e",
+                "command": "cypress run"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\dashboard-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\dashboard-e2e\\screenshots"
+              ],
+              "configurations": {
+                "production": {
+                  "command": "cypress run --env webServerCommand=\"nx run dashboard:serve:production\""
+                }
+              },
+              "executor": "nx:run-commands"
+            },
+            "e2e-ci--src\\e2e\\app.cy.ts": {
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\dashboard-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\dashboard-e2e\\screenshots"
+              ],
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "cache": true,
+              "options": {
+                "cwd": "apps/dashboard-e2e",
+                "command": "cypress run --env webServerCommand=\"nx run dashboard:serve-static\" --spec src\\e2e\\app.cy.ts"
+              },
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "e2e-ci": {
+              "executor": "nx:noop",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\dashboard-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\dashboard-e2e\\screenshots"
+              ],
+              "dependsOn": [
+                {
+                  "target": "e2e-ci--src\\e2e\\app.cy.ts",
+                  "projects": "self",
+                  "params": "forward"
+                }
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/dashboard-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            }
+          },
+          "name": "dashboard-e2e",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/dashboard-e2e/src",
+          "tags": [],
+          "implicitDependencies": [
+            "dashboard"
+          ]
+        }
+      },
+      "undefined": {
+        "name": "undefined",
+        "type": "lib",
+        "data": {
+          "root": "libs/forms/src/lib",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "libs/forms/src/lib",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/libs/forms/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            }
+          },
+          "implicitDependencies": [],
+          "tags": []
+        }
+      },
+      "quoting-e2e": {
+        "name": "quoting-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "apps/quoting-e2e",
+          "projectType": "application",
+          "targets": {
+            "e2e": {
+              "options": {
+                "cwd": "apps/quoting-e2e",
+                "command": "cypress run"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\quoting-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\quoting-e2e\\screenshots"
+              ],
+              "configurations": {
+                "production": {
+                  "command": "cypress run --env webServerCommand=\"nx run quoting:serve:production\""
+                }
+              },
+              "executor": "nx:run-commands"
+            },
+            "e2e-ci--src\\e2e\\app.cy.ts": {
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\quoting-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\quoting-e2e\\screenshots"
+              ],
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "cache": true,
+              "options": {
+                "cwd": "apps/quoting-e2e",
+                "command": "cypress run --env webServerCommand=\"nx run quoting:serve-static\" --spec src\\e2e\\app.cy.ts"
+              },
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "e2e-ci": {
+              "executor": "nx:noop",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\quoting-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\quoting-e2e\\screenshots"
+              ],
+              "dependsOn": [
+                {
+                  "target": "e2e-ci--src\\e2e\\app.cy.ts",
+                  "projects": "self",
+                  "params": "forward"
+                }
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/quoting-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            }
+          },
+          "name": "quoting-e2e",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/quoting-e2e/src",
+          "tags": [],
+          "implicitDependencies": [
+            "quoting"
+          ]
+        }
+      },
+      "sandbox-e2e": {
+        "name": "sandbox-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "apps/sandbox-e2e",
+          "projectType": "application",
+          "targets": {
+            "e2e": {
+              "options": {
+                "cwd": "apps/sandbox-e2e",
+                "command": "cypress run"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\sandbox-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\sandbox-e2e\\screenshots"
+              ],
+              "configurations": {
+                "production": {
+                  "command": "cypress run --env webServerCommand=\"nx run sandbox:serve:production\""
+                }
+              },
+              "executor": "nx:run-commands"
+            },
+            "e2e-ci--src\\e2e\\app.cy.ts": {
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\sandbox-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\sandbox-e2e\\screenshots"
+              ],
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "cache": true,
+              "options": {
+                "cwd": "apps/sandbox-e2e",
+                "command": "cypress run --env webServerCommand=\"nx run sandbox:serve-static\" --spec src\\e2e\\app.cy.ts"
+              },
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "e2e-ci": {
+              "executor": "nx:noop",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\sandbox-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\sandbox-e2e\\screenshots"
+              ],
+              "dependsOn": [
+                {
+                  "target": "e2e-ci--src\\e2e\\app.cy.ts",
+                  "projects": "self",
+                  "params": "forward"
+                }
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/sandbox-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            }
+          },
+          "name": "sandbox-e2e",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/sandbox-e2e/src",
+          "tags": [],
+          "implicitDependencies": [
+            "sandbox"
+          ]
+        }
+      },
+      "masterpage": {
+        "name": "masterpage",
+        "type": "lib",
+        "data": {
+          "root": "libs/masterpage",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "cache": true,
+              "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.js"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "test": {
+              "executor": "@nx/jest:jest",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.preset.js"
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/{projectRoot}"
+              ],
+              "options": {
+                "passWithNoTests": true,
+                "jestConfig": "libs/masterpage/jest.config.ts"
+              },
+              "configurations": {
+                "ci": {
+                  "ci": true,
+                  "codeCoverage": true
+                }
+              }
+            }
+          },
+          "name": "masterpage",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "libs/masterpage/src",
+          "prefix": "lib",
+          "tags": [],
+          "projectType": "library",
+          "implicitDependencies": []
+        }
+      },
+      "dashboard": {
+        "name": "dashboard",
+        "type": "app",
+        "data": {
+          "root": "apps/dashboard",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "cache": true,
+              "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.js"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@angular-devkit/build-angular:browser",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/dashboard/browser",
+                "index": "apps/dashboard/src/index.html",
+                "main": "apps/dashboard/src/main.ts",
+                "polyfills": [
+                  "zone.js"
+                ],
+                "tsConfig": "apps/dashboard/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                  "apps/dashboard/src/favicon.ico",
+                  "apps/dashboard/src/assets"
+                ],
+                "styles": [
+                  "apps/dashboard/src/styles.scss"
+                ],
+                "scripts": []
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "2kb",
+                      "maximumError": "4kb"
+                    }
+                  ],
+                  "outputHashing": "all"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "test": {
+              "executor": "@nx/jest:jest",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.preset.js"
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/{projectRoot}"
+              ],
+              "options": {
+                "passWithNoTests": true,
+                "jestConfig": "apps/dashboard/jest.config.ts"
+              },
+              "configurations": {
+                "ci": {
+                  "ci": true,
+                  "codeCoverage": true
+                }
+              }
+            },
+            "server": {
+              "executor": "@angular-devkit/build-angular:server",
+              "cache": true,
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "outputPath": "dist/apps/dashboard/server",
+                "main": "apps/dashboard/server.ts",
+                "tsConfig": "apps/dashboard/tsconfig.server.json",
+                "inlineStyleLanguage": "scss"
+              },
+              "configurations": {
+                "production": {
+                  "outputHashing": "media"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "sourceMap": true,
+                  "extractLicenses": false,
+                  "vendorChunk": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "serve": {
+              "executor": "@angular-devkit/build-angular:dev-server",
+              "options": {
+                "port": 4201
+              },
+              "configurations": {
+                "production": {
+                  "buildTarget": "dashboard:build:production"
+                },
+                "development": {
+                  "buildTarget": "dashboard:build:development"
+                }
+              },
+              "defaultConfiguration": "development"
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "dashboard:build"
+              },
+              "configurations": {}
+            },
+            "serve-static": {
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "dashboard:build"
+              },
+              "configurations": {}
+            },
+            "serve-ssr": {
+              "executor": "@angular-devkit/build-angular:ssr-dev-server",
+              "configurations": {
+                "development": {
+                  "browserTarget": "dashboard:build:development",
+                  "serverTarget": "dashboard:server:development"
+                },
+                "production": {
+                  "browserTarget": "dashboard:build:production",
+                  "serverTarget": "dashboard:server:production"
+                }
+              },
+              "defaultConfiguration": "development",
+              "options": {}
+            },
+            "prerender": {
+              "executor": "@angular-devkit/build-angular:prerender",
+              "options": {
+                "routes": [
+                  "/"
+                ]
+              },
+              "configurations": {
+                "development": {
+                  "browserTarget": "dashboard:build:development",
+                  "serverTarget": "dashboard:server:development"
+                },
+                "production": {
+                  "browserTarget": "dashboard:build:production",
+                  "serverTarget": "dashboard:server:production"
+                }
+              },
+              "defaultConfiguration": "production"
+            }
+          },
+          "name": "dashboard",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "prefix": "app",
+          "sourceRoot": "apps/dashboard/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "los-e2e": {
+        "name": "los-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "apps/los-e2e",
+          "projectType": "application",
+          "targets": {
+            "e2e": {
+              "options": {
+                "cwd": "apps/los-e2e",
+                "command": "cypress run"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\los-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\los-e2e\\screenshots"
+              ],
+              "configurations": {
+                "production": {
+                  "command": "cypress run --env webServerCommand=\"nx run los:serve:production\""
+                }
+              },
+              "executor": "nx:run-commands"
+            },
+            "e2e-ci--src\\e2e\\app.cy.ts": {
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\los-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\los-e2e\\screenshots"
+              ],
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "cache": true,
+              "options": {
+                "cwd": "apps/los-e2e",
+                "command": "cypress run --env webServerCommand=\"nx run los:serve-static\" --spec src\\e2e\\app.cy.ts"
+              },
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "e2e-ci": {
+              "executor": "nx:noop",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "cypress"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\cypress\\apps\\los-e2e\\videos",
+                "{workspaceRoot}\\dist\\cypress\\apps\\los-e2e\\screenshots"
+              ],
+              "dependsOn": [
+                {
+                  "target": "e2e-ci--src\\e2e\\app.cy.ts",
+                  "projects": "self",
+                  "params": "forward"
+                }
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/los-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            }
+          },
+          "name": "los-e2e",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/los-e2e/src",
+          "tags": [],
+          "implicitDependencies": [
+            "los"
+          ]
+        }
+      },
+      "quoting": {
+        "name": "quoting",
+        "type": "app",
+        "data": {
+          "root": "apps/quoting",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "cache": true,
+              "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.js"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@angular-devkit/build-angular:browser",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/quoting/browser",
+                "index": "apps/quoting/src/index.html",
+                "main": "apps/quoting/src/main.ts",
+                "polyfills": [
+                  "zone.js"
+                ],
+                "tsConfig": "apps/quoting/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                  "apps/quoting/src/favicon.ico",
+                  "apps/quoting/src/assets"
+                ],
+                "styles": [
+                  "apps/quoting/src/styles.scss"
+                ],
+                "scripts": []
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "2kb",
+                      "maximumError": "4kb"
+                    }
+                  ],
+                  "outputHashing": "all"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "test": {
+              "executor": "@nx/jest:jest",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.preset.js"
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/{projectRoot}"
+              ],
+              "options": {
+                "passWithNoTests": true,
+                "jestConfig": "apps/quoting/jest.config.ts"
+              },
+              "configurations": {
+                "ci": {
+                  "ci": true,
+                  "codeCoverage": true
+                }
+              }
+            },
+            "server": {
+              "executor": "@angular-devkit/build-angular:server",
+              "cache": true,
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "outputPath": "dist/apps/quoting/server",
+                "main": "apps/quoting/server.ts",
+                "tsConfig": "apps/quoting/tsconfig.server.json",
+                "inlineStyleLanguage": "scss"
+              },
+              "configurations": {
+                "production": {
+                  "outputHashing": "media"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "sourceMap": true,
+                  "extractLicenses": false,
+                  "vendorChunk": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "serve": {
+              "executor": "@angular-devkit/build-angular:dev-server",
+              "configurations": {
+                "production": {
+                  "buildTarget": "quoting:build:production"
+                },
+                "development": {
+                  "buildTarget": "quoting:build:development"
+                }
+              },
+              "defaultConfiguration": "development",
+              "options": {}
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "quoting:build"
+              },
+              "configurations": {}
+            },
+            "serve-static": {
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "quoting:build"
+              },
+              "configurations": {}
+            },
+            "serve-ssr": {
+              "executor": "@angular-devkit/build-angular:ssr-dev-server",
+              "configurations": {
+                "development": {
+                  "browserTarget": "quoting:build:development",
+                  "serverTarget": "quoting:server:development"
+                },
+                "production": {
+                  "browserTarget": "quoting:build:production",
+                  "serverTarget": "quoting:server:production"
+                }
+              },
+              "defaultConfiguration": "development",
+              "options": {}
+            },
+            "prerender": {
+              "executor": "@angular-devkit/build-angular:prerender",
+              "options": {
+                "routes": [
+                  "/"
+                ]
+              },
+              "configurations": {
+                "development": {
+                  "browserTarget": "quoting:build:development",
+                  "serverTarget": "quoting:server:development"
+                },
+                "production": {
+                  "browserTarget": "quoting:build:production",
+                  "serverTarget": "quoting:server:production"
+                }
+              },
+              "defaultConfiguration": "production"
+            }
+          },
+          "name": "quoting",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "prefix": "app",
+          "sourceRoot": "apps/quoting/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "sandbox": {
+        "name": "sandbox",
+        "type": "app",
+        "data": {
+          "root": "apps/sandbox",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "cache": true,
+              "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.js"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@angular-devkit/build-angular:browser",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/sandbox/browser",
+                "index": "apps/sandbox/src/index.html",
+                "main": "apps/sandbox/src/main.ts",
+                "polyfills": [
+                  "zone.js"
+                ],
+                "tsConfig": "apps/sandbox/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                  "apps/sandbox/src/favicon.ico",
+                  "apps/sandbox/src/assets"
+                ],
+                "styles": [
+                  "apps/sandbox/src/styles.scss"
+                ],
+                "scripts": []
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "2kb",
+                      "maximumError": "4kb"
+                    }
+                  ],
+                  "outputHashing": "all"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "test": {
+              "executor": "@nx/jest:jest",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.preset.js"
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/{projectRoot}"
+              ],
+              "options": {
+                "passWithNoTests": true,
+                "jestConfig": "apps/sandbox/jest.config.ts"
+              },
+              "configurations": {
+                "ci": {
+                  "ci": true,
+                  "codeCoverage": true
+                }
+              }
+            },
+            "server": {
+              "executor": "@angular-devkit/build-angular:server",
+              "cache": true,
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "outputPath": "dist/apps/sandbox/server",
+                "main": "apps/sandbox/server.ts",
+                "tsConfig": "apps/sandbox/tsconfig.server.json",
+                "inlineStyleLanguage": "scss"
+              },
+              "configurations": {
+                "production": {
+                  "outputHashing": "media"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "sourceMap": true,
+                  "extractLicenses": false,
+                  "vendorChunk": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "serve": {
+              "executor": "@angular-devkit/build-angular:dev-server",
+              "options": {
+                "port": 4202
+              },
+              "configurations": {
+                "production": {
+                  "buildTarget": "sandbox:build:production"
+                },
+                "development": {
+                  "buildTarget": "sandbox:build:development"
+                }
+              },
+              "defaultConfiguration": "development"
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "sandbox:build"
+              },
+              "configurations": {}
+            },
+            "serve-static": {
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "sandbox:build"
+              },
+              "configurations": {}
+            },
+            "serve-ssr": {
+              "executor": "@angular-devkit/build-angular:ssr-dev-server",
+              "configurations": {
+                "development": {
+                  "browserTarget": "sandbox:build:development",
+                  "serverTarget": "sandbox:server:development"
+                },
+                "production": {
+                  "browserTarget": "sandbox:build:production",
+                  "serverTarget": "sandbox:server:production"
+                }
+              },
+              "defaultConfiguration": "development",
+              "options": {}
+            },
+            "prerender": {
+              "executor": "@angular-devkit/build-angular:prerender",
+              "options": {
+                "routes": [
+                  "/"
+                ]
+              },
+              "configurations": {
+                "development": {
+                  "browserTarget": "sandbox:build:development",
+                  "serverTarget": "sandbox:server:development"
+                },
+                "production": {
+                  "browserTarget": "sandbox:build:production",
+                  "serverTarget": "sandbox:server:production"
+                }
+              },
+              "defaultConfiguration": "production"
+            }
+          },
+          "name": "sandbox",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "prefix": "app",
+          "sourceRoot": "apps/sandbox/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "@ntersol/forms": {
+        "name": "@ntersol/forms",
+        "type": "lib",
+        "data": {
+          "root": "libs/forms",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "libs/forms",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            }
+          },
+          "name": "@ntersol/forms",
+          "implicitDependencies": [],
+          "tags": []
+        }
+      },
+      "los": {
+        "name": "los",
+        "type": "app",
+        "data": {
+          "root": "apps/los",
+          "targets": {
+            "lint": {
+              "executor": "@nx/eslint:lint",
+              "cache": true,
+              "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.js"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@angular-devkit/build-angular:browser",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/apps/los/browser",
+                "index": "apps/los/src/index.html",
+                "main": "apps/los/src/main.ts",
+                "polyfills": [
+                  "zone.js"
+                ],
+                "tsConfig": "apps/los/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                  "apps/los/src/favicon.ico",
+                  "apps/los/src/assets"
+                ],
+                "styles": [
+                  "apps/los/src/styles.scss"
+                ],
+                "scripts": []
+              },
+              "configurations": {
+                "production": {
+                  "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "500kb",
+                      "maximumError": "1mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "2kb",
+                      "maximumError": "4kb"
+                    }
+                  ],
+                  "outputHashing": "all"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "vendorChunk": true,
+                  "extractLicenses": false,
+                  "sourceMap": true,
+                  "namedChunks": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "test": {
+              "executor": "@nx/jest:jest",
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.preset.js"
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/{projectRoot}"
+              ],
+              "options": {
+                "passWithNoTests": true,
+                "jestConfig": "apps/los/jest.config.ts"
+              },
+              "configurations": {
+                "ci": {
+                  "ci": true,
+                  "codeCoverage": true
+                }
+              }
+            },
+            "server": {
+              "executor": "@angular-devkit/build-angular:server",
+              "cache": true,
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "outputPath": "dist/apps/los/server",
+                "main": "apps/los/server.ts",
+                "tsConfig": "apps/los/tsconfig.server.json",
+                "inlineStyleLanguage": "scss"
+              },
+              "configurations": {
+                "production": {
+                  "outputHashing": "media"
+                },
+                "development": {
+                  "buildOptimizer": false,
+                  "optimization": false,
+                  "sourceMap": true,
+                  "extractLicenses": false,
+                  "vendorChunk": true
+                }
+              },
+              "defaultConfiguration": "production"
+            },
+            "serve": {
+              "executor": "@angular-devkit/build-angular:dev-server",
+              "configurations": {
+                "production": {
+                  "buildTarget": "los:build:production"
+                },
+                "development": {
+                  "buildTarget": "los:build:development"
+                }
+              },
+              "defaultConfiguration": "development",
+              "options": {}
+            },
+            "extract-i18n": {
+              "executor": "@angular-devkit/build-angular:extract-i18n",
+              "options": {
+                "buildTarget": "los:build"
+              },
+              "configurations": {}
+            },
+            "serve-static": {
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "los:build"
+              },
+              "configurations": {}
+            },
+            "serve-ssr": {
+              "executor": "@angular-devkit/build-angular:ssr-dev-server",
+              "configurations": {
+                "development": {
+                  "browserTarget": "los:build:development",
+                  "serverTarget": "los:server:development"
+                },
+                "production": {
+                  "browserTarget": "los:build:production",
+                  "serverTarget": "los:server:production"
+                }
+              },
+              "defaultConfiguration": "development",
+              "options": {}
+            },
+            "prerender": {
+              "executor": "@angular-devkit/build-angular:prerender",
+              "options": {
+                "routes": [
+                  "/"
+                ]
+              },
+              "configurations": {
+                "development": {
+                  "browserTarget": "los:build:development",
+                  "serverTarget": "los:server:development"
+                },
+                "production": {
+                  "browserTarget": "los:build:production",
+                  "serverTarget": "los:server:production"
+                }
+              },
+              "defaultConfiguration": "production"
+            }
+          },
+          "name": "los",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "prefix": "app",
+          "sourceRoot": "apps/los/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "dashboard-e2e": [
+        {
+          "source": "dashboard-e2e",
+          "target": "dashboard",
+          "type": "implicit"
+        }
+      ],
+      "undefined": [],
+      "quoting-e2e": [
+        {
+          "source": "quoting-e2e",
+          "target": "quoting",
+          "type": "implicit"
+        }
+      ],
+      "sandbox-e2e": [
+        {
+          "source": "sandbox-e2e",
+          "target": "sandbox",
+          "type": "implicit"
+        }
+      ],
+      "masterpage": [],
+      "dashboard": [
+        {
+          "source": "dashboard",
+          "target": "undefined",
+          "type": "static"
+        }
+      ],
+      "los-e2e": [
+        {
+          "source": "los-e2e",
+          "target": "los",
+          "type": "implicit"
+        }
+      ],
+      "quoting": [],
+      "sandbox": [
+        {
+          "source": "sandbox",
+          "target": "undefined",
+          "type": "static"
+        }
+      ],
+      "@ntersol/forms": [
+        {
+          "source": "@ntersol/forms",
+          "target": "undefined",
+          "type": "static"
+        }
+      ],
+      "los": [
+        {
+          "source": "los",
+          "target": "undefined",
+          "type": "static"
+        },
+        {
+          "source": "los",
+          "target": "sandbox",
+          "type": "dynamic"
+        },
+        {
+          "source": "los",
+          "target": "quoting",
+          "type": "dynamic"
+        },
+        {
+          "source": "los",
+          "target": "dashboard",
+          "type": "dynamic"
+        }
+      ]
+    }
+  },
+  "affectedProjects": [],
+  "criticalPath": []
+}

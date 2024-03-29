@@ -1,7 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { SandboxComponent } from './app/sandbox.component';
 import { appConfig } from './app/sandbox.config';
-import { AppComponent } from './app/sandbox.component';
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
+bootstrapApplication(SandboxComponent, appConfig).catch((err) =>
   console.error(err)
 );

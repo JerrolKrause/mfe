@@ -1,9 +1,9 @@
+import { MasterpageModule } from '$libs';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { SandboxComponent } from './sandbox.component';
 import { SandboxRoutes } from './sandbox.routes';
-import { RouterModule } from '@angular/router';
-import { MasterpageModule } from '$libs';
 
 @NgModule({
   imports: [
@@ -14,5 +14,6 @@ import { MasterpageModule } from '$libs';
   declarations: [SandboxComponent],
   providers: [],
   exports: [],
+  bootstrap: [SandboxComponent],
 })
 export class SandboxModule {}
