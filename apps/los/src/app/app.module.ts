@@ -11,11 +11,11 @@ import { appRoutes } from './app.routes';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { LibsLazyLoad } from './lazy.module';
 
-const uri = 'https://your-graphql-server.com/graphql'; // <-- add the URL of the GraphQL server here
+const uri = 'https://graphqlzero.almansi.me/api'; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   return {
     link: httpLink.create({ uri }),
@@ -31,6 +31,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     MasterpageModule,
+    ApolloModule,
     LibsLazyLoad,
   ],
   providers: [

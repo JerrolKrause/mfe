@@ -1,0 +1,18 @@
+query GetUsers($options: PageQueryOptions) {
+  users(options: $options) {
+    data {
+      id
+      username
+      email
+      address {
+        geo {
+          lat
+          lng
+        }
+      }
+    }
+    meta {
+      totalCount
+    }
+  }
+}
