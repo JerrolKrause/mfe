@@ -8,6 +8,11 @@ export const appRoutes: Route[] = [
       import('./routes/login/login.module').then((m) => m.LoginModule),
   },
   {
+    path: 'users',
+    loadChildren: () =>
+      import('@users/app/users.module').then((m) => m.UsersModule),
+  },
+  {
     path: 'sandbox',
     loadChildren: () =>
       import('@sandbox/app/sandbox.module').then((m) => m.SandboxModule),

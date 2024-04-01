@@ -1,8 +1,8 @@
 overwrite: true
 schema: 'https://graphqlzero.almansi.me/api' # Your GraphQL endpoint or schema file
-documents: 'apps/los/**/*.graphql'
+documents: 'apps/users/**/*.graphql'
 generates:
-  apps/los/src/app/shared/models/models.ts:
+  apps/users/src/app/shared/models/models.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'

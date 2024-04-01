@@ -22,13 +22,8 @@ export class NavComponent implements OnInit, OnDestroy {
       routerLinkActiveOptions: { exact: true },
     },
     {
-      label: 'Sandbox',
-      routerLink: '/sandbox',
-      routerLinkActiveOptions: { exact: false },
-    },
-    {
-      label: 'Quoting',
-      routerLink: '/quoting',
+      label: 'Users',
+      routerLink: '/users',
       routerLinkActiveOptions: { exact: false },
     },
   ];

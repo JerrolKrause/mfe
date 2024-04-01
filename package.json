@@ -20,7 +20,7 @@
     "docs": "compodoc -p tsconfig.json",
     "docs:serve": "compodoc -p tsconfig.json -s",
     "docs:watch": "compodoc -p tsconfig.json -s -w",
-    "generate-graphql": "graphql-codegen",
+    "generate:models": "graphql-codegen",
     "deploy": "npx nx build los --configuration=prod --configuration=production --base-href /mfe/ && angular-cli-ghpages --no-silent --dir=dist/apps/los/browser",
     "deploy:ssr": "ng run financial-status-check:deploy-ssr --routes-file routes.txt && angular-cli-ghpages --no-silent --dir=dist/browser"
   },

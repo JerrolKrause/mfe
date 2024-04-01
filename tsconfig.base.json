@@ -15,10 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "$libs": ["./libs"],
       "$brand": ["libs/brand/src/index.ts"],
       "$icons": ["libs/icons/src/index.ts"],
+      "$libs": ["./libs"],
       "@dashboard/*": ["apps/dashboard/src/*"],
+      "@users/*": ["apps/users/src/*"],
       "@quoting/*": ["apps/quoting/src/*"],
       "@sandbox/*": ["apps/sandbox/src/*"]
     }

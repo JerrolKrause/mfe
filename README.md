@@ -14,9 +14,10 @@ comes with a LSP for Vim users.
 
 `npx nx serve los` Start the LOS app shell
 `npx nx g @nrwl/angular:lib <library-name>` Generate a new library in the libs folder
-`npx nx g @nrwl/angular:app <app-name>` Generate a new app/micro front-end
+`npx nx g @nrwl/angular:app <app-name> --standalone=false` Generate a new app/micro front-end using a module instead of standalone
 `npx nx build los` Build the LOS app shell
 `nx g @nx/angular:component step1 --directory apps/quoting\src/app/routes/step1 --module=app.module.ts` Generate a component with the name "step1" in the components directory in the quoting app
+`generate-models` Generate TypeScript models from graphQL definitions (\*.graphql). See codegen.yml for config options.:
 
 ## Build for production
 

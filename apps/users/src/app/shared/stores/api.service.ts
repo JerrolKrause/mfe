@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import {
-  GetUsersDocument,
-  GetUsersQuery,
-  User,
-} from '../../shared/models/models';
+import { GetUsersDocument, GetUsersQuery, User } from '../models/models';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
