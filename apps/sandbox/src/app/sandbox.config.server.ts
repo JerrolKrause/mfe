@@ -1,6 +1,5 @@
-import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, mergeApplicationConfig } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
-import { appConfig } from './sandbox.config';
 
 const serverConfig: ApplicationConfig = {
   providers: [provideServerRendering()],

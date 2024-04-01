@@ -1,4 +1,6 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { SandboxComponent } from './app/sandbox.component';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { SandboxModule } from './app/sandbox.module';
 
-bootstrapApplication(SandboxComponent).catch((err) => console.error(err));
+platformBrowserDynamic()
+  .bootstrapModule(SandboxModule)
+  .catch((err) => console.error(err));

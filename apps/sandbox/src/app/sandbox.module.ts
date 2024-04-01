@@ -7,12 +7,12 @@ import { SandboxComponent } from './sandbox.component';
 import { SandboxRoutes } from './sandbox.routes';
 
 @NgModule({
+  declarations: [SandboxComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(SandboxRoutes),
     MasterpageModule,
   ],
-  declarations: [SandboxComponent],
   providers: [provideClientHydration()],
   exports: [],
   bootstrap: [SandboxComponent],
