@@ -4,13 +4,21 @@
     <a
       class="nav-menu-link main-menu"
       [routerLink]="nav.routerLink ? [nav.routerLink] : null"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="nav.routerLinkActiveOptions"
       (click)="nav.command ? nav.command() : null"
     >
-      @if (!!nav.icon) { } <span [innerHtml]="nav.label"></span>
+      @if (!!nav.icon) {
+      <lib-icons [icon]="nav?.icon || 'question'" class="me-2"></lib-icons>
+      } <span [innerHtml]="nav.label"></span>
     </a>
     }
     <div class="menu-container align-self-center ms-auto" #temp>
-      <a label="Show" class="menu-bar-toggle"> - </a>
+      <a label="Show" class="menu-bar-toggle">
+        <lib-icons icon="user" class="me-2"></lib-icons>
+        <span class="me-2">Jane User</span>
+        <lib-icons icon="caret-down" class="icon-caret-down"></lib-icons>
+      </a>
       <div class="menu-bar">
         <div class="menu-bar-container">
           @for (nav of utilityMenu; track nav) {
@@ -19,13 +27,12 @@
             [routerLink]="nav.routerLink ? [nav.routerLink] : null"
             (click)="nav.command ? nav.command() : null"
           >
-            <!--
             @if (!!nav.icon) {
-            <app-icons
+            <lib-icons
               [icon]="nav?.icon || 'question'"
               class="me-2"
-            ></app-icons>
-            }-->
+            ></lib-icons>
+            }
             <span [innerHtml]="nav.label"></span>
           </a>
           }
@@ -37,9 +44,7 @@
   <!-- Toggle sidebar -->
   <div class="pt-2 float-end d-block d-lg-none">
     <a (click)="sidebarVisible.set(true)" class="p-2">
-      <!--
-      <app-icons icon="bars" class="me-2 fa-lg"></app-icons>
-      -->
+      <lib-icons icon="bars" class="me-2 fa-lg"></lib-icons>
     </a>
   </div>
 
@@ -56,17 +61,15 @@
     [showCloseIcon]="false"
   >
     <a (click)="sidebarVisible.set(false)" class="sidebar-close float-end">
-      <!--
-      <app-icons icon="x"></app-icons>
-      -->
+      <lib-icons icon="x"></lib-icons>
     </a>
 
     @for (nav of navMenu; track nav) {
     <a class="nav-menu-link main-menu d-block" [routerLink]="[nav.routerLink]">
       @if (!!nav.icon) {
-      <!--
-      <app-icons [icon]="nav?.icon || 'question'" class="me-2"></app-icons>
-      -->
+
+      <lib-icons [icon]="nav?.icon || 'question'" class="me-2"></lib-icons>
+
       } <span [innerHtml]="nav.label"></span>
     </a>
     }
@@ -74,9 +77,9 @@
     @for (nav of utilityMenu; track nav) {
     <a class="nav-menu-link main-menu d-block" [routerLink]="[nav.routerLink]">
       @if (!!nav.icon) {
-      <!--
-      <app-icons [icon]="nav?.icon || 'question'" class="me-2"></app-icons>
-      -->
+
+      <lib-icons [icon]="nav?.icon || 'question'" class="me-2"></lib-icons>
+
       }
       <span [innerHtml]="nav.label"></span>
     </a>

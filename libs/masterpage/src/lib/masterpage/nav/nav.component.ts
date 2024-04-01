@@ -24,12 +24,12 @@ export class NavComponent implements OnInit, OnDestroy {
     {
       label: 'Sandbox',
       routerLink: '/sandbox',
-      routerLinkActiveOptions: { exact: true },
+      routerLinkActiveOptions: { exact: false },
     },
     {
       label: 'Quoting',
       routerLink: '/quoting',
-      routerLinkActiveOptions: { exact: true },
+      routerLinkActiveOptions: { exact: false },
     },
   ];
 

@@ -99,8 +99,10 @@
   &.thin {
     padding: 0.4rem 0.857rem;
   }
-  &:hover {
-    background: #eaeaea;
+  &:hover,
+  &.active {
+    color: #007e7a;
+    text-decoration: underline;
   }
 }
 // Current bug in primeng sidebar where the mask does not display
