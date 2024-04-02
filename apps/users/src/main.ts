@@ -1,6 +1,6 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/users.module';
+import { UsersModule } from './app/users.module';
 
 platformBrowserDynamic()
-  .bootstrapModule(AppModule)
+  .bootstrapModule(UsersModule)
   .catch((err) => console.error(err));
