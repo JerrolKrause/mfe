@@ -522,6 +522,51 @@ export type GetUsersQuery = {
   } | null;
 };
 
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+export type CreateUserMutation = {
+  __typename?: 'Mutation';
+  createUser?: {
+    __typename?: 'User';
+    id?: string | null;
+    username?: string | null;
+    email?: string | null;
+    address?: {
+      __typename?: 'Address';
+      geo?: {
+        __typename?: 'Geo';
+        lat?: number | null;
+        lng?: number | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: UpdateUserInput;
+}>;
+
+export type UpdateUserMutation = {
+  __typename?: 'Mutation';
+  updateUser?: {
+    __typename?: 'User';
+    id?: string | null;
+    username?: string | null;
+    email?: string | null;
+    address?: {
+      __typename?: 'Address';
+      geo?: {
+        __typename?: 'Geo';
+        lat?: number | null;
+        lng?: number | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export const GetUsersDocument = gql`
   query GetUsers($options: PageQueryOptions) {
     users(options: $options) {
@@ -551,6 +596,64 @@ export class GetUsersGQL extends Apollo.Query<
   GetUsersQueryVariables
 > {
   override document = GetUsersDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const CreateUserDocument = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      id
+      username
+      email
+      address {
+        geo {
+          lat
+          lng
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CreateUserGQL extends Apollo.Mutation<
+  CreateUserMutation,
+  CreateUserMutationVariables
+> {
+  override document = CreateUserDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($id: ID!, $input: UpdateUserInput!) {
+    updateUser(id: $id, input: $input) {
+      id
+      username
+      email
+      address {
+        geo {
+          lat
+          lng
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UpdateUserGQL extends Apollo.Mutation<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+> {
+  override document = UpdateUserDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);
