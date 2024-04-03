@@ -17,11 +17,12 @@
     "paths": {
       "$brand": ["libs/brand/src/index.ts"],
       "$icons": ["libs/icons/src/index.ts"],
+      "$state-management": ["libs/state-management/src/index.ts"],
       "$libs": ["./libs"],
       "@dashboard/*": ["apps/dashboard/src/*"],
-      "@users/*": ["apps/users/src/*"],
       "@quoting/*": ["apps/quoting/src/*"],
-      "@sandbox/*": ["apps/sandbox/src/*"]
+      "@sandbox/*": ["apps/sandbox/src/*"],
+      "@users/*": ["apps/users/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

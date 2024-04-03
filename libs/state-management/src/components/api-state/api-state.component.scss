@@ -1,0 +1,12 @@
+.nts-state {
+  position: relative;
+  .nts-state-spacer {
+    position: absolute;
+    top: 0;
+    z-index: 25;
+    width: 100%;
+  }
+  .p-progressbar {
+    background: rgba(234, 234, 234, 0.7);
+  }
+}
