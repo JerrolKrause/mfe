@@ -10,7 +10,7 @@ import { NtsUIStoreCreator } from '../stores/ui/ui-store';
 @Injectable({
   providedIn: 'root',
 })
-export class NtsStateManagementService {
+export class StateManagementService {
   /** Listen to global events */
   public events$ = ntsStore.events$;
 

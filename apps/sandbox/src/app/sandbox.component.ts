@@ -1,3 +1,4 @@
+import { StateManagementService } from '$state-management';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -15,6 +16,11 @@ interface State {
   styleUrl: './sandbox.component.scss',
 })
 export class SandboxComponent implements OnInit {
+  private storeCreator = this.sms.createBaseStore({
+    apiUrlBase: '//jsonplaceholder.typicode.com',
+  });
+  public usersStore = this.storeCreator({ apiUrl: '/users', uniqueId: 'id' });
+
   public state$ = new BehaviorSubject<State>({
     waiting: false,
     success: false,
@@ -25,9 +31,14 @@ export class SandboxComponent implements OnInit {
     tbd: ['Surprise me', []],
   });
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private sms: StateManagementService
+  ) {}
 
   ngOnInit(): void {
+    this.usersStore.state$.subscribe((s) => console.log(s));
     // Get item
     return;
     /**
