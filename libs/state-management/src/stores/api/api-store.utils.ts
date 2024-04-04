@@ -1,5 +1,5 @@
 import { mergeDeepRight } from 'ramda';
-import { NtsState } from '../../state.models';
+import { State } from '../../state.models';
 
 /**
  * Merge api store configs
@@ -7,17 +7,17 @@ import { NtsState } from '../../state.models';
  * @param c2
  */
 export function mergeConfig<t>(
-  c1: NtsState.ConfigEntity<t>,
-  c2: NtsState.ConfigEntity<t>
-): NtsState.ConfigEntity<t>;
+  c1: State.ConfigEntity<t>,
+  c2: State.ConfigEntity<t>
+): State.ConfigEntity<t>;
 export function mergeConfig<t>(
-  c1: NtsState.ConfigApi<t>,
-  c2: NtsState.ConfigApi<t>
-): NtsState.ConfigApi<t>;
+  c1: State.ConfigApi<t>,
+  c2: State.ConfigApi<t>
+): State.ConfigApi<t>;
 export function mergeConfig<t>(
-  c1: NtsState.ConfigApi<t> | NtsState.ConfigEntity<t>,
-  c2: NtsState.ConfigApi<t> | NtsState.ConfigEntity<t>
-): NtsState.ConfigApi<t> | NtsState.ConfigEntity<t> {
+  c1: State.ConfigApi<t> | State.ConfigEntity<t>,
+  c2: State.ConfigApi<t> | State.ConfigEntity<t>
+): State.ConfigApi<t> | State.ConfigEntity<t> {
   return {
     disableAppendId: {
       ...c1.disableAppendId,
@@ -57,10 +57,10 @@ export const mergeConfig = (c1: any, c2: any): any => ({
  */
 export const is = {
   entityConfig: <t>(
-    c: NtsState.ConfigApi<t> | NtsState.ConfigEntity<t>
-  ): c is NtsState.ConfigEntity<t> =>
-    (c as NtsState.ConfigEntity).uniqueId ? true : false,
-  callbackFn: (c: NtsState.ApiUrl): c is NtsState.ApiUrlCallback =>
+    c: State.ConfigApi<t> | State.ConfigEntity<t>
+  ): c is State.ConfigEntity<t> =>
+    (c as State.ConfigEntity).uniqueId ? true : false,
+  callbackFn: (c: State.ApiUrl): c is State.ApiUrlCallback =>
     typeof c === 'function',
 };
 
@@ -132,7 +132,7 @@ export const mergeDedupeArrays = <t>(
   storeDataSrc: t | t[],
   payloadSrc: t | t[],
   uniqueId: keyof t
-): Partial<NtsState.ApiState> => {
+): Partial<State.ApiState> => {
   // Ensure array types
   const storeData = !Array.isArray(storeDataSrc)
     ? [storeDataSrc]
@@ -168,7 +168,7 @@ export const deleteEntities = <t>(
   storeDataSrc: t | t[],
   payloadSrc: Partial<t> | Partial<t>[] | string,
   uniqueId: keyof t
-): Partial<NtsState.ApiState> => {
+): Partial<State.ApiState> => {
   const storeData = Array.isArray(storeDataSrc) ? storeDataSrc : [storeDataSrc];
   const payload = Array.isArray(payloadSrc) ? payloadSrc : [payloadSrc];
   const storeRecord = arrayToRecord(storeData, uniqueId);
@@ -198,8 +198,8 @@ export const deleteEntities = <t>(
  * @returns
  */
 export const apiUrlGet = <t2>(
-  config: NtsState.ConfigApi | NtsState.ConfigEntity,
-  verb: keyof NtsState.ApiUrlOverride,
+  config: State.ConfigApi | State.ConfigEntity,
+  verb: keyof State.ApiUrlOverride,
   e: Partial<t2> | Partial<t2>[] | null | string
 ): string => {
   if (!config.apiUrl) {
@@ -275,7 +275,7 @@ export const apiUrlGet = <t2>(
  * @returns
  */
 export const canRefreshStoreData = <t>(
-  s: NtsState.ApiState<t, any> | NtsState.EntityApiState<t, any>
+  s: State.ApiState<t, any> | State.EntityApiState<t, any>
 ): boolean => {
   return s.data === null || s.error ? true : false;
   /**

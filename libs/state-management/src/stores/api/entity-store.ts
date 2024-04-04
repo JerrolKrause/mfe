@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { NtsState } from '../../state.models';
+import { State } from '../../state.models';
 import { NtsApiStoreCreator } from './api-store-creator';
 
-const configSrc: NtsState.ConfigEntity = {
+const configSrc: State.ConfigEntity = {
   uniqueId: 'guid',
 };
 
@@ -12,7 +12,7 @@ const configSrc: NtsState.ConfigEntity = {
  * Create an instance of an entity store
  */
 export class NtsEntityStore<t> extends NtsApiStoreCreator<t> {
-  public override state$!: Observable<NtsState.EntityApiState<t>>;
+  public override state$!: Observable<State.EntityApiState<t>>;
 
   /** Select an array of all the entities in the store. Does not include state. */
   public selectAll$ = this.state$.pipe(
@@ -23,7 +23,7 @@ export class NtsEntityStore<t> extends NtsApiStoreCreator<t> {
   /** Modify the store data with the supplied callback function while preserving state information.
    *
    * Useful for mapping or filtering data in the store while still maintaining access to state.  */
-  public stateSelect$ = (fn: NtsState.SelectEntities<t>) =>
+  public stateSelect$ = (fn: State.SelectEntities<t>) =>
     this.state$.pipe(
       map((state) => {
         // Ensure state.data is an array of objects
@@ -43,7 +43,7 @@ export class NtsEntityStore<t> extends NtsApiStoreCreator<t> {
         return Object.assign({}, state, {
           data: data,
           entities: entities,
-        }) as NtsState.EntityApiState<t>;
+        }) as State.EntityApiState<t>;
       })
     );
 
@@ -62,16 +62,13 @@ export class NtsEntityStore<t> extends NtsApiStoreCreator<t> {
    * Select a or modify subset of data from the store. Does not include state.
    * Pass a callback function that modifies the data in the store property
    */
-  public select$ = (fn: NtsState.SelectEntities<t>) =>
+  public select$ = (fn: State.SelectEntities<t>) =>
     this.state$.pipe(
       map((s) => fn(s.data ? [...s.data] : s.data)),
       distinctUntilChanged()
     );
 
-  constructor(
-    http: HttpClient,
-    protected override config: NtsState.ConfigEntity
-  ) {
+  constructor(http: HttpClient, protected override config: State.ConfigEntity) {
     super(http, Object.assign(configSrc, config), true);
   }
 }

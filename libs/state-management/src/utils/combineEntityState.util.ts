@@ -1,4 +1,4 @@
-import { NtsState } from '../state.models';
+import { State } from '../state.models';
 import { isApiState } from './guards.util';
 
 /**
@@ -10,13 +10,13 @@ import { isApiState } from './guards.util';
  */
 export const NtsCombineEntityState = (
   states:
-    | NtsState.ApiState
-    | NtsState.EntityApiState
-    | (NtsState.ApiState | NtsState.EntityApiState | null | undefined)[]
+    | State.ApiState
+    | State.EntityApiState
+    | (State.ApiState | State.EntityApiState | null | undefined)[]
     | undefined
-    | null,
-): NtsState.ApiState => {
-  const state: NtsState.ApiState = {
+    | null
+): State.ApiState => {
+  const state: State.ApiState = {
     loading: false,
     modifying: false,
     error: null,
@@ -35,13 +35,23 @@ export const NtsCombineEntityState = (
 
   // Roll up the separate entity states into a single state object
   if (statesEntity && statesEntity.length) {
-    state.loading = statesEntity.reduce((a, b) => a || b.loading, <boolean>false);
-    state.modifying = statesEntity.reduce((a, b) => a || b.modifying, <boolean>false);
+    state.loading = statesEntity.reduce(
+      (a, b) => a || b.loading,
+      <boolean>false
+    );
+    state.modifying = statesEntity.reduce(
+      (a, b) => a || b.modifying,
+      <boolean>false
+    );
     state.error = statesEntity.reduce((a, b) => a || b.error, <any>null);
-    state.errorModify = statesEntity.reduce((a, b) => a || b.errorModify, <any>null);
+    state.errorModify = statesEntity.reduce(
+      (a, b) => a || b.errorModify,
+      <any>null
+    );
     state.data = statesEntity.reduce(
-      (a, b) => (b.data === undefined || b.data === null || a === false ? false : a),
-      <boolean>true,
+      (a, b) =>
+        b.data === undefined || b.data === null || a === false ? false : a,
+      <boolean>true
     );
   }
   return state;

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NtsState } from '../state.models';
+import { State } from '../state.models';
 import { NtsApiStore } from '../stores/api/api-store';
 import { is, mergeConfig } from '../stores/api/api-store.utils';
 import { NtsEntityStore } from '../stores/api/entity-store';
@@ -15,7 +15,7 @@ export class StateManagementService {
   public events$ = ntsStore.events$;
 
   /** Store references to all created stores  */
-  private storeRefs: NtsState.StoreRef<any>[] = [];
+  private storeRefs: State.StoreRef<any>[] = [];
 
   /**
    * Create a curried instance of the api store creator
@@ -29,11 +29,11 @@ export class StateManagementService {
    * @returns
    */
   public createBaseStore = ((
-      configBase: NtsState.ConfigApi | NtsState.ConfigEntity
+      configBase: State.ConfigApi | State.ConfigEntity
     ) =>
-    <t>(config: NtsState.ConfigApi<t> | NtsState.ConfigEntity<t>) => {
+    <t>(config: State.ConfigApi<t> | State.ConfigEntity<t>) => {
       // Merge base config with specific store config
-      const c: NtsState.ConfigApi<t> | NtsState.ConfigEntity<t> = config
+      const c: State.ConfigApi<t> | State.ConfigEntity<t> = config
         ? mergeConfig(configBase, config)
         : config;
       // If a uniqueID is specified, return an entity store. If not return an api store
@@ -41,16 +41,16 @@ export class StateManagementService {
         ? this.createEntityStore<t>(c)
         : this.createApiStore<t>(c);
     }) as (
-    configBase: NtsState.ConfigApi | NtsState.ConfigEntity
-  ) => (<t>(config: NtsState.ConfigApi<t>) => NtsApiStore<t>) &
-    (<t>(config: NtsState.ConfigEntity<t>) => NtsEntityStore<t>);
+    configBase: State.ConfigApi | State.ConfigEntity
+  ) => (<t>(config: State.ConfigApi<t>) => NtsApiStore<t>) &
+    (<t>(config: State.ConfigEntity<t>) => NtsEntityStore<t>);
 
   /**
    * Create an entity based api store
    * @param config Configuration for this store
    * @returns
    */
-  public createEntityStore = <t>(config: NtsState.ConfigEntity<t>) => {
+  public createEntityStore = <t>(config: State.ConfigEntity<t>) => {
     const store = new NtsEntityStore<t>(this.http, config);
     this.storeRefs = [
       ...this.storeRefs,
@@ -69,7 +69,7 @@ export class StateManagementService {
    * @param config Configuration for this store
    * @returns
    */
-  public createApiStore = <t>(config: NtsState.ConfigApi<t>) => {
+  public createApiStore = <t>(config: State.ConfigApi<t>) => {
     const store = new NtsApiStore<t>(this.http, config);
     this.storeRefs = [
       ...this.storeRefs,
@@ -91,7 +91,7 @@ export class StateManagementService {
    */
   public createUIStore = <t>(
     initialState: t,
-    options?: NtsState.UIStoreOptions
+    options?: State.UIStoreOptions
   ) => {
     const store = new NtsUIStoreCreator<t>(initialState, options);
     this.storeRefs = [
@@ -112,7 +112,7 @@ export class StateManagementService {
    * Reset stores created by this service, can be API, UI or all
    * This is useful for clearing data on auth failures
    */
-  public resetStores(type: NtsState.StoreType = 'all') {
+  public resetStores(type: State.StoreType = 'all') {
     // If all stores, return all. If only a specific type, filter out wrong types
     const stores =
       type === 'all'
@@ -126,7 +126,7 @@ export class StateManagementService {
    * Dispatch an action to all stores
    */
   public dispatch(
-    action: NtsState.Action<unknown, unknown> | NtsState.ApiAction<unknown>
+    action: State.Action<unknown, unknown> | State.ApiAction<unknown>
   ) {
     ntsStore.dispatch(action);
   }

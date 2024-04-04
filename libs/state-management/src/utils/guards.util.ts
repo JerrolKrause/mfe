@@ -1,5 +1,5 @@
-import { initialState, initialEntityState } from './initialState';
-import { NtsState } from '../state.models';
+import { State } from '../state.models';
+import { initialEntityState, initialState } from './initialState';
 const keysApi = Object.keys(initialState).sort();
 const keysEntity = Object.keys(initialEntityState).sort();
 
@@ -9,7 +9,10 @@ declare const process: any;
  * Node JS check for SSR
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
+export const isNode =
+  typeof process !== 'undefined' &&
+  process.versions != null &&
+  process.versions.node != null;
 export const isBrowser = !isNode;
 
 /**
@@ -19,9 +22,9 @@ export const isBrowser = !isNode;
  * @returns
  */
 export const isActionType = <t>(
-  action: NtsState.Action,
-  actionCreator: NtsState.ActionCreator,
-): action is NtsState.Action<t> => {
+  action: State.Action,
+  actionCreator: State.ActionCreator
+): action is State.Action<t> => {
   return action.type === actionCreator.type;
 };
 
@@ -30,14 +33,17 @@ export const isActionType = <t>(
  * @param action
  * @returns
  */
-export const isActionApi = <t>(action: NtsState.Action<t> | NtsState.ApiAction<t>): action is NtsState.ApiAction<t> =>
-  !!(action as NtsState.ApiAction<t>).storeId;
+export const isActionApi = <t>(
+  action: State.Action<t> | State.ApiAction<t>
+): action is State.ApiAction<t> => !!(action as State.ApiAction<t>).storeId;
 
 /**
  * Typeguard for checking if the input is an api state type
  * @param obj
  */
-export const isApiState = (obj: any | null | undefined): obj is NtsState.ApiState => {
+export const isApiState = (
+  obj: any | null | undefined
+): obj is State.ApiState => {
   // If null or not an object
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
     return false;
@@ -59,7 +65,9 @@ export const isApiState = (obj: any | null | undefined): obj is NtsState.ApiStat
  * Typeguard for checking if the input is an entity state type
  * @param obj
  */
-export const isEntityState = (obj: any | null | undefined): obj is NtsState.ApiState => {
+export const isEntityState = (
+  obj: any | null | undefined
+): obj is State.ApiState => {
   // If null or not an object
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
     return false;

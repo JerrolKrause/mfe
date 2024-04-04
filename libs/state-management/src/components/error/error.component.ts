@@ -1,7 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 
 @Component({
-  selector: 'nts-error',
+  selector: 'lib-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

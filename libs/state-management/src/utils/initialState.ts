@@ -1,6 +1,6 @@
-import { NtsState } from '../state.models';
+import { State } from '../state.models';
 
-export const initialState: NtsState.ApiState = {
+export const initialState: State.ApiState = {
   loading: false,
   modifying: false,
   error: null,
@@ -8,7 +8,7 @@ export const initialState: NtsState.ApiState = {
   data: false,
 };
 
-export const initialEntityState: NtsState.ApiState = {
+export const initialEntityState: State.ApiState = {
   ...initialState,
   entities: {},
   ids: [],

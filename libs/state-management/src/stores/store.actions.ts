@@ -1,4 +1,4 @@
-import { NtsState } from '../state.models';
+import { State } from '../state.models';
 
 /**
  * Typeguard for actions, checks action and ensures payload is properly typed
@@ -11,9 +11,9 @@ import { NtsState } from '../state.models';
  * @returns
  */
 export const isActionType = <t>(
-  action: NtsState.Action<unknown>,
-  actionCreator: NtsState.ActionCreator,
-): action is NtsState.Action<t> => {
+  action: State.Action<unknown>,
+  actionCreator: State.ActionCreator
+): action is State.Action<t> => {
   return action.type === actionCreator.type;
 };
 
@@ -30,10 +30,10 @@ export const isActionType = <t>(
  * }
  * @returns
  */
-export const actionCreator = <t>(type: string): NtsState.ActionCreator<t> =>
+export const actionCreator = <t>(type: string): State.ActionCreator<t> =>
   Object.assign(
     (payload: t) => {
-      const action: NtsState.Action<t> = {
+      const action: State.Action<t> = {
         type: type,
         payload: payload,
       };
@@ -41,8 +41,9 @@ export const actionCreator = <t>(type: string): NtsState.ActionCreator<t> =>
     },
     {
       type: type,
-      match: (action: NtsState.Action): action is NtsState.Action<t> => action.type === type,
-    },
+      match: (action: State.Action): action is State.Action<t> =>
+        action.type === type,
+    }
   );
 
 /**

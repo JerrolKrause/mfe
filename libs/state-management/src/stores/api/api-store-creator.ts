@@ -8,7 +8,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { NtsState } from '../../state.models';
+import { State } from '../../state.models';
 import { isActionApi } from '../../utils/guards.util';
 import { NtsBaseStore } from '../base/base-store';
 import { ApiActions, ApiEvents, StoreTypes } from '../store.enums';
@@ -32,7 +32,7 @@ import {
  */
 export class NtsApiStoreCreator<t> extends NtsBaseStore {
   /** Default non-entity API state */
-  private get getStateSrc(): NtsState.ApiState<t> {
+  private get getStateSrc(): State.ApiState<t> {
     return Object.assign(
       {},
       {
@@ -46,7 +46,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
   }
 
   /** Default entity API state */
-  private get getStateEntitySrc(): NtsState.EntityApiState<t> {
+  private get getStateEntitySrc(): State.EntityApiState<t> {
     return Object.assign(
       {},
       {
@@ -61,7 +61,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
   }
 
   /** Store state object */
-  protected state: NtsState.ApiState<t> | NtsState.EntityApiState<t> = this
+  protected state: State.ApiState<t> | State.EntityApiState<t> = this
     .isEntityStore
     ? this.getStateEntitySrc
     : this.getStateSrc;
@@ -155,7 +155,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
 
   constructor(
     private http: HttpClient,
-    protected config: NtsState.ConfigApi | NtsState.ConfigEntity,
+    protected config: State.ConfigApi | State.ConfigEntity,
     private isEntityStore = true
   ) {
     super();
@@ -165,7 +165,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    * Perform a get request to load data into the store
    * @param optionsSrct
    */
-  public get(optionsOverride: NtsState.Options = {}) {
+  public get(optionsOverride: State.Options = {}) {
     return this._get(optionsOverride);
   }
 
@@ -176,7 +176,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    * @param payload
    * @param optionsOverride
    */
-  public request<p = unknown>(payload: p, optionsOverride?: NtsState.Options) {
+  public request<p = unknown>(payload: p, optionsOverride?: State.Options) {
     return this._get({ refresh: true, ...optionsOverride }, payload);
   }
 
@@ -185,10 +185,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    * @param optionsOverride
    * @param postPayload
    */
-  private _get<t>(
-    optionsOverride: NtsState.Options = {},
-    postPayload?: unknown
-  ) {
+  private _get<t>(optionsOverride: State.Options = {}, postPayload?: unknown) {
     const options = mergeConfig(this.config, optionsOverride);
     // If data is null or refresh cache is requested, otherwise default to cache
     if (
@@ -218,7 +215,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
           // Map api response if requested
           const result =
             this.config.map && this.config.map.get ? this.config.map.get(r) : r;
-          const state: Partial<NtsState.ApiState> = {
+          const state: Partial<State.ApiState> = {
             loading: false,
             data: result,
             errorModify: null,
@@ -278,7 +275,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    * @param optionsOverride
    * @returns
    */
-  public post(data: Partial<t>, optionsOverride: NtsState.Options = {}) {
+  public post(data: Partial<t>, optionsOverride: State.Options = {}) {
     const options = mergeConfig(this.config, optionsOverride);
     const url = apiUrlGet(options, 'post', null);
     return this.upsert(
@@ -294,7 +291,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    * @param optionsOverride
    * @returns
    */
-  public put(data: Partial<t>, optionsOverride: NtsState.Options = {}) {
+  public put(data: Partial<t>, optionsOverride: State.Options = {}) {
     const options = mergeConfig(this.config, optionsOverride);
     const url = apiUrlGet(options, 'put', data);
     return this.upsert(
@@ -310,7 +307,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    * @param optionsOverride
    * @returns
    */
-  public patch(data: Partial<t>, optionsOverride: NtsState.Options = {}) {
+  public patch(data: Partial<t>, optionsOverride: State.Options = {}) {
     const options = mergeConfig(this.config, optionsOverride);
     const url = apiUrlGet(options, 'patch', data);
     return this.upsert(
@@ -328,7 +325,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    */
   public delete(
     data: Partial<t> | string,
-    optionsOverride: NtsState.Options = {}
+    optionsOverride: State.Options = {}
   ) {
     const options = mergeConfig(this.config, optionsOverride);
     const url = apiUrlGet(options, 'delete', data);
@@ -439,7 +436,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
   /**
    * Refresh the data in the store
    */
-  public refresh(optionsOverride: NtsState.Options = {}) {
+  public refresh(optionsOverride: State.Options = {}) {
     return this.get({ ...optionsOverride, refresh: true });
   }
 
@@ -462,7 +459,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
    * Perform updates to the base state object, shallow only
    * @param state
    */
-  private stateChange(state: Partial<NtsState.ApiState>) {
+  private stateChange(state: Partial<State.ApiState>) {
     this.state = Object.assign({}, this.state, state);
     this._state$.next(this.state);
   }

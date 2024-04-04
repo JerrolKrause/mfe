@@ -1,22 +1,44 @@
 <div class="nts-state">
   <!-- Loading, no data -->
-  <ng-container *ngIf="!stateSrc || (showLoading && stateSrc?.loading && !stateSrc?.data)">
-    <p-progressBar mode="indeterminate" class="nts-state-spacer" [style]="{ height: '12px' }"></p-progressBar>
+  <ng-container
+    *ngIf="!stateSrc || (showLoading && stateSrc?.loading && !stateSrc?.data)"
+  >
+    <p-progressBar
+      mode="indeterminate"
+      class="nts-state-spacer"
+      [style]="{ height: '12px' }"
+    ></p-progressBar>
   </ng-container>
 
   <!-- Loading with data OR modifying -->
-  <ng-container *ngIf="(showLoading && stateSrc?.loading && stateSrc?.data) || (showModifying && stateSrc?.modifying)">
-    <p-progressBar mode="indeterminate" class="nts-state-spacer" [style]="{ height: '2px' }"></p-progressBar>
+  <ng-container
+    *ngIf="
+      (showLoading && stateSrc?.loading && stateSrc?.data) ||
+      (showModifying && stateSrc?.modifying)
+    "
+  >
+    <p-progressBar
+      mode="indeterminate"
+      class="nts-state-spacer"
+      [style]="{ height: '2px' }"
+    ></p-progressBar>
   </ng-container>
 
   <!-- Loading error -->
   <ng-container *ngIf="showLoading && showErrorLoading && stateSrc?.error">
-    <nts-error [error]="stateSrc?.error" [canClose]="false"></nts-error>
+    <lib-error [error]="stateSrc?.error" [canClose]="false"></lib-error>
   </ng-container>
 
   <!-- Modifying error -->
-  <ng-container *ngIf="showModifying && showErrorModifying && stateSrc?.errorModify && !stateSrc?.error">
-    <nts-error [error]="stateSrc?.errorModify" [canClose]="false"></nts-error>
+  <ng-container
+    *ngIf="
+      showModifying &&
+      showErrorModifying &&
+      stateSrc?.errorModify &&
+      !stateSrc?.error
+    "
+  >
+    <lib-error [error]="stateSrc?.errorModify" [canClose]="false"></lib-error>
   </ng-container>
 
   <!-- Content from parent -->

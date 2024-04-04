@@ -1,9 +1,9 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { NtsState } from '../../state.models';
+import { State } from '../../state.models';
 import { NtsCombineEntityState } from '../../utils/combineEntityState.util';
 
 @Component({
-  selector: 'nts-api-state',
+  selector: 'lib-api-state',
   templateUrl: './api-state.component.html',
   styleUrls: ['./api-state.component.scss'],
   // tslint:disable-next-line:use-component-view-encapsulation
@@ -13,11 +13,11 @@ export class NtsDomainStateComponent {
   /** Default domain state */
   @Input() set state(
     state:
-      | NtsState.ApiState
-      | NtsState.EntityApiState
-      | (NtsState.ApiState | NtsState.EntityApiState | null | undefined)[]
+      | State.ApiState
+      | State.EntityApiState
+      | (State.ApiState | State.EntityApiState | null | undefined)[]
       | undefined
-      | null,
+      | null
   ) {
     this.stateSrc = NtsCombineEntityState(state);
   }
@@ -34,5 +34,5 @@ export class NtsDomainStateComponent {
   @Input() showErrorModifying = true;
 
   /** Holds combined state of any number entity state objects */
-  public stateSrc: NtsState.ApiState | NtsState.EntityApiState | undefined | null;
+  public stateSrc: State.ApiState | State.EntityApiState | undefined | null;
 }

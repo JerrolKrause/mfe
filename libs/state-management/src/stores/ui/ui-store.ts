@@ -1,8 +1,8 @@
 import { BehaviorSubject, identity, Observable } from 'rxjs';
 import { distinctUntilChanged, map, take } from 'rxjs/operators';
-import { NtsBaseStore } from '../base/base-store';
-import { NtsState } from '../../state.models';
+import { State } from '../../state.models';
 import { isBrowser } from '../../utils/guards.util';
+import { NtsBaseStore } from '../base/base-store';
 
 /**
  * Create an instance of a UI store
@@ -11,7 +11,7 @@ export class NtsUIStoreCreator<t> extends NtsBaseStore {
   /** Observable of store state */
   public state$ = new BehaviorSubject<t>({ ...this.initialState });
 
-  constructor(private initialState: t, private options?: NtsState.UIStoreOptions) {
+  constructor(private initialState: t, private options?: State.UIStoreOptions) {
     super();
     // If persistID specified, rehydrate store state from localStorage
     if (isBrowser && this.options?.persistId) {
@@ -28,14 +28,23 @@ export class NtsUIStoreCreator<t> extends NtsBaseStore {
    * @param options
    * @returns
    **/
-  public select$<Key extends keyof t>(key: Key, options?: NtsState.UIStoreOptions): Observable<t[Key]>;
-  public select$<Payload>(k: (store: t) => Payload, options?: NtsState.UIStoreOptions): Observable<Payload>;
-  public select$(k: NtsState.Select<t> | NtsState.Callback<t>, options?: NtsState.UIStoreOptions) {
+  public select$<Key extends keyof t>(
+    key: Key,
+    options?: State.UIStoreOptions
+  ): Observable<t[Key]>;
+  public select$<Payload>(
+    k: (store: t) => Payload,
+    options?: State.UIStoreOptions
+  ): Observable<Payload>;
+  public select$(
+    k: State.Select<t> | State.Callback<t>,
+    options?: State.UIStoreOptions
+  ) {
     return this.state$.pipe(
       // Is this a function or string to pull out data from the model
       map((s) => (typeof k === 'function' ? k(s) : s[k])),
       // Disable distinctUntilChanged if requested in the options
-      options?.disableDistinct ? identity : distinctUntilChanged(),
+      options?.disableDistinct ? identity : distinctUntilChanged()
     );
   }
 
@@ -59,7 +68,12 @@ export class NtsUIStoreCreator<t> extends NtsBaseStore {
     if (isBrowser && this.options?.persistId) {
       this.state$
         .pipe(take(1))
-        .subscribe((state) => localStorage.setItem(this.options?.persistId || '', JSON.stringify(state)));
+        .subscribe((state) =>
+          localStorage.setItem(
+            this.options?.persistId || '',
+            JSON.stringify(state)
+          )
+        );
     }
 
     return this.state$.pipe(take(1));
@@ -77,12 +91,16 @@ export class NtsUIStoreCreator<t> extends NtsBaseStore {
    * @param update
    */
   private stateChange(update: Partial<t>) {
-    this.state$.pipe(take(1)).subscribe((state) => this.state$.next({ ...state, ...update }));
+    this.state$
+      .pipe(take(1))
+      .subscribe((state) => this.state$.next({ ...state, ...update }));
   }
 }
 
 /**
  * Create an instance of a UI store
  */
-export const ntsUIStoreCreator = <t>(initialState: t, options?: NtsState.UIStoreOptions) =>
-  new NtsUIStoreCreator<t>(initialState, options);
+export const ntsUIStoreCreator = <t>(
+  initialState: t,
+  options?: State.UIStoreOptions
+) => new NtsUIStoreCreator<t>(initialState, options);

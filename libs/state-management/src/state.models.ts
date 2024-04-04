@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-namespace */
+/* eslint-disable @typescript-eslint/prefer-namespace-keyword */
 import { NtsApiStore } from './stores/api/api-store';
 import { NtsEntityStore } from './stores/api/entity-store';
 import { NtsUIStoreCreator } from './stores/ui/ui-store';
 
-export namespace NtsState {
+export module State {
   export interface EntityApiState<t = any, e = any> extends ApiStateSrc<e> {
     /** If api response type is an array of objects, create record here. Will be null otherwise */
     entities: Record<string | number, t>;
@@ -154,7 +156,7 @@ export namespace NtsState {
      *    console.log(action.payload); // Properly typed
      * }
      */
-    match: (action: NtsState.Action) => action is NtsState.Action<t, unknown>;
+    match: (action: State.Action) => action is State.Action<t, unknown>;
     (payload: t, meta?: unknown): Action<t>;
   }
 
