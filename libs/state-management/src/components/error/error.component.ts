@@ -14,7 +14,7 @@ import {
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class NtsErrorComponent implements OnInit {
+export class ErrorComponent implements OnInit {
   /** Error message to show */
   @Input() error: any;
   /** Will the close error button appear in the corner */

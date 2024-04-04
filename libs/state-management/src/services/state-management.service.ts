@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { State } from '../state.models';
-import { NtsApiStore } from '../stores/api/api-store';
+import { ApiStore } from '../stores/api/api-store';
 import { is, mergeConfig } from '../stores/api/api-store.utils';
-import { NtsEntityStore } from '../stores/api/entity-store';
-import { ntsStore } from '../stores/base/base-store';
-import { NtsUIStoreCreator } from '../stores/ui/ui-store';
+import { EntityStore } from '../stores/api/entity-store';
+import { store } from '../stores/base/base-store';
+import { UIStoreCreator } from '../stores/ui/ui-store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateManagementService {
   /** Listen to global events */
-  public events$ = ntsStore.events$;
+  public events$ = store.events$;
 
   /** Store references to all created stores  */
   private storeRefs: State.StoreRef<any>[] = [];
@@ -42,8 +42,8 @@ export class StateManagementService {
         : this.createApiStore<t>(c);
     }) as (
     configBase: State.ConfigApi | State.ConfigEntity
-  ) => (<t>(config: State.ConfigApi<t>) => NtsApiStore<t>) &
-    (<t>(config: State.ConfigEntity<t>) => NtsEntityStore<t>);
+  ) => (<t>(config: State.ConfigApi<t>) => ApiStore<t>) &
+    (<t>(config: State.ConfigEntity<t>) => EntityStore<t>);
 
   /**
    * Create an entity based api store
@@ -51,7 +51,7 @@ export class StateManagementService {
    * @returns
    */
   public createEntityStore = <t>(config: State.ConfigEntity<t>) => {
-    const store = new NtsEntityStore<t>(this.http, config);
+    const store = new EntityStore<t>(this.http, config);
     this.storeRefs = [
       ...this.storeRefs,
       {
@@ -70,7 +70,7 @@ export class StateManagementService {
    * @returns
    */
   public createApiStore = <t>(config: State.ConfigApi<t>) => {
-    const store = new NtsApiStore<t>(this.http, config);
+    const store = new ApiStore<t>(this.http, config);
     this.storeRefs = [
       ...this.storeRefs,
       {
@@ -93,7 +93,7 @@ export class StateManagementService {
     initialState: t,
     options?: State.UIStoreOptions
   ) => {
-    const store = new NtsUIStoreCreator<t>(initialState, options);
+    const store = new UIStoreCreator<t>(initialState, options);
     this.storeRefs = [
       ...this.storeRefs,
       {
@@ -128,6 +128,6 @@ export class StateManagementService {
   public dispatch(
     action: State.Action<unknown, unknown> | State.ApiAction<unknown>
   ) {
-    ntsStore.dispatch(action);
+    store.dispatch(action);
   }
 }

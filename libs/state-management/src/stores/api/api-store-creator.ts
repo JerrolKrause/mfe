@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 import { State } from '../../state.models';
 import { isActionApi } from '../../utils/guards.util';
-import { NtsBaseStore } from '../base/base-store';
+import { BaseStore } from '../base/base-store';
 import { ApiActions, ApiEvents, StoreTypes } from '../store.enums';
 import {
   apiUrlGet,
@@ -30,7 +30,7 @@ import {
 /**
  * Automatically create an api store to manage interaction between a local flux store and a remote api
  */
-export class NtsApiStoreCreator<t> extends NtsBaseStore {
+export class ApiStoreCreator<t> extends BaseStore {
   /** Default non-entity API state */
   private get getStateSrc(): State.ApiState<t> {
     return Object.assign(
@@ -104,7 +104,7 @@ export class NtsApiStoreCreator<t> extends NtsBaseStore {
   private autoloadInProgress = false;
 
   /** Listen to events being broadcast, handle events sent to this store or all stores */
-  public override events$ = NtsApiStoreCreator._events$.pipe(
+  public override events$ = ApiStoreCreator._events$.pipe(
     filter(
       (a) =>
         isActionApi(a) &&

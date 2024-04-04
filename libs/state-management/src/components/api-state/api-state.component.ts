@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { State } from '../../state.models';
-import { NtsCombineEntityState } from '../../utils/combineEntityState.util';
+import { CombineEntityState } from '../../utils/combineEntityState.util';
 
 @Component({
   selector: 'lib-api-state',
@@ -9,7 +9,7 @@ import { NtsCombineEntityState } from '../../utils/combineEntityState.util';
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class NtsDomainStateComponent {
+export class DomainStateComponent {
   /** Default domain state */
   @Input() set state(
     state:
@@ -19,7 +19,7 @@ export class NtsDomainStateComponent {
       | undefined
       | null
   ) {
-    this.stateSrc = NtsCombineEntityState(state);
+    this.stateSrc = CombineEntityState(state);
   }
 
   /** Should the state component look the modify state instead of load state */

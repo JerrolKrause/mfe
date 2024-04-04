@@ -1,11 +1,11 @@
-<div class="nts-state">
+<div class="lib-state">
   <!-- Loading, no data -->
   <ng-container
     *ngIf="!stateSrc || (showLoading && stateSrc?.loading && !stateSrc?.data)"
   >
     <p-progressBar
       mode="indeterminate"
-      class="nts-state-spacer"
+      class="lib-state-spacer"
       [style]="{ height: '12px' }"
     ></p-progressBar>
   </ng-container>
@@ -19,7 +19,7 @@
   >
     <p-progressBar
       mode="indeterminate"
-      class="nts-state-spacer"
+      class="lib-state-spacer"
       [style]="{ height: '2px' }"
     ></p-progressBar>
   </ng-container>

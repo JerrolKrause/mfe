@@ -8,7 +8,7 @@ import { isApiState } from './guards.util';
  * @param states
  * @param data
  */
-export const NtsCombineEntityState = (
+export const CombineEntityState = (
   states:
     | State.ApiState
     | State.EntityApiState

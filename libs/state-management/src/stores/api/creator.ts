@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { State } from '../../state.models';
-import { NtsApiStore } from './api-store';
+import { ApiStore } from './api-store';
 import { mergeConfig } from './api-store.utils';
-import { NtsEntityStore } from './entity-store';
+import { EntityStore } from './entity-store';
 
 /**
  * Create a curried instance of the api store creator
  *
  * @example
- * private store = ntsApiStoreCreator(this.http, { apiUrlBase: '//jsonplaceholder.typicode.com' })
+ * private store = ApiStoreCreator(this.http, { apiUrlBase: '//jsonplaceholder.typicode.com' })
  * @param http A reference to Angular's http service
  * @param configBase Default configuration for all store instances used by this creator. Will be overwritten by individual store properties
  * @returns
  */
-export const ntsApiStoreCreator = (
+export const ApiStoreCreator = (
   http: HttpClient,
   configBase?: State.ConfigEntity | State.ConfigApi | null
 ) => {
@@ -27,7 +27,7 @@ export const ntsApiStoreCreator = (
      * @param isEntityStore Should the store create and manage entities
      * @returns
      */
-    <t>(config: State.ConfigEntity, isEntityStore?: true): NtsEntityStore<t>;
+    <t>(config: State.ConfigEntity, isEntityStore?: true): EntityStore<t>;
     /**
      * Create an instance of a non-entity based api store. Used for managing all none entity types
      * @example
@@ -36,19 +36,19 @@ export const ntsApiStoreCreator = (
      * @param isEntityStore Should the store create and manage entities
      * @returns
      */
-    <t>(config: State.ConfigApi<t>, isEntityStore?: false): NtsApiStore<t>;
+    <t>(config: State.ConfigApi<t>, isEntityStore?: false): ApiStore<t>;
   } = <t>(
     config: State.ConfigApi<t> | State.ConfigEntity<t>,
     isEntityStore = true
   ) =>
     isEntityStore
-      ? new NtsEntityStore<t>(
+      ? new EntityStore<t>(
           http,
           mergeConfig(
             (configBase as State.ConfigEntity) || {},
             config as State.ConfigEntity
           )
         )
-      : new NtsApiStore<t>(http, mergeConfig(configBase || {}, config));
+      : new ApiStore<t>(http, mergeConfig(configBase || {}, config));
   return store;
 };

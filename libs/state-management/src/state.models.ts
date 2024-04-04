@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/prefer-namespace-keyword */
-import { NtsApiStore } from './stores/api/api-store';
-import { NtsEntityStore } from './stores/api/entity-store';
-import { NtsUIStoreCreator } from './stores/ui/ui-store';
+import { ApiStore } from './stores/api/api-store';
+import { EntityStore } from './stores/api/entity-store';
+import { UIStoreCreator } from './stores/ui/ui-store';
 
 export module State {
   export interface EntityApiState<t = any, e = any> extends ApiStateSrc<e> {
@@ -165,6 +165,6 @@ export module State {
   export interface StoreRef<t> {
     type: StoreType;
     storeId: string;
-    ref: NtsEntityStore<t> | NtsApiStore<t> | NtsUIStoreCreator<t>;
+    ref: EntityStore<t> | ApiStore<t> | UIStoreCreator<t>;
   }
 }

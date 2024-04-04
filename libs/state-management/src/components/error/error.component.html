@@ -1,5 +1,14 @@
-<div class="p-message p-message-error p-corner-all w-100 mb-3" *ngIf="error" id="nts-error">
-  <button type="button" class="close float-end" aria-label="Close" *ngIf="canClose" (click)="error = null">
+<div
+  class="lib-error p-message p-message-error p-corner-all w-100 mb-3"
+  *ngIf="error"
+>
+  <button
+    type="button"
+    class="close float-end"
+    aria-label="Close"
+    *ngIf="canClose"
+    (click)="error = null"
+  >
     <span aria-hidden="true">&times;</span>
   </button>
 

@@ -1,13 +1,13 @@
 import { Subject } from 'rxjs';
 import { State } from '../../state.models';
 
-export class NtsBaseStore {
+export class BaseStore {
   static _events$ = new Subject<State.Action | State.ApiAction>();
 
-  public events$ = NtsBaseStore._events$.pipe();
+  public events$ = BaseStore._events$.pipe();
 
   public dispatch(a: State.Action | State.ApiAction) {
-    NtsBaseStore._events$.next(a);
+    BaseStore._events$.next(a);
   }
 }
 
@@ -15,4 +15,4 @@ export class NtsBaseStore {
  * Base store instance shared by all stores
  * @returns
  */
-export const ntsStore = new NtsBaseStore();
+export const store = new BaseStore();

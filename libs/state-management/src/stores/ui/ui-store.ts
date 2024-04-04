@@ -2,12 +2,12 @@ import { BehaviorSubject, identity, Observable } from 'rxjs';
 import { distinctUntilChanged, map, take } from 'rxjs/operators';
 import { State } from '../../state.models';
 import { isBrowser } from '../../utils/guards.util';
-import { NtsBaseStore } from '../base/base-store';
+import { BaseStore } from '../base/base-store';
 
 /**
  * Create an instance of a UI store
  */
-export class NtsUIStoreCreator<t> extends NtsBaseStore {
+export class UIStoreCreator<t> extends BaseStore {
   /** Observable of store state */
   public state$ = new BehaviorSubject<t>({ ...this.initialState });
 
@@ -100,7 +100,7 @@ export class NtsUIStoreCreator<t> extends NtsBaseStore {
 /**
  * Create an instance of a UI store
  */
-export const ntsUIStoreCreator = <t>(
+export const uIStoreCreator = <t>(
   initialState: t,
   options?: State.UIStoreOptions
-) => new NtsUIStoreCreator<t>(initialState, options);
+) => new UIStoreCreator<t>(initialState, options);

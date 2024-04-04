@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { State } from '../../state.models';
-import { NtsApiStoreCreator } from './api-store-creator';
+import { ApiStoreCreator } from './api-store-creator';
 
 const configSrc: State.ConfigEntity = {
   uniqueId: 'guid',
@@ -11,7 +11,7 @@ const configSrc: State.ConfigEntity = {
 /**
  * Create an instance of an entity store
  */
-export class NtsEntityStore<t> extends NtsApiStoreCreator<t> {
+export class EntityStore<t> extends ApiStoreCreator<t> {
   public override state$!: Observable<State.EntityApiState<t>>;
 
   /** Select an array of all the entities in the store. Does not include state. */

@@ -3,17 +3,10 @@ import { NgModule } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';
 import { MessageModule } from 'primeng/message';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { NtsDomainStateComponent } from './components/api-state/api-state.component';
-import { NtsErrorComponent } from './components/error/error.component';
-import { EntityData } from './pipes/entity-data.pipe';
-import { EntityIsLoaded } from './pipes/is-loaded.pipe';
+import { DomainStateComponent } from './components/api-state/api-state.component';
+import { ErrorComponent } from './components/error/error.component';
 
-const Components = [
-  NtsDomainStateComponent,
-  NtsErrorComponent,
-  EntityData,
-  EntityIsLoaded,
-];
+const Components = [DomainStateComponent, ErrorComponent];
 
 /**
  * State management tools intended to work with Akita
