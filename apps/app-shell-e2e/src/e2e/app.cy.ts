@@ -1,6 +1,6 @@
 import { getGreeting } from '../support/app.po';
 
-describe('los-e2e', () => {
+describe('app-shell-e2e', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {

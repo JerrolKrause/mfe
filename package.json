@@ -1,9 +1,9 @@
 {
-  "name": "@los/source",
+  "name": "mfe-starter",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "npx nx serve los --hmr",
+    "start": "npx nx serve app-shell --hmr",
     "dashboard": "npx nx serve dashboard --hmr",
     "sandbox": "npx nx serve sandbox --hmr",
     "reinstall": "rmdir node_modules /s /q && rmdir .angular /s /q && del package-lock.json /q &&  npm i",
@@ -12,7 +12,7 @@
     "prod:static": "http-server ./dist/static -o -g",
     "build:qa": "ng build --configuration=qa",
     "build:uat": "ng build --configuration=uat",
-    "build:prod": "npx nx build los --configuration=prod",
+    "build:prod": "npx nx build app-shell --configuration=prod",
     "build": "ng build",
     "build:stats": "ng build --configuration=production --stats-json && npm run bundle-report",
     "build:source": "ng build --configuration=production --source-map",
@@ -21,7 +21,7 @@
     "docs:serve": "compodoc -p tsconfig.json -s",
     "docs:watch": "compodoc -p tsconfig.json -s -w",
     "generate:models": "graphql-codegen",
-    "deploy": "npx nx build los --configuration=prod --configuration=production --base-href /mfe/ && angular-cli-ghpages --no-silent --dir=dist/apps/los/browser",
+    "deploy": "npx nx build app-shell --configuration=prod --configuration=production --base-href /mfe/ && angular-cli-ghpages --no-silent --dir=dist/apps/app-shell/browser",
     "deploy:ssr": "ng run financial-status-check:deploy-ssr --routes-file routes.txt && angular-cli-ghpages --no-silent --dir=dist/browser"
   },
   "private": true,
