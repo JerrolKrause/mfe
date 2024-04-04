@@ -26,6 +26,11 @@ export class NavComponent implements OnInit, OnDestroy {
       routerLink: '/users',
       routerLinkActiveOptions: { exact: false },
     },
+    {
+      label: 'Sandbox',
+      routerLink: '/sandbox',
+      routerLinkActiveOptions: { exact: false },
+    },
   ];
 
   public utilityMenu: MainMenuItem[] = [
