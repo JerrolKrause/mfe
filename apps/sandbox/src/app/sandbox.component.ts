@@ -1,13 +1,38 @@
 import { StateManagementService } from '$state-management';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { BehaviorSubject, take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { filter, map, mergeMap, take } from 'rxjs';
 
-interface State {
-  waiting: boolean;
-  success: boolean;
-  error: null | string;
+interface Geo {
+  lat?: string;
+  lng?: string;
+}
+
+interface Address {
+  street?: string;
+  suite?: string;
+  city?: string;
+  zipcode?: string;
+  geo?: Geo;
+}
+
+interface Company {
+  name?: string;
+  catchPhrase?: string;
+  bs?: string;
+}
+
+interface User {
+  id?: number | null;
+  name?: string | null;
+  username?: string;
+  email?: string;
+  address?: Address;
+  phone?: string;
+  website?: string;
+  company?: Company;
 }
 
 @Component({
@@ -19,45 +44,45 @@ export class SandboxComponent implements OnInit {
   private storeCreator = this.sms.createBaseStore({
     apiUrlBase: '//jsonplaceholder.typicode.com',
   });
-  public usersStore = this.storeCreator({ apiUrl: '/users', uniqueId: 'id' });
-
-  public state$ = new BehaviorSubject<State>({
-    waiting: false,
-    success: false,
-    error: null,
-  });
+  public usersStore = this.storeCreator<Partial<User>>({ apiUrl: '/users/1' });
 
   public form = this.fb.group({
-    tbd: ['Surprise me', []],
+    name: ['', []],
+    id: [0, []],
   });
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
-    private sms: StateManagementService
+    private sms: StateManagementService,
+    private messageService: MessageService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.usersStore.state$.subscribe((s) => console.log(s));
-    // Get item
-    return;
-    /**
-    this.http.get('').subscribe((r) => {
-      console.log(r);
-      this.form.patchValue(r);
-    });
-     */
+    // Look at the route param and use that to load the correct user ID
+    this.route.params
+      .pipe(
+        map((params) => params['id']),
+        mergeMap((id) => this.usersStore.get({ apiUrl: `/users/${id ?? 1}` })),
+        filter((x) => !!x),
+        take(1)
+      )
+      .subscribe((user) => this.form.patchValue(user));
   }
 
+  /**
+   * Submit updated user
+   */
   public submit() {
-    const val = this.form.getRawValue();
-    console.log(val);
-    // this.http.post('', val).subscribe();
-  }
-
-  public stateChange(stateNew: Partial<State>) {
-    this.state$
-      .pipe(take(1))
-      .subscribe((stateOld) => this.state$.next({ ...stateOld, ...stateNew }));
+    const val = this.form.getRawValue() as Partial<User>;
+    this.usersStore.put(val).subscribe(() => {
+      // Add toast confirming success
+      this.messageService.add({
+        life: 1500,
+        severity: 'success',
+        summary: 'Success',
+        detail: 'User Updated Successfully',
+      });
+    });
   }
 }

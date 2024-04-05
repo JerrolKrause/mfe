@@ -2,9 +2,14 @@ import { Route } from '@angular/router';
 import { SandboxComponent } from './sandbox.component';
 
 export const SandboxRoutes: Route[] = [
-    {
-        path: '',
-        component: SandboxComponent,
-        data: { title: 'Sandbox' },
-      },
+  {
+    path: ':id',
+    component: SandboxComponent,
+    data: { title: 'Sandbox' },
+  },
+  {
+    path: '',
+    component: SandboxComponent,
+    data: { title: 'Sandbox' },
+  },
 ];

@@ -1,17 +1,25 @@
-<lib-masterpage>
+<lib-masterpage [showNav]="false">
   <div class="container py-4">
     <div style="margin: auto; max-width: 480px">
-      <p-card header=" A Piece Of Info">
-        <form (submit)="submit()" [formGroup]="form">
-          <div class="mb-3">
-            <input pInputText formControlName="tbd" class="w-100" />
-          </div>
-
-          <p class="mb-0">
-            <button pButton type="submit">Submit</button>
-          </p>
-        </form>
-      </p-card>
+      <lib-api-state [state]="usersStore.state$ | async">
+        <p-card header="User Information">
+          <form (submit)="submit()" [formGroup]="form">
+            <div class="mb-3">
+              <label for="name">Name</label>
+              <input
+                id="name"
+                pInputText
+                formControlName="name"
+                class="w-100"
+              />
+            </div>
+            <p class="mb-0">
+              <button pButton type="submit">Submit</button>
+            </p>
+          </form>
+        </p-card>
+      </lib-api-state>
     </div>
   </div>
 </lib-masterpage>
+<p-toast></p-toast>
