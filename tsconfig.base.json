@@ -17,8 +17,8 @@
     "paths": {
       "$brand": ["libs/brand/src/index.ts"],
       "$icons": ["libs/icons/src/index.ts"],
-      "$state-management": ["libs/state-management/src/index.ts"],
       "$libs": ["./libs"],
+      "$state-management": ["libs/state-management/src/index.ts"],
       "@dashboard/*": ["apps/dashboard/src/*"],
       "@quoting/*": ["apps/quoting/src/*"],
       "@sandbox/*": ["apps/sandbox/src/*"],

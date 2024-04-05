@@ -10,7 +10,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/app-shell/browser",
+        "outputPath": "dist/apps/app-shell/browser/browser",
         "index": "apps/app-shell/src/index.html",
         "main": "apps/app-shell/src/main.ts",
         "polyfills": ["zone.js"],
@@ -93,7 +93,7 @@
       "dependsOn": ["build"],
       "executor": "@angular-devkit/build-angular:server",
       "options": {
-        "outputPath": "dist/apps/app-shell/server",
+        "outputPath": "dist/apps/app-shell/browser/server",
         "main": "apps/app-shell/server.ts",
         "tsConfig": "apps/app-shell/tsconfig.server.json",
         "inlineStyleLanguage": "scss"
