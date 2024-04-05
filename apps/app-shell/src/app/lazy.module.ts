@@ -12,7 +12,11 @@ const routes: Routes = [
   },
   {
     path: '~',
-    loadChildren: () => import('$libs').then((m) => m.IconsComponent),
+    loadChildren: () => import('$libs').then((m) => m.IconsModule),
+  },
+  {
+    path: '~',
+    loadChildren: () => import('$libs').then((m) => m.StateManagementModule),
   },
   // Angular libs
   {
@@ -23,6 +27,17 @@ const routes: Routes = [
     path: '~',
     loadChildren: () =>
       import('@angular/forms').then((m) => m.ReactiveFormsModule),
+  },
+  {
+    path: '~',
+    loadChildren: () =>
+      import('@fortawesome/angular-fontawesome').then(
+        (m) => m.FontAwesomeModule
+      ),
+  },
+  {
+    path: '~',
+    loadChildren: () => import('apollo-angular').then((m) => m.ApolloModule),
   },
   // Prime libs
   {
@@ -41,6 +56,22 @@ const routes: Routes = [
   {
     path: '~',
     loadChildren: () => import('primeng/tree').then((m) => m.TreeModule),
+  },
+  {
+    path: '~',
+    loadChildren: () => import('primeng/toast').then((m) => m.ToastModule),
+  },
+  {
+    path: '~',
+    loadChildren: () => import('primeng/button').then((m) => m.ButtonModule),
+  },
+  {
+    path: '~',
+    loadChildren: () => import('primeng/sidebar').then((m) => m.SidebarModule),
+  },
+  {
+    path: '~',
+    loadChildren: () => import('primeng/accordion').then((m) => m.Accordion),
   },
 ];
 

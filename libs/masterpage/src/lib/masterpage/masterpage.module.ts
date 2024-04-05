@@ -1,4 +1,4 @@
-import { IconsComponent } from '$libs';
+import { IconsModule } from '$libs';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -9,7 +9,7 @@ import { MasterpageComponent } from './masterpage.component';
 import { NavComponent } from './nav/nav.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SidebarModule, IconsComponent],
+  imports: [CommonModule, RouterModule, SidebarModule, IconsModule],
   declarations: [MasterpageComponent, HeaderComponent, NavComponent],
   providers: [ConfirmationService],
   exports: [MasterpageComponent],

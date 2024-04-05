@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   IconDefinition,
   faBars,
@@ -45,8 +43,6 @@ export type AvailableIcons =
 
 @Component({
   selector: 'lib-icons',
-  standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './icons.component.html',
   styleUrl: './icons.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

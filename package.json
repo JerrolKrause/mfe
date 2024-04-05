@@ -10,18 +10,18 @@
     "ng": "ng",
     "prod": "http-server ./dist/browser -o -g",
     "prod:static": "http-server ./dist/static -o -g",
-    "build:qa": "ng build --configuration=qa",
-    "build:uat": "ng build --configuration=uat",
+    "build:qa": "npx nx build app-shell --configuration=qa",
+    "build:uat": "npx nx build app-shell --configuration=uat",
     "build:prod": "npx nx build app-shell --configuration=prod",
     "build": "ng build",
-    "build:stats": "ng build --configuration=production --stats-json && npm run bundle-report",
-    "build:source": "ng build --configuration=production --source-map",
-    "bundle-report": "webpack-bundle-analyzer dist/browser/stats.json -p 8887",
+    "build:stats": "npx nx build app-shell --stats-json && npm run bundle-report",
+    "build:source": "npx nx build app-shell --configuration=production --source-map",
+    "bundle-report": "webpack-bundle-analyzer dist/apps/app-shell/browser/stats.json -p 8887",
     "docs": "compodoc -p tsconfig.json",
     "docs:serve": "compodoc -p tsconfig.json -s",
     "docs:watch": "compodoc -p tsconfig.json -s -w",
     "generate:models": "graphql-codegen",
-    "deploy": "npx nx build app-shell --configuration=prod --configuration=production --base-href /mfe/ && angular-cli-ghpages --no-silent --dir=dist/apps/app-shell/browser",
+    "deploy": "npx nx build app-shell --base-href=/mfe/ --configuration=production && angular-cli-ghpages --no-silent --dir=dist/apps/app-shell/browser",
     "deploy:ssr": "ng run financial-status-check:deploy-ssr --routes-file routes.txt && angular-cli-ghpages --no-silent --dir=dist/browser"
   },
   "private": true,
@@ -100,6 +100,7 @@
     "prettier": "^2.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.3.2"
+    "typescript": "~5.3.2",
+    "webpack-bundle-analyzer": "^4.10.1"
   }
 }

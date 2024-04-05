@@ -1,1 +1,1 @@
-export * from './lib/icons/icons.component';
+export * from './lib/icons/icons.module';
