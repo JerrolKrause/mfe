@@ -1,0 +1,279 @@
+nts-form-field {
+  .nts-form-field {
+    position: relative;
+  }
+  input {
+    width: 100%;
+  }
+  .nts-form-field-tooltip {
+    padding: 0.25rem;
+    margin-left: 0.25rem;
+  }
+  .btn {
+    transition: 0.3s ease;
+  }
+  .p-float-label > .ng-invalid.ng-dirty + label {
+    color: #666666;
+  }
+
+  .p-float-label > .ng-invalid.ng-touched + label {
+    color: red;
+  }
+  sup.required {
+    color: red;
+  }
+
+  // Number/currency
+  p-inputnumber {
+    display: block;
+    width: 100% !important;
+    .p-inputnumber {
+      width: 100% !important;
+    }
+  }
+
+  /*
+  // Spinner
+  .ui-spinner {
+    .ui-inputtext {
+      padding: 0.629em;
+    }
+  }
+  */
+
+  .nts-form-field-hint {
+    font-size: 80%;
+    font-style: italic;
+    color: #949494;
+    margin-top: 3px;
+  }
+
+  // Boolean checkbox
+  .nts-checkbox-boolean {
+    display: flex;
+  }
+
+  // Dropdown
+  .nts-form-field-type-dropdown {
+    position: relative;
+    // padding-top: 6px;
+    .dropdown {
+      position: relative;
+      margin-top: 17px;
+      .dropdown-label {
+        position: absolute;
+        font-size: 11px;
+        left: 0.5em;
+        top: -17px;
+        opacity: 0.7;
+      }
+      /*
+      .ui-dropdown-label {
+        white-space: normal;
+        max-height: 2rem;
+      }
+      */
+    }
+  }
+
+  // Fix bug with chrome autofill not causing label to float
+  input:-webkit-autofill + label {
+    top: -0.75em;
+    font-size: 11px;
+  }
+
+  .nts-form-field-type-currency {
+    .p-float-label .p-inputwrapper-focus ~ label,
+    .p-focus label,
+    .float-active {
+      left: -2.4rem !important;
+    }
+  }
+
+  .float-active {
+    top: -0.75rem;
+    font-size: 12px;
+  }
+
+  .nts-form-field-type-autoComplete {
+    .autocomplete {
+      position: relative;
+    }
+    .cancel {
+      position: absolute;
+      top: 20%;
+      right: 10px;
+    }
+  }
+
+  .nts-form-field-type-select select {
+    padding: 0.429em;
+  }
+
+  .password-toggler {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
+
+  // Checkbox and radio
+  p-checkbox {
+    display: flex;
+  }
+  .nts-form-field-type-checkbox,
+  .nts-checkbox-boolean,
+  .nts-form-field-type-radio {
+    p-radiobutton {
+      margin-bottom: 0.5rem;
+    }
+
+    label {
+      display: inline;
+      position: relative;
+      top: 4px;
+      line-height: 1.2;
+    }
+  }
+  /*
+  .ui-chkbox {
+    margin-bottom: 0.5rem;
+  }
+  .ui-chkbox-label {
+    position: relative;
+    top: -4px;
+  }
+  */
+
+  // Button Group
+  .nts-button-group,
+  .nts-form-field-type-buttonToggle,
+  .nts-form-field-type-checkboxButtons {
+    text-align: center;
+    /*
+    .nts-button-icon {
+      transition: 0.3s ease;
+      &:before {
+        content: '\f128';
+        font-family: FontAwesome;
+        font-size: 60px;
+      }
+      display: block;
+      margin: auto;
+      margin-bottom: 10px;
+
+    }
+     */
+    &.nts-button-group-stacked {
+      display: flex;
+      flex-direction: column;
+    }
+    .btn {
+      min-width: 150px;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 25px;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      &:hover {
+        .nts-button-icon {
+          transform: scale(1.2);
+        }
+      }
+      &:focus {
+        outline: 0;
+      }
+    }
+    @media (max-width: 768px) {
+      .btn {
+        min-width: 120px;
+      }
+      .nts-button-icon:before {
+        font-size: 50px;
+      }
+    }
+  }
+
+  // Date input
+  .nts-form-field-type-date,
+  .nts-form-field-type-month {
+    .p-calendar {
+      width: 100%;
+    }
+    .p-button-label {
+      display: none;
+    }
+    /*
+    .ui-datepicker {
+      top: 2rem !important;
+    }
+    .ui-calendar .ui-inputtext {
+      display: none;
+    }
+    .ui-inputgroup-addon {
+      // overflow: hidden;
+    }
+    .ui-inputgroup .ui-inputgroup-addon {
+      padding: 0;
+      overflow: hidden;
+      .ui-datepicker-trigger {
+        padding: 2px;
+      }
+    }
+    */
+  }
+
+  /*
+  // Spinner
+  .nts-form-field-type-currency .ui-spinner {
+    .ui-spinner-button {
+      display: none;
+    }
+  }
+
+  // Colorpicker
+  .nts-form-field-type-colorpicker {
+    .ui-inputgroup-addon {
+      width: 32px;
+    }
+    .ui-colorpicker {
+      input {
+        border: 0;
+        border-radius: 0;
+      }
+    }
+  }
+  */
+
+  /*
+  // Toggle
+  .nts-form-field-type-toggle {
+    .ui-inputswitch .ui-inputswitch-slider {
+      border: 1px solid rgba(0, 0, 0, 0);
+    }
+  }
+
+  // Toggle
+  .nts-form-field-type-buttonGroup {
+    .ui-selectbutton {
+      border: 1px solid rgba(0, 0, 0, 0);
+    }
+  }
+  */
+
+  // Validation States
+  .ng-invalid.ng-touched {
+    input,
+    select,
+    textarea,
+    // .ui-dropdown,
+    // .ui-chkbox .ui-chkbox-box,
+    // .ui-radiobutton .ui-radiobutton-box,
+    // .ui-inputgroup .ui-inputgroup-addon,
+    // .ui-inputswitch .ui-inputswitch-slider,
+    // .ui-selectbutton,
+    // &.ui-inputtext
+    &.ui-inputtext {
+      border-color: red !important;
+    }
+  }
+}

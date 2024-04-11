@@ -1,15 +1,15 @@
+import { MasterpageModule } from '$masterpage';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DashboardComponent } from './routes/dashboard/dashboard.component';
-import { DashboardRoutes } from './dashboard.routes';
 import { RouterModule } from '@angular/router';
-import { MasterpageModule } from '$libs';
+import { DashboardRoutes } from './dashboard.routes';
+import { DashboardComponent } from './routes/dashboard/dashboard.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(DashboardRoutes),
-    MasterpageModule
+    MasterpageModule,
   ],
   declarations: [DashboardComponent],
   providers: [],

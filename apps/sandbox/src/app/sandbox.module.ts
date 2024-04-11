@@ -1,4 +1,5 @@
-import { MasterpageModule, StateManagementModule } from '$libs';
+import { MasterpageModule } from '$masterpage';
+import { StateManagementModule } from '$state-management';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';

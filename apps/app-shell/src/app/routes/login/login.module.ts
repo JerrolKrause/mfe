@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MasterpageModule } from '$libs';
+import { MasterpageModule } from '$masterpage';
 import { LoginComponent } from './login.component';
 import { routing } from './login.routes';
 

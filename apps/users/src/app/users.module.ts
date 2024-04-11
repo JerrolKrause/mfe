@@ -1,4 +1,4 @@
-import { MasterpageModule } from '$libs';
+import { MasterpageModule } from '$masterpage';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';

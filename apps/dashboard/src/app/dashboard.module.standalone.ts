@@ -1,4 +1,4 @@
-import { MasterpageModule } from '$libs';
+import { MasterpageModule } from '$masterpage';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';

@@ -8,15 +8,16 @@ const routes: Routes = [
   // App global components
   {
     path: '~',
-    loadChildren: () => import('$libs').then((m) => m.MasterpageModule),
+    loadChildren: () => import(`$masterpage`).then((m) => m.MasterpageModule),
   },
   {
     path: '~',
-    loadChildren: () => import('$libs').then((m) => m.IconsModule),
+    loadChildren: () => import(`$icons`).then((m) => m.IconsModule),
   },
   {
     path: '~',
-    loadChildren: () => import('$libs').then((m) => m.StateManagementModule),
+    loadChildren: () =>
+      import(`$state-management`).then((m) => m.StateManagementModule),
   },
   // Angular libs
   {
