@@ -1,17 +1,26 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { NtsForms } from '../../../forms.model';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormsLib } from '../../../forms.model';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-radio',
+  selector: 'lib-radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class RadioComponent extends BaseFormFieldComponent<any[]> implements OnInit {
+export class RadioComponent
+  extends BaseFormFieldComponent<any[]>
+  implements OnInit
+{
   /** Specifies the options to be displayed in the radio */
-  @Input() options?: NtsForms.FieldOptions[] | null = null;
+  @Input() options?: FormsLib.FieldOptions[] | null = null;
   /** Specifies the unique identifier for the options, used for the track function */
   @Input() dataKey?: string | null = null;
   /** Specifies the property of the option to use as the label to be displayed */

@@ -1,14 +1,24 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { InputNumberInputEvent } from 'primeng/inputnumber';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-number',
+  selector: 'lib-number',
   templateUrl: './number.component.html',
   styleUrls: ['./number.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class NumberComponent extends BaseFormFieldComponent<string> implements OnInit {
+export class NumberComponent
+  extends BaseFormFieldComponent<string>
+  implements OnInit
+{
   /** Show or hide spinner buttons */
   @Input() showButtons?: boolean | null = false;
   /** Min number to allow, NOT min characters */
@@ -44,7 +54,7 @@ export class NumberComponent extends BaseFormFieldComponent<string> implements O
    * When the users enters something in the input
    * @param e
    */
-  onInput(e: { originalEvent: KeyboardEvent; value: number }) {
+  onInput(e: InputNumberInputEvent) {
     let value = e.value;
     // If max length was specified, enforce it. Without this the patch on this control will bypass it
     if (this.maxLength) {

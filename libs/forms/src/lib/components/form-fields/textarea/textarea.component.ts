@@ -1,13 +1,23 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-textarea',
+  selector: 'lib-textarea',
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextAreaComponent extends BaseFormFieldComponent<string> implements OnInit {
+export class TextAreaComponent
+  extends BaseFormFieldComponent<string>
+  implements OnInit
+{
   /** The number of rows (vertical) displayed in the textarea  */
   @Input() rows?: number | null = 4;
   /** The maximum number of characters allowed in the textarea. If null, there is no maximum limit  */

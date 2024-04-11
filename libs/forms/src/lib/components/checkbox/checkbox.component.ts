@@ -1,15 +1,23 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
+import { CheckboxChangeEvent } from 'primeng/checkbox';
 @Component({
-  selector: 'nts-checkbox',
+  selector: 'lib-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NtsCheckboxComponent implements OnChanges {
+export class CheckboxComponent implements OnChanges {
   @Input() control?: boolean;
   @Input() label = '';
   @Input() binary = true;
-  @Output() propSelected = new EventEmitter<boolean>();
+  @Output() propSelected = new EventEmitter<CheckboxChangeEvent>();
   public value: any;
 
   ngOnChanges() {
@@ -23,7 +31,7 @@ export class NtsCheckboxComponent implements OnChanges {
    * When a user checks a value from the checkbox
    * @param event
    */
-  public onSelect(event: boolean) {
+  public onSelect(event: CheckboxChangeEvent) {
     this.propSelected.emit(event);
   }
 }

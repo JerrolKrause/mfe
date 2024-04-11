@@ -1,4 +1,4 @@
-<div class="nts-filter-field" [ngClass]="{ 'nts-filter-small': small }">
+<div class="filter-field" [ngClass]="{ 'filter-small': small }">
   <div class="ui-inputgroup">
     <span class="ui-inputgroup-addon"> <i class="fa fa-search"></i></span>
     <input
@@ -9,10 +9,15 @@
       [placeholder]="placeholder"
       [ngModel]="filterTerm"
       (ngModelChange)="onChanges($event)"
-      style="width: auto;"
+      style="width: auto"
     />
   </div>
-  <a class="filter-clear" (click)="onChanges(null)" *ngIf="filterTerm" tabindex="">
+  <a
+    class="filter-clear"
+    (click)="onChanges(null)"
+    *ngIf="filterTerm"
+    tabindex=""
+  >
     <i class="fa fa-remove"></i>
   </a>
 </div>

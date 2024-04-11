@@ -1,17 +1,27 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { NtsForms } from '../../../forms.model';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { SelectButtonOptionClickEvent } from 'primeng/selectbutton';
+import { FormsLib } from '../../../forms.model';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-select-button',
+  selector: 'lib-select-button',
   templateUrl: './select-button.component.html',
   styleUrls: ['./select-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SelectButtonComponent extends BaseFormFieldComponent<string> implements OnInit {
+export class SelectButtonComponent
+  extends BaseFormFieldComponent<string>
+  implements OnInit
+{
   /** Specifies the options to be displayed in the button */
-  @Input() options?: NtsForms.FieldOptions[] | null = null;
+  @Input() options?: FormsLib.FieldOptions[] | null = null;
   /** Specifies whether multiple options can be selected */
   @Input() multiple?: boolean | null = null;
   /** pecifies the unique identifier for the options, used for the track function */
@@ -34,9 +44,13 @@ export class SelectButtonComponent extends BaseFormFieldComponent<string> implem
    * When a user clicks on an option
    * @param e
    */
-  public onOptionClick(e: { originalEvent: PointerEvent; index: number; option: { label: string; value: string } }) {
+  public onOptionClick(e: SelectButtonOptionClickEvent) {
     // If canUnselect is set and the current value equals the previous value, reset to null to unselect
-    if (this.canUnselect && !this.multiple && this.formControl?.value === this.lastValue) {
+    if (
+      this.canUnselect &&
+      !this.multiple &&
+      this.formControl?.value === this.lastValue
+    ) {
       this.formControl?.patchValue(null);
       this.formControl.markAsTouched(); // Necessary to set validation state and show errors if required
       this.lastValue = null;

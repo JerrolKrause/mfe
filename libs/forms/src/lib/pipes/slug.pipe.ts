@@ -6,10 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
  * USAGE: {{ value | slug }}
  */
 @Pipe({
-  name: 'ntsSlug',
+  name: 'slug',
 })
 export class SlugPipe implements PipeTransform {
-  transform(value: any): any {
+  transform(value: unknown): string {
     return String(value)
       .trim()
       .toLowerCase()

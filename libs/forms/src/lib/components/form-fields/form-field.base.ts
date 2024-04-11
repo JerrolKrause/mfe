@@ -8,12 +8,17 @@ import {
   Output,
   Self,
 } from '@angular/core';
-import { FormControl, AbstractControl, FormGroup, NgControl } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  NgControl,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { NtsForms } from '../../forms.model';
+import { FormsLib } from '../../forms.model';
 
 @Component({
-  selector: 'nts-base-form-field',
+  selector: 'lib-form-field',
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,12 +42,12 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
   /** Text to use for name attribute */
   @Input() name?: string | null = '';
   /** Any css classes */
-  @Input() styleClass?: string | null = '';
+  @Input() styleClass = '';
   /** Any inline style */
-  @Input() style?: string | null = '';
+  @Input() style: { [klass: string]: any } = {};
 
   /** Validators to attach through the template. Not preferred. */
-  @Input() validators?: NtsForms.Validators | null = null;
+  @Input() validators?: FormsLib.Validators | null = null;
   /**
    * Enable/disable this control, uses the form control method instead of template property.
    * Setting the disabled property should be done in the formgroup itself but this
@@ -74,7 +79,12 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
     if (c) {
       this.formControl = c as FormControl;
     } else {
-      console.warn('Unable to find that abstract control of', this.label, 'in', this.constructor.name);
+      console.warn(
+        'Unable to find that abstract control of',
+        this.label,
+        'in',
+        this.constructor.name
+      );
     }
   }
 
@@ -82,9 +92,9 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
   public formFieldID = 'form-field-' + Math.floor(Math.random() * 1000000000);
 
   /** When the input is focused */
-  @Output() onFocus = new EventEmitter<FocusEvent>();
+  @Output() onFocus = new EventEmitter<Event>();
   /** When the input is blurred */
-  @Output() onBlur = new EventEmitter<FocusEvent>();
+  @Output() onBlur = new EventEmitter<Event>();
   /** When the input is focused */
   @Output() onClick = new EventEmitter<MouseEvent>();
   /** When data on the input is changed */
@@ -104,7 +114,7 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
   constructor(
     @Self()
     @Optional()
-    private ngControl?: NgControl,
+    private ngControl?: NgControl
   ) {
     if (this.ngControl?.control) {
       this.control = this.ngControl.control;
@@ -115,7 +125,7 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
   /**
    *  On control blur
    */
-  public blur(e: FocusEvent) {
+  public blur(e: Event) {
     this.focused = false;
     this.onBlur.emit(e);
     // Run validation on blur to account for a field that has a value on load and is also invalid
@@ -126,7 +136,7 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
   /**
    * On control focus
    */
-  public focus(e: FocusEvent) {
+  public focus(e: Event) {
     this.focused = true;
     this.onFocus.emit(e);
   }

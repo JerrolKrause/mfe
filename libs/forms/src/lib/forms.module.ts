@@ -1,54 +1,53 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';
-import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputMaskModule } from 'primeng/inputmask';
 import { SpinnerModule } from 'primeng/spinner';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { ColorPickerModule } from 'primeng/colorpicker';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { DropdownModule } from 'primeng/dropdown';
 import { TooltipModule } from 'primeng/tooltip';
-import { FileUploadModule } from 'primeng/fileupload';
 
-import { NtsFormFieldComponent } from './components/form-field/form-field.component';
-import { NtsFilterFieldComponent } from './components/filter-field/filter-field.component';
-import { NtsAutocompleteComponent } from './components/autocomplete/autocomplete.component';
-import { NtsCheckboxComponent } from './components/checkbox/checkbox.component';
-import { SlugPipe } from './pipes/slug.pipe';
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { FilterFieldComponent } from './components/filter-field/filter-field.component';
 import { TextComponent } from './components/form-fields';
 import { DateComponent } from './components/form-fields/date/date.component';
 import { DropdownComponent } from './components/form-fields/dropdown/dropdown.component';
 import { EmailComponent } from './components/form-fields/email/email.component';
+import { InputComponent } from './components/form-fields/input/input.component';
 import { NumberComponent } from './components/form-fields/number/number.component';
 import { PhonenumberComponent } from './components/form-fields/phonenumber/phonenumber.component';
 import { RadioComponent } from './components/form-fields/radio/radio.component';
 import { SelectButtonComponent } from './components/form-fields/select-button/select-button.component';
 import { TextAreaComponent } from './components/form-fields/textarea/textarea.component';
 import { ZipcodeComponent } from './components/form-fields/zipcode/zipcode.component';
-import { InputComponent } from './components/form-fields/input/input.component';
-import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { ColumnComponent } from './components/form-generator/column/column.component';
+import { ContainerContentComponent } from './components/form-generator/container-content/container-content.component';
 import { ContainerComponent } from './components/form-generator/container/container.component';
 import { ContentComponent } from './components/form-generator/content/content.component';
 import { FeatureComponent } from './components/form-generator/feature/feature.component';
 import { FormFieldComponent } from './components/form-generator/form-field/form-field.component';
+import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { HtmlComponent } from './components/form-generator/html/html.component';
 import { RowComponent } from './components/form-generator/row/row.component';
-import { ContainerContentComponent } from './components/form-generator/container-content/container-content.component';
+import { SlugPipe } from './pipes/slug.pipe';
 
+// Exported form fields
 const COMPONENTS = [
-  NtsFormFieldComponent,
-  NtsFilterFieldComponent,
-  NtsAutocompleteComponent,
-  NtsCheckboxComponent,
+  FilterFieldComponent,
+  AutocompleteComponent,
+  CheckboxComponent,
   // New components
   TextComponent,
   DateComponent,
@@ -60,32 +59,30 @@ const COMPONENTS = [
   RadioComponent,
   TextAreaComponent,
   ZipcodeComponent,
+  InputComponent,
   // Form Generator
-  // Only exporting the root component not that child ones
   FormGeneratorComponent,
+];
+
+// Form Generator Components
+const FORMGEN = [
+  ContainerComponent,
+  ContainerContentComponent,
+  RowComponent,
+  ColumnComponent,
+  HtmlComponent,
+  FormFieldComponent,
+  FeatureComponent,
+  ContentComponent,
 ];
 /**
  * A form generator library that generates HTML forms based on a configuration object or schema.
  */
 @NgModule({
-  declarations: [
-    COMPONENTS,
-    ContainerComponent,
-    ContainerContentComponent,
-    RowComponent,
-    ColumnComponent,
-    HtmlComponent,
-    FormFieldComponent,
-    FeatureComponent,
-    ContentComponent,
-
-    InputComponent,
-    SlugPipe,
-  ],
+  declarations: [COMPONENTS, FORMGEN, SlugPipe],
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     CalendarModule,
     InputTextModule,
@@ -106,4 +103,4 @@ const COMPONENTS = [
   ],
   exports: [COMPONENTS],
 })
-export class NtsFormsModule {}
+export class FormsLibModule {}

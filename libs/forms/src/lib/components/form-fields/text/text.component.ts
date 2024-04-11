@@ -1,13 +1,24 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-text',
+  selector: 'lib-text',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextComponent extends BaseFormFieldComponent<string> implements OnInit, AfterViewInit {
+export class TextComponent
+  extends BaseFormFieldComponent<string>
+  implements OnInit, AfterViewInit
+{
   /** The MAXIMUM number of characters allowed by this input */
   @Input() maxLength?: number | null = null;
   /** The MINIMUM number of characters allowed by this input */

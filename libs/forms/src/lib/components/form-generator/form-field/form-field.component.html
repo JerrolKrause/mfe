@@ -7,7 +7,7 @@
 >
   <ng-container *ngIf="formField">
     <!-- Text Field -->
-    <nts-form-field-text
+    <lib-text
       *ngIf="formField.formFieldType === 'text'"
       [label]="formField.label"
       [placeholder]="formField.placeholder"
@@ -23,10 +23,10 @@
       [formGroup]="formGroup"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
-    ></nts-form-field-text>
+    ></lib-text>
 
     <!-- TextArea Field -->
-    <nts-form-field-textarea
+    <lib-textarea
       *ngIf="formField.formFieldType === 'textarea'"
       [label]="formField.label"
       [placeholder]="formField.placeholder"
@@ -44,10 +44,10 @@
       [formGroup]="formGroup"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
-    ></nts-form-field-textarea>
+    ></lib-textarea>
 
     <!-- Date Field -->
-    <nts-form-field-date
+    <lib-date
       *ngIf="formField.formFieldType === 'date'"
       [label]="formField.label"
       [placeholder]="formField.placeholder"
@@ -64,9 +64,9 @@
       [dateFormat]="formField.dateFormat"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
-    ></nts-form-field-date>
+    ></lib-date>
 
-    <nts-form-field-select-button
+    <lib-select-button
       *ngIf="formField.formFieldType === 'selectButton'"
       [options]="formField.options"
       [label]="formField.label"
@@ -80,9 +80,9 @@
       [dataKey]="formField.dataKey"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
-    ></nts-form-field-select-button>
+    ></lib-select-button>
 
-    <nts-form-field-dropdown
+    <lib-dropdown
       *ngIf="formField.formFieldType === 'dropdown'"
       [options]="
         formField.datafield && datafields && datafields[formField.datafield]
@@ -102,9 +102,9 @@
       [showClear]="formField.showClear"
       [insertEmptyOption]="formField.insertEmptyOption"
       [disabled]="disabled$ | async"
-    ></nts-form-field-dropdown>
+    ></lib-dropdown>
 
-    <nts-form-field-phonenumber
+    <lib-phonenumber
       *ngIf="formField.formFieldType === 'phoneNumber'"
       [label]="formField.label"
       [prefix]="formField.prefix"
@@ -118,9 +118,9 @@
       [name]="formField.name"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
-    ></nts-form-field-phonenumber>
+    ></lib-phonenumber>
 
-    <nts-form-field-email
+    <lib-email
       *ngIf="formField.formFieldType === 'email'"
       [label]="formField.label"
       [placeholder]="formField.placeholder"
@@ -134,8 +134,8 @@
       [formGroup]="formGroup"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
-    ></nts-form-field-email>
-    <nts-form-field-number
+    ></lib-email>
+    <lib-number
       *ngIf="formField.formFieldType === 'number'"
       [label]="formField.label"
       [placeholder]="formField.placeholder"
@@ -157,9 +157,9 @@
       [maxFractionDigits]="formField.maxFractionDigits"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
-    ></nts-form-field-number>
+    ></lib-number>
 
-    <nts-form-field-radio
+    <lib-radio
       *ngIf="formField.formFieldType === 'radio'"
       [options]="
         formField.datafield && datafields && datafields[formField.datafield]
@@ -174,9 +174,9 @@
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
       [formGroup]="formGroup"
-    ></nts-form-field-radio>
+    ></lib-radio>
 
-    <nts-form-field-zipcode
+    <lib-zipcode
       *ngIf="formField.formFieldType === 'zipcode'"
       [label]="formField.label"
       [placeholder]="formField.placeholder"
@@ -193,7 +193,7 @@
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
     >
-    </nts-form-field-zipcode>
+    </lib-zipcode>
 
     <div style="color: red" *ngIf="!formGroup.get(formField.field)">
       Unable to find a form control at <strong>{{ formField.field }}</strong>

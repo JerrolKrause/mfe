@@ -1,5 +1,5 @@
 <div class="input-number">
-  <nts-form-field-input
+  <lib-input
     [label]="label"
     [placeholder]="placeholder"
     [prefix]="prefix"
@@ -22,7 +22,7 @@
         [minFractionDigits]="minFractionDigits ?? 0"
         [maxFractionDigits]="maxFractionDigits ?? 2"
         [inputId]="id || formFieldID"
-        [ngClass]="styleClass ?? ''"
+        [ngClass]="styleClass"
         [name]="name ?? ''"
         [min]="min ?? 0"
         [max]="max ?? 9999999999999999999999999999999"
@@ -38,5 +38,5 @@
       >
       </p-inputNumber>
     </div>
-  </nts-form-field-input>
+  </lib-input>
 </div>

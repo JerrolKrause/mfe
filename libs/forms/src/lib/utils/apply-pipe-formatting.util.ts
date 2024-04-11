@@ -1,4 +1,11 @@
-import { DecimalPipe, TitleCasePipe, UpperCasePipe, LowerCasePipe, DatePipe } from '@angular/common';
+/* eslint-disable no-case-declarations */
+import {
+  DatePipe,
+  DecimalPipe,
+  LowerCasePipe,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
 
 /**
  * Apply angular or other common pipe transformations to input data
@@ -9,9 +16,17 @@ import { DecimalPipe, TitleCasePipe, UpperCasePipe, LowerCasePipe, DatePipe } fr
  * @param pipe
  * @returns
  */
-export const applyPipeFormatting = (data?: string | null, pipe?: string[] | null) => {
+export const applyPipeFormatting = (
+  data?: string | null,
+  pipe?: string[] | null
+) => {
   // Nill check
-  if (data === undefined || data === null || pipe === undefined || pipe === null) {
+  if (
+    data === undefined ||
+    data === null ||
+    pipe === undefined ||
+    pipe === null
+  ) {
     return data;
   }
   let str = data;
@@ -26,7 +41,11 @@ export const applyPipeFormatting = (data?: string | null, pipe?: string[] | null
       // Number pipe
       case 'number':
         const decimalPipe = new DecimalPipe('en');
-        str = decimalPipe.transform(typeof str === 'number' ? str : parseInt(str), args) || '';
+        str =
+          decimalPipe.transform(
+            typeof str === 'number' ? str : parseInt(str),
+            args
+          ) || '';
         break;
       // Add spaces to a string with title cases, IE "MyLoanInfo" => "My Loan Info"
       case 'splitTitleCase':

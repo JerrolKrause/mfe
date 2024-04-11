@@ -1,15 +1,24 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { take, timer } from 'rxjs';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-phonenumber',
+  selector: 'lib-phonenumber',
   templateUrl: './phonenumber.component.html',
   styleUrls: ['./phonenumber.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class PhonenumberComponent extends BaseFormFieldComponent<string> implements OnInit {
+export class PhonenumberComponent
+  extends BaseFormFieldComponent<string>
+  implements OnInit
+{
   /** Should form controls with input masks return the raw data or the masksed/formatted data? */
   @Input() unmask = true;
   constructor() {

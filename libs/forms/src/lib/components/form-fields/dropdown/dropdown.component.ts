@@ -1,16 +1,26 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { NtsForms } from '../../../forms.model';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormsLib } from '../../../forms.model';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-dropdown',
+  selector: 'lib-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DropdownComponent extends BaseFormFieldComponent<string> implements OnInit, OnChanges {
+export class DropdownComponent
+  extends BaseFormFieldComponent<string>
+  implements OnInit, OnChanges
+{
   /** Options to display for the dropdown */
-  @Input() options?: NtsForms.FieldOptions[] | null = null;
+  @Input() options?: FormsLib.FieldOptions[] | null = null;
   /** A unique ID used for  trackFn */
   @Input() dataKey?: string | null = null;
   /** The property for the label */
@@ -32,13 +42,13 @@ export class DropdownComponent extends BaseFormFieldComponent<string> implements
 
   @Input() override placeholder = '-- Please Select --';
 
-  /** Style of the dropdown panel */
-  @Input() panelStyle = '';
-  /** Css class */
+  /** Inline Style of the dropdown panel */
+  @Input() panelStyle: { [klass: string]: any } = {};
+  /** CSS classes */
   @Input() panelStyleClass = '';
 
   // Add in empty option if selected
-  public optionsUpdated?: NtsForms.FieldOptions[] | null = null;
+  public optionsUpdated?: FormsLib.FieldOptions[] | null = null;
 
   constructor() {
     super();

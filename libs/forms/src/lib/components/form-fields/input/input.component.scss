@@ -5,7 +5,7 @@ $smallText: 80%;
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
-.nts-form-field {
+.form-field {
   ::placeholder {
     opacity: 0.6 !important;
   }
@@ -22,12 +22,12 @@ $smallText: 80%;
   w-100 {
     width: 100% !important;
   }
-  .nts-form-field-hint {
+  .form-field-hint {
     font-size: $smallText;
     padding-left: 5px;
     padding-top: 4px;
   }
-  .nts-form-field-errors {
+  .form-field-errors {
     padding-left: 5px;
   }
   .p-inputtext.ng-dirty.ng-invalid {
@@ -57,7 +57,7 @@ $smallText: 80%;
   }
 
   /* Error handling */
-  &.nts-form-field-has-errors {
+  &.form-field-has-errors {
     $errorColor: red;
     .p-inputtext.ng-touched.ng-invalid,
     p-dropdown.ng-touched.ng-invalid .p-dropdown,
@@ -78,10 +78,10 @@ $smallText: 80%;
     .p-float-label > .ng-invalid.ng-touched + label {
       color: $errorColor;
     }
-    .nts-form-field-errors {
+    .form-field-errors {
       color: $errorColor;
     }
-    .nts-form-field-error {
+    .form-field-error {
       font-size: $smallText;
     }
   }

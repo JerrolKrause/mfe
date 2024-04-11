@@ -1,6 +1,13 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, map, Observable, of, startWith, tap } from 'rxjs';
-import { NtsForms } from '../forms.model';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  startWith,
+} from 'rxjs';
+import { FormsLib } from '../forms.model';
 import { is } from './is.util';
 
 /**
@@ -33,9 +40,9 @@ interface Options {
  * @returns
  */
 export const dynamicPropertyEvaluation$ = (
-  src?: null | boolean | string | NtsForms.Rule,
+  src?: null | boolean | string | FormsLib.Rule,
   formGroup?: FormGroup | null,
-  options?: Options | null,
+  options?: Options | null
 ): Observable<boolean> => {
   // Set default observable
   let value$ = of(options?.defaultValue ?? true); // Default to true if no default specified
@@ -64,7 +71,7 @@ export const dynamicPropertyEvaluation$ = (
     const control = getControl(path, formGroup);
     value$ = control.valueChanges.pipe(
       startWith(control.value),
-      map(() => (isTruthy ? !!control.value : !control.value)), // Ensure truthy/falsey value
+      map(() => (isTruthy ? !!control.value : !control.value)) // Ensure truthy/falsey value
     );
     /**
      * Rules engine type
@@ -85,27 +92,49 @@ export const dynamicPropertyEvaluation$ = (
             return value !== formControlValue;
           case 'in': // Included in
             if (!Array.isArray(value)) {
-              console.warn('The "in" operator requires an array as a value', src, formControlValue);
+              console.warn(
+                'The "in" operator requires an array as a value',
+                src,
+                formControlValue
+              );
               return true;
             }
             return value.includes(formControlValue);
           case 'nin': // Not included in
             if (!Array.isArray(value)) {
-              console.warn('The "nin" operator requires an array as a value', src, formControlValue);
+              console.warn(
+                'The "nin" operator requires an array as a value',
+                src,
+                formControlValue
+              );
               return true;
             }
             return !value.includes(formControlValue);
           case 'gt': // Greater than
-            if (is.stringOrNumber(value) && is.stringOrNumber(formControlValue)) {
-              const srcValue = typeof value === 'string' ? parseInt(value) : value;
-              const compareValue = typeof formControlValue === 'string' ? parseInt(formControlValue) : formControlValue;
+            if (
+              is.stringOrNumber(value) &&
+              is.stringOrNumber(formControlValue)
+            ) {
+              const srcValue =
+                typeof value === 'string' ? parseInt(value) : value;
+              const compareValue =
+                typeof formControlValue === 'string'
+                  ? parseInt(formControlValue)
+                  : formControlValue;
               return compareValue > srcValue;
             }
             return false;
           case 'lt': // Greater than
-            if (is.stringOrNumber(value) && is.stringOrNumber(formControlValue)) {
-              const srcValue = typeof value === 'string' ? parseInt(value) : value;
-              const compareValue = typeof formControlValue === 'string' ? parseInt(formControlValue) : formControlValue;
+            if (
+              is.stringOrNumber(value) &&
+              is.stringOrNumber(formControlValue)
+            ) {
+              const srcValue =
+                typeof value === 'string' ? parseInt(value) : value;
+              const compareValue =
+                typeof formControlValue === 'string'
+                  ? parseInt(formControlValue)
+                  : formControlValue;
               return compareValue < srcValue;
             }
             return false;
@@ -113,7 +142,7 @@ export const dynamicPropertyEvaluation$ = (
             console.warn('That operator is not yet supported');
             return true;
         }
-      }),
+      })
     );
     /**
      * Incorrect type
@@ -122,5 +151,8 @@ export const dynamicPropertyEvaluation$ = (
     console.warn('Unknown type for ', src);
   }
   // Return observable with truthy value, and default pipes
-  return value$.pipe(debounceTime(options?.debounceTime ?? 1), distinctUntilChanged());
+  return value$.pipe(
+    debounceTime(options?.debounceTime ?? 1),
+    distinctUntilChanged()
+  );
 };

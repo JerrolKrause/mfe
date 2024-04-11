@@ -48,9 +48,12 @@ export interface NtsAddressAutocompleteOptions2 {
   };
 }
 
-declare var process: any;
+declare const process: any;
 
-const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
+const isNode =
+  typeof process !== 'undefined' &&
+  process.versions != null &&
+  process.versions.node != null;
 
 /**
  * Enable google locations lookup and integrate with a formgroup
@@ -69,7 +72,10 @@ export class NtsGooglePlacesAutocomplete {
 
   constructor() {}
 
-  public initialize(options: NtsAddressAutocompleteOptions, fg?: NtsAddressAutocompleteFormGroup) {
+  public initialize(
+    options: NtsAddressAutocompleteOptions,
+    fg?: NtsAddressAutocompleteFormGroup
+  ) {
     if (isNode) {
       return;
     }
@@ -86,10 +92,12 @@ export class NtsGooglePlacesAutocomplete {
     options: NtsAddressAutocompleteOptions,
     fg?: NtsAddressAutocompleteFormGroup,
     ob$ = new Subject<any>(),
-    logError: boolean = true,
+    logError = true
   ) {
-    const inputIds = Array.isArray(options.inputId) ? options.inputId : [options.inputId];
-    inputIds.forEach(id => {
+    const inputIds = Array.isArray(options.inputId)
+      ? options.inputId
+      : [options.inputId];
+    inputIds.forEach((id) => {
       const input = document.getElementById(id) as HTMLInputElement;
       if (!input) {
         if (logError) {
@@ -101,20 +109,30 @@ export class NtsGooglePlacesAutocomplete {
 
       // Catch and suppress any errors thrown by google autocomplete
       try {
-        const autoComplete = new window.google.maps.places.Autocomplete(input, this.getGooglePlacesOptions(id));
+        const autoComplete = new window.google.maps.places.Autocomplete(
+          input,
+          this.getGooglePlacesOptions(id)
+        );
 
-        const listener = window.google.maps.event.addListener(autoComplete, 'place_changed', () => {
-          const place = autoComplete.getPlace();
-          if (fg) {
-            this.placeToFormGroup(place, fg);
+        const listener = window.google.maps.event.addListener(
+          autoComplete,
+          'place_changed',
+          () => {
+            const place = autoComplete.getPlace();
+            if (fg) {
+              this.placeToFormGroup(place, fg);
+            }
+            ob$?.next(place);
           }
-          ob$?.next(place);
-        });
+        );
 
         // Set data privacy attr to popup modal
         setTimeout(
-          () => Array.from(document.getElementsByClassName('pac-container'))?.forEach(e => e?.setAttribute('data-private', '')),
-          100,
+          () =>
+            Array.from(
+              document.getElementsByClassName('pac-container')
+            )?.forEach((e) => e?.setAttribute('data-private', '')),
+          100
         );
 
         this.autoCompleteRefs = {
@@ -140,7 +158,10 @@ export class NtsGooglePlacesAutocomplete {
    * @returns
    */
   private getGooglePlacesOptions(elementId: string) {
-    let googlePlacesOptions = { fields: ['address_components'], componentRestrictions: { country: 'us' } };
+    let googlePlacesOptions = {
+      fields: ['address_components'],
+      componentRestrictions: { country: 'us' },
+    };
     if (elementId.includes('city')) {
       googlePlacesOptions = {
         ...googlePlacesOptions,
@@ -177,8 +198,12 @@ export class NtsGooglePlacesAutocomplete {
     const zip = fg.zip ? fg.formGroup.get(fg.zip) : null;
 
     if (address) {
-      const addressR = place.address_components.filter((r: any) => r.types.includes('street_number'))[0];
-      const addressR2 = place.address_components.filter((r: any) => r.types.includes('route'))[0];
+      const addressR = place.address_components.filter((r: any) =>
+        r.types.includes('street_number')
+      )[0];
+      const addressR2 = place.address_components.filter((r: any) =>
+        r.types.includes('route')
+      )[0];
       let addressStr = '';
       if (addressR) {
         addressStr += addressR.long_name;
@@ -190,21 +215,27 @@ export class NtsGooglePlacesAutocomplete {
     }
 
     if (city) {
-      const cityR = place.address_components.filter((r: any) => r.types.includes('locality'))[0];
+      const cityR = place.address_components.filter((r: any) =>
+        r.types.includes('locality')
+      )[0];
       if (cityR) {
         city.patchValue(cityR.long_name);
       }
     }
 
     if (zip) {
-      const zipR = place.address_components.filter((r: any) => r.types.includes('postal_code'))[0];
+      const zipR = place.address_components.filter((r: any) =>
+        r.types.includes('postal_code')
+      )[0];
       if (zipR) {
         zip.patchValue(zipR.long_name);
       }
     }
 
     if (state) {
-      const stateR = place.address_components.filter((r: any) => r.types.includes('administrative_area_level_1'))[0];
+      const stateR = place.address_components.filter((r: any) =>
+        r.types.includes('administrative_area_level_1')
+      )[0];
       if (stateR) {
         state.patchValue(stateR.short_name);
       }
@@ -229,7 +260,10 @@ export class NtsGooglePlacesAutocomplete {
       // When the script loads and executes
       if (script.readyState) {
         script.onreadystatechange = () => {
-          if (script.readyState === 'loaded' || script.readyState === 'complete') {
+          if (
+            script.readyState === 'loaded' ||
+            script.readyState === 'complete'
+          ) {
             script.onreadystatechange = null;
             resolve(true);
           }
@@ -255,7 +289,7 @@ export class NtsGooglePlacesAutocomplete {
     // Complete subscription
     ref?.obs?.complete();
     // Make sure google is present in the global scope, remove event listeners
-    if (!!window.google) {
+    if (window.google) {
       window.google.maps.event.removeListener(ref.listener);
       window.google.maps.event.clearInstanceListeners(ref.autoComplete);
     }

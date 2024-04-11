@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'nts-form-field-feature',
+  selector: 'lib-feature',
   templateUrl: './feature.component.html',
   styleUrls: ['./feature.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

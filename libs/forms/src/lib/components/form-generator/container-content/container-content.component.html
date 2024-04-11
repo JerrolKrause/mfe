@@ -7,20 +7,20 @@
 >
   <ng-container *ngIf="container?.content; else noContent">
     <ng-container *ngFor="let model of container?.content">
-      <nts-form-field-container-content
+      <lib-container-content
         *ngIf="model.type === 'container'"
         [container]="model"
         [formGroup]="formGroup"
         [datafields]="datafields"
       >
-      </nts-form-field-container-content>
-      <nts-form-field-content
+      </lib-container-content>
+      <lib-content
         *ngIf="model.type !== 'container'"
         [datafields]="datafields"
         [formGroup]="formGroup"
         [content]="model"
         [options]="options"
-      ></nts-form-field-content>
+      ></lib-content>
     </ng-container>
   </ng-container>
   <ng-template #noContent> No content supplied for container </ng-template>

@@ -1,5 +1,5 @@
-<div class="nts-radio">
-  <nts-form-field-input
+<div class="radio">
+  <lib-input
     [label]="label"
     [placeholder]="placeholder"
     [prefix]="prefix"
@@ -10,22 +10,26 @@
     [validators]="validators"
     [id]="id || formFieldID"
   >
-    <div class="nts-radio-options">
+    <div class="radio-options">
       <ng-container *ngIf="options?.length; else noOptions">
         <div *ngFor="let option of options; let i = index">
           <div class="field-radiobutton">
             <p-radioButton
               [id]="id || formFieldID"
-              [name]="name || (label || placeholder | ntsSlug)"
-              [inputId]="(option.value | ntsSlug) + i"
+              [name]="name || (label || placeholder | slug)"
+              [inputId]="(option.value | slug) + i"
               [formControl]="formControl"
               [value]="option.value"
             ></p-radioButton>
-            <label class="nts-radio-label" [for]="(option.value | ntsSlug) + i">{{ option.label }}</label>
+            <label class="radio-label" [for]="(option.value | slug) + i">{{
+              option.label
+            }}</label>
           </div>
         </div>
       </ng-container>
-      <ng-template #noOptions> <em>No options supplied for this radio button</em> </ng-template>
+      <ng-template #noOptions>
+        <em>No options supplied for this radio button</em>
+      </ng-template>
     </div>
-  </nts-form-field-input>
+  </lib-input>
 </div>

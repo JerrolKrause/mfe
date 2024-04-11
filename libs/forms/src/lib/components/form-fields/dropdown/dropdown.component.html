@@ -1,5 +1,5 @@
-<div class="nts-dropdown">
-  <nts-form-field-input
+<div class="dropdown">
+  <lib-input
     [label]="label"
     [placeholder]="placeholder"
     [prefix]="prefix"
@@ -19,7 +19,7 @@
       [inputId]="id || formFieldID"
       [scrollHeight]="scrollHeight ?? '200px'"
       [style]="style"
-      [styleClass]="styleClass ?? ''"
+      [styleClass]="styleClass"
       [panelStyle]="panelStyle"
       [panelStyleClass]="panelStyleClass"
       [placeholder]="placeholder"
@@ -29,5 +29,5 @@
       [formControl]="formControl"
     >
     </p-dropdown>
-  </nts-form-field-input>
+  </lib-input>
 </div>

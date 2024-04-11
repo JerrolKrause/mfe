@@ -16,6 +16,10 @@ const routes: Routes = [
   },
   {
     path: '~',
+    loadChildren: () => import(`$forms`).then((m) => m.FormsLibModule),
+  },
+  {
+    path: '~',
     loadChildren: () =>
       import(`$state-management`).then((m) => m.StateManagementModule),
   },

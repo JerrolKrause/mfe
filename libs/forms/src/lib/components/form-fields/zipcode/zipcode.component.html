@@ -1,5 +1,5 @@
 <div class="input-text">
-  <nts-form-field-input
+  <lib-input
     [label]="label"
     [placeholder]="placeholder"
     [prefix]="prefix"
@@ -15,8 +15,8 @@
       class="p-inputtext p-component p-element"
       type="text"
       [id]="id || formFieldID"
-      [name]="name || (label || placeholder | ntsSlug)"
-      [ngClass]="styleClass ?? ''"
+      [name]="name || (label || placeholder | slug)"
+      [ngClass]="styleClass"
       [placeholder]="placeholder ?? ''"
       (focus)="focus($event)"
       (blur)="blur($event)"
@@ -25,5 +25,5 @@
       [formControl]="formControl"
       [maxlength]="allowNineDigitCodes ? 10 : 5"
     />
-  </nts-form-field-input>
+  </lib-input>
 </div>

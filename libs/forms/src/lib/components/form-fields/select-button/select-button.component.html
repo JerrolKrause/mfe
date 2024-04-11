@@ -1,5 +1,8 @@
-<div class="input-selectbutton" [ngClass]="{ 'input-selectbutton-full': fullWidth }">
-  <nts-form-field-input
+<div
+  class="input-selectbutton"
+  [ngClass]="{ 'input-selectbutton-full': fullWidth }"
+>
+  <lib-input
     [label]="label"
     [placeholder]="placeholder"
     [prefix]="prefix"
@@ -23,7 +26,9 @@
           (onOptionClick)="onOptionClick($event)"
         ></p-selectButton>
       </ng-container>
-      <ng-template #noOptions> <em>No options supplied for this select button</em> </ng-template>
+      <ng-template #noOptions>
+        <em>No options supplied for this select button</em>
+      </ng-template>
     </div>
-  </nts-form-field-input>
+  </lib-input>
 </div>

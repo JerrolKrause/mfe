@@ -1,5 +1,5 @@
 <div class="input-date">
-  <nts-form-field-input
+  <lib-input
     [label]="label"
     [placeholder]="placeholder"
     [prefix]="prefix"
@@ -15,13 +15,13 @@
         [formControl]="formControl"
         [placeholder]="placeholder ? placeholder : 'mm/dd/yyyy'"
         [inputId]="id || formFieldID"
-        [name]="name || (label || placeholder | ntsSlug)"
+        [name]="name || (label || placeholder | slug)"
         appendTo="body"
-        [styleClass]="styleClass ?? ''"
+        [styleClass]="styleClass"
         [inline]="inline ?? false"
         [showIcon]="showIcon ?? true"
         [dateFormat]="dateFormat ?? ''"
       ></p-calendar>
     </div>
-  </nts-form-field-input>
+  </lib-input>
 </div>

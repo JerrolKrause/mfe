@@ -1,5 +1,5 @@
 <div class="input-textarea">
-  <nts-form-field-input
+  <lib-input
     [label]="label"
     [placeholder]="placeholder"
     [prefix]="prefix"
@@ -13,8 +13,8 @@
     <textarea
       pInputTextarea
       [id]="id || formFieldID"
-      [name]="name || (label || placeholder | ntsSlug)"
-      [ngClass]="styleClass ?? ''"
+      [name]="name || (label || placeholder | slug)"
+      [ngClass]="styleClass"
       [placeholder]="placeholder ?? ''"
       [formControl]="formControl"
       [rows]="rows ?? 4"
@@ -26,5 +26,5 @@
       (keyup)="onKeyup.emit($event)"
       (click)="onClick.emit($event)"
     ></textarea>
-  </nts-form-field-input>
+  </lib-input>
 </div>

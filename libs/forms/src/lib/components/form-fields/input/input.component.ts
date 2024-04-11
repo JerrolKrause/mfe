@@ -9,15 +9,15 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
-  startWith,
-  debounceTime,
-  map,
-  distinctUntilChanged,
+  BehaviorSubject,
   Observable,
   combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
   of,
+  startWith,
   tap,
-  BehaviorSubject,
 } from 'rxjs';
 
 import { isRequired } from '../../../utils';
@@ -36,20 +36,32 @@ interface InputState {
 }
 
 @Component({
-  selector: 'nts-form-field-input',
+  selector: 'lib-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class InputComponent<t> extends BaseFormFieldComponent<t> implements OnInit, OnChanges, OnDestroy {
+export class InputComponent<t>
+  extends BaseFormFieldComponent<t>
+  implements OnInit, OnChanges, OnDestroy
+{
   // Dynamic content
-  public label$: Observable<string | null> = new BehaviorSubject<string | null>(null);
-  public prefix$: Observable<string | null> = new BehaviorSubject<string | null>(null);
-  public suffix$: Observable<string | null> = new BehaviorSubject<string | null>(null);
-  public hint$: Observable<string | null> = new BehaviorSubject<string | null>(null);
+  public label$: Observable<string | null> = new BehaviorSubject<string | null>(
+    null
+  );
+  public prefix$: Observable<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
+  public suffix$: Observable<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
+  public hint$: Observable<string | null> = new BehaviorSubject<string | null>(
+    null
+  );
   // Main state entity
-  public inputState$: Observable<InputState | null> = new BehaviorSubject<InputState | null>(null);
+  public inputState$: Observable<InputState | null> =
+    new BehaviorSubject<InputState | null>(null);
 
   /** DOM element for showing required status */
   public requiredTag = `<sup class="required">*</sup>`;
@@ -91,31 +103,31 @@ export class InputComponent<t> extends BaseFormFieldComponent<t> implements OnIn
           startWith(this.formControl.value),
           debounceTime(1),
           map((val) => val !== null && val !== undefined && val !== ''),
-          distinctUntilChanged(),
+          distinctUntilChanged()
         ),
         showErrors: this.formControl.statusChanges.pipe(
           startWith(this.formControl?.status),
           debounceTime(1),
           map((x) => x === 'INVALID' && !!this.formControl?.touched),
-          distinctUntilChanged(),
+          distinctUntilChanged()
         ),
         isValid: this.formControl.statusChanges.pipe(
           startWith(this.formControl?.status),
           debounceTime(1),
           map((x) => x === 'VALID'),
-          distinctUntilChanged(),
+          distinctUntilChanged()
         ),
         isDisabled: this.formControl.statusChanges.pipe(
           startWith(this.formControl?.status),
           debounceTime(1),
           map((x) => x === 'DISABLED'),
-          distinctUntilChanged(),
+          distinctUntilChanged()
         ),
         isInvalid: this.formControl.statusChanges.pipe(
           startWith(this.formControl?.status),
           debounceTime(1),
           map((x) => x === 'INVALID'),
-          distinctUntilChanged(),
+          distinctUntilChanged()
         ),
         errors: this.formControl.statusChanges.pipe(
           startWith(this.formControl?.errors),
@@ -125,26 +137,16 @@ export class InputComponent<t> extends BaseFormFieldComponent<t> implements OnIn
               return null;
             }
             return Object.keys(this.formControl.errors).reduce(
-              (a, b) => (this.formControl?.errors ? [...a, this.formControl?.errors[b]] : [...a]),
-              [] as string[],
+              (a, b) =>
+                this.formControl?.errors
+                  ? [...a, this.formControl?.errors[b]]
+                  : [...a],
+              [] as string[]
             );
-          }),
+          })
         ),
         required: of(isRequired(this.formControl)),
       }).pipe(debounceTime(1));
     }
   }
-
-  /**
-  private validatorsManage(validators: Forms.Validators) {
-    // console.log(this.validators);
-    // console.log(this.formControl.hasValidator(required));
-    Object.keys(validators).forEach((key) => {
-      if (key === 'required') {
-        this.formControl.addValidators(required);
-      }
-    });
-    console.log(this.formControl.hasValidator(required));
-  }
-   */
 }

@@ -1,15 +1,15 @@
 <div
   *ngIf="inputState$ | async as state"
-  class="nts-form-field"
+  class="form-field"
   [ngClass]="{
-    'nts-form-field-has-errors': state.showErrors,
-    'nts-form-field-has-data': state.hasData,
-    'nts-form-field-is-valid': state.isValid,
-    'nts-form-field-is-invalid': state.isInvalid,
-    'nts-form-field-is-disabled': state.isDisabled,
-    'nts-form-field-required': state.required
+    'form-field-has-errors': state.showErrors,
+    'form-field-has-data': state.hasData,
+    'form-field-is-valid': state.isValid,
+    'form-field-is-invalid': state.isInvalid,
+    'form-field-is-disabled': state.isDisabled,
+    'form-field-required': state.required
   }"
-  [attr.automation-id]="automationId || (label || placeholder | ntsSlug)"
+  [attr.automation-id]="automationId || (label || placeholder | slug)"
 >
   <!-- Label -->
   <label
@@ -21,19 +21,35 @@
 
   <div class="p-inputgroup">
     <!-- Prefix -->
-    <span class="p-inputgroup-addon" *ngIf="prefix$ | async as prefixSrc" [innerHtml]="prefixSrc"></span>
+    <span
+      class="p-inputgroup-addon"
+      *ngIf="prefix$ | async as prefixSrc"
+      [innerHtml]="prefixSrc"
+    ></span>
     <ng-content></ng-content>
     <!-- Suffix -->
-    <span class="p-inputgroup-addon" *ngIf="suffix$ | async as suffixSrc" [innerHtml]="suffixSrc"></span>
+    <span
+      class="p-inputgroup-addon"
+      *ngIf="suffix$ | async as suffixSrc"
+      [innerHtml]="suffixSrc"
+    ></span>
   </div>
 
   <!-- Hint -->
-  <div class="nts-form-field-hint" *ngIf="hint$ | async as hintSrc" [innerHtml]="hintSrc"></div>
+  <div
+    class="form-field-hint"
+    *ngIf="hint$ | async as hintSrc"
+    [innerHtml]="hintSrc"
+  ></div>
 
   <!-- Errors -->
-  <div class="nts-form-field-errors pt-1 anim-fade-in" *ngIf="state.showErrors">
+  <div class="form-field-errors pt-1 anim-fade-in" *ngIf="state.showErrors">
     <ng-container *ngIf="state.errors">
-      <div class="nts-form-field-error" *ngFor="let error of state.errors" [innerHtml]="error"></div>
+      <div
+        class="form-field-error"
+        *ngFor="let error of state.errors"
+        [innerHtml]="error"
+      ></div>
       <!--
            Add support for default Angular validators
         <ng-container [ngSwitch]="error[0]">

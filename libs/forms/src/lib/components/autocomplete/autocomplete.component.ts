@@ -1,15 +1,26 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 @Component({
-  selector: 'nts-autocomplete',
+  selector: 'lib-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class NtsAutocompleteComponent implements OnInit, OnChanges {
+export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() terms: (string | Record<string, any>)[] | null = [];
   @Input() label = '';
   @Input() field?: string;
@@ -32,7 +43,7 @@ export class NtsAutocompleteComponent implements OnInit, OnChanges {
   ngOnChanges(model: SimpleChanges) {
     // Load default value if one is found in the form control
     if (this.control && this.terms) {
-      const termDefault = this.terms.filter(term => {
+      const termDefault = this.terms.filter((term) => {
         if (!this.control) {
           return false;
         }
@@ -48,7 +59,7 @@ export class NtsAutocompleteComponent implements OnInit, OnChanges {
     }
 
     // Update filtered terms
-    if (model.terms && this.terms) {
+    if (model['terms'] && this.terms) {
       this.termsFiltered = [...this.terms];
     }
   }
@@ -57,7 +68,7 @@ export class NtsAutocompleteComponent implements OnInit, OnChanges {
    * Update filter results based on user input
    * @param event
    */
-  public filterTerms(event: { originalEvent: MouseEvent; query: string }) {
+  public filterTerms(event: AutoCompleteCompleteEvent) {
     if (!this.terms) {
       return;
     }
@@ -80,7 +91,10 @@ export class NtsAutocompleteComponent implements OnInit, OnChanges {
    * When the user de-selects the field via the blur event, pass data to parent or patch form control
    */
   public onBlur() {
-    const value = this.field && this.value && this.value[this.field] ? this.value[this.field] : this.value;
+    const value =
+      this.field && this.value && this.value[this.field]
+        ? this.value[this.field]
+        : this.value;
     if (this.control) {
       this.control.patchValue(value);
     }
@@ -88,15 +102,16 @@ export class NtsAutocompleteComponent implements OnInit, OnChanges {
   }
 
   private filterTermsAll(terms: string[] | any[], query: string | null) {
-    return terms.filter(term => {
-      const label: string = this.label && term && term[this.label] ? term[this.label] : term || '';
+    return terms.filter((term) => {
+      const label: string =
+        this.label && term && term[this.label] ? term[this.label] : term || '';
       return String(label || '')
         .toLowerCase()
         .replace(/[^a-z0-9]/gi, '')
         .includes(
           String(query || '')
             .toLowerCase()
-            .replace(/[^a-z0-9]/gi, ''),
+            .replace(/[^a-z0-9]/gi, '')
         );
     });
   }

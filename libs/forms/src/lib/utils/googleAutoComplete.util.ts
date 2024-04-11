@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 
-declare var window: { google: any };
+declare const window: { google: any };
 
 export interface NtsAddressAutocompleteOptions {
   apiKey: string;
@@ -11,7 +11,10 @@ export interface NtsAddressAutocompleteOptions {
   zip: string;
 }
 
-export const ntsAddressAutocomplete = (formGroup: FormGroup, options: NtsAddressAutocompleteOptions) => {
+export const ntsAddressAutocomplete = (
+  formGroup: FormGroup,
+  options: NtsAddressAutocompleteOptions
+) => {
   loadScript(options.apiKey).then(() => {
     console.log('Loaded');
   });
@@ -35,7 +38,10 @@ const loadScript = (apiKey: string) => {
     // When the script loads and executes
     if (script.readyState) {
       script.onreadystatechange = () => {
-        if (script.readyState === 'loaded' || script.readyState === 'complete') {
+        if (
+          script.readyState === 'loaded' ||
+          script.readyState === 'complete'
+        ) {
           script.onreadystatechange = null;
           resolve(true);
         }

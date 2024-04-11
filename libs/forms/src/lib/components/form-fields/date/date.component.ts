@@ -12,13 +12,16 @@ import { debounceTime, filter, startWith } from 'rxjs';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
-  selector: 'nts-form-field-date',
+  selector: 'lib-date',
   templateUrl: './date.component.html',
   styleUrls: ['./date.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class DateComponent extends BaseFormFieldComponent<string> implements OnInit, OnChanges, OnDestroy {
+export class DateComponent
+  extends BaseFormFieldComponent<string>
+  implements OnInit, OnChanges, OnDestroy
+{
   /** Standard html placeholder text */
   @Input() override placeholder?: string | null = 'mm/dd/yyyy';
   /** When enabled, displays the calendar as inline. Default is false for popup mode. */
@@ -47,9 +50,9 @@ export class DateComponent extends BaseFormFieldComponent<string> implements OnI
           .pipe(
             startWith(this.formControl.value),
             filter((x) => !!x && typeof x === 'string'),
-            debounceTime(1),
+            debounceTime(1)
           )
-          .subscribe((x) => this.formControl.patchValue(new Date(x))),
+          .subscribe((x) => this.formControl.patchValue(new Date(x)))
       );
     }
   }

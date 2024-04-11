@@ -3,12 +3,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 /**
  * Convert string (usually an enum) into a properly spaced value by looking at upper case letters
  * IE "SignedPurchaseContract" => "Signed Purchase Contract"
- * USAGE: {{ value | ntsSplitTitleCase }}
+ * USAGE: {{ value | splitTitleCase }}
  * @param phrase
  * @returns
  */
 @Pipe({
-  name: 'ntsSplitTitleCase',
+  name: 'splitTitleCase',
 })
 export class SplitTitleCasePipe implements PipeTransform {
   transform(value: unknown) {
