@@ -46,10 +46,6 @@ const routes: Routes = [
         (m) => m.FontAwesomeModule
       ),
   },
-  {
-    path: '~',
-    loadChildren: () => import('apollo-angular').then((m) => m.ApolloModule),
-  },
   // Prime libs
   {
     path: '~',
