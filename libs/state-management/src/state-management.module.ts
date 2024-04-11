@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AccordionModule } from 'primeng/accordion';
 import { MessageModule } from 'primeng/message';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { DomainStateComponent } from './components/api-state/api-state.component';
 import { ErrorComponent } from './components/error/error.component';
+import { StateManagementService } from './services/state-management.service';
 
 const Components = [DomainStateComponent, ErrorComponent];
 
@@ -13,7 +15,14 @@ const Components = [DomainStateComponent, ErrorComponent];
  */
 @NgModule({
   declarations: [Components],
-  imports: [CommonModule, AccordionModule, ProgressBarModule, MessageModule],
+  imports: [
+    CommonModule,
+    ProgressBarModule,
+    MessageModule,
+    AccordionModule,
+    HttpClientModule,
+  ],
+  providers: [StateManagementService],
   exports: [Components],
 })
 export class StateManagementModule {}

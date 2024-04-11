@@ -36,6 +36,12 @@ const routes: Routes = [
   {
     path: '~',
     loadChildren: () =>
+      import('@angular/common/http').then((m) => m.HttpClientModule),
+  },
+
+  {
+    path: '~',
+    loadChildren: () =>
       import('@fortawesome/angular-fontawesome').then(
         (m) => m.FontAwesomeModule
       ),
