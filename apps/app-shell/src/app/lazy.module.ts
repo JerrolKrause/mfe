@@ -5,7 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
  * Lazy load/chunk 3rd party librarys and components
  */
 const routes: Routes = [
-  // App global components
+  /**
+   * Internal Libs
+   */
   {
     path: '~',
     loadChildren: () => import(`$masterpage`).then((m) => m.MasterpageModule),
@@ -23,7 +25,9 @@ const routes: Routes = [
     loadChildren: () =>
       import(`$state-management`).then((m) => m.StateManagementModule),
   },
-  // Angular libs
+  /**
+   * Angular Libs
+   */
   {
     path: '~',
     loadChildren: () => import('@angular/forms').then((m) => m.FormsModule),
@@ -39,14 +43,9 @@ const routes: Routes = [
       import('@angular/common/http').then((m) => m.HttpClientModule),
   },
 
-  {
-    path: '~',
-    loadChildren: () =>
-      import('@fortawesome/angular-fontawesome').then(
-        (m) => m.FontAwesomeModule
-      ),
-  },
-  // Prime libs
+  /**
+   * Prime Libs
+   */
   {
     path: '~',
     loadChildren: () => import('primeng/card').then((m) => m.CardModule),
@@ -79,6 +78,16 @@ const routes: Routes = [
   {
     path: '~',
     loadChildren: () => import('primeng/accordion').then((m) => m.Accordion),
+  },
+  /**
+   * Misc Libs
+   */
+  {
+    path: '~',
+    loadChildren: () =>
+      import('@fortawesome/angular-fontawesome').then(
+        (m) => m.FontAwesomeModule
+      ),
   },
 ];
 
