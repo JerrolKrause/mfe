@@ -1,0 +1,7 @@
+body {
+  font-size: 1rem;
+}
+
+// Global encapsulated styles
+@import 'global/typography.scss';
+@import 'global/layout.scss';

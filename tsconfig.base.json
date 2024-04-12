@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "$brand": ["libs/brand/src/index.ts"],
+      "$brand": ["libs/brand/src"],
       "$masterpage": ["libs/masterpage/src/index.ts"],
       "$icons": ["libs/icons/src/index.ts"],
       "$state-management": ["libs/state-management/src/index.ts"],
