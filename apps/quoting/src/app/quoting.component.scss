@@ -1,0 +1,56 @@
+$brandColor: #00a39e;
+$titleColor: #004b75;
+
+.quote-container {
+  max-width: 480px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 1.25em;
+  color: $titleColor;
+}
+a,
+a:link {
+  color: $brandColor;
+}
+.p-button {
+  background-color: $brandColor;
+  border-color: $brandColor;
+  min-width: 100px;
+  text-align: center;
+}
+.p-selectbutton .p-button {
+  background: #fff;
+  color: $brandColor;
+  border-right-width: 1px;
+  border-right-style: solid;
+  &.p-highlight {
+    background-color: $brandColor !important;
+    border-color: $brandColor !important;
+    color: #fff !important;
+  }
+}
+
+.p-button-outlined {
+  background: #fff;
+  color: $brandColor;
+}
+.btn-back {
+  margin-top: 1rem;
+}
+.p-card .p-card-body {
+  padding: 3rem 1rem;
+}
+.btn-back {
+  border: 0;
+}
+
+@media (min-width: 768px) {
+  .btn-back {
+    margin-top: 0rem;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+}

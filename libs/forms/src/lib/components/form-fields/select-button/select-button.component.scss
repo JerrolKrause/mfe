@@ -8,3 +8,9 @@
     }
   }
 }
+.input-selectbutton-vertical .p-selectbutton {
+  flex-direction: column !important;
+  .p-button {
+    margin-bottom: 1rem;
+  }
+}
