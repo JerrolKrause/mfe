@@ -89,6 +89,10 @@ const routes: Routes = [
         (m) => m.FontAwesomeModule
       ),
   },
+  {
+    path: '~',
+    loadChildren: () => import('apollo-angular').then((m) => m.ApolloModule),
+  },
 ];
 
 export const LibsLazyLoad = RouterModule.forChild(routes);
