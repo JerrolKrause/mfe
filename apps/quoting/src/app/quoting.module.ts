@@ -1,15 +1,22 @@
+import { FormsLibModule } from '$forms';
 import { MasterpageModule } from '$masterpage';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { QuotingMasterpageComponent } from './components/masterpage/masterpage.component';
 import { AppComponent } from './quoting.component';
 import { appRoutes } from './quoting.routes';
 import { Step1Component } from './routes/step1/step1.component';
 
 @NgModule({
-  declarations: [AppComponent, Step1Component],
-  imports: [CommonModule, RouterModule.forChild(appRoutes), MasterpageModule],
+  declarations: [AppComponent, Step1Component, QuotingMasterpageComponent],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(appRoutes),
+    MasterpageModule,
+    FormsLibModule,
+  ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
 })

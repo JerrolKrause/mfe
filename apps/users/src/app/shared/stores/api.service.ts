@@ -27,7 +27,7 @@ interface State {
   modifyError: null | string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ApiService {
   /** API State */
   private _state$ = new BehaviorSubject<State>({
