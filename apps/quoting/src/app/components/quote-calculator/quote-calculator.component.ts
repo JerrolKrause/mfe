@@ -16,6 +16,7 @@ export interface LoanProduct {
   hasCollateral: boolean;
   rate: number;
   apr: number;
+  isBonus: boolean;
 }
 
 @Component({
@@ -32,15 +33,21 @@ export class QuoteCalculatorComponent implements OnInit {
     creditScore: [650],
   });
 
-  public loanProducts$ = this.quoteFrm.valueChanges.pipe(
+  public loanProductsSrc$ = this.quoteFrm.valueChanges.pipe(
     startWith(this.quoteFrm.value),
     debounceTime(100),
-    map((data) => generateLoanOffers(data))
+    map((data) => generateLoanOffers(data as QuoteForm)) // TODO
+  );
+
+  public loanProducts$ = this.loanProductsSrc$.pipe(
+    map((products) => products.filter((p) => !p.isBonus))
+  );
+
+  public loanProductsBonus$ = this.loanProductsSrc$.pipe(
+    map((products) => products.filter((p) => p.isBonus))
   );
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
-    this.loanProducts$.subscribe((x) => console.warn(x));
-  }
+  ngOnInit(): void {}
 }

@@ -10,7 +10,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 import { ProgressComponent } from './components/progress/progress.component';
-import { QuoteCalculatorComponent } from './components/quote-calculator/quote-calculator.component';
+import { QuoteCalculatorModule } from './components/quote-calculator/quote.calculator.module';
 import { AppComponent } from './quoting.component';
 import { appRoutes } from './quoting.routes';
 import { AddressComponent } from './routes/address/address.component';
@@ -34,7 +34,6 @@ import { BorrowerFormService } from './shared/borrower-form.service';
     ProgressComponent,
     AddressComponent,
     LoanReasonComponent,
-    QuoteCalculatorComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +45,7 @@ import { BorrowerFormService } from './shared/borrower-form.service';
     InputTextModule,
     ReactiveFormsModule,
     ButtonModule,
+    QuoteCalculatorModule,
   ],
   providers: [provideClientHydration(), BorrowerFormService],
   bootstrap: [AppComponent],
