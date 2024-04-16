@@ -43,6 +43,7 @@ export class AddressComponent {
               options: [
                 { label: 'AZ', value: 'az' },
                 { label: 'CA', value: 'ca' },
+                { label: 'TN', value: 'tn' },
               ],
             },
           ],

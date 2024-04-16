@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
+import { TimelineModule } from 'primeng/timeline';
 import { QuotingMasterpageComponent } from './components/masterpage/masterpage.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { QuoteCalculatorModule } from './components/quote-calculator/quote-calculator.module';
@@ -47,6 +48,7 @@ import { BorrowerFormService } from './shared/borrower-form.service';
     ReactiveFormsModule,
     ButtonModule,
     QuoteCalculatorModule,
+    TimelineModule,
   ],
   providers: [provideClientHydration(), BorrowerFormService],
   bootstrap: [AppComponent],
