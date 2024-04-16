@@ -7,8 +7,11 @@ $titleColor: #004b75;
 }
 
 h1 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: $titleColor;
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
 }
 h2 {
   font-size: 1rem;
@@ -43,8 +46,6 @@ a:link {
 .btn-back {
   margin-top: 1rem;
 }
-.p-card .p-card-body {
-}
 .btn-back {
   border: 0;
 }
@@ -53,9 +54,7 @@ a:link {
   .btn-back {
     margin-top: 0rem;
   }
-  h1 {
-    font-size: 2rem;
-  }
+
   h2 {
     font-size: 3rem;
   }

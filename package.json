@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "npx nx serve app-shell --hmr",
-    "dashboard": "npx nx serve dashboard --hmr",
-    "sandbox": "npx nx serve sandbox --hmr",
+    "start": "npx nx serve app-shell",
+    "dashboard": "npx nx serve dashboard",
+    "sandbox": "npx nx serve sandbox",
     "reinstall": "rmdir node_modules /s /q && rmdir .angular /s /q && del package-lock.json /q &&  npm i",
     "ng": "ng",
     "prod": "http-server ./dist/browser -o -g",

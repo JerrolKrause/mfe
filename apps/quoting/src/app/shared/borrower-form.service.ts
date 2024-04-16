@@ -10,6 +10,13 @@ export class BorrowerFormService {
     loanAmount: [],
     loanReason: [],
     name: [],
+    nameFirst: [],
+    nameLast: [],
+    address: [],
+    address2: [],
+    city: [],
+    state: [],
+    zipCode: [],
   });
 
   public formOptions: FormsLib.FormOptions = {

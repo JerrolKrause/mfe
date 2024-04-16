@@ -17,6 +17,12 @@ interface MainMenuItem {
 export class NavComponent implements OnInit, OnDestroy {
   public navMenu: MainMenuItem[] = [
     {
+      label: 'Quoting',
+      routerLink: '/quoting',
+      routerLinkActiveOptions: { exact: false },
+    },
+    /**
+    {
       label: 'Dashboard',
       routerLink: '/',
       routerLinkActiveOptions: { exact: true },
@@ -25,9 +31,9 @@ export class NavComponent implements OnInit, OnDestroy {
       label: 'Users',
       routerLink: '/users',
       routerLinkActiveOptions: { exact: false },
-    },
+    }, */
     {
-      label: 'Sandbox',
+      label: 'CLASS Data Demo',
       routerLink: '/sandbox',
       routerLinkActiveOptions: { exact: false },
     },

@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
+import { QuotingMasterpageComponent } from './components/masterpage/masterpage.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { QuoteCalculatorModule } from './components/quote-calculator/quote-calculator.module';
 import { AppComponent } from './quoting.component';
@@ -18,7 +19,6 @@ import { BorrowerInfoComponent } from './routes/borrower-info/borrower-info.comp
 import { HomeComponent } from './routes/home/home.component';
 import { IntroComponent } from './routes/intro/intro.component';
 import { LoanReasonComponent } from './routes/loan-reason/loan-reason.component';
-import { QuotingMasterpageComponent } from './routes/masterpage/masterpage.component';
 import { Step1Component } from './routes/step1/step1.component';
 import { WelcomeComponent } from './routes/welcome.component';
 import { BorrowerFormService } from './shared/borrower-form.service';

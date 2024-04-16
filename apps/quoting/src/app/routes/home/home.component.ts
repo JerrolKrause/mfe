@@ -1,5 +1,6 @@
 import { FormsLib } from '$forms';
 import { Component, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { BorrowerFormService } from '../../shared/borrower-form.service';
 
 @Component({
@@ -20,9 +21,14 @@ export class HomeComponent {
     },
   ];
 
-  constructor(public svc: BorrowerFormService) {}
+  constructor(public svc: BorrowerFormService, private router: Router) {}
 
   public onFormCompleted() {
     this.svc.routeNext();
+  }
+
+  public productSelected(product: unknown) {
+    this.router.navigate(['/quoting/loan-reason/']);
+    console.log('productSelected', product);
   }
 }

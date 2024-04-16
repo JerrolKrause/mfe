@@ -54,6 +54,7 @@ const generateLoanProduct = (
   );
 
   return {
+    ...quote,
     monthlyPaymentMin,
     monthlyPaymentMax,
     hasCollateral,

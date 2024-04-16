@@ -2,8 +2,10 @@
 <div class="container">
   <p-card>
     <div>
-      <h1>Get a Quote!</h1>
-      <app-quote-calculator></app-quote-calculator>
+      <h1>Explore Loan Choices with Our Customizable Calculator</h1>
+      <app-quote-calculator
+        (productSelected)="productSelected($event)"
+      ></app-quote-calculator>
     </div>
   </p-card>
 </div>

@@ -90,13 +90,28 @@
       </form>
     </div>
     <div class="col col-12 col-md-8">
-      <h3>Available Loan Offers</h3>
-      <app-loan-products [products]="loanProducts$ | async"></app-loan-products>
-
-      <h3>Additional Loan Offers To Consider</h3>
+      <hr class="d-md-none" />
+      <h3>
+        Available Loan Offers (<span *ngIf="loanProductsSrc$ | async as lp">{{
+          lp.length
+        }}</span
+        >)
+      </h3>
       <app-loan-products
-        [products]="loanProductsBonus$ | async"
+        [products]="loanProducts$ | async"
+        (productSelected)="productSelected.emit($event)"
       ></app-loan-products>
+
+      <ng-container *ngIf="loanProductsBonus$ | async as loanProductsBonus">
+        <h3 *ngIf="loanProductsBonus.length">
+          Additional Loan Offers To Consider
+        </h3>
+        <app-loan-products
+          [products]="loanProductsBonus"
+          [showFullDetails]="true"
+          (productSelected)="productSelected.emit($event)"
+        ></app-loan-products>
+      </ng-container>
     </div>
   </div>
 </div>

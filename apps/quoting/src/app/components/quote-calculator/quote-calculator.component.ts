@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { debounceTime, map, startWith } from 'rxjs';
 import { generateLoanOffers } from './quote-calculator.utils';
@@ -10,7 +17,7 @@ export interface QuoteForm {
   creditScore: number;
 }
 
-export interface LoanProduct {
+export interface LoanProduct extends QuoteForm {
   monthlyPaymentMin: number;
   monthlyPaymentMax: number;
   hasCollateral: boolean;
@@ -24,6 +31,7 @@ export interface LoanProduct {
   templateUrl: './quote-calculator.component.html',
   styleUrl: './quote-calculator.component.scss',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteCalculatorComponent implements OnInit {
   public quoteFrm = this.fb.group({
@@ -46,6 +54,8 @@ export class QuoteCalculatorComponent implements OnInit {
   public loanProductsBonus$ = this.loanProductsSrc$.pipe(
     map((products) => products.filter((p) => p.isBonus))
   );
+
+  @Output() productSelected = new EventEmitter<LoanProduct>();
 
   constructor(private fb: FormBuilder) {}
 
