@@ -2,10 +2,15 @@ import { FormsLibModule } from '$forms';
 import { MasterpageModule } from '$masterpage';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { provideClientHydration } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { SliderModule } from 'primeng/slider';
 import { ProgressComponent } from './components/progress/progress.component';
+import { QuoteCalculatorComponent } from './components/quote-calculator/quote-calculator.component';
 import { AppComponent } from './quoting.component';
 import { appRoutes } from './quoting.routes';
 import { AddressComponent } from './routes/address/address.component';
@@ -17,7 +22,6 @@ import { QuotingMasterpageComponent } from './routes/masterpage/masterpage.compo
 import { Step1Component } from './routes/step1/step1.component';
 import { WelcomeComponent } from './routes/welcome.component';
 import { BorrowerFormService } from './shared/borrower-form.service';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +34,7 @@ import { BorrowerFormService } from './shared/borrower-form.service';
     ProgressComponent,
     AddressComponent,
     LoanReasonComponent,
+    QuoteCalculatorComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +42,10 @@ import { BorrowerFormService } from './shared/borrower-form.service';
     MasterpageModule,
     FormsLibModule,
     CardModule,
+    SliderModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    ButtonModule,
   ],
   providers: [provideClientHydration(), BorrowerFormService],
   bootstrap: [AppComponent],

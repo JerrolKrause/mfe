@@ -1,1 +1,23 @@
-<p>welcome works!</p>
+<p-card>
+  <div class="quote-container">
+    <h1>How much money do you need?</h1>
+    <lib-form-generator
+      [formModel]="formModel"
+      [formGroup]="svc.borrowerForm"
+      [options]="svc.formOptions"
+      [disableSubmit]="false"
+      (completed)="onFormCompleted()"
+    >
+      <!--
+        <div footerContentLeft>
+          <button
+            pButton
+            class="p-ripple p-element p-button p-component p-button-outlined btn-back"
+          >
+            Back
+          </button>
+        </div>
+  -->
+    </lib-form-generator>
+  </div>
+</p-card>

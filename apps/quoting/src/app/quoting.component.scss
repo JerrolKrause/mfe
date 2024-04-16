@@ -7,8 +7,12 @@ $titleColor: #004b75;
 }
 
 h1 {
-  font-size: 1.25em;
+  font-size: 1.25rem;
   color: $titleColor;
+}
+h2 {
+  font-size: 1rem;
+  font-weight: 700;
 }
 a,
 a:link {
@@ -40,7 +44,6 @@ a:link {
   margin-top: 1rem;
 }
 .p-card .p-card-body {
-  padding: 3rem 1rem;
 }
 .btn-back {
   border: 0;
@@ -53,4 +56,14 @@ a:link {
   h1 {
     font-size: 2rem;
   }
+  h2 {
+    font-size: 3rem;
+  }
+}
+.bg {
+  background: linear-gradient(to right, #004b75, #00d0cd);
+  min-height: 200px;
+}
+.bg + .container {
+  margin-top: -150px;
 }
