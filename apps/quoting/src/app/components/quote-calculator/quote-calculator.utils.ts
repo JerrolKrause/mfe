@@ -35,9 +35,10 @@ const generateLoanProduct = (
   const riskRate = quote.creditScore < 650 ? 0.1 : 0.05;
 
   // Sliding scale for collateralRate based on loan amount relative to income over loan duration
-  // const incomeMultiplier = quote.loanAmount / (quote.monthlyIncome * quote.loanDuration);
+  const incomeMultiplier =
+    quote.loanAmount / (quote.monthlyIncome * quote.loanDuration);
   // const collateralRate = incomeMultiplier > 1 ? 0.07 : 0.03 + 0.04 * incomeMultiplier; // Scale between 0.03 to 0.07
-  const collateralRate = hasCollateral ? 0 : 0.04;
+  const collateralRate = hasCollateral ? 0 : 0.04 * incomeMultiplier * 10;
   const rate = parseFloat(
     ((baseRate + riskRate + collateralRate + creditScoreImpact) * 100).toFixed(
       2
