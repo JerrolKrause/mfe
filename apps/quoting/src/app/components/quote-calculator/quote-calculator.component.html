@@ -42,7 +42,7 @@
             <div>84 Months</div>
           </div>
         </div>
-        <!--
+        <!-- -->
         <div class="quote-selector">
           <p class="label">Your Approximate Monthly Income</p>
           <h2>
@@ -69,7 +69,7 @@
             <div>$15,000+</div>
           </div>
         </div>
-        -->
+
         <!---->
         <div class="quote-selector">
           <p class="label">Your Approximate Credit Score</p>
@@ -89,49 +89,14 @@
         </div>
       </form>
     </div>
-    <div class="col col-12 col-md-8" *ngIf="loanProducts$ | async as products">
-      <h3>Available Loan Offers (4)</h3>
-      <div class="loan-products">
-        @for(product of products;track product){
-        <div class="loan-product">
-          <div>
-            <p class="loan-product-amount">
-              {{
-                product.monthlyPaymentMin
-                  | currency : 'USD' : 'symbol' : '1.0-2'
-              }}
-              -
-              {{
-                product.monthlyPaymentMax
-                  | currency : 'USD' : 'symbol' : '1.0-2'
-              }}
-            </p>
-            <p class="loan-product-label">Monthly Payment</p>
-          </div>
-          <div class="terms">
-            <table class="table table-sm">
-              <tbody>
-                <tr>
-                  <td>Collateral</td>
-                  <td>{{ product.hasCollateral }}</td>
-                </tr>
-                <tr>
-                  <td>Rate</td>
-                  <td>{{ product.rate }}%</td>
-                </tr>
-                <tr>
-                  <td>APR</td>
-                  <td>{{ product.apr }}%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p-button label="Select This Loan >"></p-button>
-        </div>
-        }
-      </div>
-      <h3>Additional Loan Offers To Consider.</h3>
-      <div class="loan-products"></div>
+    <div class="col col-12 col-md-8">
+      <h3>Available Loan Offers</h3>
+      <app-loan-products [products]="loanProducts$ | async"></app-loan-products>
+
+      <h3>Additional Loan Offers To Consider</h3>
+      <app-loan-products
+        [products]="loanProductsBonus$ | async"
+      ></app-loan-products>
     </div>
   </div>
 </div>

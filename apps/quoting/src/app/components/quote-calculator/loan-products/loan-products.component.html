@@ -1,0 +1,5 @@
+<div class="loan-products" *ngIf="products">
+  @for(product of products;track product){
+  <app-loan-product [product]="product"></app-loan-product>
+  }
+</div>

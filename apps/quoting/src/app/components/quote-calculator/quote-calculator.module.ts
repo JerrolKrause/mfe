@@ -7,9 +7,15 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 import { QuoteCalculatorComponent } from './quote-calculator.component';
+import { LoanProductComponent } from './loan-product/loan-product.component';
+import { LoanProductsComponent } from './loan-products/loan-products.component';
 
 @NgModule({
-  declarations: [QuoteCalculatorComponent],
+  declarations: [
+    QuoteCalculatorComponent,
+    LoanProductComponent,
+    LoanProductsComponent,
+  ],
   imports: [
     CommonModule,
     FormsLibModule,

@@ -10,7 +10,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 import { ProgressComponent } from './components/progress/progress.component';
-import { QuoteCalculatorModule } from './components/quote-calculator/quote.calculator.module';
+import { QuoteCalculatorModule } from './components/quote-calculator/quote-calculator.module';
 import { AppComponent } from './quoting.component';
 import { appRoutes } from './quoting.routes';
 import { AddressComponent } from './routes/address/address.component';
@@ -22,6 +22,7 @@ import { QuotingMasterpageComponent } from './routes/masterpage/masterpage.compo
 import { Step1Component } from './routes/step1/step1.component';
 import { WelcomeComponent } from './routes/welcome.component';
 import { BorrowerFormService } from './shared/borrower-form.service';
+
 @NgModule({
   declarations: [
     AppComponent,
