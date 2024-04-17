@@ -4,20 +4,14 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BehaviorSubject, filter, map, mergeMap, take } from 'rxjs';
-
-export interface CustomerData {
-  CUST_FIRST_NAME_X: string;
-  CUST_MIDDLE_INIT_X: string;
-  CUST_LAST_NAME_X: string;
-  OTHER_NAMES_USED_X: string;
-}
+import { CustomerData } from '../../sandbox.component';
 
 @Component({
-  selector: 'app-sandbox',
-  templateUrl: './sandbox.component.html',
-  styleUrl: './sandbox.component.scss',
+  selector: 'app-embed',
+  templateUrl: './embed.component.html',
+  styleUrl: './embed.component.scss',
 })
-export class SandboxComponent implements OnInit {
+export class EmbedComponent implements OnInit {
   // Customer form
   public form = this.fb.group({
     CUST_FIRST_NAME_X: new FormControl(),

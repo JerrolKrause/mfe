@@ -19,8 +19,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { SandboxComponent } from './sandbox.component';
 import { SandboxRoutes } from './sandbox.routes';
+import { EmbedComponent } from './routes/embed/embed.component';
 @NgModule({
-  declarations: [SandboxComponent],
+  declarations: [SandboxComponent, EmbedComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(SandboxRoutes),

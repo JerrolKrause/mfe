@@ -23,6 +23,9 @@ import { LoanReasonComponent } from './routes/loan-reason/loan-reason.component'
 import { Step1Component } from './routes/step1/step1.component';
 import { WelcomeComponent } from './routes/welcome.component';
 import { BorrowerFormService } from './shared/borrower-form.service';
+import { V1Component } from './routes/v1/v1.component';
+import { V2Component } from './routes/v2/v2.component';
+import { V3Component } from './routes/v3/v3.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { BorrowerFormService } from './shared/borrower-form.service';
     ProgressComponent,
     AddressComponent,
     LoanReasonComponent,
+    V1Component,
+    V2Component,
+    V3Component,
   ],
   imports: [
     CommonModule,
