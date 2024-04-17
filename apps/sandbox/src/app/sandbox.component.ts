@@ -5,36 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BehaviorSubject, filter, map, mergeMap, take } from 'rxjs';
 
-interface Geo {
-  lat?: string;
-  lng?: string;
-}
-
-interface Address {
-  street?: string;
-  suite?: string;
-  city?: string;
-  zipcode?: string;
-  geo?: Geo;
-}
-
-interface Company {
-  name?: string;
-  catchPhrase?: string;
-  bs?: string;
-}
-
-interface User {
-  id?: number | null;
-  name?: string | null;
-  username?: string;
-  email?: string;
-  address?: Address;
-  phone?: string;
-  website?: string;
-  company?: Company;
-}
-
 interface CustomerData {
   CUST_FIRST_NAME_X: string;
   CUST_MIDDLE_INIT_X: string;
@@ -48,6 +18,7 @@ interface CustomerData {
   styleUrl: './sandbox.component.scss',
 })
 export class SandboxComponent implements OnInit {
+  // Customer form
   public form = this.fb.group({
     CUST_FIRST_NAME_X: new FormControl(),
     CUST_MIDDLE_INIT_X: new FormControl(),
@@ -56,9 +27,13 @@ export class SandboxComponent implements OnInit {
   });
 
   public loading$ = new BehaviorSubject(false);
-  public userId$ = this.route.params.pipe(map((params) => params['userId']));
-  public branchId$ = this.route.params.pipe(
-    map((params) => params['branchId'])
+
+  /** Extract userId and brandID from the route params and ensure type safety */
+  public routeParams$ = this.route.params.pipe(
+    map((params) => ({
+      userId: params['userId'] as string,
+      branchId: params['branchId'] as string,
+    }))
   );
 
   constructor(
@@ -71,7 +46,7 @@ export class SandboxComponent implements OnInit {
   ngOnInit(): void {
     this.loading$.next(true);
     // Look at the route param and use that to load the correct user ID
-    this.route.params
+    this.routeParams$
       .pipe(
         mergeMap(({ branchId, userId }) =>
           this.http.get<CustomerData>(
@@ -103,8 +78,8 @@ export class SandboxComponent implements OnInit {
    */
   public submit() {
     this.loading$.next(true);
-    const val = this.form.getRawValue() as Partial<User>;
-    this.userId$
+    const val = this.form.getRawValue() as Partial<CustomerData>;
+    this.routeParams$
       .pipe(
         mergeMap(({ branchId, userId }) =>
           this.http.put(
