@@ -1,9 +1,9 @@
-import { StateManagementService } from '$state-management';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { filter, map, mergeMap, take } from 'rxjs';
+import { BehaviorSubject, filter, map, mergeMap, take } from 'rxjs';
 
 interface Geo {
   lat?: string;
@@ -35,54 +35,100 @@ interface User {
   company?: Company;
 }
 
+interface CustomerData {
+  CUST_FIRST_NAME_X: string;
+  CUST_MIDDLE_INIT_X: string;
+  CUST_LAST_NAME_X: string;
+  OTHER_NAMES_USED_X: string;
+}
+
 @Component({
   selector: 'app-sandbox',
   templateUrl: './sandbox.component.html',
   styleUrl: './sandbox.component.scss',
 })
 export class SandboxComponent implements OnInit {
-  private storeCreator = this.sms.createBaseStore({
-    apiUrlBase: '//jsonplaceholder.typicode.com',
-  });
-  public usersStore = this.storeCreator<Partial<User>>({ apiUrl: '/users/1' });
-
   public form = this.fb.group({
-    name: ['', []],
-    id: [0, []],
+    CUST_FIRST_NAME_X: new FormControl(),
+    CUST_MIDDLE_INIT_X: new FormControl(),
+    CUST_LAST_NAME_X: new FormControl(),
+    OTHER_NAMES_USED_X: new FormControl(),
   });
+
+  public loading$ = new BehaviorSubject(false);
+  public userId$ = this.route.params.pipe(map((params) => params['id']));
 
   constructor(
     private fb: FormBuilder,
-    private sms: StateManagementService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
+    this.loading$.next(true);
     // Look at the route param and use that to load the correct user ID
-    this.route.params
+    this.userId$
       .pipe(
-        map((params) => params['id']),
-        mergeMap((id) => this.usersStore.get({ apiUrl: `/users/${id ?? 1}` })),
+        mergeMap((id) =>
+          this.http.get<CustomerData>(
+            `http://localhost:3000/api/applications/branch/389/application/${id}`
+          )
+        ),
         filter((x) => !!x),
         take(1)
       )
-      .subscribe((user) => this.form.patchValue(user));
+      .subscribe(
+        (user) => {
+          this.loading$.next(false);
+          this.form.patchValue(user);
+        },
+        () => {
+          this.loading$.next(false);
+          this.messageService.add({
+            life: 3000,
+            severity: 'error',
+            summary: 'Error loading user data',
+            detail: 'Check the console for details',
+          });
+        }
+      );
   }
 
   /**
    * Submit updated user
    */
   public submit() {
+    this.loading$.next(true);
     const val = this.form.getRawValue() as Partial<User>;
-    this.usersStore.put(val).subscribe(() => {
-      // Add toast confirming success
-      this.messageService.add({
-        life: 1500,
-        severity: 'success',
-        summary: 'Success',
-        detail: 'User Updated Successfully',
-      });
-    });
+    this.userId$
+      .pipe(
+        mergeMap((id) =>
+          this.http.put(
+            `http://localhost:3000/api/applications/branch/389/application/${id}`,
+            val
+          )
+        )
+      )
+      .subscribe(
+        () => {
+          this.loading$.next(false);
+          this.messageService.add({
+            life: 3000,
+            severity: 'success',
+            summary: 'Success',
+            detail: 'User Updated Successfully',
+          });
+        },
+        () => {
+          this.loading$.next(false);
+          this.messageService.add({
+            life: 3000,
+            severity: 'error',
+            summary: 'Error saving user data',
+            detail: 'Check the console for details',
+          });
+        }
+      );
   }
 }
