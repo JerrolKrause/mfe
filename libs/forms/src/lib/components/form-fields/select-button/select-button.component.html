@@ -1,6 +1,9 @@
 <div
   class="input-selectbutton"
-  [ngClass]="{ 'input-selectbutton-full': fullWidth }"
+  [ngClass]="{
+    'input-selectbutton-full': fullWidth,
+    'input-selectbutton-vertical': vertical
+  }"
 >
   <lib-input
     [label]="label"

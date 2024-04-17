@@ -3,6 +3,7 @@ import {
   IconDefinition,
   faBars,
   faCaretDown,
+  faCheck,
   faCog,
   faCogs,
   faCubes,
@@ -22,6 +23,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'check'
   | 'phone'
   | 'envelope'
   | 'power-off'
@@ -56,6 +58,7 @@ export class IconsComponent {
     envelope: faEnvelope,
     'power-off': faPowerOff,
     spinner: faSpinner,
+    check: faCheck,
     refresh: faRefresh,
     plus: faPlus,
     question: faQuestion,

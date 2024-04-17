@@ -14,6 +14,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputOtpModule } from 'primeng/inputotp';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { SandboxComponent } from './sandbox.component';
 import { SandboxRoutes } from './sandbox.routes';
@@ -33,6 +35,8 @@ import { SandboxRoutes } from './sandbox.routes';
     ButtonModule,
     StateManagementModule,
     ToastModule,
+    ProgressSpinnerModule,
+    ProgressBarModule,
   ],
   providers: [provideClientHydration(), MessageService],
   exports: [],

@@ -9,11 +9,22 @@ $verticalSpacing: 1.5rem;
   }
   .form-generator-footer {
     display: flex;
-    justify-content: space-between;
-    & > div {
-      display: flex;
+    flex-direction: column-reverse;
+    button {
+      width: 100%;
+      text-align: center;
+      display: inline-block;
+    }
+    @media (min-width: 768px) {
+      flex-direction: initial;
+      justify-content: space-between;
+
+      & > div {
+        display: flex;
+      }
     }
   }
+
   .text-right {
     text-align: right;
   }

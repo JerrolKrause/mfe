@@ -1,7 +1,10 @@
 import { Route } from '@angular/router';
+import { QuotingMasterpageComponent } from './components/masterpage/masterpage.component';
 import { AppComponent } from './quoting.component';
+import { AddressComponent } from './routes/address/address.component';
+import { BorrowerInfoComponent } from './routes/borrower-info/borrower-info.component';
 import { HomeComponent } from './routes/home/home.component';
-import { Step1Component } from './routes/step1/step1.component';
+import { LoanReasonComponent } from './routes/loan-reason/loan-reason.component';
 
 export const appRoutes: Route[] = [
   {
@@ -10,22 +13,31 @@ export const appRoutes: Route[] = [
     data: { title: 'Quoting' },
     children: [
       {
-        path: 'step1',
-        component: Step1Component,
-        data: { title: 'Step 1' },
-        children: [],
-      },
-      {
-        path: 'step2',
-        component: Step1Component,
-        data: { title: 'Step 2' },
-        children: [],
+        path: '',
+        component: HomeComponent,
+        data: { title: 'Welcome' },
       },
       {
         path: '',
-        component: HomeComponent,
-        data: { title: 'Quoting' },
-        children: [],
+        component: QuotingMasterpageComponent,
+        data: { title: 'Borrower Information' },
+        children: [
+          {
+            path: 'loan-reason',
+            component: LoanReasonComponent,
+            data: { title: 'Borrower Information' },
+          },
+          {
+            path: 'address',
+            component: AddressComponent,
+            data: { title: 'Borrower Information' },
+          },
+          {
+            path: 'borrower-info',
+            component: BorrowerInfoComponent,
+            data: { title: 'Borrower Information' },
+          },
+        ],
       },
     ],
   },

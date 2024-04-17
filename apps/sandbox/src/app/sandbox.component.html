@@ -1,24 +1,57 @@
 <lib-masterpage [showNav]="false">
   <div class="container py-4">
     <div style="margin: auto; max-width: 480px">
-      <lib-api-state [state]="usersStore.state$ | async">
-        <p-card header="User Information">
-          <form (submit)="submit()" [formGroup]="form">
-            <div class="mb-3">
-              <label for="name">Name</label>
-              <input
-                id="name"
-                pInputText
-                formControlName="name"
-                class="w-100"
-              />
-            </div>
-            <p class="mb-0">
-              <button pButton type="submit">Submit</button>
-            </p>
-          </form>
-        </p-card>
-      </lib-api-state>
+      <p-card>
+        <ng-template pTemplate="header">
+          <div style="height: 6px">
+            <p-progressBar
+              mode="indeterminate"
+              [style]="{ height: '6px' }"
+              *ngIf="loading$ | async"
+            ></p-progressBar>
+          </div>
+        </ng-template>
+
+        <div class="p-card-title">
+          Customer Information ({{ userId$ | async }})
+        </div>
+
+        <form (submit)="submit()" [formGroup]="form">
+          <table class="table table-sm table-striped">
+            <tbody>
+              <tr *ngIf="form.value.CUST_FIRST_NAME_X">
+                <td>First Name</td>
+                <td>{{ form.value.CUST_FIRST_NAME_X }}</td>
+              </tr>
+              <tr *ngIf="form.value.CUST_LAST_NAME_X">
+                <td>Last Name</td>
+                <td>{{ form.value.CUST_LAST_NAME_X }}</td>
+              </tr>
+              <tr>
+                <td>Middle Initial</td>
+                <td>
+                  <input
+                    id="name"
+                    pInputText
+                    formControlName="CUST_MIDDLE_INIT_X"
+                    class="w-100"
+                  />
+                </td>
+              </tr>
+              <tr *ngIf="form.value.OTHER_NAMES_USED_X">
+                <td>Other Names Used</td>
+                <td>{{ form.value.OTHER_NAMES_USED_X }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="mb-0 text-end">
+            <button pButton type="submit" [disabled]="loading$ | async">
+              Update User
+            </button>
+          </div>
+        </form>
+      </p-card>
     </div>
   </div>
 </lib-masterpage>

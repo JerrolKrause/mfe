@@ -1,0 +1,20 @@
+<div class="quote-container">
+  <h1>Borrower Name</h1>
+  <lib-form-generator
+    [formModel]="formModel"
+    [formGroup]="svc.borrowerForm"
+    [options]="svc.formOptions"
+    [disableSubmit]="false"
+    (completed)="onFormCompleted()"
+  >
+    <div footerContentLeft>
+      <button
+        pButton
+        class="p-ripple p-element p-button p-component p-button-outlined btn-back"
+        (click)="svc.routePrev()"
+      >
+        Back
+      </button>
+    </div>
+  </lib-form-generator>
+</div>

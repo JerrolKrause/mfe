@@ -1,0 +1,38 @@
+<div class="quote-calculator">
+  <div class="row">
+    <div class="col col-12 col-md-4">
+      <p>
+        <small
+          ><em>Use the sliders to set your preferred loan values</em></small
+        >
+      </p>
+      <app-quote-form
+        (quoteFormChanged)="quoteFormChanged($event)"
+      ></app-quote-form>
+    </div>
+    <div class="col col-12 col-md-8">
+      <hr class="d-md-none" />
+      <h3>
+        Available Loan Offers (<span *ngIf="loanProductsSrc$ | async as lp">{{
+          lp.length
+        }}</span
+        >)
+      </h3>
+      <app-loan-products
+        [products]="loanProducts$ | async"
+        (productSelected)="productSelected.emit($event)"
+      ></app-loan-products>
+
+      <ng-container *ngIf="loanProductsBonus$ | async as loanProductsBonus">
+        <h3 *ngIf="loanProductsBonus.length">
+          Additional Loan Offers To Consider
+        </h3>
+        <app-loan-products
+          [products]="loanProductsBonus"
+          [showFullDetails]="true"
+          (productSelected)="productSelected.emit($event)"
+        ></app-loan-products>
+      </ng-container>
+    </div>
+  </div>
+</div>
