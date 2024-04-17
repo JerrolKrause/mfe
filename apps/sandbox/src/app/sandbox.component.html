@@ -12,9 +12,9 @@
           </div>
         </ng-template>
 
-        <div class="p-card-title">
-          Customer Information ({{ userId$ | async }})<br />
-          Branch: {{ branchId$ | async }}
+        <div class="p-card-title" *ngIf="routeParams$ | async as params">
+          Customer Information ({{ params.userId }})<br />
+          Branch: {{ params.branchId }}
         </div>
 
         <form (submit)="submit()" [formGroup]="form">
