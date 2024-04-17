@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { LoanProduct } from '../quote-calculator.component';
+import { LoanCalculator } from '../quote-calculator.models';
 
 @Component({
   selector: 'app-loan-product',
@@ -14,7 +14,7 @@ import { LoanProduct } from '../quote-calculator.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoanProductComponent {
-  @Input() product?: LoanProduct | null;
+  @Input() product?: LoanCalculator.LoanProduct | null;
   @Input() showFullDetails = false;
-  @Output() productSelected = new EventEmitter<LoanProduct>();
+  @Output() productSelected = new EventEmitter<LoanCalculator.LoanProduct>();
 }

@@ -1,6 +1,7 @@
 import { FormsLib } from '$forms';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoanCalculator } from '../../components/quote-calculator'; // Import models
 import { BorrowerFormService } from '../../shared/borrower-form.service';
 
 @Component({
@@ -27,8 +28,19 @@ export class HomeComponent {
     this.svc.routeNext();
   }
 
-  public productSelected(product: unknown) {
-    this.router.navigate(['/quoting/loan-reason/']);
+  /**
+   * When quote is changed
+   * @param quote
+   */
+  public quoteChanged(quote: LoanCalculator.Quote) {
+    console.log('quoteChanged', quote);
+  }
+
+  /**
+   * When a product is selected by the user
+   * @param product
+   */
+  public productSelected(product: LoanCalculator.LoanProduct) {
     console.log('productSelected', product);
   }
 }

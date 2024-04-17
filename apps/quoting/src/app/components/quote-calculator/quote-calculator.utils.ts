@@ -1,11 +1,24 @@
-import { LoanProduct, QuoteForm } from './quote-calculator.component';
+import { LoanCalculator } from './quote-calculator.models';
 
-export const generateLoanOffers = (quote: QuoteForm): LoanProduct[] => {
+/**
+ * Generate an array of potential loan offers using mock data
+ * @param quote
+ * @returns
+ */
+export const generateLoanOffers = (
+  quote?: LoanCalculator.Quote | null
+): LoanCalculator.LoanProduct[] => {
+  // Nill value, return empty array
+  if (!quote) {
+    return [];
+  }
+
   const products = [
     generateLoanProduct(quote),
     generateLoanProduct(quote, true),
   ];
-  if (quote.loanDuration < 84) {
+
+  if (quote.loanDuration && quote.loanDuration < 84) {
     products.push(
       generateLoanProduct(
         { ...quote, loanDuration: quote.loanDuration + 12 },
@@ -21,14 +34,29 @@ export const generateLoanOffers = (quote: QuoteForm): LoanProduct[] => {
       )
     );
   }
-  return products;
+  return products.filter((p): p is LoanCalculator.LoanProduct => p !== null);
 };
 
+/**
+ * Generate a single loan offer based in input parameters using mock data
+ * @param quote
+ * @param hasCollateral
+ * @param isBonus
+ * @returns
+ */
 const generateLoanProduct = (
-  quote: QuoteForm,
+  quote: LoanCalculator.Quote,
   hasCollateral = false,
   isBonus = false
-): LoanProduct => {
+): LoanCalculator.LoanProduct | null => {
+  if (
+    !quote.creditScore ||
+    !quote.loanAmount ||
+    !quote.monthlyIncome ||
+    !quote.loanDuration
+  ) {
+    return null;
+  }
   const baseRate = 0.05; // Basic loan interest rate
   const creditScoreImpact =
     quote.creditScore >= 750 ? -0.02 : quote.creditScore >= 700 ? -0.01 : 0;
@@ -55,7 +83,7 @@ const generateLoanProduct = (
   );
 
   return {
-    ...quote,
+    loanDuration: quote.loanDuration,
     monthlyPaymentMin,
     monthlyPaymentMax,
     hasCollateral,

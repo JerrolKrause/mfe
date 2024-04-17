@@ -1,0 +1,82 @@
+<form [formGroup]="quoteFrm">
+  <!---->
+  <div class="quote-selector">
+    <p class="label">Desired Loan Amount</p>
+
+    <h2>
+      {{ quoteFrm.value.loanAmount | currency : 'USD' : 'symbol' : '1.0-0' }}
+    </h2>
+
+    <p>
+      <p-slider
+        formControlName="loanAmount"
+        [min]="1000"
+        [max]="15000"
+        [step]="1000"
+      ></p-slider>
+    </p>
+    <div class="quote-range">
+      <div>$1,000</div>
+      <div>$15,000</div>
+    </div>
+  </div>
+  <!---->
+  <div class="quote-selector">
+    <p class="label">Loan Duration</p>
+    <h2>{{ quoteFrm.value.loanDuration }} Months</h2>
+    <p>
+      <p-slider
+        formControlName="loanDuration"
+        [min]="36"
+        [max]="84"
+        [step]="12"
+      ></p-slider>
+    </p>
+    <div class="quote-range">
+      <div>36 Months</div>
+      <div>84 Months</div>
+    </div>
+  </div>
+  <!-- -->
+  <div class="quote-selector">
+    <p class="label">Your Approximate Monthly Income</p>
+    <h2>
+      {{ quoteFrm.value.monthlyIncome | currency : 'USD' : 'symbol' : '1.0-0' }}
+      @if(quoteFrm.value.monthlyIncome && quoteFrm.value.monthlyIncome >= 15000)
+      {
+      <span class="nudge-left">+ </span>
+
+      }
+    </h2>
+    <p>
+      <p-slider
+        formControlName="monthlyIncome"
+        [min]="100"
+        [max]="15000"
+        [step]="500"
+      ></p-slider>
+    </p>
+    <div class="quote-range">
+      <div>$0</div>
+      <div>$15,000+</div>
+    </div>
+  </div>
+
+  <!---->
+  <div class="quote-selector">
+    <p class="label">Your Approximate Credit Score</p>
+    <h2>{{ quoteFrm.value.creditScore }}</h2>
+    <p>
+      <p-slider
+        formControlName="creditScore"
+        [min]="550"
+        [max]="850"
+        [step]="10"
+      ></p-slider>
+    </p>
+    <div class="quote-range">
+      <div>550</div>
+      <div>850</div>
+    </div>
+  </div>
+</form>

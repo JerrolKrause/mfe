@@ -4,6 +4,7 @@
     <div>
       <h1>Explore Loan Choices with Our Customizable Calculator</h1>
       <app-quote-calculator
+        (quoteChanged)="quoteChanged($event)"
         (productSelected)="productSelected($event)"
       ></app-quote-calculator>
     </div>

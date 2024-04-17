@@ -6,25 +6,9 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { debounceTime, map, startWith } from 'rxjs';
+import { BehaviorSubject, filter, map, tap } from 'rxjs';
+import { LoanCalculator } from './quote-calculator.models';
 import { generateLoanOffers } from './quote-calculator.utils';
-
-export interface QuoteForm {
-  loanAmount: number;
-  loanDuration: number;
-  monthlyIncome: number;
-  creditScore: number;
-}
-
-export interface LoanProduct extends QuoteForm {
-  monthlyPaymentMin: number;
-  monthlyPaymentMax: number;
-  hasCollateral: boolean;
-  rate: number;
-  apr: number;
-  isBonus: boolean;
-}
 
 @Component({
   selector: 'app-quote-calculator',
@@ -34,17 +18,21 @@ export interface LoanProduct extends QuoteForm {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteCalculatorComponent implements OnInit {
+  /** Quote Form
   public quoteFrm = this.fb.group({
     loanAmount: [6000],
     loanDuration: [48],
     monthlyIncome: [4000],
     creditScore: [650],
   });
+*/
+  public loanQuote$ = new BehaviorSubject<LoanCalculator.Quote | null>(null);
 
-  public loanProductsSrc$ = this.quoteFrm.valueChanges.pipe(
-    startWith(this.quoteFrm.value),
-    debounceTime(100),
-    map((data) => generateLoanOffers(data as QuoteForm)) // TODO
+  public loanProductsSrc$ = this.loanQuote$.pipe(
+    filter((f) => !!f), // Don't allow nill values through
+    tap((quote) => (quote ? this.quoteChanged.emit(quote) : null)), // Emit quote form changes to parent
+    // mergeMap(quote => this.http.get('')), // Make HTTP call to get loan offers. Will still need map function
+    map((quote) => generateLoanOffers(quote)) // Remove when API is available
   );
 
   public loanProducts$ = this.loanProductsSrc$.pipe(
@@ -55,9 +43,19 @@ export class QuoteCalculatorComponent implements OnInit {
     map((products) => products.filter((p) => p.isBonus))
   );
 
-  @Output() productSelected = new EventEmitter<LoanProduct>();
+  // Emit values to parent
+  @Output() quoteChanged = new EventEmitter<LoanCalculator.Quote>();
+  @Output() productSelected = new EventEmitter<LoanCalculator.LoanProduct>();
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {}
 
   ngOnInit(): void {}
+
+  /**
+   * When the quote form data changes
+   * @param quote
+   */
+  public quoteFormChanged(quote: LoanCalculator.Quote) {
+    this.loanQuote$.next(quote);
+  }
 }
