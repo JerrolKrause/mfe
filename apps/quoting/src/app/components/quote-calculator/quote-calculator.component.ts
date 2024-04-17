@@ -6,7 +6,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { BehaviorSubject, filter, map, tap } from 'rxjs';
+import { BehaviorSubject, filter, map } from 'rxjs';
 import { LoanCalculator } from './quote-calculator.models';
 import { generateLoanOffers } from './quote-calculator.utils';
 
@@ -18,20 +18,13 @@ import { generateLoanOffers } from './quote-calculator.utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteCalculatorComponent implements OnInit {
-  /** Quote Form
-  public quoteFrm = this.fb.group({
-    loanAmount: [6000],
-    loanDuration: [48],
-    monthlyIncome: [4000],
-    creditScore: [650],
-  });
-*/
+  // Hold quotes received from the quote form
   public loanQuote$ = new BehaviorSubject<LoanCalculator.Quote | null>(null);
 
+  // Send the quote form request to an API to get back quote products
   public loanProductsSrc$ = this.loanQuote$.pipe(
     filter((f) => !!f), // Don't allow nill values through
-    tap((quote) => (quote ? this.quoteChanged.emit(quote) : null)), // Emit quote form changes to parent
-    // mergeMap(quote => this.http.get('')), // Make HTTP call to get loan offers. Will still need map function
+    // mergeMap(quote => this.http.post('', quote)), // Make HTTP call to get loan offers. Will still need map function
     map((quote) => generateLoanOffers(quote)) // Remove when API is available
   );
 
@@ -57,5 +50,6 @@ export class QuoteCalculatorComponent implements OnInit {
    */
   public quoteFormChanged(quote: LoanCalculator.Quote) {
     this.loanQuote$.next(quote);
+    this.quoteChanged.emit(quote);
   }
 }

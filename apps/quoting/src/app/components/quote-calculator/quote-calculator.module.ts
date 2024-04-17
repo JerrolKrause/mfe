@@ -19,24 +19,28 @@ const PRIME = [CardModule, SliderModule, InputTextModule, ButtonModule];
  * based on user input. It leverages reactive forms for input handling and emits
  * events for changes and selections.
 
- * @usage:
+ * @usage
  * Place the `app-quote-calculator` selector in the parent component's template
  * where you want the quote calculator functionality. Bind to the `(quoteChanged)`
  * and `(productSelected)` outputs to handle changes and selections respectively.
  *
  * In parent module, import
+ * ```
  * import { QuoteCalculatorModule } from './path/to/quote-calculator.module';
  *
- * Include in imports array of parent module
+ * // Include in imports array of parent module
  * @NgModule({
  *    imports: [
  *      ...
  *      QuoteCalculatorModule,
  *    ],
  *  });
+ * ```
  *
  * HTML:
+ * ```
  * <app-quote-calculator (quoteChanged)="quoteChanged($event)" (productSelected)="productSelected($event)"></app-quote-calculator>
+ * ```
  *
  * TypeScript:
  * ```
@@ -63,6 +67,11 @@ const PRIME = [CardModule, SliderModule, InputTextModule, ButtonModule];
   ],
   imports: [CommonModule, ReactiveFormsModule, PRIME, IconsModule],
   providers: [],
-  exports: [QuoteCalculatorComponent],
+  exports: [
+    QuoteCalculatorComponent,
+    LoanProductComponent,
+    LoanProductsComponent,
+    QuoteFormComponent,
+  ],
 })
 export class QuoteCalculatorModule {}
