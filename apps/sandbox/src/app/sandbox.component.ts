@@ -56,7 +56,10 @@ export class SandboxComponent implements OnInit {
   });
 
   public loading$ = new BehaviorSubject(false);
-  public userId$ = this.route.params.pipe(map((params) => params['id']));
+  public userId$ = this.route.params.pipe(map((params) => params['userId']));
+  public branchId$ = this.route.params.pipe(
+    map((params) => params['branchId'])
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -68,11 +71,11 @@ export class SandboxComponent implements OnInit {
   ngOnInit(): void {
     this.loading$.next(true);
     // Look at the route param and use that to load the correct user ID
-    this.userId$
+    this.route.params
       .pipe(
-        mergeMap((id) =>
+        mergeMap(({ branchId, userId }) =>
           this.http.get<CustomerData>(
-            `http://localhost:3000/api/applications/branch/389/application/${id}`
+            `http://localhost:3000/api/applications/branch/${branchId}/application/${userId}`
           )
         ),
         filter((x) => !!x),
@@ -103,9 +106,9 @@ export class SandboxComponent implements OnInit {
     const val = this.form.getRawValue() as Partial<User>;
     this.userId$
       .pipe(
-        mergeMap((id) =>
+        mergeMap(({ branchId, userId }) =>
           this.http.put(
-            `http://localhost:3000/api/applications/branch/389/application/${id}`,
+            `http://localhost:3000/api/applications/branch/${branchId}/application/${userId}`,
             val
           )
         )

@@ -13,7 +13,8 @@
         </ng-template>
 
         <div class="p-card-title">
-          Customer Information ({{ userId$ | async }})
+          Customer Information ({{ userId$ | async }})<br />
+          Branch: {{ branchId$ | async }}
         </div>
 
         <form (submit)="submit()" [formGroup]="form">

@@ -3,7 +3,7 @@ import { SandboxComponent } from './sandbox.component';
 
 export const SandboxRoutes: Route[] = [
   {
-    path: ':id',
+    path: ':branchId/:userId',
     component: SandboxComponent,
     data: { title: 'Sandbox' },
   },
