@@ -2,9 +2,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -17,7 +19,7 @@ import { LoanCalculator } from '../quote-calculator.models';
   styleUrl: './quote-form.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class QuoteFormComponent implements OnInit, OnDestroy {
+export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
   /** Initial/default values to load the form with */
   @Input() formDefaults?: Partial<LoanCalculator.Quote> | null = null;
   /** Controls the debounce time in milliseconds, default is 100ms */
@@ -59,6 +61,13 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
     // If emit on load set, send updated form values back to parent
     if (this.emitOnload) {
       this.quoteFormChanged.emit(this.quoteFrm.value);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // If default form values change
+    if (changes['formDefaults'] && this.formDefaults) {
+      this.quoteFrm.patchValue(this.formDefaults);
     }
   }
 

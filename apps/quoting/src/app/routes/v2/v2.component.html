@@ -1,7 +1,7 @@
 <div class="bg"></div>
 <div class="container">
   <p-card>
-    @if(page === 1) {
+    @if(page() === 1) {
     <div>
       <div style="max-width: 480px; margin: auto">
         <h1>Select Your Loan Preferences</h1>
@@ -9,11 +9,11 @@
           (quoteFormChanged)="quoteFormChanged($event)"
         ></app-quote-form>
         <div class="text-end">
-          <p-button label="Submit" (click)="page = 2"></p-button>
+          <p-button label="Submit" (click)="pageChange(2)"></p-button>
         </div>
       </div>
     </div>
-    } @if(page === 2) {
+    } @if(page() === 2) {
     <div style="max-width: 480px; margin: auto">
       <h1>Success!</h1>
       <p>
@@ -27,12 +27,14 @@
         800-290-7002. Thank you for choosing us to assist with your financial
         needs.
       </p>
+      <!--
       <div class="d-flex" style="justify-content: space-between">
-        <a class="linky" (click)="page = 1">&lt; Back</a>
-        <a class="linky" (click)="page = 3">Next &gt;</a>
+        <a class="linky" (click)="pageChange(1)">&lt; Back</a>
+        <a class="linky" (click)="pageChange(3)">Next &gt;</a>
       </div>
+      -->
     </div>
-    } @if(page === 3) {
+    } @if(page() === 3) {
     <h1>Loan Options</h1>
     <div class="loan-products">
       <div class="loan-product legend d-none d-md-block">
@@ -120,7 +122,7 @@
       </div>
       }
     </div>
-    <a class="linky" (click)="page = 1">&lt; Back</a>
+    <a class="linky" (click)="pageChange(1)">&lt; Back</a>
     }
   </p-card>
 </div>

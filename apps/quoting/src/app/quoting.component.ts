@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { SocketService } from './shared/socket-io.service';
 
 @Component({
   selector: 'app-quoting',
@@ -8,4 +9,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 export class AppComponent {
   title = 'quoting';
+
+  constructor(private socketService: SocketService) {}
 }

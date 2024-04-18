@@ -5,6 +5,8 @@ export module LoanCalculator {
     loanDuration?: number | null;
     monthlyIncome?: number | null;
     creditScore?: number | null;
+    apr?: number | null;
+    collateral?: any | null;
   }
   export interface LoanProduct {
     monthlyPaymentMin: number;
