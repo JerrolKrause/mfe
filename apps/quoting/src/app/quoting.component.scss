@@ -32,6 +32,10 @@ a:link {
   color: $brandColor;
   border-right-width: 1px;
   border-right-style: solid;
+  width: 50%;
+  @media (min-width: 768px) {
+    width: initial;
+  }
   &.p-highlight {
     background-color: $brandColor !important;
     border-color: $brandColor !important;

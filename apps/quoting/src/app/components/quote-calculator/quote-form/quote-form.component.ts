@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Subscription, debounceTime } from 'rxjs';
@@ -14,6 +15,7 @@ import { LoanCalculator } from '../quote-calculator.models';
   selector: 'app-quote-form',
   templateUrl: './quote-form.component.html',
   styleUrl: './quote-form.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class QuoteFormComponent implements OnInit, OnDestroy {
   /** Initial/default values to load the form with */
@@ -29,6 +31,8 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
     loanDuration: [48],
     monthlyIncome: [4000],
     creditScore: [650],
+    apr: [21],
+    collateral: ['Yes'],
   });
 
   /** When the form is changed, send the form values to the parent */

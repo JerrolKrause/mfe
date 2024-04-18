@@ -3,20 +3,124 @@
   <p-card>
     @if(page === 1) {
     <div>
-      <h1>Explore Loan Choices with Our Customizable Calculator</h1>
       <div style="max-width: 480px; margin: auto">
-        <app-quote-form></app-quote-form>
+        <h1>Select Your Loan Preferences</h1>
+        <app-quote-form
+          (quoteFormChanged)="quoteFormChanged($event)"
+        ></app-quote-form>
         <div class="text-end">
           <p-button label="Submit" (click)="page = 2"></p-button>
         </div>
       </div>
     </div>
     } @if(page === 2) {
-    <h1>Success!</h1>
+    <div style="max-width: 480px; margin: auto">
+      <h1>Success!</h1>
+      <p>
+        Your loan preferences has been successfully received! We appreciate your
+        interest in securing a loan with us. Our team will review your
+        submission and get back to you as soon as possible with the next steps.
+      </p>
+      <p>
+        If you have any questions or need further assistance in the meantime,
+        please do not hesitate to contact our customer support team at
+        800-290-7002. Thank you for choosing us to assist with your financial
+        needs.
+      </p>
+      <div class="d-flex" style="justify-content: space-between">
+        <a class="linky" (click)="page = 1">&lt; Back</a>
+        <a class="linky" (click)="page = 3">Next &gt;</a>
+      </div>
+    </div>
+    } @if(page === 3) {
+    <h1>Loan Options</h1>
+    <div class="loan-products">
+      <div class="loan-product legend d-none d-md-block">
+        <div class="collateral no-bg"></div>
+        <div class="lp-wrapper">
+          <table class="table table-sm mb-0">
+            <tbody>
+              <tr>
+                <td class="has-label">Loan Amount</td>
+              </tr>
+              <tr>
+                <td class="has-label">Payment Range</td>
+              </tr>
+              <tr>
+                <td class="has-label">Term</td>
+              </tr>
+              <tr>
+                <td>Approximate Rate</td>
+              </tr>
+              <tr>
+                <td>Approximate APR</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      @for(product of loanProducts; track product) {
 
-    <p>
-      <a (click)="page = 1">&lt; Back</a>
-    </p>
+      <div class="loan-product">
+        @if(product.hasCollateral) {
+
+        <div class="collateral">Secured</div>
+        } @else {
+        <div class="collateral unsecured">Unsecured</div>
+
+        }
+
+        <div class="lp-wrapper">
+          <table class="table table-sm">
+            <tbody>
+              <tr>
+                <td class="has-label">
+                  <div class="label">Loan Amount</div>
+                  <div class="value">
+                    {{
+                      quote?.loanAmount | currency : 'USD' : 'symbol' : '1.0-2'
+                    }}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="has-label">
+                  <div class="value">
+                    {{
+                      product.monthlyPaymentMin
+                        | currency : 'USD' : 'symbol' : '1.0-2'
+                    }}-{{
+                      product.monthlyPaymentMax
+                        | currency : 'USD' : 'symbol' : '1.0-2'
+                    }}
+                  </div>
+                  <div class="label">Per Month</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="has-label">
+                  <div class="value">{{ product.loanDuration }}</div>
+                  <div class="label">Months</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="value">{{ product.rate }}%</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="value">{{ product.apr }}%</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p-button label="Select" styleClass="w-100"></p-button>
+        </div>
+      </div>
+      }
+    </div>
+    <a class="linky" (click)="page = 1">&lt; Back</a>
     }
   </p-card>
 </div>

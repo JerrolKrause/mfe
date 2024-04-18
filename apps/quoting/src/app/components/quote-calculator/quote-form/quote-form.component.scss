@@ -1,6 +1,16 @@
 .quote-form {
+  .w-100-mobile {
+    width: 100%;
+    @media (min-width: 768px) {
+      width: initial;
+    }
+  }
+
   .row {
     --bs-gutter-x: 3rem;
+  }
+  .p-slider .p-slider-range {
+    background: #00a39e;
   }
   .quote-selector {
     margin-bottom: 0.5rem;
@@ -9,7 +19,7 @@
       margin-bottom: 0px;
     }
     @media (min-width: 768px) {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       .label {
         margin-bottom: -4px;
       }

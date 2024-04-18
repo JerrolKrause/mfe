@@ -5,14 +5,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { SliderModule } from 'primeng/slider';
 import { LoanProductComponent } from './loan-product/loan-product.component';
 import { LoanProductsComponent } from './loan-products/loan-products.component';
 import { QuoteCalculatorComponent } from './quote-calculator.component';
 import { QuoteFormComponent } from './quote-form/quote-form.component';
-
 // Prime Modules
-const PRIME = [CardModule, SliderModule, InputTextModule, ButtonModule];
+const PRIME = [
+  CardModule,
+  SliderModule,
+  InputTextModule,
+  ButtonModule,
+  SelectButtonModule,
+];
 
 /**
  * Component that provides an interface for calculating and displaying loan offers
