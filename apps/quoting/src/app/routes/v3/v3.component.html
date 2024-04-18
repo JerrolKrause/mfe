@@ -8,43 +8,45 @@
         } @if(page() === 2) {
         <h1>Borrower Has Finalized Loan Preference Selection</h1>
         } @if(page() === 1 || page() === 1) {
-        <table
-          class="table table-striped"
-          *ngIf="formDefaults$ | async as formDefaults"
-        >
-          <tbody>
-            <tr>
-              <td><strong>Loan Amount</strong></td>
-              <td>
-                {{
-                  formDefaults.loanAmount
-                    | currency : 'USD' : 'symbol' : '1.0-2'
-                }}
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Your Approximate Monthly Income</strong></td>
-              <td>
-                {{
-                  formDefaults.monthlyIncome
-                    | currency : 'USD' : 'symbol' : '1.0-2'
-                }}
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Desired Loan Duration</strong></td>
-              <td>{{ formDefaults.loanDuration }} Months</td>
-            </tr>
-            <tr>
-              <td><strong>Desired Annual Percentage Rate (APR)</strong></td>
-              <td>{{ formDefaults.apr }}%</td>
-            </tr>
-            <tr>
-              <td><strong>Car As Collateral</strong></td>
-              <td>{{ formDefaults.collateral }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table
+            class="table table-striped"
+            *ngIf="formDefaults$ | async as formDefaults"
+          >
+            <tbody>
+              <tr>
+                <td><strong>Loan Amount</strong></td>
+                <td>
+                  {{
+                    formDefaults.loanAmount
+                      | currency : 'USD' : 'symbol' : '1.0-2'
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Your Approximate Monthly Income</strong></td>
+                <td>
+                  {{
+                    formDefaults.monthlyIncome
+                      | currency : 'USD' : 'symbol' : '1.0-2'
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Desired Loan Duration</strong></td>
+                <td>{{ formDefaults.loanDuration }} Months</td>
+              </tr>
+              <tr>
+                <td><strong>Desired Annual Percentage Rate (APR)</strong></td>
+                <td>{{ formDefaults.apr }}%</td>
+              </tr>
+              <tr>
+                <td><strong>Car As Collateral</strong></td>
+                <td>{{ formDefaults.collateral }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         }
         <!--
         <app-quote-form
@@ -65,38 +67,44 @@
         (click)="loanProductsReady()"
       ></p-button>
     </div>
-    } @if(page() === 3) {
+    } @if(page() === 3 || page() === 4) { @if(page() === 3) {
     <h1>Borrower Is Reviewing Loan Products</h1>
     <p>Available Loan Products</p>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Secured</th>
-          <th>Monthly Payment</th>
-          <th>Term</th>
-          <th>Rate</th>
-          <th>APR</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(product of loanProducts; track product) {
-        <tr>
-          <td>@if(product.hasCollateral) { Yes } @else { No }</td>
-          <td>
-            {{
-              product.monthlyPaymentMin | currency : 'USD' : 'symbol' : '1.0-2'
-            }}-{{
-              product.monthlyPaymentMax | currency : 'USD' : 'symbol' : '1.0-2'
-            }}
-          </td>
-          <td>{{ product.loanDuration }} Months</td>
-          <td>{{ product.rate }}%</td>
-          <td>{{ product.apr }}%</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-    <a class="linky" (click)="page.set(1)">&lt; Back</a>
+    } @if(page() === 4) {
+    <h1>Borrower Has Selected The Following Loan Product</h1>
+    }
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Secured</th>
+            <th>Monthly Payment</th>
+            <th>Term</th>
+            <th>Rate</th>
+            <th>APR</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(product of loanProducts; track product) {
+          <tr>
+            <td>@if(product.hasCollateral) { Yes } @else { No }</td>
+            <td>
+              {{
+                product.monthlyPaymentMin
+                  | currency : 'USD' : 'symbol' : '1.0-2'
+              }}-{{
+                product.monthlyPaymentMax
+                  | currency : 'USD' : 'symbol' : '1.0-2'
+              }}
+            </td>
+            <td>{{ product.loanDuration }} Months</td>
+            <td>{{ product.rate }}%</td>
+            <td>{{ product.apr }}%</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
     }
   </p-card>
 </div>

@@ -43,15 +43,18 @@ export class V3Component implements OnInit, OnDestroy {
   constructor(private socketService: SocketService) {
     this.socketService.registerUser('loan-officer');
   }
+
   ngOnInit(): void {
     this.socketService.onMessageReceived((msg) => {
       const action = JSON.parse(msg);
-      console.warn(msg);
       if (actions.quoteChanged.match(action) && action.payload) {
         this.formDefaults$.next(action.payload);
         this.loanProducts = generateLoanOffers(action.payload);
       } else if (actions.pageChanged.match(action) && action.payload) {
         this.page.set(action.payload);
+      } else if (actions.productSelected.match(action) && action.payload) {
+        this.page.set(4);
+        this.loanProducts = [action.payload];
       }
     });
   }

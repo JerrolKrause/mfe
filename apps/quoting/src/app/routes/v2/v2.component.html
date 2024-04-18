@@ -117,12 +117,22 @@
               </tr>
             </tbody>
           </table>
-          <p-button label="Select" styleClass="w-100"></p-button>
+          <p-button
+            label="Select"
+            styleClass="w-100"
+            (click)="productSelected(product)"
+          ></p-button>
         </div>
       </div>
       }
     </div>
     <a class="linky" (click)="pageChange(1)">&lt; Back</a>
+    }@if(page() === 4) {
+    <h1>Finished</h1>
+    <p>
+      You have successfully selected a loan product. Your team member will be in
+      touch to help finalize this process.
+    </p>
     }
   </p-card>
 </div>

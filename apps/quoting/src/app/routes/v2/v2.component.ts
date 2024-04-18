@@ -17,6 +17,9 @@ export const actions = {
   ),
   pageChanged: actionCreator<number>('PAGE_CHANGED'),
   loanProductsReady: actionCreator<boolean>('LOAN_PRODUCTS_READY'),
+  productSelected: actionCreator<LoanCalculator.LoanProduct | null | undefined>(
+    'PRODUCT_SELECTED'
+  ),
 };
 
 @Component({
@@ -44,15 +47,17 @@ export class V2Component implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.socketService.onMessageReceived((msg) => {
-      console.log('Borrower', msg);
       const action = JSON.parse(msg);
       if (actions.loanProductsReady.match(action) && action.payload) {
+        this.pageChange(3);
+        /**
         const c = confirm(
           'Your Team Member has prepared your loan products, please click yes to be taken to the loan products page'
         );
         if (c) {
           this.pageChange(3);
         }
+         */
       }
     });
   }
@@ -73,6 +78,14 @@ export class V2Component implements OnInit, OnDestroy {
       'loan-officer',
       JSON.stringify(actions.pageChanged(page))
     );
+  }
+
+  public productSelected(product: LoanCalculator.LoanProduct) {
+    this.socketService.sendMessageToUser(
+      'loan-officer',
+      JSON.stringify(actions.productSelected(product))
+    );
+    this.page.set(4);
   }
 
   ngOnDestroy(): void {
