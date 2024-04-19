@@ -17,6 +17,11 @@ interface MainMenuItem {
 export class NavComponent implements OnInit, OnDestroy {
   public navMenu: MainMenuItem[] = [
     {
+      label: 'Team Member Dashboard',
+      routerLink: '/team-member',
+      routerLinkActiveOptions: { exact: false },
+    },
+    {
       label: 'Quoting',
       routerLink: '/quoting',
       routerLinkActiveOptions: { exact: false },

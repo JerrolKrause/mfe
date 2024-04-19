@@ -25,7 +25,7 @@
     "ssr:dev": "ng run app-shell:serve-ssr",
     "ssr:build": "npx nx build app-shell --configuration=production && ng run app-shell:server",
     "ssr:serve": "node dist/server/main.js",
-    "deploy": "npx nx build app-shell --base-href=/mfe/ --configuration=production && angular-cli-ghpages --no-silent --dir=dist/apps/app-shell/browser",
+    "deploy": "npx nx build app-shell --base-href=/mfe/ --verbose --configuration=production && angular-cli-ghpages --no-silent --dir=dist/apps/app-shell/browser",
     "deploy:ssr": "ng run financial-status-check:deploy-ssr --routes-file routes.txt && angular-cli-ghpages --no-silent --dir=dist/browser"
   },
   "private": true,

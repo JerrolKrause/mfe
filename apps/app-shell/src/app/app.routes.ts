@@ -27,6 +27,13 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@quoting/app/quoting.module').then((m) => m.QuotingModule),
   },
+  {
+    path: 'team-member',
+    loadChildren: () =>
+      import('@team-member/app/team-member.module').then(
+        (m) => m.TeamMemberModule
+      ),
+  },
   /**
   {
     path: '',

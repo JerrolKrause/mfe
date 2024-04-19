@@ -1,7 +1,6 @@
 import { FormsLibModule } from '$forms';
 import { MasterpageModule } from '$masterpage';
 import { QuoteCalculatorModule } from '$quote-calculator';
-
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,21 +9,12 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
-import { CustomerComponent } from './customer.component';
-import { appRoutes } from './customer.routes';
+import { TeamMemberComponent } from './team-member.component';
+import { appRoutes } from './team-member.routes';
 import { HomeComponent } from './routes/home/home.component';
-import { ProductsComponent } from './routes/products/products.component';
-import { QuoteComponent } from './routes/quote/quote.component';
 
 @NgModule({
-  declarations: [
-    CustomerComponent,
-    HomeComponent,
-    QuoteComponent,
-    QuoteComponent,
-    ProductsComponent,
-    HomeComponent,
-  ],
+  declarations: [TeamMemberComponent, HomeComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(appRoutes),
@@ -38,6 +28,6 @@ import { QuoteComponent } from './routes/quote/quote.component';
     ButtonModule,
   ],
   providers: [],
-  bootstrap: [CustomerComponent],
+  bootstrap: [TeamMemberComponent],
 })
-export class CustomerModule {}
+export class TeamMemberModule {}
