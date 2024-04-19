@@ -1,0 +1,9 @@
+<div class="loan-products" *ngIf="products">
+  @for(product of products;track product){
+  <app-loan-product
+    [product]="product"
+    [showFullDetails]="showFullDetails"
+    (productSelected)="productSelected.emit($event)"
+  ></app-loan-product>
+  }
+</div>

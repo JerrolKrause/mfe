@@ -1,0 +1,49 @@
+<div class="loan-product" *ngIf="product">
+  <div class="row">
+    <div class="col col-12 col-md-4">
+      <p class="loan-product-amount">
+        {{ product.monthlyPaymentMin | currency : 'USD' : 'symbol' : '1.2-2' }}
+        -
+        {{ product.monthlyPaymentMax | currency : 'USD' : 'symbol' : '1.2-2' }}
+      </p>
+      <p class="loan-product-label">Monthly Payment</p>
+    </div>
+    <div class="col col-12 col-md-4 terms">
+      <table class="table table-sm">
+        <tbody>
+          <tr>
+            <td>Collateral</td>
+            <td>
+              @if(product.hasCollateral) {
+              <lib-icons icon="check" class="green"></lib-icons>
+              } @else {
+              <lib-icons icon="x" class="red"></lib-icons>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Rate</td>
+            <td>{{ product.rate }}%</td>
+          </tr>
+          <tr>
+            <td>APR</td>
+            <td>{{ product.apr }}%</td>
+          </tr>
+          @if(showFullDetails) {
+          <tr>
+            <td>Loan Duration</td>
+            <td>{{ product.loanDuration }} months</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="col col-12 col-md-4">
+      <p-button
+        styleClass="w-100"
+        label="Select This Loan >"
+        (click)="productSelected.emit(product)"
+      ></p-button>
+    </div>
+  </div>
+</div>

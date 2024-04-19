@@ -14,7 +14,7 @@ import { Subscription, debounceTime } from 'rxjs';
 import { LoanCalculator } from '../quote-calculator.models';
 
 @Component({
-  selector: 'app-quote-form',
+  selector: 'lib-quote-form',
   templateUrl: './quote-form.component.html',
   styleUrl: './quote-form.component.scss',
   encapsulation: ViewEncapsulation.None,

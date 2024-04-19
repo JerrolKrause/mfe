@@ -1,0 +1,87 @@
+.quote-form {
+  $brandColor: #00a39e;
+  $titleColor: #004b75;
+
+  .w-100-mobile {
+    width: 100%;
+    @media (min-width: 768px) {
+      width: initial;
+    }
+  }
+  .p-button {
+    background-color: $brandColor;
+    border-color: $brandColor;
+    min-width: 100px;
+    text-align: center;
+  }
+  .p-selectbutton .p-button {
+    background: #fff;
+    color: $brandColor;
+    border-right-width: 1px;
+    border-right-style: solid;
+    width: 50%;
+    @media (min-width: 768px) {
+      width: initial;
+    }
+    &.p-highlight {
+      background-color: $brandColor !important;
+      border-color: $brandColor !important;
+      color: #fff !important;
+    }
+  }
+
+  .p-button-outlined {
+    background: #fff;
+    color: $brandColor;
+  }
+
+  .row {
+    --bs-gutter-x: 3rem;
+  }
+  .p-slider .p-slider-range {
+    background: $brandColor;
+  }
+  .quote-selector {
+    margin-bottom: 0.5rem;
+    .label {
+      font-weight: 500;
+      margin-bottom: 0px;
+    }
+    .value {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: $titleColor;
+    }
+    @media (min-width: 768px) {
+      margin-bottom: 1rem;
+      .label {
+        margin-bottom: -4px;
+      }
+    }
+  }
+  .nudge-left {
+    margin-left: -1rem;
+  }
+  .quote-range {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-top: -10px;
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    @media (min-width: 768px) {
+      font-size: 2.25rem;
+    }
+  }
+  h3 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    @media (min-width: 768px) {
+      // font-size: 28px;
+    }
+  }
+}

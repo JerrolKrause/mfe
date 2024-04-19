@@ -1,0 +1,27 @@
+<div class="bg"></div>
+<div class="container">
+  <p-card>
+    <div style="max-width: 480px; margin: auto">
+      <h1>Retrieve Your Application</h1>
+      <lib-form-generator
+        [formModel]="formModel"
+        [formGroup]="loginFrm"
+        [options]="formOptions"
+        [disableSubmit]="false"
+        (completed)="onFormCompleted()"
+      >
+        <!--
+        <div footerContentLeft>
+          <button
+            pButton
+            class="p-ripple p-element p-button p-component p-button-outlined btn-back"
+            (click)="svc.routePrev()"
+          >
+            Back
+          </button>
+        </div>
+        -->
+      </lib-form-generator>
+    </div>
+  </p-card>
+</div>

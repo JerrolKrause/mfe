@@ -1,0 +1,32 @@
+#customer {
+  $brandColor: #00a39e;
+  $titleColor: #004b75;
+  .bg {
+    background: linear-gradient(to right, #004b75, #00d0cd);
+    min-height: 200px;
+  }
+  .bg + .container {
+    margin-top: -150px;
+  }
+
+  .quote-container {
+    max-width: 480px;
+    margin: auto;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    color: $titleColor;
+    @media (min-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+  h2 {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  a,
+  a:link {
+    color: $brandColor;
+  }
+}

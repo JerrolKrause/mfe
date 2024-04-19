@@ -3,9 +3,9 @@
   <div class="quote-selector">
     <p class="label">Desired Loan Amount</p>
 
-    <h2>
+    <p class="value">
       {{ quoteFrm.value.loanAmount | currency : 'USD' : 'symbol' : '1.0-0' }}
-    </h2>
+    </p>
 
     <p>
       <p-slider
@@ -23,13 +23,13 @@
   <!---->
   <div class="quote-selector">
     <p class="label">Your Approximate Monthly Income</p>
-    <h2>
+    <p class="value">
       {{ quoteFrm.value.monthlyIncome | currency : 'USD' : 'symbol' : '1.0-0' }}
       @if(quoteFrm.value.monthlyIncome && quoteFrm.value.monthlyIncome >= 15000)
       {
       <span class="nudge-left">+ </span>
       }
-    </h2>
+    </p>
     <p>
       <p-slider
         formControlName="monthlyIncome"
@@ -46,7 +46,7 @@
   <!---->
   <div class="quote-selector">
     <p class="label">Desired Loan Duration</p>
-    <h2>{{ quoteFrm.value.loanDuration }} Months</h2>
+    <p class="value">{{ quoteFrm.value.loanDuration }} Months</p>
     <p>
       <p-slider
         formControlName="loanDuration"
@@ -65,7 +65,7 @@
   <!---->
   <div class="quote-selector">
     <p class="label">Desired Annual Percentage Rate (APR)</p>
-    <h2>{{ quoteFrm.value.apr }}%</h2>
+    <p class="value">{{ quoteFrm.value.apr }}%</p>
     <p>
       <p-slider
         formControlName="apr"
