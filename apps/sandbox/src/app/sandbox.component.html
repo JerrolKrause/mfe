@@ -1,5 +1,5 @@
 <lib-masterpage [showNav]="false">
-  <div class="container py-4">
+  <div class="container py-4" *ngIf="routeParams$ | async as params">
     <div style="margin: auto; max-width: 480px">
       <p-card>
         <ng-template pTemplate="header">
@@ -12,7 +12,7 @@
           </div>
         </ng-template>
 
-        <div class="p-card-title" *ngIf="routeParams$ | async as params">
+        <div class="p-card-title">
           Customer Information ({{ params.userId }})<br />
           Branch: {{ params.branchId }}
         </div>
@@ -46,10 +46,16 @@
             </tbody>
           </table>
 
-          <div class="mb-0 text-end">
+          <div class="mb-3 text-end">
             <button pButton type="submit" [disabled]="loading$ | async">
               Update User
             </button>
+          </div>
+          <div class="text-end">
+            <a href="CLASSAppLookupIB:{{ params.branchId }}:{{ params.userId }}"
+              >Open In CLASS - Branch: {{ params.branchId }}, Application:
+              {{ params.userId }}</a
+            >
           </div>
         </form>
       </p-card>
