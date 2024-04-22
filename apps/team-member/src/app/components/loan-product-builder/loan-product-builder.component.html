@@ -1,0 +1,267 @@
+<div class="loan-products-builder">
+  <h1 class="mb-1">
+    Loan Products <span style="font-size: 50%">(#C0500D)</span>
+  </h1>
+  <div class="loan-products-info">
+    <div class="float-end d-flex" style="align-items: center; margin-top: 1rem">
+      <div class="circle"></div>
+      Customer Connected
+    </div>
+    <p class="mb-1"><strong>Customer Preferences</strong></p>
+    <div class="info-inline">
+      <div>Desired Loan Amount - $6,000</div>
+      <div>Monthly Income - $2,000</div>
+      <div>Loan Duration - 48 mo</div>
+      <div>Desired APR - 21%</div>
+      <div>Car As Collateral - Yes</div>
+    </div>
+  </div>
+  <div class="d-none">
+    <p class="mb-0">
+      <strong>System Decision - <span class="green">Approved</span></strong>
+    </p>
+    <table class="table table-sm table-striped">
+      <tbody>
+        <tr>
+          <td>Secured</td>
+          <td>$18,500</td>
+        </tr>
+        <tr>
+          <td>Unsecured</td>
+          <td>$2,100</td>
+        </tr>
+        <tr>
+          <td>Risk Grade</td>
+          <td>B</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="mb-0"><strong>Direct Auto</strong></p>
+    <table class="table table-sm table-striped table-hover">
+      <tbody>
+        <tr>
+          <td>Up To</td>
+          <td>N/A</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="mb-0"><strong>Total Monthly Income</strong></p>
+    <table class="table table-sm table-striped table-hover">
+      <tbody>
+        <tr>
+          <td>Disclosed</td>
+          <td>$3,800</td>
+        </tr>
+        <tr>
+          <td>Entered</td>
+          <td>$3,800</td>
+        </tr>
+        <tr>
+          <td>Verified</td>
+          <td>N/A</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="mb-0"><strong>Before Loan Budget</strong></p>
+    <table class="table table-sm table-striped table-hover">
+      <tbody>
+        <tr>
+          <td>NDI</td>
+          <td>$2,675</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col col-12 col-lg-6 mb-3">
+      <p-card styleClass="mb-3">
+        <ng-template pTemplate="header">
+          <div class="p-card-body pb-0">
+            <div class="float-end">
+              <p-button label="Generate Products"></p-button>
+            </div>
+            <div class="p-card-title">Create Loan Product</div>
+          </div>
+        </ng-template>
+
+        <div class="row">
+          <div class="col col-12 col-lg-6">
+            <p><strong>Creditors (Select for payoff)</strong></p>
+            <table class="table table-sm table-striped table-hover">
+              <tbody>
+                <tr>
+                  <td><p-checkbox [binary]="true"></p-checkbox></td>
+                  <td>DISCOVER FIN SVCS</td>
+                  <td>$673</td>
+                  <td>$33</td>
+                </tr>
+                <tr>
+                  <td><p-checkbox [binary]="true"></p-checkbox></td>
+                  <td>BANK CREDIT CARD</td>
+                  <td>$643</td>
+                  <td>$33</td>
+                </tr>
+                <tr>
+                  <td><p-checkbox [binary]="true"></p-checkbox></td>
+                  <td>ULTRAMAR DIAMOND S</td>
+                  <td>$125</td>
+                  <td>$45</td>
+                </tr>
+                <tr>
+                  <td><p-checkbox [binary]="true"></p-checkbox></td>
+                  <td>EXXON/MBGA</td>
+                  <td>$145</td>
+                  <td>$30</td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>Assets (Select for collateral)</strong></p>
+            <table class="table table-sm table-striped table-hover">
+              <tbody>
+                <tr>
+                  <td><p-checkbox [binary]="true"></p-checkbox></td>
+                  <td>2020 TOYOTA RAV4</td>
+                  <td>$36,000</td>
+                </tr>
+                <tr>
+                  <td><p-checkbox [binary]="true"></p-checkbox></td>
+                  <td>2010 CHEVROLET SILVERADO</td>
+                  <td>$10,905</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col col-12 col-lg-6">
+            <lib-form-generator
+              [formModel]="loanProductsModel"
+              [formGroup]="loanProductsForm"
+              [options]="formOptions"
+              [disableSubmit]="false"
+              (completed)="onFormCompleted($event)"
+            ></lib-form-generator>
+            <table class="table table-sm table-striped table-hover mb-0">
+              <tbody>
+                <tr>
+                  <td>Cash to Customer</td>
+                  <td>
+                    <input pInputText value="$2,100" />
+                    <p-checkbox [binary]="true" label="Override"></p-checkbox>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Payoffs +</td>
+                  <td><input pInputText /></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Base Cash Advance =</td>
+                  <td>
+                    <input pInputText value="$2,100" />
+                    <p-button label="Calculate"></p-button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Enter Fees</td>
+                  <td><input pInputText value="$2,100" /></td>
+                </tr>
+                <tr>
+                  <td>Select Non-Credit</td>
+                  <td><input pInputText /></td>
+                </tr>
+                <tr>
+                  <td>Due Day</td>
+                  <td><input pInputText value="$2,100" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </p-card>
+    </div>
+    <div class="col col-12 col-lg-6 mb-3">
+      <p-card header="Products">
+        <div class="table-responsive">
+          <table class="table table-sm table-striped table-hover small">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Base Advance</th>
+                <th>LTV</th>
+                <th>Term</th>
+                <th>Monthly Payment</th>
+                <th>APR</th>
+                <th>LIT</th>
+                <th>Net Dip Income</th>
+                <th>PTI</th>
+                <th>Meets Approval?</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Auto Loan</td>
+                <td></td>
+                <td>$25,000</td>
+                <td>75%</td>
+                <td>60 mo</td>
+                <td>$500</td>
+                <td>5.5%</td>
+                <td>450</td>
+                <td>$1,200</td>
+                <td>12%</td>
+                <td>Yes</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>Personal Loan</td>
+                <td></td>
+                <td>$10,000</td>
+                <td>60%</td>
+                <td>36 mo</td>
+                <td>$300</td>
+                <td>6.5%</td>
+                <td>350</td>
+                <td>$800</td>
+                <td>15%</td>
+                <td>No</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>Home Equity</td>
+                <td></td>
+                <td>$100,000</td>
+                <td>85%</td>
+                <td>120 mo</td>
+                <td>$1,050</td>
+                <td>4.5%</td>
+                <td>620</td>
+                <td>$3,000</td>
+                <td>10%</td>
+                <td>Yes</td>
+                <td><button>View</button></td>
+              </tr>
+              <tr>
+                <td>Student Loan</td>
+                <td></td>
+                <td>$20,000</td>
+                <td>90%</td>
+                <td>48 mo</td>
+                <td>$450</td>
+                <td>7%</td>
+                <td>300</td>
+                <td>$500</td>
+                <td>20%</td>
+                <td>No</td>
+                <td><button>View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-end">
+          <p-button label="Send To Customer"></p-button>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

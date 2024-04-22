@@ -18,20 +18,20 @@
         }}</span
         >)
       </h3>
-      <app-loan-products
+      <lib-loan-products
         [products]="loanProducts$ | async"
         (productSelected)="productSelected.emit($event)"
-      ></app-loan-products>
+      ></lib-loan-products>
 
       <ng-container *ngIf="loanProductsBonus$ | async as loanProductsBonus">
         <h3 *ngIf="loanProductsBonus.length">
           Additional Loan Offers To Consider
         </h3>
-        <app-loan-products
+        <lib-loan-products
           [products]="loanProductsBonus"
           [showFullDetails]="true"
           (productSelected)="productSelected.emit($event)"
-        ></app-loan-products>
+        ></lib-loan-products>
       </ng-container>
     </div>
   </div>

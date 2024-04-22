@@ -65,6 +65,8 @@ export const is = {
   contentType: {
     html: (obj: any): obj is FormsLib.Html =>
       obj && obj.type === 'html' && typeof obj.html === 'string',
+    button: (obj: any): obj is FormsLib.Button =>
+      obj && obj.type === 'button' && typeof obj.label === 'string',
     formField: (obj: any): obj is FormsLib.FormField =>
       obj.type === 'formField' &&
       obj.formFieldType !== undefined &&

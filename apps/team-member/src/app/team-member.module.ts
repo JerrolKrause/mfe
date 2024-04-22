@@ -7,14 +7,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SliderModule } from 'primeng/slider';
+import { LoanProductBuilderComponent } from './components/loan-product-builder/loan-product-builder.component';
+import { HomeComponent } from './routes/home/home.component';
 import { TeamMemberComponent } from './team-member.component';
 import { appRoutes } from './team-member.routes';
-import { HomeComponent } from './routes/home/home.component';
-
 @NgModule({
-  declarations: [TeamMemberComponent, HomeComponent],
+  declarations: [
+    TeamMemberComponent,
+    HomeComponent,
+    LoanProductBuilderComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(appRoutes),
@@ -24,8 +30,10 @@ import { HomeComponent } from './routes/home/home.component';
     CardModule,
     SliderModule,
     InputTextModule,
+    CheckboxModule,
     ReactiveFormsModule,
     ButtonModule,
+    ProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [TeamMemberComponent],

@@ -5,5 +5,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './masterpage.component.css',
 })
 export class MasterpageComponent {
+  @Input() fullWidth = false;
   @Input() showNav = true;
 }

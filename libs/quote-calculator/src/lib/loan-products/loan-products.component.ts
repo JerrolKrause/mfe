@@ -8,7 +8,7 @@ import {
 import { LoanCalculator } from '../quote-calculator.models';
 
 @Component({
-  selector: 'app-loan-products',
+  selector: 'lib-loan-products',
   templateUrl: './loan-products.component.html',
   styleUrl: './loan-products.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

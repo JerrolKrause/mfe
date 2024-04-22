@@ -1,10 +1,12 @@
 <div class="lib-generator-content">
+  <!-- HTML -->
   <lib-html
     *ngIf="is.contentType.html(content)"
     [formGroup]="formGroup"
     [content]="content"
     [options]="options"
   ></lib-html>
+  <!-- Form Fields -->
   <lib-form-field
     *ngIf="is.contentType.formField(content)"
     [formGroup]="formGroup"
@@ -12,4 +14,12 @@
     [options]="options"
     [datafields]="datafields"
   ></lib-form-field>
+  <!-- Button -->
+  <lib-button
+    *ngIf="is.contentType.button(content)"
+    [button]="content"
+    [formGroup]="formGroup"
+    [datafields]="datafields"
+  >
+  </lib-button>
 </div>

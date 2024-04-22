@@ -32,6 +32,7 @@ import { RadioComponent } from './components/form-fields/radio/radio.component';
 import { SelectButtonComponent } from './components/form-fields/select-button/select-button.component';
 import { TextAreaComponent } from './components/form-fields/textarea/textarea.component';
 import { ZipcodeComponent } from './components/form-fields/zipcode/zipcode.component';
+import { ButtonComponent } from './components/form-generator/button/button.component';
 import { ColumnComponent } from './components/form-generator/column/column.component';
 import { ContainerContentComponent } from './components/form-generator/container-content/container-content.component';
 import { ContainerComponent } from './components/form-generator/container/container.component';
@@ -41,6 +42,7 @@ import { FormFieldComponent } from './components/form-generator/form-field/form-
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { HtmlComponent } from './components/form-generator/html/html.component';
 import { RowComponent } from './components/form-generator/row/row.component';
+// Pipe
 import { SlugPipe } from './pipes/slug.pipe';
 
 // Exported form fields
@@ -74,7 +76,9 @@ const FORMGEN = [
   FormFieldComponent,
   FeatureComponent,
   ContentComponent,
+  ButtonComponent,
 ];
+
 /**
  * A form generator library that generates HTML forms based on a configuration object or schema.
  */

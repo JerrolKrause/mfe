@@ -81,11 +81,21 @@ export module FormsLib {
     content: Content[];
   }
 
-  export type Content = Html | FormField | ContainerContent;
+  export type Content = Html | FormField | ContainerContent | Button;
 
   export interface Html extends FormContentTypeSrc {
     type: 'html';
     html: string;
+  }
+
+  export interface Button extends FormContentTypeSrc {
+    type: 'button';
+    /** Label text of the button */
+    label: string;
+    /** A command to execute when the button is clicked */
+    cmd: (button?: Button | null) => void;
+    /** An optional property to store any meta data which will be passed to the cmd method along with the button */
+    data?: any;
   }
 
   /** Available form field types */

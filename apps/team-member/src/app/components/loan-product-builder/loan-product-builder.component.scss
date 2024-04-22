@@ -1,0 +1,45 @@
+.loan-products-builder {
+  .green {
+    color: green;
+  }
+  .red {
+    color: red;
+  }
+  .circle {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: green;
+    margin-right: 0.5rem;
+    animation: pulse 1.5s infinite ease-in-out; /* Apply the pulse animation */
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1); /* Original size */
+    }
+    50% {
+      transform: scale(1.2); /* Increase size by 10% */
+    }
+  }
+  .loan-products-info {
+    padding: 0.5rem;
+    background: #ededed;
+    margin-bottom: 1rem;
+
+    .info-inline {
+      display: flex;
+      margin-right: 0.25rem;
+      div {
+        margin-right: 0.5rem;
+        padding-right: 0.5rem;
+        border-right: 2px solid #fff;
+      }
+    }
+  }
+  td,
+  th {
+    vertical-align: middle;
+  }
+}

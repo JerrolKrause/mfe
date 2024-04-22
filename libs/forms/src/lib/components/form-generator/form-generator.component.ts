@@ -23,6 +23,29 @@ import { is } from '../../utils';
   [disableSubmit]="false"
   (completed)="onFormCompleted($event)"
 ></lib-form-generator>
+
+// Example Formmodel
+public formModel: FormsLib.FormGenerator = [
+    {
+      label: 'First Name',
+      type: 'formField',
+      formFieldType: 'text',
+      field: 'nameFirst',
+    },
+    {
+      label: 'Last Name',
+      type: 'formField',
+      formFieldType: 'text',
+      field: 'nameLast',
+    },
+  ];
+
+  // Form Options
+    public formOptions: FormsLib.FormOptions = {
+    submitButton: {
+      hide: true
+    },
+  };
  *
  * @TODO
  * - Add support for feature components

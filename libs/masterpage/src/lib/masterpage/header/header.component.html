@@ -1,5 +1,5 @@
 <header>
-  <div class="container">
+  <div [ngClass]="fullWidth ? 'container-fluid' : 'container'">
     <nav class="nav">
       <span class="brand">
         <a class="brand pl-2" [routerLink]="['/']"

@@ -1,0 +1,11 @@
+<ng-container *ngIf="button">
+  <button
+    *ngIf="visible$ | async"
+    class="form-generator-button"
+    [attr.id]="button.id || null"
+    [ngClass]="button.cssClasses ?? ''"
+    [ngStyle]="button.inlineStyles ?? null"
+    [innerHtml]="button.label"
+    (click)="command()"
+  ></button>
+</ng-container>
