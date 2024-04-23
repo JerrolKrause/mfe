@@ -1,6 +1,7 @@
 <div class="loan-products-builder">
   <h1 class="mb-1">
-    Loan Products <span style="font-size: 50%">(#C0500D)</span>
+    <lib-icons icon="money-check-alt"></lib-icons> Loan Products
+    <span style="font-size: 50%">(#C0500D)</span>
   </h1>
   <div class="loan-products-info">
     <div class="float-end d-flex" style="align-items: center; margin-top: 1rem">
@@ -78,12 +79,14 @@
         <ng-template pTemplate="header">
           <div class="p-card-body pb-0">
             <div class="float-end">
-              <p-button
-                label="Generate Products"
-                (click)="generateProducts()"
-              ></p-button>
+              <button class="p-button" (click)="generateProducts()">
+                <lib-icons icon="plus" class="me-2"></lib-icons> Generate
+                Products
+              </button>
             </div>
-            <div class="p-card-title">Create Loan Product</div>
+            <div class="p-card-title">
+              <lib-icons icon="cog"></lib-icons> Create Loan Product
+            </div>
           </div>
         </ng-template>
 
@@ -185,7 +188,17 @@
       </p-card>
     </div>
     <div class="col col-12 col-lg-7 mb-3">
-      <p-card header="Products">
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="p-card-body pb-0">
+            <div class="p-card-title">
+              <lib-icons icon="bars"></lib-icons> Products ({{
+                loanProducts.length
+              }})
+            </div>
+          </div>
+        </ng-template>
+
         @if(loanProducts.length) {
         <div class="table-responsive">
           <table class="table table-sm table-striped table-hover small">
@@ -214,8 +227,9 @@
                 </td>
               </tr>
 
-              @for(product of loanProducts; track product.productDescription) {
-              @if(product.productType === productType.productTypeId) {
+              @for(product of loanProducts; track product.productDescription;
+              let index = $index) { @if(product.productType ===
+              productType.productTypeId) {
               <tr>
                 <td>{{ product.productDescription }}</td>
                 <td>{{ product.systemDecision }}</td>
@@ -228,14 +242,27 @@
                 <td>${{ product.lit }}</td>
                 <td>{{ product.ndi }}%</td>
                 <td>{{ product.baseAdvance }}</td>
-                <td><button>View</button></td>
+                <td>
+                  <a
+                    class="clickable"
+                    (click)="productDelete(index)"
+                    title="Delete this product"
+                  >
+                    <lib-icons icon="trash"></lib-icons
+                  ></a>
+                </td>
               </tr>
               } }}
             </tbody>
           </table>
         </div>
         <div class="text-end">
-          <p-button label="Send To Customer"></p-button>
+          <button class="p-button me-2">
+            <lib-icons icon="user" class="me-2"></lib-icons> Send To Customer
+          </button>
+          <button class="p-button">
+            <lib-icons icon="save" class="me-2"></lib-icons> Save Products
+          </button>
         </div>
         } @else {
         <p>

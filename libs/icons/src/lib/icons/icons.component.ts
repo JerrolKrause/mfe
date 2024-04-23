@@ -10,11 +10,13 @@ import {
   faEnvelope,
   faExclamationTriangle,
   faHome,
+  faMoneyCheckAlt,
   faPhone,
   faPlus,
   faPowerOff,
   faQuestion,
   faRefresh,
+  faSave,
   faSpinner,
   faTrash,
   faUser,
@@ -23,6 +25,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'save'
+  | 'money-check-alt'
   | 'check'
   | 'phone'
   | 'envelope'
@@ -54,7 +58,9 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    'money-check-alt': faMoneyCheckAlt,
     phone: faPhone,
+    save: faSave,
     envelope: faEnvelope,
     'power-off': faPowerOff,
     spinner: faSpinner,

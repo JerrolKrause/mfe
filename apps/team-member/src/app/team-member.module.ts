@@ -1,4 +1,5 @@
 import { FormsLibModule } from '$forms';
+import { IconsModule } from '$icons';
 import { MasterpageModule } from '$masterpage';
 import { QuoteCalculatorModule } from '$quote-calculator';
 import { CommonModule } from '@angular/common';
@@ -31,6 +32,7 @@ import { appRoutes } from './team-member.routes';
     CommonModule,
     RouterModule.forChild(appRoutes),
     FormsLibModule,
+    IconsModule,
     MasterpageModule,
     QuoteCalculatorModule,
     CardModule,
