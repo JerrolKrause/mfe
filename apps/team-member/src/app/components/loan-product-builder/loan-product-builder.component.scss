@@ -5,6 +5,9 @@
   .red {
     color: red;
   }
+  .clickable {
+    cursor: pointer;
+  }
   .circle {
     display: inline-block;
     width: 1rem;
@@ -23,6 +26,23 @@
       transform: scale(1.2); /* Increase size by 10% */
     }
   }
+  table {
+    th {
+      font-size: 10px;
+    }
+
+    .tr-group td {
+      background: #f0ffff;
+      box-shadow: initial;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    td,
+    th {
+      vertical-align: middle;
+    }
+  }
+
   .loan-products-info {
     padding: 0.5rem;
     background: #ededed;
@@ -37,9 +57,5 @@
         border-right: 2px solid #fff;
       }
     }
-  }
-  td,
-  th {
-    vertical-align: middle;
   }
 }

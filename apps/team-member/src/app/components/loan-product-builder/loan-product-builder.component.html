@@ -73,65 +73,69 @@
     </table>
   </div>
   <div class="row">
-    <div class="col col-12 col-lg-6 mb-3">
+    <div class="col col-12 col-lg-5 mb-3">
       <p-card styleClass="mb-3">
         <ng-template pTemplate="header">
           <div class="p-card-body pb-0">
             <div class="float-end">
-              <p-button label="Generate Products"></p-button>
+              <p-button
+                label="Generate Products"
+                (click)="generateProducts()"
+              ></p-button>
             </div>
             <div class="p-card-title">Create Loan Product</div>
           </div>
         </ng-template>
 
         <div class="row">
-          <div class="col col-12 col-lg-6">
-            <p><strong>Creditors (Select for payoff)</strong></p>
-            <table class="table table-sm table-striped table-hover">
-              <tbody>
-                <tr>
-                  <td><p-checkbox [binary]="true"></p-checkbox></td>
-                  <td>DISCOVER FIN SVCS</td>
-                  <td>$673</td>
-                  <td>$33</td>
-                </tr>
-                <tr>
-                  <td><p-checkbox [binary]="true"></p-checkbox></td>
-                  <td>BANK CREDIT CARD</td>
-                  <td>$643</td>
-                  <td>$33</td>
-                </tr>
-                <tr>
-                  <td><p-checkbox [binary]="true"></p-checkbox></td>
-                  <td>ULTRAMAR DIAMOND S</td>
-                  <td>$125</td>
-                  <td>$45</td>
-                </tr>
-                <tr>
-                  <td><p-checkbox [binary]="true"></p-checkbox></td>
-                  <td>EXXON/MBGA</td>
-                  <td>$145</td>
-                  <td>$30</td>
-                </tr>
-              </tbody>
-            </table>
-            <p><strong>Assets (Select for collateral)</strong></p>
-            <table class="table table-sm table-striped table-hover">
-              <tbody>
-                <tr>
-                  <td><p-checkbox [binary]="true"></p-checkbox></td>
-                  <td>2020 TOYOTA RAV4</td>
-                  <td>$36,000</td>
-                </tr>
-                <tr>
-                  <td><p-checkbox [binary]="true"></p-checkbox></td>
-                  <td>2010 CHEVROLET SILVERADO</td>
-                  <td>$10,905</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="col col-12 col-lg-7">
+            <form [formGroup]="loanProductsForm">
+              <p>Creditors (Select for payoff)</p>
+              <table class="table table-sm table-striped table-hover">
+                <tbody formArrayName="creditors">
+                  @for(creditor of teamSvc.creditors;track creditor.label; let
+                  index = $index) {
+                  <tr
+                    class="clickable"
+                    (click)="toggleFormArray('creditors', index)"
+                  >
+                    <td>
+                      <p-checkbox
+                        [formControlName]="index"
+                        [binary]="true"
+                      ></p-checkbox>
+                    </td>
+                    <td>{{ creditor.label }}</td>
+                    <td>${{ creditor.totalOwed }}</td>
+                    <td>${{ creditor.monthlyPayment }}</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+              <p>Assets (Select for collateral)</p>
+              <table class="table table-sm table-striped table-hover">
+                <tbody formArrayName="assets">
+                  @for(asset of teamSvc.assets;track asset.label; let index =
+                  $index) {
+                  <tr
+                    class="clickable"
+                    (click)="toggleFormArray('assets', index)"
+                  >
+                    <td>
+                      <p-checkbox
+                        [formControlName]="index"
+                        [binary]="true"
+                      ></p-checkbox>
+                    </td>
+                    <td>{{ asset.label }}</td>
+                    <td>${{ asset.totalOwed }}</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </form>
           </div>
-          <div class="col col-12 col-lg-6">
+          <div class="col col-12 col-lg-5">
             <lib-form-generator
               [formModel]="loanProductsModel"
               [formGroup]="loanProductsForm"
@@ -139,6 +143,7 @@
               [disableSubmit]="false"
               (completed)="onFormCompleted($event)"
             ></lib-form-generator>
+            <!--
             <table class="table table-sm table-striped table-hover mb-0">
               <tbody>
                 <tr>
@@ -174,18 +179,20 @@
                 </tr>
               </tbody>
             </table>
+            -->
           </div>
         </div>
       </p-card>
     </div>
-    <div class="col col-12 col-lg-6 mb-3">
+    <div class="col col-12 col-lg-7 mb-3">
       <p-card header="Products">
+        @if(loanProducts.length) {
         <div class="table-responsive">
           <table class="table table-sm table-striped table-hover small">
             <thead>
               <tr>
                 <th>Product</th>
-                <th>Description</th>
+                <th>System Decision</th>
                 <th>Base Advance</th>
                 <th>LTV</th>
                 <th>Term</th>
@@ -199,68 +206,43 @@
               </tr>
             </thead>
             <tbody>
+              @for(productType of teamSvc.loanProductTypes; track
+              productType.label) {
+              <tr class="tr-group">
+                <td colspan="12">
+                  {{ productType.label }} <small>({{ productType.qty }})</small>
+                </td>
+              </tr>
+
+              @for(product of loanProducts; track product.productDescription) {
+              @if(product.productType === productType.productTypeId) {
               <tr>
-                <td>Auto Loan</td>
-                <td></td>
-                <td>$25,000</td>
-                <td>75%</td>
-                <td>60 mo</td>
-                <td>$500</td>
-                <td>5.5%</td>
-                <td>450</td>
-                <td>$1,200</td>
-                <td>12%</td>
-                <td>Yes</td>
+                <td>{{ product.productDescription }}</td>
+                <td>{{ product.systemDecision }}</td>
+                <td>{{ product.baseAdvance }}</td>
+                <td>{{ product.ltv }}</td>
+                <td>{{ product.term }} mo</td>
+                <td>${{ product.monthlyPayment }}</td>
+                <td>{{ product.apr }}%</td>
+                <td>{{ product.baseAdvance }}</td>
+                <td>${{ product.lit }}</td>
+                <td>{{ product.ndi }}%</td>
+                <td>{{ product.baseAdvance }}</td>
                 <td><button>View</button></td>
               </tr>
-              <tr>
-                <td>Personal Loan</td>
-                <td></td>
-                <td>$10,000</td>
-                <td>60%</td>
-                <td>36 mo</td>
-                <td>$300</td>
-                <td>6.5%</td>
-                <td>350</td>
-                <td>$800</td>
-                <td>15%</td>
-                <td>No</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr>
-                <td>Home Equity</td>
-                <td></td>
-                <td>$100,000</td>
-                <td>85%</td>
-                <td>120 mo</td>
-                <td>$1,050</td>
-                <td>4.5%</td>
-                <td>620</td>
-                <td>$3,000</td>
-                <td>10%</td>
-                <td>Yes</td>
-                <td><button>View</button></td>
-              </tr>
-              <tr>
-                <td>Student Loan</td>
-                <td></td>
-                <td>$20,000</td>
-                <td>90%</td>
-                <td>48 mo</td>
-                <td>$450</td>
-                <td>7%</td>
-                <td>300</td>
-                <td>$500</td>
-                <td>20%</td>
-                <td>No</td>
-                <td><button>View</button></td>
-              </tr>
+              } }}
             </tbody>
           </table>
         </div>
         <div class="text-end">
           <p-button label="Send To Customer"></p-button>
         </div>
+        } @else {
+        <p>
+          Use the panel on the right to build loan products and click the
+          "Generate Products" button when done.
+        </p>
+        }
       </p-card>
     </div>
   </div>

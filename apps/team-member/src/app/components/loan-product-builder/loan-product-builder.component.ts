@@ -1,11 +1,17 @@
 import { FormsLib } from '$forms';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { DialogService } from 'primeng/dynamicdialog';
+import { TeamMemberService } from '../../shared/services/team-member.service';
+import { FeesModalComponent } from './fees/fees-modal.component';
+import { NonCreditProductsModalComponent } from './non-credit-products/non-credit-products-modal.component';
 
 @Component({
   selector: 'app-loan-product-builder',
   templateUrl: './loan-product-builder.component.html',
   styleUrl: './loan-product-builder.component.scss',
+  providers: [DialogService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoanProductBuilderComponent {
   public loanProductsModel: FormsLib.FormGenerator = [
@@ -14,7 +20,7 @@ export class LoanProductBuilderComponent {
       type: 'formField',
       formFieldType: 'number',
       mode: 'currency',
-      field: 'cash',
+      field: 'cashToCustomer',
     },
     {
       label: 'Payoffs',
@@ -28,38 +34,75 @@ export class LoanProductBuilderComponent {
       type: 'formField',
       formFieldType: 'number',
       mode: 'currency',
-      field: 'advance',
+      field: 'cashAdvance',
     },
     {
       type: 'html',
       html: '<hr/>',
     },
-
+    {
+      label: 'Due Day',
+      type: 'formField',
+      formFieldType: 'number',
+      field: 'dueDay',
+      hint: 'Valid Due Days are from the 1st to the 16th',
+    },
     {
       type: 'row',
       columns: [
         {
           type: 'column',
-          width: 8,
+          width: 6,
           content: [
             {
               label: 'Fees',
               type: 'formField',
               formFieldType: 'number',
               mode: 'currency',
-              field: 'advance',
+              field: 'fees',
             },
           ],
         },
         {
           type: 'column',
-          width: 4,
+          width: 6,
           content: [
             {
-              cssClasses: 'p-button',
+              cssClasses: 'p-button w-100 text-center mt-4',
               type: 'button',
-              label: 'Enter Fees',
+              label: 'Select',
               cmd: (btn) => this.openFeesModal(btn),
+            },
+          ],
+        },
+      ],
+    },
+    //
+    {
+      type: 'row',
+      columns: [
+        {
+          type: 'column',
+          width: 6,
+          content: [
+            {
+              label: 'Non-Credit',
+              type: 'formField',
+              formFieldType: 'number',
+              mode: 'currency',
+              field: 'nonCreditProducts',
+            },
+          ],
+        },
+        {
+          type: 'column',
+          width: 6,
+          content: [
+            {
+              cssClasses: 'p-button w-100 text-center mt-4',
+              type: 'button',
+              label: 'Select',
+              cmd: (btn) => this.openNonCreditModal(btn),
             },
           ],
         },
@@ -74,16 +117,57 @@ export class LoanProductBuilderComponent {
   };
 
   public loanProductsForm = this.fb.group({
-    cash: '',
+    cashToCustomer: '2100.00',
     payoffs: '',
-    advance: '',
+    cashAdvance: '2100.00',
     fees: '',
+    nonCreditProducts: '',
+    dueDay: '1',
+    creditors: this.fb.array([false, false, false, false]),
+    assets: this.fb.array([false, false, false, false]),
   });
 
-  constructor(private fb: FormBuilder) {}
+  public loanProducts: any[] = [];
 
-  public openFeesModal(btn: FormsLib.Button | null | undefined) {
-    console.log('openFeesModal', btn);
+  constructor(
+    private fb: FormBuilder,
+    public dialogService: DialogService,
+    public teamSvc: TeamMemberService
+  ) {}
+
+  public openFeesModal(btn?: FormsLib.Button | null) {
+    this.dialogService.open(FeesModalComponent, {
+      header: 'Much Fees',
+      width: '50vw',
+      modal: true,
+      dismissableMask: true,
+      data: btn?.data,
+    });
+  }
+
+  public openNonCreditModal(btn?: FormsLib.Button | null) {
+    this.dialogService.open(NonCreditProductsModalComponent, {
+      header: 'Much Products',
+      width: '50vw',
+      modal: true,
+      dismissableMask: true,
+      data: btn?.data,
+    });
+  }
+
+  public generateProducts() {
+    this.loanProducts = [...this.teamSvc.loanProducts];
+  }
+
+  /**
+   * Toggle a boolean checkbox array
+   * @param array
+   * @param i
+   */
+  public toggleFormArray(array: string, i: number) {
+    const control = this.loanProductsForm?.get(array)?.get(i.toString());
+
+    control?.patchValue(!control.value);
   }
 
   public onFormCompleted($event: any) {
