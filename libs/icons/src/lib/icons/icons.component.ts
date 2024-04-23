@@ -6,6 +6,7 @@ import {
   faCheck,
   faCog,
   faCogs,
+  faCreditCard,
   faCubes,
   faEnvelope,
   faExclamationTriangle,
@@ -25,6 +26,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'creditcard'
   | 'save'
   | 'money-check-alt'
   | 'check'
@@ -58,6 +60,7 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    creditcard: faCreditCard,
     'money-check-alt': faMoneyCheckAlt,
     phone: faPhone,
     save: faSave,

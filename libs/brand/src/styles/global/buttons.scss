@@ -2,4 +2,8 @@
   background-color: $brandColor;
   border-color: $brandColor;
   text-align: center;
+  &:disabled {
+    background: #ccc !important;
+    border: #ccc !important;
+  }
 }

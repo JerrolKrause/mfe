@@ -1,1 +1,87 @@
-<p>products works!</p>
+<div class="container">
+  <p-card>
+    <h1>Loan Options</h1>
+    <div class="loan-products">
+      <div class="loan-product legend d-none d-md-block">
+        <div class="collateral no-bg"></div>
+        <div class="lp-wrapper">
+          <table class="table table-sm mb-0">
+            <tbody>
+              <tr>
+                <td class="has-label">Loan Amount</td>
+              </tr>
+              <tr>
+                <td class="has-label">Payment Range</td>
+              </tr>
+              <tr>
+                <td class="has-label">Term</td>
+              </tr>
+              <tr>
+                <td>Approximate Rate</td>
+              </tr>
+              <tr>
+                <td>Approximate APR</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      @for(product of loanProducts; track product) {
+
+      <div class="loan-product">
+        @if(product.hasCollateral) {
+
+        <div class="collateral">Secured</div>
+        } @else {
+        <div class="collateral unsecured">Unsecured</div>
+
+        }
+
+        <div class="lp-wrapper">
+          <table class="table table-sm">
+            <tbody>
+              <tr>
+                <td class="has-label">
+                  <div class="label">Loan Amount</div>
+                  <div class="value">$6,000</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="has-label">
+                  <div class="value">
+                    {{
+                      product.monthlyPaymentMin
+                        | currency : 'USD' : 'symbol' : '1.0-2'
+                    }}-{{
+                      product.monthlyPaymentMax
+                        | currency : 'USD' : 'symbol' : '1.0-2'
+                    }}
+                  </div>
+                  <div class="label">Per Month</div>
+                </td>
+              </tr>
+              <tr>
+                <td class="has-label">
+                  <div class="value">{{ product.loanDuration }}</div>
+                  <div class="label">Months</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="value">{{ product.rate }}%</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="value">{{ product.apr }}%</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p-button label="Select" styleClass="w-100"></p-button>
+        </div>
+      </div>
+      }
+    </div>
+  </p-card>
+</div>

@@ -1,77 +1,80 @@
-<div class="loan-products-builder">
+<div class="loan-products-builder" *ngIf="lpState$ | async as state">
   <h1 class="mb-1">
     <lib-icons icon="money-check-alt"></lib-icons> Loan Products
     <span style="font-size: 50%">(#C0500D)</span>
   </h1>
+
   <div class="loan-products-info">
-    <div class="float-end d-flex" style="align-items: center; margin-top: 1rem">
-      <div class="circle"></div>
-      Customer Connected
+    <div>
+      <p>
+        <strong>System Decision - <span class="">Approved</span></strong>
+      </p>
+      <div class="info-inline">
+        <div><small>Secured</small><br />$18,500</div>
+        <div><small>Unsecured</small><br />$2,100</div>
+        <div><small>Risk Grade</small><br />B</div>
+      </div>
     </div>
-    <p class="mb-1"><strong>Customer Preferences</strong></p>
-    <div class="info-inline">
-      <div>Desired Loan Amount - $6,000</div>
-      <div>Monthly Income - $2,000</div>
-      <div>Loan Duration - 48 mo</div>
-      <div>Desired APR - 21%</div>
-      <div>Car As Collateral - Yes</div>
+    <div>
+      <p>
+        <strong>Direct Auto</strong>
+      </p>
+      <div class="info-inline">
+        <div><small>Up To</small><br />N/A</div>
+      </div>
     </div>
-  </div>
-  <div class="d-none">
-    <p class="mb-0">
-      <strong>System Decision - <span class="green">Approved</span></strong>
-    </p>
-    <table class="table table-sm table-striped">
-      <tbody>
-        <tr>
-          <td>Secured</td>
-          <td>$18,500</td>
-        </tr>
-        <tr>
-          <td>Unsecured</td>
-          <td>$2,100</td>
-        </tr>
-        <tr>
-          <td>Risk Grade</td>
-          <td>B</td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="mb-0"><strong>Direct Auto</strong></p>
-    <table class="table table-sm table-striped table-hover">
-      <tbody>
-        <tr>
-          <td>Up To</td>
-          <td>N/A</td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="mb-0"><strong>Total Monthly Income</strong></p>
-    <table class="table table-sm table-striped table-hover">
-      <tbody>
-        <tr>
-          <td>Disclosed</td>
-          <td>$3,800</td>
-        </tr>
-        <tr>
-          <td>Entered</td>
-          <td>$3,800</td>
-        </tr>
-        <tr>
-          <td>Verified</td>
-          <td>N/A</td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="mb-0"><strong>Before Loan Budget</strong></p>
-    <table class="table table-sm table-striped table-hover">
-      <tbody>
-        <tr>
-          <td>NDI</td>
-          <td>$2,675</td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <p>
+        <strong>Total Monthly Income</strong>
+      </p>
+      <div class="info-inline">
+        <div><small>Disclosed</small><br />$3,800</div>
+        <div><small>Entered</small><br />$3,800</div>
+        <div><small>Verified</small><br />N/A</div>
+      </div>
+    </div>
+    <div>
+      <p>
+        <strong>Before Loan Budget</strong>
+      </p>
+      <div class="info-inline">
+        <div><small>NDI</small><br />$2,675</div>
+      </div>
+    </div>
+    <div *ngIf="state.customerConnected">
+      <div class="float-end small">
+        <span class="circle green"></span><em>Customer Is Connected</em>
+      </div>
+      <p>
+        <strong>Customer Preferences</strong>
+      </p>
+      <div class="info-inline">
+        <div>
+          <small>Loan Amount</small><br />{{
+            state.customerPreferences?.loanAmount
+              | currency : 'USD' : 'symbol' : '1.0-2'
+          }}
+        </div>
+        <div>
+          <small>Monthly Income</small><br />{{
+            state.customerPreferences?.monthlyIncome
+              | currency : 'USD' : 'symbol' : '1.0-2'
+          }}
+        </div>
+        <div>
+          <small>Term</small><br />{{
+            state.customerPreferences?.loanDuration
+          }}
+          mo
+        </div>
+        <div><small>APR</small><br />{{ state.customerPreferences?.apr }}%</div>
+        <div>
+          <small>Collateral</small><br />{{
+            state.customerPreferences?.collateral
+          }}
+        </div>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col col-12 col-lg-5 mb-3">
@@ -80,8 +83,7 @@
           <div class="p-card-body pb-0">
             <div class="float-end">
               <button class="p-button" (click)="generateProducts()">
-                <lib-icons icon="plus" class="me-2"></lib-icons> Generate
-                Products
+                <lib-icons icon="plus" class="me-2"></lib-icons> Add Product
               </button>
             </div>
             <div class="p-card-title">
@@ -146,45 +148,13 @@
               [disableSubmit]="false"
               (completed)="onFormCompleted($event)"
             ></lib-form-generator>
-            <!--
-            <table class="table table-sm table-striped table-hover mb-0">
-              <tbody>
-                <tr>
-                  <td>Cash to Customer</td>
-                  <td>
-                    <input pInputText value="$2,100" />
-                    <p-checkbox [binary]="true" label="Override"></p-checkbox>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Payoffs +</td>
-                  <td><input pInputText /></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Base Cash Advance =</td>
-                  <td>
-                    <input pInputText value="$2,100" />
-                    <p-button label="Calculate"></p-button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Enter Fees</td>
-                  <td><input pInputText value="$2,100" /></td>
-                </tr>
-                <tr>
-                  <td>Select Non-Credit</td>
-                  <td><input pInputText /></td>
-                </tr>
-                <tr>
-                  <td>Due Day</td>
-                  <td><input pInputText value="$2,100" /></td>
-                </tr>
-              </tbody>
-            </table>
-            -->
           </div>
         </div>
+        <hr />
+        <button class="p-button me-2" (click)="openNonCreditModal()">
+          <lib-icons icon="creditcard" class="me-2"></lib-icons> Select
+          Non-Credit Products
+        </button>
       </p-card>
     </div>
     <div class="col col-12 col-lg-7 mb-3">
@@ -201,7 +171,7 @@
 
         @if(loanProducts.length) {
         <div class="table-responsive">
-          <table class="table table-sm table-striped table-hover small">
+          <table class="table table-smtable-hover small">
             <thead>
               <tr>
                 <th>Product</th>
@@ -223,7 +193,8 @@
               productType.label) {
               <tr class="tr-group">
                 <td colspan="12">
-                  {{ productType.label }} <small>({{ productType.qty }})</small>
+                  {{ productType.label }}
+                  <!-- <small>({{ productType.qty }})</small>-->
                 </td>
               </tr>
 
@@ -232,16 +203,25 @@
               productType.productTypeId) {
               <tr>
                 <td>{{ product.productDescription }}</td>
-                <td>{{ product.systemDecision }}</td>
-                <td>{{ product.baseAdvance }}</td>
+                <td>
+                  {{
+                    product.systemDecision
+                      | currency : 'USD' : 'symbol' : '1.0-2'
+                  }}
+                </td>
+                <td>
+                  {{
+                    product.baseAdvance | currency : 'USD' : 'symbol' : '1.0-2'
+                  }}
+                </td>
                 <td>{{ product.ltv }}</td>
                 <td>{{ product.term }} mo</td>
                 <td>${{ product.monthlyPayment }}</td>
                 <td>{{ product.apr }}%</td>
-                <td>{{ product.baseAdvance }}</td>
-                <td>${{ product.lit }}</td>
-                <td>{{ product.ndi }}%</td>
-                <td>{{ product.baseAdvance }}</td>
+                <td>{{ product.lit }}</td>
+                <td>${{ product.ndi }}</td>
+                <td>{{ product.pti }}%</td>
+                <td>Yes</td>
                 <td>
                   <a
                     class="clickable"
@@ -257,17 +237,18 @@
           </table>
         </div>
         <div class="text-end">
-          <button class="p-button me-2">
+          <button class="p-button me-2" [disabled]="true">
             <lib-icons icon="user" class="me-2"></lib-icons> Send To Customer
           </button>
+
           <button class="p-button">
-            <lib-icons icon="save" class="me-2"></lib-icons> Save Products
+            <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
           </button>
         </div>
         } @else {
         <p>
-          Use the panel on the right to build loan products and click the
-          "Generate Products" button when done.
+          Use the panel on the right to build loan products and click the "Add
+          Product" button when done.
         </p>
         }
       </p-card>

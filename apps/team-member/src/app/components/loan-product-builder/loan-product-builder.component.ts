@@ -1,11 +1,18 @@
 import { FormsLib } from '$forms';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LoanCalculator } from '$quote-calculator';
+import { SocketService } from '$state-management';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
+import { BehaviorSubject, take } from 'rxjs';
 import { TeamMemberService } from '../../shared/services/team-member.service';
 import { FeesModalComponent } from './fees/fees-modal.component';
 import { NonCreditProductsModalComponent } from './non-credit-products/non-credit-products-modal.component';
 
+interface State {
+  customerConnected: boolean;
+  customerPreferences: LoanCalculator.Quote | null;
+}
 @Component({
   selector: 'app-loan-product-builder',
   templateUrl: './loan-product-builder.component.html',
@@ -13,7 +20,7 @@ import { NonCreditProductsModalComponent } from './non-credit-products/non-credi
   providers: [DialogService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanProductBuilderComponent {
+export class LoanProductBuilderComponent implements OnInit {
   public loanProductsModel: FormsLib.FormGenerator = [
     {
       label: 'Cash to Customer',
@@ -77,7 +84,7 @@ export class LoanProductBuilderComponent {
         },
       ],
     },
-    //
+    /**
     {
       type: 'row',
       columns: [
@@ -105,9 +112,9 @@ export class LoanProductBuilderComponent {
               cmd: (btn) => this.openNonCreditModal(btn),
             },
           ],
-        },
       ],
-    },
+
+    },*/
   ];
 
   public formOptions: FormsLib.FormOptions = {
@@ -129,15 +136,44 @@ export class LoanProductBuilderComponent {
 
   public loanProducts: any[] = [];
 
+  public lpState$ = new BehaviorSubject<State>({
+    customerConnected: false,
+    customerPreferences: null,
+  });
+
   constructor(
     private fb: FormBuilder,
     public dialogService: DialogService,
-    public teamSvc: TeamMemberService
+    public teamSvc: TeamMemberService,
+    private socket: SocketService
   ) {}
+
+  ngOnInit(): void {
+    this.socket.onMessageReceived((msg) => {
+      const payload = JSON.parse(msg) as { type: string; data?: any };
+      if (payload.type === 'CUSTOMER_CONNECTED') {
+        this.stateChange({ customerConnected: true });
+      }
+      if (payload.type === 'PREF_CHANGE') {
+        this.stateChange({ customerPreferences: payload.data });
+        console.log(payload.data);
+      }
+
+      console.log(msg);
+    });
+  }
+
+  private stateChange(stateNew: Partial<State>) {
+    this.lpState$
+      .pipe(take(1))
+      .subscribe((stateOld) =>
+        this.lpState$.next({ ...stateOld, ...stateNew })
+      );
+  }
 
   public openFeesModal(btn?: FormsLib.Button | null) {
     this.dialogService.open(FeesModalComponent, {
-      header: 'Much Fees',
+      header: 'Fees',
       width: '50vw',
       modal: true,
       dismissableMask: true,
@@ -145,18 +181,24 @@ export class LoanProductBuilderComponent {
     });
   }
 
-  public openNonCreditModal(btn?: FormsLib.Button | null) {
+  public openNonCreditModal() {
     this.dialogService.open(NonCreditProductsModalComponent, {
-      header: 'Much Products',
+      header: 'Non Credit Products',
       width: '50vw',
       modal: true,
       dismissableMask: true,
-      data: btn?.data,
     });
   }
 
   public generateProducts() {
-    this.loanProducts = [...this.teamSvc.loanProducts];
+    const count = this.loanProducts.length;
+    const product = this.teamSvc.loanProducts[count];
+    if (product) {
+      this.loanProducts = [
+        ...this.loanProducts,
+        this.teamSvc.loanProducts[count],
+      ];
+    }
   }
 
   public productDelete(index: number) {

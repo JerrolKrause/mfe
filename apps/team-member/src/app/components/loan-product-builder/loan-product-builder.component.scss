@@ -43,19 +43,43 @@
     }
   }
 
+  .p-card-title {
+    border-bottom: 1px solid rgba(0, 75, 117, 0.3);
+    // margin-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  hr {
+    border-top: 1px solid rgba(0, 75, 117, 0.3);
+    opacity: 1;
+  }
+
   .loan-products-info {
-    padding: 0.5rem;
+    padding: 1rem;
     background: linear-gradient(to right, #004b75, #00d0cd);
     color: #fff;
     margin-bottom: 1rem;
-
+    display: flex;
+    p {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      margin-right: 2rem;
+      margin-bottom: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
     .info-inline {
       display: flex;
-      margin-right: 0.25rem;
+      margin-right: 4rem;
+      line-height: initial;
+      small {
+        font-size: 12px;
+      }
       div {
         margin-right: 0.5rem;
         padding-right: 0.5rem;
         border-right: 2px solid #fff;
+        &:last-child {
+          border: 0;
+        }
       }
     }
   }
