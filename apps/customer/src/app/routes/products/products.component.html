@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="quoteSvc.loanProducts$ | async as loanProducts">
   <p-card>
     <h1>Loan Options</h1>
     <div class="loan-products">
@@ -29,10 +29,12 @@
       @for(product of loanProducts; track product) {
 
       <div class="loan-product">
-        @if(product.hasCollateral) {
+        @if(product.systemDecision > 10000) {
 
         <div class="collateral">Secured</div>
-        } @else {
+        } @else if(product.systemDecision > 3000) {
+        <div class="collateral">Partially Secured</div>
+        }@else {
         <div class="collateral unsecured">Unsecured</div>
 
         }
@@ -43,32 +45,31 @@
               <tr>
                 <td class="has-label">
                   <div class="label">Loan Amount</div>
-                  <div class="value">$6,000</div>
+                  <div class="value">
+                    {{
+                      product.baseAdvance
+                        | currency : 'USD' : 'symbol' : '1.0-2'
+                    }}
+                  </div>
                 </td>
               </tr>
               <tr>
                 <td class="has-label">
                   <div class="value">
-                    {{
-                      product.monthlyPaymentMin
-                        | currency : 'USD' : 'symbol' : '1.0-2'
-                    }}-{{
-                      product.monthlyPaymentMax
-                        | currency : 'USD' : 'symbol' : '1.0-2'
-                    }}
+                    {{ product.monthlyPayment }}
                   </div>
                   <div class="label">Per Month</div>
                 </td>
               </tr>
               <tr>
                 <td class="has-label">
-                  <div class="value">{{ product.loanDuration }}</div>
+                  <div class="value">{{ product.term }}</div>
                   <div class="label">Months</div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <div class="value">{{ product.rate }}%</div>
+                  <div class="value">{{ product.pti }}%</div>
                 </td>
               </tr>
               <tr>

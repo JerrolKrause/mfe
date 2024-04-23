@@ -59,6 +59,12 @@ export class HomeComponent {
   public onFormCompleted() {
     this.socket.registerUser(this.loginFrm.value.ssnLast4 ?? '1234'); // TODO: Use customer GUID
     this.quotingSvc.submitForm(this.loginFrm.value); // Mocked, will get agent guid
+    this.socket.sendMessageToUser(
+      'team-member',
+      JSON.stringify({
+        type: 'CUSTOMER_CONNECTED',
+      })
+    );
     this.router.navigate(['./quote']);
   }
 }

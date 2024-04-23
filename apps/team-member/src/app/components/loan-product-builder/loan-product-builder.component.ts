@@ -201,6 +201,16 @@ export class LoanProductBuilderComponent implements OnInit {
     }
   }
 
+  public sendToCustomer() {
+    this.socket.sendMessageToUser(
+      'customer',
+      JSON.stringify({
+        type: 'PRODUCTS_READY',
+        data: this.loanProducts,
+      })
+    );
+  }
+
   public productDelete(index: number) {
     this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
   }

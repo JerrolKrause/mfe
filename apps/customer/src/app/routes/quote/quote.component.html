@@ -6,6 +6,13 @@
       <lib-quote-form
         (quoteFormChanged)="quoteFormChanged($event)"
       ></lib-quote-form>
+      <button
+        class="p-button w-100 text-center d-block"
+        [disabled]="isDisabled"
+        routerLink="/products"
+      >
+        View Loan Products
+      </button>
     </div>
   </p-card>
 </div>

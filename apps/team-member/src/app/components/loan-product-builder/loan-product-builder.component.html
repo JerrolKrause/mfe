@@ -62,9 +62,7 @@
           }}
         </div>
         <div>
-          <small>Term</small><br />{{
-            state.customerPreferences?.loanDuration
-          }}
+          <small>Term</small><br />{{ state.customerPreferences?.loanDuration }}
           mo
         </div>
         <div><small>APR</small><br />{{ state.customerPreferences?.apr }}%</div>
@@ -237,10 +235,9 @@
           </table>
         </div>
         <div class="text-end">
-          <button class="p-button me-2" [disabled]="true">
+          <button class="p-button me-2" (click)="sendToCustomer()">
             <lib-icons icon="user" class="me-2"></lib-icons> Send To Customer
           </button>
-
           <button class="p-button">
             <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
           </button>
