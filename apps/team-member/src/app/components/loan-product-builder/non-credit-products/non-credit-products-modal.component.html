@@ -15,7 +15,17 @@
       <td>Short Term Disability</td>
       <td>$1,000</td>
       <td>$7/mo</td>
-      <td><button class="p-button">Add To Quote</button></td>
+      <td>
+        <button
+          class="p-button w-100 text-center d-block"
+          [ngClass]="buttonState[0] ? 'p-button-text' : ''"
+          (click)="buttonState[0] = !buttonState[0]"
+        >
+          @if(buttonState[0]) {
+          <lib-icons icon="trash" class="me-2"></lib-icons> Remove } @else {
+          <lib-icons icon="plus" class="me-2"></lib-icons> Add }
+        </button>
+      </td>
     </tr>
     <tr class="tr-group">
       <td colspan="12">Home & Auto Plan</td>
@@ -24,7 +34,17 @@
       <td>Life Insurance</td>
       <td>$6,000</td>
       <td>$50/mo</td>
-      <td><a class="clickable">Remove from quote</a></td>
+      <td>
+        <button
+          class="p-button w-100 text-center d-block"
+          [ngClass]="buttonState[1] ? 'p-button-text' : ''"
+          (click)="buttonState[1] = !buttonState[1]"
+        >
+          @if(buttonState[1]) {
+          <lib-icons icon="trash" class="me-2"></lib-icons> Remove } @else {
+          <lib-icons icon="plus" class="me-2"></lib-icons> Add }
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>

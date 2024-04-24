@@ -2,6 +2,7 @@ import { FormsLibModule } from '$forms';
 import { MasterpageModule } from '$masterpage';
 import { QuoteCalculatorModule } from '$quote-calculator';
 
+import { IconsModule } from '$icons';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -37,6 +38,7 @@ import { QuoteComponent } from './routes/quote/quote.component';
     ReactiveFormsModule,
     ButtonModule,
     ConfirmDialogModule,
+    IconsModule,
   ],
   providers: [],
   bootstrap: [CustomerComponent],

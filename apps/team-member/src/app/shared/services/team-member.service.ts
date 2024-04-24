@@ -31,7 +31,7 @@ export class TeamMemberService {
       productDescription: '2020 RAV4',
       productType: 0,
       systemDecision: 18500,
-      baseAdvance: 43200,
+      baseAdvance: 15000,
       ltv: 120,
       term: 66,
       totalAdvance: 43200,

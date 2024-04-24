@@ -69,17 +69,21 @@
               </tr>
               <tr>
                 <td>
-                  <div class="value">{{ product.pti }}%</div>
+                  <div class="value">{{ product.apr }}%</div>
+                  <div class="label">Rate</div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div class="value">{{ product.apr }}%</div>
+                  <div class="label">APR</div>
                 </td>
               </tr>
             </tbody>
           </table>
-          <p-button label="Select" styleClass="w-100"></p-button>
+          <button class="p-button w-100 text-center d-block">
+            <lib-icons icon="thumbsup" class="me-2"></lib-icons> Select
+          </button>
         </div>
       </div>
       }

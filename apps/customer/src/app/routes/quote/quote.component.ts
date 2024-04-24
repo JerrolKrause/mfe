@@ -22,6 +22,17 @@ export class QuoteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.socket.sendMessageToUser(
+      'team-member',
+      JSON.stringify({ type: 'LOCATION_CHANGE', data: 'Loan Preferences' })
+    );
+    this.socket.sendMessageToUser(
+      'team-member',
+      JSON.stringify({
+        type: 'CUSTOMER_CONNECTED',
+      })
+    );
+
     this.socket.onMessageReceived((msg) => {
       const payload = JSON.parse(msg) as { type: string; data?: any };
       if (payload.type === 'PRODUCTS_READY') {

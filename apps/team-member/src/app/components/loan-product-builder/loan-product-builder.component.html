@@ -48,11 +48,11 @@
       </div>
     </div>
     <div *ngIf="state.customerConnected">
-      <div class="float-end small">
-        <span class="circle green"></span><em>Customer Is Connected</em>
-      </div>
       <p>
-        <strong>Customer Preferences</strong>
+        <strong class="me-2">Customer Preferences</strong>
+        <small class="me-2" style="font-size: 12px">
+          <em>Customer Is Connected</em></small
+        ><span class="circle green" style="position: relative; top: 3px"></span>
       </p>
       <div class="info-inline">
         <div>
@@ -76,6 +76,10 @@
           <small>Collateral</small><br />{{
             state.customerPreferences?.collateral
           }}
+        </div>
+        <div>
+          <small>Location</small><br />
+          {{ state.customerLocation }}
         </div>
       </div>
     </div>

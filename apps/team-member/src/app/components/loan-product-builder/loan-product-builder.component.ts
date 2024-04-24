@@ -13,6 +13,7 @@ import { NonCreditProductsModalComponent } from './non-credit-products/non-credi
 interface State {
   customerConnected: boolean;
   customerPreferences: LoanCalculator.Quote | null;
+  customerLocation: string;
 }
 @Component({
   selector: 'app-loan-product-builder',
@@ -141,6 +142,7 @@ export class LoanProductBuilderComponent implements OnInit {
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
     customerPreferences: null,
+    customerLocation: '',
   });
 
   public loanId$ = this.route.params.pipe(map((params) => params['loanID']));
@@ -157,10 +159,16 @@ export class LoanProductBuilderComponent implements OnInit {
     this.socket.onMessageReceived((msg) => {
       const payload = JSON.parse(msg) as { type: string; data?: any };
       if (payload.type === 'CUSTOMER_CONNECTED') {
-        this.stateChange({ customerConnected: true });
+        this.stateChange({
+          customerConnected: true,
+        });
       }
       if (payload.type === 'PREF_CHANGE') {
         this.stateChange({ customerPreferences: payload.data });
+      }
+      if (payload.type === 'LOCATION_CHANGE') {
+        console.log(payload);
+        this.stateChange({ customerLocation: payload.data });
       }
     });
   }

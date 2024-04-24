@@ -20,6 +20,7 @@ import {
   faRefresh,
   faSave,
   faSpinner,
+  faThumbsUp,
   faTrash,
   faUser,
   faUsers,
@@ -27,6 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'thumbsup'
   | 'external-link-alt'
   | 'creditcard'
   | 'save'
@@ -62,6 +64,7 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    thumbsup: faThumbsUp,
     'external-link-alt': faExternalLinkAlt,
     creditcard: faCreditCard,
     'money-check-alt': faMoneyCheckAlt,

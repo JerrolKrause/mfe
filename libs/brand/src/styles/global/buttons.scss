@@ -2,6 +2,9 @@
   background-color: $brandColor;
   border-color: $brandColor;
   text-align: center;
+  &:hover {
+    background-color: #004b75;
+  }
   &.p-button-text {
     background-color: transparent;
     color: $brandColor;
