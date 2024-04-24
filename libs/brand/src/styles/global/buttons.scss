@@ -9,6 +9,19 @@
     background-color: transparent;
     color: $brandColor;
     border-color: transparent;
+    &:hover {
+      color: #fff;
+      background-color: #004b75;
+    }
+  }
+  &.p-button-outlined {
+    border-color: $brandColor;
+    color: $brandColor;
+    background: transparent;
+    &:hover {
+      background-color: #004b75;
+      color: #fff;
+    }
   }
   &:disabled {
     background: #ccc !important;
