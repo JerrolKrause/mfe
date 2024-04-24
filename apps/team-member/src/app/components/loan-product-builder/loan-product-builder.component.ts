@@ -208,18 +208,22 @@ export class LoanProductBuilderComponent implements OnInit {
         ...this.loanProducts,
         this.teamSvc.loanProducts[count],
       ];
-      const total = this.loanProducts.length;
-      if (total >= 6) {
-        this.lpVisibility = [true, true, true, true];
-      } else if (total >= 5) {
-        this.lpVisibility = [true, true, true];
-      } else if (total >= 2) {
-        this.lpVisibility = [true, true];
-      } else if (total >= 1) {
-        this.lpVisibility = [true];
-      } else {
-        this.lpVisibility = [];
-      }
+      this.updateLPVisibility();
+    }
+  }
+
+  public updateLPVisibility() {
+    const total = this.loanProducts.length;
+    if (total >= 6) {
+      this.lpVisibility = [true, true, true, true];
+    } else if (total >= 5) {
+      this.lpVisibility = [true, true, true];
+    } else if (total >= 2) {
+      this.lpVisibility = [true, true];
+    } else if (total >= 1) {
+      this.lpVisibility = [true];
+    } else {
+      this.lpVisibility = [];
     }
   }
 
@@ -235,6 +239,7 @@ export class LoanProductBuilderComponent implements OnInit {
 
   public productDelete(index: number) {
     this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
+    this.updateLPVisibility();
   }
 
   /**

@@ -28,9 +28,12 @@
   }
   table {
     th {
-      font-size: 10px;
+      font-size: 9px;
     }
-
+    td {
+      font-size: 14px;
+      padding: 0.5rem 0.25rem;
+    }
     .tr-group td {
       background: #f0ffff;
       box-shadow: initial;

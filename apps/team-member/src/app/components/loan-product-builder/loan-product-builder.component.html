@@ -224,13 +224,22 @@
                 </td>
                 <td>{{ product.ltv }}</td>
                 <td>{{ product.term }} mo</td>
-                <td>${{ product.monthlyPayment }}</td>
+                <td>{{ product.monthlyPayment }}</td>
                 <td>{{ product.apr }}%</td>
                 <td>{{ product.lit }}</td>
                 <td>${{ product.ndi }}</td>
                 <td>{{ product.pti }}%</td>
                 <td>Yes</td>
-                <td>
+                <td style="white-space: nowrap">
+                  <a class="clickable me-2">
+                    <lib-icons
+                      icon="eye"
+                      title="View product details"
+                    ></lib-icons>
+                  </a>
+                  <a class="clickable me-2">
+                    <lib-icons icon="cog" title="Edit this product"></lib-icons>
+                  </a>
                   <a
                     class="clickable"
                     (click)="productDelete(index)"
