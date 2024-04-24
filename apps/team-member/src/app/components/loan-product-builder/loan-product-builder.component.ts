@@ -3,8 +3,9 @@ import { LoanCalculator } from '$quote-calculator';
 import { SocketService } from '$state-management';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, map, take } from 'rxjs';
 import { TeamMemberService } from '../../shared/services/team-member.service';
 import { FeesModalComponent } from './fees/fees-modal.component';
 import { NonCreditProductsModalComponent } from './non-credit-products/non-credit-products-modal.component';
@@ -141,11 +142,15 @@ export class LoanProductBuilderComponent implements OnInit {
     customerPreferences: null,
   });
 
+  public loanId$ = this.route.params.pipe(map((params) => params['loanID']));
+
   constructor(
     private fb: FormBuilder,
     public dialogService: DialogService,
     public teamSvc: TeamMemberService,
-    private socket: SocketService
+    private socket: SocketService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

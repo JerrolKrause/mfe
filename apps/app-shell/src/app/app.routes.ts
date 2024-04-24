@@ -28,7 +28,7 @@ export const appRoutes: Route[] = [
       import('@quoting/app/quoting.module').then((m) => m.QuotingModule),
   },
   {
-    path: 'team-member',
+    path: 'class-web',
     loadChildren: () =>
       import('@team-member/app/team-member.module').then(
         (m) => m.TeamMemberModule

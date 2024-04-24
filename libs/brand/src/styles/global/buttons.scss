@@ -2,6 +2,11 @@
   background-color: $brandColor;
   border-color: $brandColor;
   text-align: center;
+  &.p-button-text {
+    background-color: transparent;
+    color: $brandColor;
+    border-color: transparent;
+  }
   &:disabled {
     background: #ccc !important;
     border: #ccc !important;

@@ -1,7 +1,13 @@
 <div class="loan-products-builder" *ngIf="lpState$ | async as state">
+  <div class="float-end">
+    <button class="p-button p-button-text">
+      <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open In
+      Class
+    </button>
+  </div>
   <h1 class="mb-1">
     <lib-icons icon="money-check-alt"></lib-icons> Loan Products
-    <span style="font-size: 50%">(#C0500D)</span>
+    <span style="font-size: 50%">(#{{ loanId$ | async }})</span>
   </h1>
 
   <div class="loan-products-info">
@@ -238,8 +244,12 @@
           <button class="p-button me-2" (click)="sendToCustomer()">
             <lib-icons icon="user" class="me-2"></lib-icons> Send To Customer
           </button>
-          <button class="p-button">
+          <button class="p-button me-2">
             <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
+          </button>
+          <button class="p-button">
+            <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Save
+            Quote & Open In Class
           </button>
         </div>
         } @else {
