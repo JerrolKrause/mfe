@@ -194,8 +194,8 @@
             </thead>
             <tbody>
               @for(productType of teamSvc.loanProductTypes; track
-              productType.label) {
-              <tr class="tr-group">
+              productType.label; let i = $index) {
+              <tr class="tr-group" *ngIf="lpVisibility[i]">
                 <td colspan="12">
                   {{ productType.label }}
                   <!-- <small>({{ productType.qty }})</small>-->

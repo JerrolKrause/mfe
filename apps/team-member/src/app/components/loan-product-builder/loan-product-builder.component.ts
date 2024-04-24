@@ -3,7 +3,7 @@ import { LoanCalculator } from '$quote-calculator';
 import { SocketService } from '$state-management';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BehaviorSubject, map, take } from 'rxjs';
 import { TeamMemberService } from '../../shared/services/team-member.service';
@@ -136,6 +136,7 @@ export class LoanProductBuilderComponent implements OnInit {
   });
 
   public loanProducts: any[] = [];
+  public lpVisibility: boolean[] = [];
 
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
@@ -149,7 +150,6 @@ export class LoanProductBuilderComponent implements OnInit {
     public dialogService: DialogService,
     public teamSvc: TeamMemberService,
     private socket: SocketService,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
 
@@ -161,10 +161,7 @@ export class LoanProductBuilderComponent implements OnInit {
       }
       if (payload.type === 'PREF_CHANGE') {
         this.stateChange({ customerPreferences: payload.data });
-        console.log(payload.data);
       }
-
-      console.log(msg);
     });
   }
 
@@ -203,6 +200,18 @@ export class LoanProductBuilderComponent implements OnInit {
         ...this.loanProducts,
         this.teamSvc.loanProducts[count],
       ];
+      const total = this.loanProducts.length;
+      if (total >= 6) {
+        this.lpVisibility = [true, true, true, true];
+      } else if (total >= 5) {
+        this.lpVisibility = [true, true, true];
+      } else if (total >= 2) {
+        this.lpVisibility = [true, true];
+      } else if (total >= 1) {
+        this.lpVisibility = [true];
+      } else {
+        this.lpVisibility = [];
+      }
     }
   }
 
