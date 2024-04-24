@@ -1,19 +1,24 @@
 import { LoanCalculator } from '$quote-calculator';
 import { SocketService } from '$state-management';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { QuotingService } from '../../shared/services/quoting.service';
 
 @Component({
   selector: 'app-quote',
   templateUrl: './quote.component.html',
   styleUrl: './quote.component.scss',
+  providers: [ConfirmationService],
 })
 export class QuoteComponent implements OnInit {
   public isDisabled = true;
 
   constructor(
     private socket: SocketService,
-    private quoteSvc: QuotingService
+    private quoteSvc: QuotingService,
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -22,6 +27,21 @@ export class QuoteComponent implements OnInit {
       if (payload.type === 'PRODUCTS_READY') {
         this.isDisabled = false;
         this.quoteSvc.loanProducts$.next(payload.data);
+        this.confirmationService.confirm({
+          //target: event.target as EventTarget,
+          message:
+            'Your loan products are now ready for review,<br/> would you like to view them now?',
+          header: 'Loan Products Ready',
+          icon: 'pi pi-exclamation-triangle',
+          acceptIcon: 'none',
+          rejectIcon: 'none',
+          acceptLabel: 'Yes Please!',
+          rejectButtonStyleClass: 'p-button-text',
+          accept: () => this.router.navigate(['/products']),
+          reject: () => {
+            //
+          },
+        });
       }
     });
   }

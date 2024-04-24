@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 import { CustomerComponent } from './customer.component';
@@ -15,7 +16,6 @@ import { appRoutes } from './customer.routes';
 import { HomeComponent } from './routes/home/home.component';
 import { ProductsComponent } from './routes/products/products.component';
 import { QuoteComponent } from './routes/quote/quote.component';
-
 @NgModule({
   declarations: [
     CustomerComponent,
@@ -36,6 +36,7 @@ import { QuoteComponent } from './routes/quote/quote.component';
     InputTextModule,
     ReactiveFormsModule,
     ButtonModule,
+    ConfirmDialogModule,
   ],
   providers: [],
   bootstrap: [CustomerComponent],
