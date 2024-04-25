@@ -39,9 +39,13 @@
   td {
     line-height: initial;
     vertical-align: middle;
+    background: transparent;
     &.has-label {
       height: 48px;
     }
+  }
+  .highlight {
+    background: #ffffbf;
   }
   .legend {
     font-weight: 500;

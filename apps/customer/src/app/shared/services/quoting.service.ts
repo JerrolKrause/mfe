@@ -5,6 +5,7 @@ import { agentId } from '../actions/quoting.actions';
 @Injectable({ providedIn: 'root' })
 export class QuotingService {
   public loanProducts$ = new BehaviorSubject<any[]>([]);
+  public loanProductsHighlighted$ = new BehaviorSubject<boolean[]>([]);
   public agentId: string | null = '';
 
   /**

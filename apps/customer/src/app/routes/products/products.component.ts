@@ -22,6 +22,11 @@ export class ProductsComponent implements OnInit {
         this.quoteSvc.loanProducts$.next(payload.data);
         console.log(payload.data);
       }
+
+      if (payload.type === 'PRODUCTS_HIGHLIGHTED') {
+        this.quoteSvc.loanProductsHighlighted$.next(payload.data);
+        console.log(payload.data);
+      }
     });
   }
 }

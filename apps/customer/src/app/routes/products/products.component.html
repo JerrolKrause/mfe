@@ -1,4 +1,10 @@
-<div class="container" *ngIf="quoteSvc.loanProducts$ | async as loanProducts">
+<div
+  class="container"
+  *ngIf="{
+    loanProducts: quoteSvc.loanProducts$ | async,
+    highlights: quoteSvc.loanProductsHighlighted$ | async
+  } as comp"
+>
   <p-card>
     <h1>Loan Options</h1>
     <div class="loan-products">
@@ -26,9 +32,12 @@
           </table>
         </div>
       </div>
-      @for(product of loanProducts; track product) {
+      @for(product of comp.loanProducts; track product; let index = $index) {
 
-      <div class="loan-product">
+      <div
+        class="loan-product"
+        [ngClass]="comp?.highlights?.[index] ? 'highlight' : ''"
+      >
         @if(product.systemDecision > 10000) {
 
         <div class="collateral">Secured</div>

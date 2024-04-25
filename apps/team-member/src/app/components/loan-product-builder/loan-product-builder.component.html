@@ -99,7 +99,7 @@
 
         @if(loanProducts.length) {
         <div class="table-responsive">
-          <table class="table table-smtable-hover small">
+          <table class="table table-sm table-hover small">
             <thead>
               <tr>
                 <th>Product</th>
@@ -129,8 +129,13 @@
               @for(product of loanProducts; track product.productDescription;
               let index = $index) { @if(product.productType ===
               productType.productTypeId) {
-              <tr>
-                <td>{{ product.productDescription }}</td>
+              <tr
+                (click)="highlightRow(index)"
+                [ngClass]="lpHighlight[index] ? 'row-highlight' : ''"
+              >
+                <td>
+                  {{ product.productDescription }}
+                </td>
                 <td>
                   {{
                     product.systemDecision

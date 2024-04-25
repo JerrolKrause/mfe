@@ -138,6 +138,7 @@ export class LoanProductBuilderComponent implements OnInit {
 
   public loanProducts: any[] = [];
   public lpVisibility: boolean[] = [];
+  public lpHighlight: boolean[] = [];
 
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
@@ -251,6 +252,17 @@ export class LoanProductBuilderComponent implements OnInit {
     const control = this.loanProductsForm?.get(array)?.get(i.toString());
 
     control?.patchValue(!control.value);
+  }
+
+  public highlightRow(i: number) {
+    this.lpHighlight[i] = !this.lpHighlight[i];
+    this.socket.sendMessageToUser(
+      'customer',
+      JSON.stringify({
+        type: 'PRODUCTS_HIGHLIGHTED',
+        data: this.lpHighlight,
+      })
+    );
   }
 
   public onFormCompleted($event: any) {
