@@ -12,6 +12,7 @@ import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
+import { TabViewModule } from 'primeng/tabview';
 import { CustomerComponent } from './customer.component';
 import { appRoutes } from './customer.routes';
 import { HomeComponent } from './routes/home/home.component';
@@ -39,6 +40,7 @@ import { QuoteComponent } from './routes/quote/quote.component';
     ButtonModule,
     ConfirmDialogModule,
     IconsModule,
+    TabViewModule,
   ],
   providers: [],
   bootstrap: [CustomerComponent],

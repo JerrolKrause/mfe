@@ -3,9 +3,27 @@
   <p-card>
     <div style="max-width: 480px; margin: auto">
       <h1>Select Your Loan Preferences</h1>
-      <lib-quote-form
-        (quoteFormChanged)="quoteFormChanged($event)"
-      ></lib-quote-form>
+      <p-tabView>
+        <p-tabPanel header="Select Goals">
+          <p>Select your loan goals</p>
+          <p>
+            <button class="p-button">Cash Out</button>
+          </p>
+          <p>
+            <button class="p-button">Improve Monthly Cash Flow</button>
+          </p>
+          <p>
+            <button class="p-button">Consolidate Debt</button>
+          </p>
+          <hr />
+          <p>Customize your loan options further</p>
+          <lib-quote-form
+            (quoteFormChanged)="quoteFormChanged($event)"
+          ></lib-quote-form>
+        </p-tabPanel>
+        <p-tabPanel header="Available Offers (4)"> </p-tabPanel>
+      </p-tabView>
+
       <button
         class="p-button w-100 text-center d-block"
         [disabled]="isDisabled"
