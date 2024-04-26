@@ -1,4 +1,22 @@
 .loan-products-builder {
+  .p-tabview {
+    .p-tabview-nav {
+      padding-left: 0;
+      .p-tabview-nav-link {
+        text-decoration: none;
+        color: #00a39e;
+      }
+      li.p-highlight .p-tabview-nav-link {
+        background: #00a39e;
+        border-color: #00a39e;
+        color: #ffffff;
+      }
+    }
+    .p-tabview-panels {
+      border: 0;
+      padding: 0;
+    }
+  }
   .green {
     color: green;
   }

@@ -1,7 +1,12 @@
 import { FormsLib } from '$forms';
 import { LoanCalculator } from '$quote-calculator';
 import { SocketService } from '$state-management';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -21,6 +26,7 @@ interface State {
   styleUrl: './loan-product-builder.component.scss',
   providers: [DialogService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoanProductBuilderComponent implements OnInit {
   public loanProductsModel: FormsLib.FormGenerator = [
@@ -211,6 +217,11 @@ export class LoanProductBuilderComponent implements OnInit {
       ];
       this.updateLPVisibility();
     }
+  }
+
+  public generateAllProducts() {
+    this.loanProducts = [...this.teamSvc.loanProducts];
+    this.updateLPVisibility();
   }
 
   public updateLPVisibility() {

@@ -15,8 +15,8 @@
     text-align: center;
   }
   .p-selectbutton .p-button {
-    background: #fff;
-    color: $brandColor;
+    background: #fff !important;
+    color: $brandColor !important;
     border-right-width: 1px;
     border-right-style: solid;
     width: 50%;
