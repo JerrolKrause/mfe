@@ -13,27 +13,44 @@ export class CustomerControlsComponent {
     {
       label: 'Cash Out',
       prop: 'cashOut',
-      rangeProp: 'cashOutRange',
     },
     {
       label: 'Loan Amount',
       prop: 'loanAmount',
-      rangeProp: 'loanAmountRange',
     },
     {
       label: 'Term',
       prop: 'term',
-      rangeProp: 'termRange',
+      isCurrency: false,
+    },
+    {
+      label: 'Monthly Payment',
+      prop: 'monthlyPayment',
     },
   ];
   public controlForm = this.fb.group({
     userSelection: this.fb.group({
-      loanAmount: 2000,
-      loanAmountRange: this.fb.array([2000, 4000]),
-      cashOut: 2000,
-      cashOutRange: this.fb.array([2000, 4000]),
-      term: 2000,
-      termRange: this.fb.array([2000, 4000]),
+      cashOut: this.fb.group({
+        value: 2000,
+        range: this.fb.array([2000, 4000]),
+      }),
+      loanAmount: this.fb.group({
+        value: 6000,
+        range: this.fb.array([5000, 6000]),
+      }),
+      monthlyPayment: this.fb.group({
+        value: 200,
+        range: this.fb.array([100, 300]),
+      }),
+      term: this.fb.group({
+        value: 48,
+        range: this.fb.array([36, 48]),
+      }),
+    }),
+    monthlyPayment: this.fb.group({
+      minValue: 50,
+      maxValue: 1000,
+      allowRange: false,
     }),
     loanAmount: this.fb.group({
       minValue: 1000,
@@ -46,8 +63,8 @@ export class CustomerControlsComponent {
       allowRange: false,
     }),
     term: this.fb.group({
-      minValue: 1000,
-      maxValue: 15000,
+      minValue: 24,
+      maxValue: 60,
       allowRange: false,
     }),
   });
