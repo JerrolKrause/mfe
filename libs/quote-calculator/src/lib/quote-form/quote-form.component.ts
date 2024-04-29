@@ -28,18 +28,22 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     cashOut: {
       min: 1000,
       max: 15000,
+      allowRange: true,
     },
     loanAmount: {
       min: 1000,
       max: 15000,
+      allowRange: true,
     },
     loanDuration: {
       min: 24,
       max: 60,
+      allowRange: true,
     },
     monthlyPayment: {
       min: 50,
       max: 1000,
+      allowRange: true,
     },
   };
   /** Controls the debounce time in milliseconds, default is 100ms */
@@ -52,13 +56,13 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
   /** Quote Form */
   public quoteFrm = this.fb.group({
     cashOut: 2000,
+    cashOutRange: this.fb.array([2000, 3000]),
     loanAmount: [6000],
+    loanAmountRange: this.fb.array([2000, 3000]),
     loanDuration: [48],
-    monthlyIncome: [2000],
-    creditScore: [650],
-    apr: [21],
-    collateral: ['Yes'],
+    loanDurationRange: this.fb.array([24, 48]),
     monthlyPayment: 200,
+    monthlyPaymentRange: this.fb.array([200, 300]),
   });
 
   /** When the form is changed, send the form values to the parent */

@@ -16,6 +16,7 @@ export module LoanCalculator {
       min?: number | null;
       max?: number | null;
       step?: number | null;
+      allowRange?: boolean | null;
     } | null;
   };
 

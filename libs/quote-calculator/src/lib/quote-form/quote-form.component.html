@@ -7,11 +7,24 @@
   <div class="quote-selector">
     <p class="label">Cash Out</p>
     <p class="value">
+      @if(!!comp.ranges?.cashOut?.allowRange) {
+      {{
+        quoteFrm.value.cashOutRange?.[0] | currency : 'USD' : 'symbol' : '1.0-0'
+      }}
+      -
+      {{
+        quoteFrm.value.cashOutRange?.[1] | currency : 'USD' : 'symbol' : '1.0-0'
+      }}
+      } @else {
       {{ quoteFrm.value.cashOut | currency : 'USD' : 'symbol' : '1.0-0' }}
+      }
     </p>
     <p>
       <p-slider
-        formControlName="cashOut"
+        [formControlName]="
+          !!comp.ranges?.cashOut?.allowRange ? 'cashOutRange' : 'cashOut'
+        "
+        [range]="!!comp.ranges?.cashOut?.allowRange"
         [min]="comp.ranges?.cashOut?.min ?? 1500"
         [max]="comp.ranges?.cashOut?.max ?? 15000"
         [step]="comp.ranges?.cashOut?.step ?? 500"
@@ -31,7 +44,17 @@
     <p class="label">Total Loan Amount</p>
 
     <p class="value">
+      @if(!!comp.ranges?.loanAmount?.allowRange) {
+      {{
+        quoteFrm.value.loanAmountRange?.[0] | currency : 'USD' : 'symbol' : '1.0-0'
+      }}
+      -
+      {{
+        quoteFrm.value.loanAmountRange?.[1] | currency : 'USD' : 'symbol' : '1.0-0'
+      }}
+      } @else {
       {{ quoteFrm.value.loanAmount | currency : 'USD' : 'symbol' : '1.0-0' }}
+      }
     </p>
 
     <p>
@@ -40,11 +63,25 @@
         [min]="1000"
         [max]="30000"
         [step]="1000"
+        [formControlName]="
+          !!comp.ranges?.loanAmount?.allowRange
+            ? 'loanAmountRange'
+            : 'loanAmount'
+        "
+        [range]="!!comp.ranges?.loanAmount?.allowRange"
       ></p-slider>
     </p>
     <div class="quote-range">
-      <div>$1,000</div>
-      <div>$30,000</div>
+      <div>
+        {{
+          comp.ranges?.loanAmount?.min | currency : 'USD' : 'symbol' : '1.0-0'
+        }}
+      </div>
+      <div>
+        {{
+          comp.ranges?.loanAmount?.max | currency : 'USD' : 'symbol' : '1.0-0'
+        }}
+      </div>
     </div>
   </div>
 
@@ -52,9 +89,19 @@
   <div class="quote-selector">
     <p class="label">Monthly Payment</p>
     <p class="value">
+      @if(!!comp.ranges?.monthlyPayment?.allowRange) {
+      {{
+        quoteFrm.value.monthlyPaymentRange?.[0] | currency : 'USD' : 'symbol' : '1.0-0'
+      }}
+      -
+      {{
+        quoteFrm.value.monthlyPaymentRange?.[1] | currency : 'USD' : 'symbol' : '1.0-0'
+      }}
+      } @else {
       {{
         quoteFrm.value.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-0'
       }}
+      }
     </p>
     <p>
       <p-slider
@@ -62,29 +109,67 @@
         [min]="50"
         [max]="1000"
         [step]="50"
+        [formControlName]="
+          !!comp.ranges?.monthlyPayment?.allowRange
+            ? 'monthlyPaymentRange'
+            : 'monthlyPayment'
+        "
+        [range]="!!comp.ranges?.monthlyPayment?.allowRange"
       ></p-slider>
     </p>
     <div class="quote-range">
-      <div>$50</div>
-      <div>$1,000</div>
+      <div>
+        {{
+          comp.ranges?.monthlyPayment?.min
+            | currency : 'USD' : 'symbol' : '1.0-0'
+        }}
+      </div>
+      <div>
+        {{
+          comp.ranges?.monthlyPayment?.max
+            | currency : 'USD' : 'symbol' : '1.0-0'
+        }}
+      </div>
     </div>
   </div>
 
   <!---->
   <div class="quote-selector">
     <p class="label">Loan Duration</p>
-    <p class="value">{{ quoteFrm.value.loanDuration }} Months</p>
+    <p class="value">
+      @if(!!comp.ranges?.loanDuration?.allowRange) {
+      {{
+        quoteFrm.value.loanDurationRange?.[0]
+      }}
+      -
+      {{
+        quoteFrm.value.loanDurationRange?.[1]
+      }}
+      } @else {
+      {{ quoteFrm.value.loanDuration }}
+      }
+    </p>
     <p>
       <p-slider
         formControlName="loanDuration"
         [min]="24"
         [max]="60"
-        [step]="12"
+        [step]="6"
+        [formControlName]="
+          !!comp.ranges?.loanDuration?.allowRange
+            ? 'loanDurationRange'
+            : 'loanDuration'
+        "
+        [range]="!!comp.ranges?.loanDuration?.allowRange"
       ></p-slider>
     </p>
     <div class="quote-range">
-      <div>24 Months</div>
-      <div>60 Months</div>
+      <div>
+        {{ comp.ranges?.monthlyPayment?.min }}
+      </div>
+      <div>
+        {{ comp.ranges?.monthlyPayment?.max }}
+      </div>
     </div>
   </div>
   <!-- -->
