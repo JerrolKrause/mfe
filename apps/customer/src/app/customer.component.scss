@@ -1,6 +1,7 @@
 #customer {
   $brandColor: #00a39e;
   $titleColor: #004b75;
+  @import 'libs/brand/src/styles/styles.scss';
   .bg {
     background: linear-gradient(to right, #004b75, #00d0cd);
     min-height: 200px;

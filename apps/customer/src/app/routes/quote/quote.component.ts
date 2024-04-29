@@ -14,6 +14,8 @@ import { QuotingService } from '../../shared/services/quoting.service';
 export class QuoteComponent implements OnInit {
   public isDisabled = true;
 
+  public loanGoals: boolean[] = [false, false, false];
+
   constructor(
     private socket: SocketService,
     private quoteSvc: QuotingService,
@@ -71,5 +73,9 @@ export class QuoteComponent implements OnInit {
         })
       );
     }
+  }
+
+  public loanGoalSelection(i: number) {
+    this.loanGoals[i] = !this.loanGoals[i];
   }
 }

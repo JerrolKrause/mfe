@@ -2,6 +2,10 @@ body {
   font-size: 1rem;
 }
 
+// UI Lib
+@import 'global/accordion.scss';
+@import 'global/tabs.scss';
+
 // Global encapsulated styles
 @import 'global/typography.scss';
 @import 'global/layout.scss';

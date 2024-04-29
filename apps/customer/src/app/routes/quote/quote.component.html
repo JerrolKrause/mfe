@@ -4,22 +4,45 @@
     <div style="max-width: 480px; margin: auto">
       <h1>Select Your Loan Preferences</h1>
       <p-tabView>
-        <p-tabPanel header="Select Goals">
-          <p>Select your loan goals</p>
-          <p>
-            <button class="p-button">Cash Out</button>
-          </p>
-          <p>
-            <button class="p-button">Improve Monthly Cash Flow</button>
-          </p>
-          <p>
-            <button class="p-button">Consolidate Debt</button>
-          </p>
-          <hr />
-          <p>Customize your loan options further</p>
-          <lib-quote-form
-            (quoteFormChanged)="quoteFormChanged($event)"
-          ></lib-quote-form>
+        <p-tabPanel header="Customize Loan Options">
+          <p-accordion [activeIndex]="0">
+            <p-accordionTab header="See Offers Based On Goal">
+              <p>Select your loan goals</p>
+              <p>
+                <button
+                  class="p-button"
+                  [ngClass]="!loanGoals[0] ? 'p-button-outlined' : ''"
+                  (click)="loanGoalSelection(0)"
+                >
+                  Cash Out
+                </button>
+              </p>
+              <p>
+                <button
+                  class="p-button"
+                  [ngClass]="!loanGoals[1] ? 'p-button-outlined' : ''"
+                  (click)="loanGoalSelection(1)"
+                >
+                  Improve Monthly Cash Flow
+                </button>
+              </p>
+              <p>
+                <button
+                  class="p-button"
+                  [ngClass]="!loanGoals[2] ? 'p-button-outlined' : ''"
+                  (click)="loanGoalSelection(2)"
+                >
+                  Consolidate Debt
+                </button>
+              </p>
+            </p-accordionTab>
+            <p-accordionTab header="Customize Offer Details">
+              <p>Customize your loan options further</p>
+              <lib-quote-form
+                (quoteFormChanged)="quoteFormChanged($event)"
+              ></lib-quote-form>
+            </p-accordionTab>
+          </p-accordion>
         </p-tabPanel>
         <p-tabPanel header="Available Offers (4)"> </p-tabPanel>
       </p-tabView>

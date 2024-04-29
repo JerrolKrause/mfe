@@ -2,6 +2,12 @@
   background-color: $brandColor;
   border-color: $brandColor;
   text-align: center;
+  display: block;
+  width: 100%;
+  @media (min-width: 768px) {
+    width: initial;
+    display: initial;
+  }
   &:hover {
     background-color: #004b75;
   }
