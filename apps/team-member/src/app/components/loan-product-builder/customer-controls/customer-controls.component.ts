@@ -21,6 +21,7 @@ export class CustomerControlsComponent {
     {
       label: 'Term',
       prop: 'term',
+      step: 6,
       isCurrency: false,
     },
     {
