@@ -39,6 +39,7 @@
             <p-accordionTab header="Customize Offer Details">
               <p>Customize your loan options further</p>
               <lib-quote-form
+                [ranges]="ranges$ | async"
                 [formDefaults]="quoteFormDefaults$ | async"
                 (quoteFormChanged)="quoteFormChanged($event)"
               ></lib-quote-form>

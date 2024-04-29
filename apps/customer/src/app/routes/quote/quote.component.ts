@@ -20,6 +20,9 @@ export class QuoteComponent implements OnInit {
 
   public quoteFormDefaults$ =
     new BehaviorSubject<Partial<LoanCalculator.Quote> | null>(null);
+  public ranges$ = new BehaviorSubject<Partial<LoanCalculator.Ranges> | null>(
+    null
+  );
 
   constructor(
     private socket: SocketService,
@@ -38,6 +41,12 @@ export class QuoteComponent implements OnInit {
           loanAmount: data.payload?.userSelection?.loanAmount?.value,
           loanDuration: data.payload?.userSelection?.term?.value,
           monthlyPayment: data.payload?.userSelection?.monthlyPayment?.value,
+        });
+        this.ranges$.next({
+          cashOut: {
+            min: data.payload?.cashOut?.minValue,
+            max: data.payload?.cashOut?.maxValue,
+          },
         });
       }
     });

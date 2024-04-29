@@ -1,24 +1,29 @@
-<form [formGroup]="quoteFrm" class="quote-form">
+<form
+  [formGroup]="quoteFrm"
+  class="quote-form"
+  *ngIf="{ ranges: ranges$ | async } as comp"
+>
   <!---->
   <div class="quote-selector">
     <p class="label">Cash Out</p>
     <p class="value">
       {{ quoteFrm.value.cashOut | currency : 'USD' : 'symbol' : '1.0-0' }}
-      @if(quoteFrm.value.cashOut && quoteFrm.value.cashOut >= 15000) {
-      <span class="nudge-left">+ </span>
-      }
     </p>
     <p>
       <p-slider
         formControlName="cashOut"
-        [min]="1500"
-        [max]="15000"
-        [step]="500"
+        [min]="comp.ranges?.cashOut?.min ?? 1500"
+        [max]="comp.ranges?.cashOut?.max ?? 15000"
+        [step]="comp.ranges?.cashOut?.step ?? 500"
       ></p-slider>
     </p>
     <div class="quote-range">
-      <div>$1,500</div>
-      <div>$15,000</div>
+      <div>
+        {{ comp.ranges?.cashOut?.min | currency : 'USD' : 'symbol' : '1.0-0' }}
+      </div>
+      <div>
+        {{ comp.ranges?.cashOut?.max | currency : 'USD' : 'symbol' : '1.0-0' }}
+      </div>
     </div>
   </div>
   <!---->

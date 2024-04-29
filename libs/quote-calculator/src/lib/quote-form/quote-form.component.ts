@@ -10,7 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Subscription, debounceTime } from 'rxjs';
+import { BehaviorSubject, Subscription, debounceTime, take } from 'rxjs';
 import { LoanCalculator } from '../quote-calculator.models';
 
 @Component({
@@ -24,10 +24,30 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() disabled = false;
   /** Initial/default values to load the form with */
   @Input() formDefaults?: Partial<LoanCalculator.Quote> | null = null;
+  @Input() ranges?: Partial<LoanCalculator.Ranges> | null = {
+    cashOut: {
+      min: 1000,
+      max: 15000,
+    },
+    loanAmount: {
+      min: 1000,
+      max: 15000,
+    },
+    loanDuration: {
+      min: 24,
+      max: 60,
+    },
+    monthlyPayment: {
+      min: 50,
+      max: 1000,
+    },
+  };
   /** Controls the debounce time in milliseconds, default is 100ms */
   @Input() debounceForm = 250;
   /** Should the form emit its values after load, default true */
   @Input() emitOnload = true;
+
+  public ranges$ = new BehaviorSubject(this.ranges);
 
   /** Quote Form */
   public quoteFrm = this.fb.group({
@@ -76,6 +96,13 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (changes['disabled']) {
       this.disabled ? this.quoteFrm.disable() : this.quoteFrm.enable();
+    }
+    if (changes['ranges'] && this.ranges) {
+      this.ranges$.pipe(take(1)).subscribe((rangesOld) =>
+        this.ranges$.next({
+          cashOut: { ...rangesOld?.cashOut, ...this.ranges?.cashOut },
+        })
+      );
     }
   }
 
