@@ -15,21 +15,31 @@ export class CustomerControlsComponent implements OnInit, OnDestroy {
     {
       label: 'Cash Out',
       prop: 'cashOut',
+      step: 1000,
+      min: 500,
+      max: 15000,
     },
     {
       label: 'Loan Amount',
       prop: 'loanAmount',
+      step: 1000,
+      min: 1000,
+      max: 30000,
     },
     {
       label: 'Monthly Payment',
       prop: 'monthlyPayment',
-      step: 25,
+      step: 50,
+      min: 50,
+      max: 1500,
     },
     {
       label: 'Term',
       prop: 'term',
       step: 6,
       isCurrency: false,
+      min: 6,
+      max: 84,
     },
   ];
   public controlForm = this.fb.group({

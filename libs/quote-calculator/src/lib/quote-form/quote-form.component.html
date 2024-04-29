@@ -50,25 +50,6 @@
 
   <!---->
   <div class="quote-selector">
-    <p class="label">Loan Duration</p>
-    <p class="value">{{ quoteFrm.value.loanDuration }} Months</p>
-    <p>
-      <p-slider
-        formControlName="loanDuration"
-        [min]="24"
-        [max]="60"
-        [step]="12"
-      ></p-slider>
-    </p>
-    <div class="quote-range">
-      <div>24 Months</div>
-      <div>60 Months</div>
-    </div>
-  </div>
-  <!-- -->
-
-  <!---->
-  <div class="quote-selector">
     <p class="label">Monthly Payment</p>
     <p class="value">
       {{
@@ -88,4 +69,23 @@
       <div>$1,000</div>
     </div>
   </div>
+
+  <!---->
+  <div class="quote-selector">
+    <p class="label">Loan Duration</p>
+    <p class="value">{{ quoteFrm.value.loanDuration }} Months</p>
+    <p>
+      <p-slider
+        formControlName="loanDuration"
+        [min]="24"
+        [max]="60"
+        [step]="12"
+      ></p-slider>
+    </p>
+    <div class="quote-range">
+      <div>24 Months</div>
+      <div>60 Months</div>
+    </div>
+  </div>
+  <!-- -->
 </form>

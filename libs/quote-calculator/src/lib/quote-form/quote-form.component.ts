@@ -101,6 +101,15 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
       this.ranges$.pipe(take(1)).subscribe((rangesOld) =>
         this.ranges$.next({
           cashOut: { ...rangesOld?.cashOut, ...this.ranges?.cashOut },
+          loanAmount: { ...rangesOld?.loanAmount, ...this.ranges?.loanAmount },
+          loanDuration: {
+            ...rangesOld?.loanDuration,
+            ...this.ranges?.loanDuration,
+          },
+          monthlyPayment: {
+            ...rangesOld?.monthlyPayment,
+            ...this.ranges?.monthlyPayment,
+          },
         })
       );
     }

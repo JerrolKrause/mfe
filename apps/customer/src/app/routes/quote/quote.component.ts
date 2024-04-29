@@ -47,6 +47,18 @@ export class QuoteComponent implements OnInit {
             min: data.payload?.cashOut?.minValue,
             max: data.payload?.cashOut?.maxValue,
           },
+          loanAmount: {
+            min: data.payload?.loanAmount?.minValue,
+            max: data.payload?.loanAmount?.maxValue,
+          },
+          loanDuration: {
+            min: data.payload?.term?.minValue,
+            max: data.payload?.term?.maxValue,
+          },
+          monthlyPayment: {
+            min: data.payload?.monthlyPayment?.minValue,
+            max: data.payload?.monthlyPayment?.maxValue,
+          },
         });
       }
     });

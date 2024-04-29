@@ -57,7 +57,7 @@
           currency="USD"
           locale="en-US"
           formControlName="minValue"
-          [min]="500"
+          [min]="product.min"
         >
         </p-inputNumber>
 
@@ -104,7 +104,7 @@
         <p-inputNumber
           inputId="integeronly"
           [size]="10"
-          [max]="25000"
+          [max]="product.max"
           currency="USD"
           locale="en-US"
           formControlName="maxValue"
