@@ -1,12 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { QUOTE_FORM_ACTIONS, QuoteFormModels, UserIds } from '$shared';
+import { SocketService } from '$state-management';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-
+import { debounceTime } from 'rxjs';
 @Component({
   selector: 'app-customer-controls',
   templateUrl: './customer-controls.component.html',
   styleUrl: './customer-controls.component.scss',
 })
-export class CustomerControlsComponent {
+export class CustomerControlsComponent implements OnInit, OnDestroy {
   @Input() creditors: any[] = [];
 
   public controls = [
@@ -19,14 +21,15 @@ export class CustomerControlsComponent {
       prop: 'loanAmount',
     },
     {
+      label: 'Monthly Payment',
+      prop: 'monthlyPayment',
+      step: 25,
+    },
+    {
       label: 'Term',
       prop: 'term',
       step: 6,
       isCurrency: false,
-    },
-    {
-      label: 'Monthly Payment',
-      prop: 'monthlyPayment',
     },
   ];
   public controlForm = this.fb.group({
@@ -70,5 +73,23 @@ export class CustomerControlsComponent {
     }),
   });
 
-  constructor(private fb: FormBuilder) {}
+  public sub: any = null;
+
+  constructor(private fb: FormBuilder, private socket: SocketService) {}
+
+  ngOnInit(): void {
+    this.sub = this.controlForm.valueChanges
+      .pipe(debounceTime(250))
+      .subscribe((form) => {
+        const frm = form as QuoteFormModels.LoanOptions;
+        this.socket.sendMessageToUser(
+          UserIds.customer,
+          JSON.stringify(QUOTE_FORM_ACTIONS.TM_QUOTE_CHANGED(frm))
+        );
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
 }

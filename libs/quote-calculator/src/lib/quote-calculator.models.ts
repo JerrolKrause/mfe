@@ -7,6 +7,10 @@ export module LoanCalculator {
     creditScore?: number | null;
     apr?: number | null;
     collateral?: any | null;
+
+    cashOut?: number | null;
+
+    monthlyPayment?: number | null;
   }
   export interface LoanProduct {
     monthlyPaymentMin: number;

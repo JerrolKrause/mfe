@@ -1,8 +1,10 @@
 import { LoanCalculator } from '$quote-calculator';
+import { QUOTE_FORM_ACTIONS } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
+import { BehaviorSubject } from 'rxjs';
 import { QuotingService } from '../../shared/services/quoting.service';
 
 @Component({
@@ -16,6 +18,9 @@ export class QuoteComponent implements OnInit {
 
   public loanGoals: boolean[] = [false, false, false];
 
+  public quoteFormDefaults$ =
+    new BehaviorSubject<Partial<LoanCalculator.Quote> | null>(null);
+
   constructor(
     private socket: SocketService,
     private quoteSvc: QuotingService,
@@ -24,6 +29,19 @@ export class QuoteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.socket.onMessageReceived((msg) => {
+      const data = JSON.parse(msg);
+      if (QUOTE_FORM_ACTIONS.TM_QUOTE_CHANGED.match(data)) {
+        console.log(data);
+        this.quoteFormDefaults$.next({
+          cashOut: data.payload?.userSelection?.cashOut?.value,
+          loanAmount: data.payload?.userSelection?.loanAmount?.value,
+          loanDuration: data.payload?.userSelection?.term?.value,
+          monthlyPayment: data.payload?.userSelection?.monthlyPayment?.value,
+        });
+      }
+    });
+    /**
     this.socket.sendMessageToUser(
       'team-member',
       JSON.stringify({ type: 'LOCATION_CHANGE', data: 'Loan Preferences' })
@@ -33,6 +51,7 @@ export class QuoteComponent implements OnInit {
       JSON.stringify({
         type: 'CUSTOMER_CONNECTED',
       })
+
     );
 
     this.socket.onMessageReceived((msg) => {
@@ -57,6 +76,7 @@ export class QuoteComponent implements OnInit {
         });
       }
     });
+*/
   }
 
   /**
@@ -64,6 +84,7 @@ export class QuoteComponent implements OnInit {
    * @param quote
    */
   public quoteFormChanged(quote?: LoanCalculator.Quote | null) {
+    /**
     if (this.quoteSvc.agentId) {
       this.socket.sendMessageToUser(
         'team-member',
@@ -72,7 +93,7 @@ export class QuoteComponent implements OnInit {
           data: quote,
         })
       );
-    }
+    } */
   }
 
   public loanGoalSelection(i: number) {

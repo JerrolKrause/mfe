@@ -1,14 +1,4 @@
 <form [formGroup]="controlForm">
-  <!--
-  <div class="float-end">
-    <button>Update Customer Screen</button>
-  </div>
-  <div>
-    <p>Customer Loan Preferences</p>
-    <p>Loan Amount, Cash Out, Monthly Payment, Term. Debt Record to pay off.</p>
-  </div>
-  -->
-
   @for(product of controls;track product) {
   <div class="control">
     <div class="d-flex mb-3" style="justify-content: space-between">
@@ -41,7 +31,7 @@
           <p-slider
             [min]="controlForm.get(product.prop + '.minValue')?.value ?? 0"
             [max]="controlForm.get(product.prop + '.maxValue')?.value ?? 0"
-            [step]="product.step ?? 1000"
+            [step]="product?.step ?? 1000"
             [range]="true"
             formControlName="range"
           ></p-slider>
@@ -49,7 +39,7 @@
           <p-slider
             [min]="controlForm.get(product.prop + '.minValue')?.value ?? 0"
             [max]="controlForm.get(product.prop + '.maxValue')?.value ?? 0"
-            [step]="product.step ?? 1000"
+            [step]="product?.step ?? 1000"
             formControlName="value"
           ></p-slider>
           }
