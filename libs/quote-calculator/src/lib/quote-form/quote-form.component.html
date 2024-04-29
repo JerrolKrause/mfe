@@ -1,7 +1,29 @@
 <form [formGroup]="quoteFrm" class="quote-form">
   <!---->
   <div class="quote-selector">
-    <p class="label">Desired Loan Amount</p>
+    <p class="label">Cash Out</p>
+    <p class="value">
+      {{ quoteFrm.value.cashOut | currency : 'USD' : 'symbol' : '1.0-0' }}
+      @if(quoteFrm.value.cashOut && quoteFrm.value.cashOut >= 15000) {
+      <span class="nudge-left">+ </span>
+      }
+    </p>
+    <p>
+      <p-slider
+        formControlName="cashOut"
+        [min]="1500"
+        [max]="15000"
+        [step]="500"
+      ></p-slider>
+    </p>
+    <div class="quote-range">
+      <div>$1,500</div>
+      <div>$15,000</div>
+    </div>
+  </div>
+  <!---->
+  <div class="quote-selector">
+    <p class="label">Total Loan Amount</p>
 
     <p class="value">
       {{ quoteFrm.value.loanAmount | currency : 'USD' : 'symbol' : '1.0-0' }}
@@ -11,41 +33,19 @@
       <p-slider
         formControlName="loanAmount"
         [min]="1000"
-        [max]="15000"
+        [max]="30000"
         [step]="1000"
       ></p-slider>
     </p>
     <div class="quote-range">
       <div>$1,000</div>
-      <div>$15,000</div>
+      <div>$30,000</div>
     </div>
   </div>
+
   <!---->
   <div class="quote-selector">
-    <p class="label">Your Approximate Monthly Income</p>
-    <p class="value">
-      {{ quoteFrm.value.monthlyIncome | currency : 'USD' : 'symbol' : '1.0-0' }}
-      @if(quoteFrm.value.monthlyIncome && quoteFrm.value.monthlyIncome >= 15000)
-      {
-      <span class="nudge-left">+ </span>
-      }
-    </p>
-    <p>
-      <p-slider
-        formControlName="monthlyIncome"
-        [min]="500"
-        [max]="3000"
-        [step]="500"
-      ></p-slider>
-    </p>
-    <div class="quote-range">
-      <div>$500</div>
-      <div>$3,000+</div>
-    </div>
-  </div>
-  <!---->
-  <div class="quote-selector">
-    <p class="label">Desired Loan Duration</p>
+    <p class="label">Loan Duration</p>
     <p class="value">{{ quoteFrm.value.loanDuration }} Months</p>
     <p>
       <p-slider
@@ -64,31 +64,23 @@
 
   <!---->
   <div class="quote-selector">
-    <p class="label">Desired Annual Percentage Rate (APR)</p>
-    <p class="value">{{ quoteFrm.value.apr }}%</p>
+    <p class="label">Monthly Payment</p>
+    <p class="value">
+      {{
+        quoteFrm.value.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-0'
+      }}
+    </p>
     <p>
       <p-slider
-        formControlName="apr"
-        [min]="5"
-        [max]="30"
-        [step]="1"
+        formControlName="monthlyPayment"
+        [min]="50"
+        [max]="1000"
+        [step]="50"
       ></p-slider>
     </p>
     <div class="quote-range">
-      <div>13%</div>
-      <div>30%</div>
+      <div>$50</div>
+      <div>$1,000</div>
     </div>
-  </div>
-
-  <div class="quote-selector">
-    <p class="label mb-2">Do you wish to secure your loan with your vehicle?</p>
-    <p>
-      <p-selectButton
-        styleClass="w-100-mobile"
-        formControlName="collateral"
-        [options]="['Yes', 'No']"
-      ></p-selectButton>
-    </p>
-    <div class="quote-range"></div>
   </div>
 </form>

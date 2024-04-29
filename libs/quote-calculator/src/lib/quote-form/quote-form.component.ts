@@ -31,12 +31,14 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
 
   /** Quote Form */
   public quoteFrm = this.fb.group({
+    cashOut: 2000,
     loanAmount: [6000],
     loanDuration: [48],
     monthlyIncome: [2000],
     creditScore: [650],
     apr: [21],
     collateral: ['Yes'],
+    monthlyPayment: 200,
   });
 
   /** When the form is changed, send the form values to the parent */

@@ -1,0 +1,9 @@
+.selected-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 36px;
+  color: #004b75;
+  &.range {
+    font-size: 1.5rem;
+  }
+}

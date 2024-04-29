@@ -222,79 +222,9 @@
         <p-tabView>
           <p-tabPanel header="Customer Controls">
             <div class="px-3">
-              <div class="float-end">
-                <button>Update Customer Screen</button>
-              </div>
-              <div>
-                <p>Customer Loan Preferences</p>
-                <p>
-                  Loan Amount, Cash Out, Monthly Payment, Term. Debt Record to
-                  pay off.
-                </p>
-              </div>
-              <div class="d-flex mb-1">
-                <div>Loan Amount</div>
-                <div>
-                  <button>Enable Range</button>
-                </div>
-                <div>Min Range: <input value="1000" /></div>
-                <div>Max Range: <input value="15000" /></div>
-              </div>
-              <div class="mb-3">
-                <p-slider [range]="true"></p-slider>
-              </div>
-              <div class="d-flex mb-1">
-                <div>Cash Out</div>
-                <div>
-                  <button>Enable Range</button>
-                </div>
-                <div>Min Range: <input value="1000" /></div>
-                <div>Max Range: <input value="15000" /></div>
-              </div>
-              <div class="mb-3">
-                <p-slider [range]="true"></p-slider>
-              </div>
-              <div class="d-flex mb-1">
-                <div>Monthly Payment</div>
-                <div>
-                  <button>Enable Range</button>
-                </div>
-                <div>Min Range: <input value="1000" /></div>
-                <div>Max Range: <input value="15000" /></div>
-              </div>
-              <div class="mb-3">
-                <p-slider [range]="true"></p-slider>
-              </div>
-              <div class="d-flex mb-1">
-                <div>Term</div>
-                <div>
-                  <button>Enable Range</button>
-                </div>
-                <div>Min Range: <input value="1000" /></div>
-                <div>Max Range: <input value="15000" /></div>
-              </div>
-              <div class="mb-3">
-                <p-slider [range]="true"></p-slider>
-              </div>
-              <p class="mb-0">Select Available Creditors</p>
-              <table class="table table-sm table-striped table-hover">
-                <tbody>
-                  @for(creditor of teamSvc.creditors;track creditor.label; let
-                  index = $index) {
-                  <tr class="clickable">
-                    <td>
-                      <p-checkbox [binary]="true"></p-checkbox>
-                    </td>
-                    <td>{{ creditor.label }}</td>
-                    <td>${{ creditor.totalOwed }}</td>
-                    <td>${{ creditor.monthlyPayment }}</td>
-                  </tr>
-                  }
-                </tbody>
-              </table>
-
-              <p>Secured Or Unsecured</p>
-              <p><button>Toggle Collateral</button></p>
+              <app-customer-controls
+                [creditors]="teamSvc.creditors"
+              ></app-customer-controls>
             </div>
           </p-tabPanel>
           <p-tabPanel header="Custom Quote">
