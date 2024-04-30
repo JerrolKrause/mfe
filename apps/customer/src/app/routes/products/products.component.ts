@@ -1,3 +1,4 @@
+import { QUOTE_FORM_ACTIONS } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, OnInit } from '@angular/core';
 import { QuotingService } from '../../shared/services/quoting.service';
@@ -11,12 +12,12 @@ export class ProductsComponent implements OnInit {
   constructor(private socket: SocketService, public quoteSvc: QuotingService) {}
 
   ngOnInit(): void {
-    this.socket.sendMessageToUser(
-      'team-member',
-      JSON.stringify({ type: 'LOCATION_CHANGE', data: 'Loan Products' })
-    );
-
     this.socket.onMessageReceived((msg) => {
+      const data = JSON.parse(msg);
+      if (QUOTE_FORM_ACTIONS.PRODUCTS_READY(data)) {
+        this.quoteSvc.loanProducts$.next(data.payload);
+      }
+      /**
       const payload = JSON.parse(msg) as { type: string; data?: any };
       if (payload.type === 'PRODUCTS_READY') {
         this.quoteSvc.loanProducts$.next(payload.data);
@@ -27,6 +28,7 @@ export class ProductsComponent implements OnInit {
         this.quoteSvc.loanProductsHighlighted$.next(payload.data);
         console.log(payload.data);
       }
+       */
     });
   }
 }

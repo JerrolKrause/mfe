@@ -2,6 +2,17 @@
 /* eslint-disable @typescript-eslint/prefer-namespace-keyword */
 
 export module QuoteFormModels {
+  export interface Quote {
+    loanAmount?: number | null;
+    loanDuration?: number | null;
+    monthlyIncome?: number | null;
+    creditScore?: number | null;
+    apr?: number | null;
+    collateral?: any | null;
+    cashOut?: number | null;
+    monthlyPayment?: number | null;
+  }
+
   export interface UserSelectionDetail {
     value?: number | null;
     range?: [number | null, number | null];

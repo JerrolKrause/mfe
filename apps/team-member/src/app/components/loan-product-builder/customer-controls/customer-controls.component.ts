@@ -2,7 +2,7 @@ import { QUOTE_FORM_ACTIONS, QuoteFormModels, UserIds } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { debounceTime } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 @Component({
   selector: 'app-customer-controls',
   templateUrl: './customer-controls.component.html',
@@ -83,20 +83,50 @@ export class CustomerControlsComponent implements OnInit, OnDestroy {
     }),
   });
 
-  public sub: any = null;
+  public isUpdating = false;
+
+  public sub: Subscription | null = null;
 
   constructor(private fb: FormBuilder, private socket: SocketService) {}
 
   ngOnInit(): void {
+    // Send data to customer
     this.sub = this.controlForm.valueChanges
       .pipe(debounceTime(250))
       .subscribe((form) => {
-        const frm = form as QuoteFormModels.LoanOptions;
-        this.socket.sendMessageToUser(
-          UserIds.customer,
-          JSON.stringify(QUOTE_FORM_ACTIONS.TM_QUOTE_CHANGED(frm))
-        );
+        if (!this.isUpdating) {
+          const frm = form as QuoteFormModels.LoanOptions;
+          this.socket.sendMessageToUser(
+            UserIds.customer,
+            JSON.stringify(QUOTE_FORM_ACTIONS.TM_QUOTE_CHANGED(frm))
+          );
+        }
       });
+
+    // Receive data from customer
+    this.socket.onMessageReceived((msg) => {
+      const data = JSON.parse(msg);
+      if (QUOTE_FORM_ACTIONS.CUSTOMER_QUOTE_CHANGED.match(data)) {
+        this.isUpdating = true;
+        this.controlForm.patchValue({
+          userSelection: {
+            cashOut: {
+              value: data.payload?.cashOut ?? null,
+            },
+            loanAmount: {
+              value: data.payload?.loanAmount ?? null,
+            },
+            monthlyPayment: {
+              value: data.payload?.monthlyPayment ?? null,
+            },
+            term: {
+              value: data.payload?.loanDuration ?? null,
+            },
+          },
+        });
+        setTimeout(() => (this.isUpdating = false), 250);
+      }
+    });
   }
 
   ngOnDestroy(): void {

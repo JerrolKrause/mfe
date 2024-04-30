@@ -20,15 +20,23 @@
       }
     </p>
     <p>
+      @if(!!comp.ranges?.cashOut?.allowRange) {
       <p-slider
-        [formControlName]="
-          !!comp.ranges?.cashOut?.allowRange ? 'cashOutRange' : 'cashOut'
-        "
-        [range]="!!comp.ranges?.cashOut?.allowRange"
+        formControlName="cashOutRange"
+        [range]="true"
         [min]="comp.ranges?.cashOut?.min ?? 1500"
         [max]="comp.ranges?.cashOut?.max ?? 15000"
         [step]="comp.ranges?.cashOut?.step ?? 500"
       ></p-slider>
+      } @else {
+      <p-slider
+        formControlName="cashOut"
+        [range]="false"
+        [min]="comp.ranges?.cashOut?.min ?? 1500"
+        [max]="comp.ranges?.cashOut?.max ?? 15000"
+        [step]="comp.ranges?.cashOut?.step ?? 500"
+      ></p-slider>
+      }
     </p>
     <div class="quote-range">
       <div>
@@ -58,18 +66,23 @@
     </p>
 
     <p>
+      @if(!!comp.ranges?.loanAmount?.allowRange) {
+      <p-slider
+        formControlName="loanAmountRange"
+        [range]="true"
+        [min]="comp.ranges?.loanAmount?.min ?? 1500"
+        [max]="comp.ranges?.loanAmount?.max ?? 15000"
+        [step]="comp.ranges?.loanAmount?.step ?? 500"
+      ></p-slider>
+      } @else {
       <p-slider
         formControlName="loanAmount"
-        [min]="1000"
-        [max]="30000"
-        [step]="1000"
-        [formControlName]="
-          !!comp.ranges?.loanAmount?.allowRange
-            ? 'loanAmountRange'
-            : 'loanAmount'
-        "
-        [range]="!!comp.ranges?.loanAmount?.allowRange"
+        [range]="false"
+        [min]="comp.ranges?.loanAmount?.min ?? 1500"
+        [max]="comp.ranges?.loanAmount?.max ?? 15000"
+        [step]="comp.ranges?.loanAmount?.step ?? 500"
       ></p-slider>
+      }
     </p>
     <div class="quote-range">
       <div>
@@ -104,18 +117,23 @@
       }
     </p>
     <p>
+      @if(!!comp.ranges?.monthlyPayment?.allowRange) {
+      <p-slider
+        formControlName="monthlyPaymentRange"
+        [range]="true"
+        [min]="comp.ranges?.monthlyPayment?.min ?? 1500"
+        [max]="comp.ranges?.monthlyPayment?.max ?? 15000"
+        [step]="comp.ranges?.monthlyPayment?.step ?? 100"
+      ></p-slider>
+      } @else {
       <p-slider
         formControlName="monthlyPayment"
-        [min]="50"
-        [max]="1000"
-        [step]="50"
-        [formControlName]="
-          !!comp.ranges?.monthlyPayment?.allowRange
-            ? 'monthlyPaymentRange'
-            : 'monthlyPayment'
-        "
-        [range]="!!comp.ranges?.monthlyPayment?.allowRange"
+        [range]="false"
+        [min]="comp.ranges?.monthlyPayment?.min ?? 1500"
+        [max]="comp.ranges?.monthlyPayment?.max ?? 15000"
+        [step]="comp.ranges?.monthlyPayment?.step ?? 100"
       ></p-slider>
+      }
     </p>
     <div class="quote-range">
       <div>
@@ -150,25 +168,30 @@
       }
     </p>
     <p>
+      @if(!!comp.ranges?.loanDuration?.allowRange) {
+      <p-slider
+        formControlName="loanDurationRange"
+        [range]="true"
+        [min]="comp.ranges?.loanDuration?.min ?? 24"
+        [max]="comp.ranges?.loanDuration?.max ?? 60"
+        [step]="comp.ranges?.loanDuration?.step ?? 6"
+      ></p-slider>
+      } @else {
       <p-slider
         formControlName="loanDuration"
-        [min]="24"
-        [max]="60"
-        [step]="6"
-        [formControlName]="
-          !!comp.ranges?.loanDuration?.allowRange
-            ? 'loanDurationRange'
-            : 'loanDuration'
-        "
-        [range]="!!comp.ranges?.loanDuration?.allowRange"
+        [range]="false"
+        [min]="comp.ranges?.loanDuration?.min ?? 1500"
+        [max]="comp.ranges?.loanDuration?.max ?? 24"
+        [step]="comp.ranges?.loanDuration?.step ?? 6"
       ></p-slider>
+      }
     </p>
     <div class="quote-range">
       <div>
-        {{ comp.ranges?.monthlyPayment?.min }}
+        {{ comp.ranges?.loanDuration?.min }}
       </div>
       <div>
-        {{ comp.ranges?.monthlyPayment?.max }}
+        {{ comp.ranges?.loanDuration?.max }}
       </div>
     </div>
   </div>

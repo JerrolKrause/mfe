@@ -9,5 +9,8 @@ export enum UserIds {
 export const QUOTE_FORM_ACTIONS = {
   TM_QUOTE_CHANGED:
     actionCreator<Partial<QuoteFormModels.LoanOptions>>('TM_QUOTE_CHANGED'),
-  CUSTOMER_QUOTE_CHANGED: actionCreator<unknown>('CUSTOMER_QUOTE_CHANGED'),
+  CUSTOMER_QUOTE_CHANGED: actionCreator<QuoteFormModels.Quote | null>(
+    'CUSTOMER_QUOTE_CHANGED'
+  ),
+  PRODUCTS_READY: actionCreator<any[]>('PRODUCTS_READY'),
 };

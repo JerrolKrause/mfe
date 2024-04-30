@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { BehaviorSubject, Subscription, debounceTime, take } from 'rxjs';
 import { LoanCalculator } from '../quote-calculator.models';
 
@@ -28,22 +28,22 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     cashOut: {
       min: 1000,
       max: 15000,
-      allowRange: true,
+      allowRange: false,
     },
     loanAmount: {
       min: 1000,
       max: 15000,
-      allowRange: true,
+      allowRange: false,
     },
     loanDuration: {
       min: 24,
       max: 60,
-      allowRange: true,
+      allowRange: false,
     },
     monthlyPayment: {
       min: 50,
       max: 1000,
-      allowRange: true,
+      allowRange: false,
     },
   };
   /** Controls the debounce time in milliseconds, default is 100ms */
@@ -117,6 +117,12 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
         })
       );
     }
+  }
+
+  public getFormControl(path: string): FormControl {
+    const control = this.quoteFrm?.get(path) as FormControl | null;
+
+    return control ? control : new FormControl();
   }
 
   ngOnDestroy(): void {

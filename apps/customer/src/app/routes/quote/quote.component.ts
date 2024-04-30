@@ -1,11 +1,9 @@
 import { LoanCalculator } from '$quote-calculator';
-import { QUOTE_FORM_ACTIONS } from '$shared';
+import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
-import { QuotingService } from '../../shared/services/quoting.service';
 
 @Component({
   selector: 'app-quote',
@@ -24,17 +22,17 @@ export class QuoteComponent implements OnInit {
     null
   );
 
-  constructor(
-    private socket: SocketService,
-    private quoteSvc: QuotingService,
-    private confirmationService: ConfirmationService,
-    private router: Router
-  ) {}
+  public isUpdating = false;
+
+  constructor(private socket: SocketService) {}
 
   ngOnInit(): void {
     this.socket.onMessageReceived((msg) => {
       const data = JSON.parse(msg);
       if (QUOTE_FORM_ACTIONS.TM_QUOTE_CHANGED.match(data)) {
+        if (this.isUpdating) {
+          return;
+        }
         console.log(data);
         this.quoteFormDefaults$.next({
           cashOut: data.payload?.userSelection?.cashOut?.value,
@@ -46,58 +44,26 @@ export class QuoteComponent implements OnInit {
           cashOut: {
             min: data.payload?.cashOut?.minValue,
             max: data.payload?.cashOut?.maxValue,
+            allowRange: data.payload?.cashOut?.allowRange,
           },
           loanAmount: {
             min: data.payload?.loanAmount?.minValue,
             max: data.payload?.loanAmount?.maxValue,
+            allowRange: data.payload?.loanAmount?.allowRange,
           },
           loanDuration: {
             min: data.payload?.term?.minValue,
             max: data.payload?.term?.maxValue,
+            allowRange: data.payload?.term?.allowRange,
           },
           monthlyPayment: {
             min: data.payload?.monthlyPayment?.minValue,
             max: data.payload?.monthlyPayment?.maxValue,
+            allowRange: data.payload?.monthlyPayment?.allowRange,
           },
         });
       }
     });
-    /**
-    this.socket.sendMessageToUser(
-      'team-member',
-      JSON.stringify({ type: 'LOCATION_CHANGE', data: 'Loan Preferences' })
-    );
-    this.socket.sendMessageToUser(
-      'team-member',
-      JSON.stringify({
-        type: 'CUSTOMER_CONNECTED',
-      })
-
-    );
-
-    this.socket.onMessageReceived((msg) => {
-      const payload = JSON.parse(msg) as { type: string; data?: any };
-      if (payload.type === 'PRODUCTS_READY') {
-        this.isDisabled = false;
-        this.quoteSvc.loanProducts$.next(payload.data);
-        this.confirmationService.confirm({
-          //target: event.target as EventTarget,
-          message:
-            'Your loan products are now ready for review,<br/> would you like to view them now?',
-          header: 'Loan Products Ready',
-          icon: 'pi pi-exclamation-triangle',
-          acceptIcon: 'none',
-          rejectIcon: 'none',
-          acceptLabel: 'Yes Please!',
-          rejectButtonStyleClass: 'p-button-text',
-          accept: () => this.router.navigate(['/products']),
-          reject: () => {
-            //
-          },
-        });
-      }
-    });
-*/
   }
 
   /**
@@ -105,16 +71,12 @@ export class QuoteComponent implements OnInit {
    * @param quote
    */
   public quoteFormChanged(quote?: LoanCalculator.Quote | null) {
-    /**
-    if (this.quoteSvc.agentId) {
-      this.socket.sendMessageToUser(
-        'team-member',
-        JSON.stringify({
-          type: 'PREF_CHANGE',
-          data: quote,
-        })
-      );
-    } */
+    this.isUpdating = true;
+    this.socket.sendMessageToUser(
+      UserIds.teamMember,
+      JSON.stringify(QUOTE_FORM_ACTIONS.CUSTOMER_QUOTE_CHANGED(quote ?? null))
+    );
+    setTimeout(() => (this.isUpdating = false), 250);
   }
 
   public loanGoalSelection(i: number) {

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   IconDefinition,
   faBars,
+  faCar,
   faCaretDown,
   faCheck,
   faCog,
@@ -13,13 +14,18 @@ import {
   faExternalLinkAlt,
   faEye,
   faHome,
+  faInfoCircle,
+  faLock,
+  faLockOpen,
   faMoneyCheckAlt,
   faPhone,
   faPlus,
   faPowerOff,
   faQuestion,
   faRefresh,
+  faSadCry,
   faSave,
+  faSearchDollar,
   faSpinner,
   faThumbsUp,
   faTrash,
@@ -29,6 +35,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'info-circle'
+  | 'search-dollar'
+  | 'sad'
+  | 'car'
+  | 'lock'
+  | 'lock-open'
   | 'eye'
   | 'thumbsup'
   | 'external-link-alt'
@@ -66,6 +78,12 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    'info-circle': faInfoCircle,
+    'search-dollar': faSearchDollar,
+    sad: faSadCry,
+    car: faCar,
+    lock: faLock,
+    'lock-open': faLockOpen,
     eye: faEye,
     thumbsup: faThumbsUp,
     'external-link-alt': faExternalLinkAlt,

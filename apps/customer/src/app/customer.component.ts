@@ -1,3 +1,4 @@
+import { UserIds } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 @Component({
@@ -12,7 +13,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.socket.registerUser('customer');
+    this.socket.registerUser(UserIds.customer);
   }
 
   ngOnDestroy(): void {

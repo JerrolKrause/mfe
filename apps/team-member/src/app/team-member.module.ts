@@ -18,9 +18,12 @@ import { TabViewModule } from 'primeng/tabview';
 import { CustomerControlsComponent } from './components/loan-product-builder/customer-controls/customer-controls.component';
 import { FeesModalComponent } from './components/loan-product-builder/fees/fees-modal.component';
 import { LoanProductBuilderComponent } from './components/loan-product-builder/loan-product-builder.component';
+import { LoanProductsGridComponent } from './components/loan-product-builder/loan-products-grid/loan-products-grid.component';
 import { NonCreditProductsModalComponent } from './components/loan-product-builder/non-credit-products/non-credit-products-modal.component';
 import { HomeComponent } from './routes/home/home.component';
 import { TeamMemberComponent } from './team-member.component';
+
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { appRoutes } from './team-member.routes';
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import { appRoutes } from './team-member.routes';
     FeesModalComponent,
     NonCreditProductsModalComponent,
     CustomerControlsComponent,
+    LoanProductsGridComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +45,7 @@ import { appRoutes } from './team-member.routes';
     InputNumberModule,
     CardModule,
     TabViewModule,
+    OverlayPanelModule,
     SliderModule,
     InputTextModule,
     CheckboxModule,

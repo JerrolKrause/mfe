@@ -1,5 +1,6 @@
 import { FormsLib } from '$forms';
 import { LoanCalculator } from '$quote-calculator';
+import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
 import {
   ChangeDetectionStrategy,
@@ -144,7 +145,6 @@ export class LoanProductBuilderComponent implements OnInit {
 
   public loanProducts: any[] = [];
   public lpVisibility: boolean[] = [];
-  public lpHighlight: boolean[] = [];
 
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
@@ -240,18 +240,11 @@ export class LoanProductBuilderComponent implements OnInit {
   }
 
   public sendToCustomer() {
+    console.log(this.loanProducts);
     this.socket.sendMessageToUser(
-      'customer',
-      JSON.stringify({
-        type: 'PRODUCTS_READY',
-        data: this.loanProducts,
-      })
+      UserIds.customer,
+      JSON.stringify(QUOTE_FORM_ACTIONS.PRODUCTS_READY(this.loanProducts))
     );
-  }
-
-  public productDelete(index: number) {
-    this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
-    this.updateLPVisibility();
   }
 
   /**
@@ -263,17 +256,6 @@ export class LoanProductBuilderComponent implements OnInit {
     const control = this.loanProductsForm?.get(array)?.get(i.toString());
 
     control?.patchValue(!control.value);
-  }
-
-  public highlightRow(i: number) {
-    this.lpHighlight[i] = !this.lpHighlight[i];
-    this.socket.sendMessageToUser(
-      'customer',
-      JSON.stringify({
-        type: 'PRODUCTS_HIGHLIGHTED',
-        data: this.lpHighlight,
-      })
-    );
   }
 
   public onFormCompleted($event: any) {

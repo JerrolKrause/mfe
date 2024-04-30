@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
-interface LPState {}
+export interface LoanProduct {
+  productDescription: string;
+  productType: number;
+  systemDecision: number;
+  baseAdvance: number;
+  ltv: number;
+  term: number;
+  totalAdvance: number;
+  monthlyPayment: string;
+  apr: number;
+  lti: number;
+  ndi: number;
+  pti: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class TeamMemberService {
-  public state$ = new BehaviorSubject<LPState>({});
-
   public creditors = [
     { label: 'DISCOVER FIN SVCS', totalOwed: 673, monthlyPayment: 33 },
     { label: 'BANK CREDIT CARD', totalOwed: 643, monthlyPayment: 33 },
@@ -26,7 +36,7 @@ export class TeamMemberService {
     { label: 'Personal Loan Unsecured', productTypeId: 3, qty: 1 },
   ];
 
-  public loanProducts = [
+  public loanProducts: LoanProduct[] = [
     {
       productDescription: '2020 RAV4',
       productType: 0,
@@ -34,7 +44,7 @@ export class TeamMemberService {
       baseAdvance: 15000,
       ltv: 120,
       term: 66,
-      totalAdvance: 43200,
+      totalAdvance: 16500,
       monthlyPayment: '$432 - $486',
       apr: 16.16,
       lti: 95,
@@ -48,7 +58,7 @@ export class TeamMemberService {
       baseAdvance: 5000,
       ltv: 120,
       term: 54,
-      totalAdvance: 43200,
+      totalAdvance: 16500,
       monthlyPayment: '$50 - $62',
       apr: 17.16,
       lti: 95,
@@ -62,7 +72,7 @@ export class TeamMemberService {
       baseAdvance: 5000,
       ltv: 120,
       term: 54,
-      totalAdvance: 43200,
+      totalAdvance: 16500,
       monthlyPayment: '$50 - $62',
       apr: 22.16,
       lti: 95,
@@ -76,7 +86,7 @@ export class TeamMemberService {
       baseAdvance: 5000,
       ltv: 120,
       term: 54,
-      totalAdvance: 43200,
+      totalAdvance: 16500,
       monthlyPayment: '$50 - $62',
       apr: 22.16,
       lti: 95,
@@ -90,7 +100,7 @@ export class TeamMemberService {
       baseAdvance: 18500,
       ltv: 120,
       term: 66,
-      totalAdvance: 43200,
+      totalAdvance: 16500,
       monthlyPayment: '$185 - $201',
       apr: 23.16,
       lti: 95,
@@ -104,7 +114,7 @@ export class TeamMemberService {
       baseAdvance: 2100,
       ltv: 120,
       term: 42,
-      totalAdvance: 43200,
+      totalAdvance: 16500,
       monthlyPayment: '$85 - $110',
       apr: 27.16,
       lti: 95,
