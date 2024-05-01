@@ -9,6 +9,7 @@
         <th>Cash Out</th>
         <th>Total Loan Amount</th>
         <th>Monthly Payment</th>
+        <th>Payment Impact</th>
         <th>Term</th>
         <th>Base Advance</th>
         <th>APR</th>
@@ -55,7 +56,15 @@
           {{ product.totalAdvance | currency : 'USD' : 'symbol' : '1.0-2' }}
         </td>
         <td>
-          {{ product.monthlyPayment }}
+          {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
+        </td>
+        <td [ngClass]="product.paymentImpact > 0 ? 'green' : 'red'">
+          @if(product.paymentImpact > 0) {
+          <lib-icons icon="caret-up" class="me-2"></lib-icons>
+          } @else {
+          <lib-icons icon="caret-down" class="me-2"></lib-icons>
+          }
+          {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
         </td>
         <td>{{ product.term }} mo</td>
         <td>

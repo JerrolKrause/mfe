@@ -20,6 +20,16 @@ export module LoanCalculator {
     } | null;
   };
 
+  export interface Product {
+    cashOut: number;
+    monthlyPayment: number;
+    isSecured: boolean;
+    loanAmount: number;
+    term: number;
+    apr: number;
+    vehicle: string[];
+  }
+
   export interface LoanProduct {
     monthlyPaymentMin: number;
     monthlyPaymentMax: number;

@@ -12,8 +12,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SliderModule } from 'primeng/slider';
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { TabViewModule } from 'primeng/tabview';
 import { CustomerControlsComponent } from './components/loan-product-builder/customer-controls/customer-controls.component';
 import { FeesModalComponent } from './components/loan-product-builder/fees/fees-modal.component';
@@ -22,8 +24,6 @@ import { LoanProductsGridComponent } from './components/loan-product-builder/loa
 import { NonCreditProductsModalComponent } from './components/loan-product-builder/non-credit-products/non-credit-products-modal.component';
 import { HomeComponent } from './routes/home/home.component';
 import { TeamMemberComponent } from './team-member.component';
-
-import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { appRoutes } from './team-member.routes';
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { appRoutes } from './team-member.routes';
     QuoteCalculatorModule,
     InputNumberModule,
     CardModule,
+    SplitButtonModule,
     TabViewModule,
     OverlayPanelModule,
     SliderModule,

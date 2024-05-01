@@ -4,6 +4,7 @@ import {
   faBars,
   faCar,
   faCaretDown,
+  faCaretUp,
   faCheck,
   faCog,
   faCogs,
@@ -27,6 +28,7 @@ import {
   faSave,
   faSearchDollar,
   faSpinner,
+  faThumbsDown,
   faThumbsUp,
   faTrash,
   faUser,
@@ -43,6 +45,7 @@ export type AvailableIcons =
   | 'lock-open'
   | 'eye'
   | 'thumbsup'
+  | 'thumbsdown'
   | 'external-link-alt'
   | 'creditcard'
   | 'save'
@@ -61,6 +64,7 @@ export type AvailableIcons =
   | 'user'
   | 'users'
   | 'caret-down'
+  | 'caret-up'
   | 'bars'
   | 'home'
   | 'cubes'
@@ -86,6 +90,7 @@ export class IconsComponent {
     'lock-open': faLockOpen,
     eye: faEye,
     thumbsup: faThumbsUp,
+    thumbsdown: faThumbsDown,
     'external-link-alt': faExternalLinkAlt,
     creditcard: faCreditCard,
     'money-check-alt': faMoneyCheckAlt,
@@ -104,6 +109,7 @@ export class IconsComponent {
     trash: faTrash,
     user: faUser,
     users: faUsers,
+    'caret-up': faCaretUp,
     'caret-down': faCaretDown,
     bars: faBars,
     home: faHome,

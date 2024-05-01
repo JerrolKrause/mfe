@@ -8,11 +8,12 @@ export interface LoanProduct {
   ltv: number;
   term: number;
   totalAdvance: number;
-  monthlyPayment: string;
+  monthlyPayment: number;
   apr: number;
   lti: number;
   ndi: number;
   pti: number;
+  paymentImpact: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -44,12 +45,13 @@ export class TeamMemberService {
       baseAdvance: 15000,
       ltv: 120,
       term: 66,
-      totalAdvance: 16500,
-      monthlyPayment: '$432 - $486',
+      totalAdvance: 22100,
+      monthlyPayment: 432,
       apr: 16.16,
       lti: 95,
       ndi: 1325,
       pti: 36,
+      paymentImpact: 250,
     },
     {
       productDescription: 'MULTI VEHICLE',
@@ -58,12 +60,13 @@ export class TeamMemberService {
       baseAdvance: 5000,
       ltv: 120,
       term: 54,
-      totalAdvance: 16500,
-      monthlyPayment: '$50 - $62',
+      totalAdvance: 22100,
+      monthlyPayment: 50,
       apr: 17.16,
       lti: 95,
       ndi: 1325,
       pti: 36,
+      paymentImpact: 175,
     },
     {
       productDescription: '2010 SILVERADO',
@@ -72,12 +75,13 @@ export class TeamMemberService {
       baseAdvance: 5000,
       ltv: 120,
       term: 54,
-      totalAdvance: 16500,
-      monthlyPayment: '$50 - $62',
+      totalAdvance: 22100,
+      monthlyPayment: 50,
       apr: 22.16,
       lti: 95,
       ndi: 1325,
       pti: 36,
+      paymentImpact: -52,
     },
     {
       productDescription: '2020 RAV4',
@@ -86,12 +90,13 @@ export class TeamMemberService {
       baseAdvance: 5000,
       ltv: 120,
       term: 54,
-      totalAdvance: 16500,
-      monthlyPayment: '$50 - $62',
+      totalAdvance: 22100,
+      monthlyPayment: 50,
       apr: 22.16,
       lti: 95,
       ndi: 1325,
       pti: 36,
+      paymentImpact: -180,
     },
     {
       productDescription: '2010 SILVERADO',
@@ -100,12 +105,13 @@ export class TeamMemberService {
       baseAdvance: 18500,
       ltv: 120,
       term: 66,
-      totalAdvance: 16500,
-      monthlyPayment: '$185 - $201',
+      totalAdvance: 22100,
+      monthlyPayment: 185,
       apr: 23.16,
       lti: 95,
       ndi: 1325,
       pti: 36,
+      paymentImpact: -222,
     },
     {
       productDescription: 'NOTE LOAN',
@@ -114,12 +120,13 @@ export class TeamMemberService {
       baseAdvance: 2100,
       ltv: 120,
       term: 42,
-      totalAdvance: 16500,
-      monthlyPayment: '$85 - $110',
+      totalAdvance: 22100,
+      monthlyPayment: 85,
       apr: 27.16,
       lti: 95,
       ndi: 1325,
       pti: 36,
+      paymentImpact: -380,
     },
   ];
 }

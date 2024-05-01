@@ -22,47 +22,23 @@ export class QuoteComponent implements OnInit {
     null
   );
 
+  public product: LoanCalculator.Product | null = {
+    isSecured: true,
+    cashOut: 18500,
+    loanAmount: 22100,
+    monthlyPayment: 432,
+    term: 36,
+    apr: 17.16,
+    vehicle: ['2020 RAV4'],
+  };
+
   public isUpdating = false;
 
   constructor(private socket: SocketService) {}
 
   ngOnInit(): void {
     this.socket.onMessageReceived((msg) => {
-      const data = JSON.parse(msg);
-      if (QUOTE_FORM_ACTIONS.TM_QUOTE_CHANGED.match(data)) {
-        if (this.isUpdating) {
-          return;
-        }
-        console.log(data);
-        this.quoteFormDefaults$.next({
-          cashOut: data.payload?.userSelection?.cashOut?.value,
-          loanAmount: data.payload?.userSelection?.loanAmount?.value,
-          loanDuration: data.payload?.userSelection?.term?.value,
-          monthlyPayment: data.payload?.userSelection?.monthlyPayment?.value,
-        });
-        this.ranges$.next({
-          cashOut: {
-            min: data.payload?.cashOut?.minValue,
-            max: data.payload?.cashOut?.maxValue,
-            allowRange: data.payload?.cashOut?.allowRange,
-          },
-          loanAmount: {
-            min: data.payload?.loanAmount?.minValue,
-            max: data.payload?.loanAmount?.maxValue,
-            allowRange: data.payload?.loanAmount?.allowRange,
-          },
-          loanDuration: {
-            min: data.payload?.term?.minValue,
-            max: data.payload?.term?.maxValue,
-            allowRange: data.payload?.term?.allowRange,
-          },
-          monthlyPayment: {
-            min: data.payload?.monthlyPayment?.minValue,
-            max: data.payload?.monthlyPayment?.maxValue,
-            allowRange: data.payload?.monthlyPayment?.allowRange,
-          },
-        });
-      }
+      console.log(msg);
     });
   }
 

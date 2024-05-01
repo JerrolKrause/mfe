@@ -74,6 +74,13 @@
     border-top: 1px solid rgba(0, 75, 117, 0.3);
     opacity: 1;
   }
+  .loan-products-footer {
+    display: flex;
+    justify-content: space-between;
+    .p-button {
+      min-width: 150px;
+    }
+  }
 
   .loan-products-info {
     padding: 1rem;

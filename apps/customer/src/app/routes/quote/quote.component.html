@@ -2,7 +2,94 @@
 <div class="container">
   <p-card>
     <div style="max-width: 480px; margin: auto">
-      <h1>Select Your Loan Preferences</h1>
+      <h1>Welcome Back</h1>
+      <div class="mb-3">
+        <div class="loan-product" *ngIf="product">
+          @if(product.isSecured) {
+          <div class="collateral">Secured</div>
+          }@else {
+          <div class="collateral unsecured">Unsecured</div>
+          }
+
+          <div class="lp-wrapper">
+            <table class="table table-sm">
+              <tbody>
+                <tr>
+                  <td class="has-label">
+                    <div class="label">Cash Out</div>
+                    <div class="value">
+                      {{
+                        product.cashOut | currency : 'USD' : 'symbol' : '1.0-2'
+                      }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="has-label">
+                    <div class="label">Loan Amount</div>
+                    <div class="value">
+                      {{
+                        product.loanAmount
+                          | currency : 'USD' : 'symbol' : '1.0-2'
+                      }}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="has-label">
+                    <div class="value">
+                      {{
+                        product.monthlyPayment
+                          | currency : 'USD' : 'symbol' : '1.0-2'
+                      }}
+                    </div>
+                    <div class="label">Per Month</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="has-label">
+                    <div class="value">+$0 - $127</div>
+                    <div class="label">With Optional Products</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="has-label">
+                    <div class="value">+$225</div>
+                    <div class="label">Payment Impact</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="has-label">
+                    <div class="value">{{ product.term }} months</div>
+                    <div class="label">Months</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="value">{{ product.apr }}%</div>
+                    <div class="label">Rate</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="value">{{ product.apr }}%</div>
+                    <div class="label">APR</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="value">{{ product.vehicle?.[0] }}</div>
+                    <div class="label">Vehicle</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="p-button w-100 text-center d-block">
+              <lib-icons icon="thumbsup" class="me-2"></lib-icons> Select
+            </button>
+          </div>
+        </div>
+      </div>
       <p-tabView>
         <p-tabPanel header="Customize Loan Options">
           <p-accordion [activeIndex]="0">

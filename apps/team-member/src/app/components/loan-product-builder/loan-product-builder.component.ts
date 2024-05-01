@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BehaviorSubject, map, take } from 'rxjs';
 import { TeamMemberService } from '../../shared/services/team-member.service';
@@ -57,11 +58,10 @@ export class LoanProductBuilderComponent implements OnInit {
       html: '<hr/>',
     },
     {
-      label: 'Due Day',
+      label: 'Term',
       type: 'formField',
       formFieldType: 'number',
-      field: 'dueDay',
-      hint: 'Valid Due Days are from the 1st to the 16th',
+      field: 'term',
     },
     {
       type: 'row',
@@ -126,6 +126,15 @@ export class LoanProductBuilderComponent implements OnInit {
     },*/
   ];
 
+  public loanAdvanceOptions: MenuItem[] = [
+    {
+      label: 'Approve',
+    },
+    {
+      label: 'Decline',
+    },
+  ];
+
   public formOptions: FormsLib.FormOptions = {
     submitButton: {
       hide: true,
@@ -139,6 +148,7 @@ export class LoanProductBuilderComponent implements OnInit {
     fees: '',
     nonCreditProducts: '',
     dueDay: '1',
+    term: '12',
     creditors: this.fb.array([false, false, false, false]),
     assets: this.fb.array([false, false, false, false]),
   });

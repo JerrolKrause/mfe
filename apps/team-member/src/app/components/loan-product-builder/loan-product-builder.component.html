@@ -101,22 +101,19 @@
         <app-loan-products-grid
           [loanProducts]="loanProducts"
         ></app-loan-products-grid>
-        <div class="d-flex" style="justify-content: space-between">
+        <div class="loan-products-footer">
           <div>
-            <button
-              class="p-button p-button-outlined me-2"
-              (click)="sendToCustomer()"
-            >
-              <lib-icons icon="user" class="me-2"></lib-icons> Send To Customer
+            <button class="p-button p-button-outlined me-2">
+              <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
             </button>
           </div>
           <div>
             <button class="p-button me-2">
-              <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
+              <lib-icons icon="thumbsup" class="me-2"></lib-icons> Approve
             </button>
-            <button class="p-button">
-              <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Save
-              Quote & Open In Class
+            <button class="p-button me-2">
+              <lib-icons icon="thumbsdown" class="me-2"></lib-icons>
+              Reject
             </button>
           </div>
         </div>
@@ -140,15 +137,43 @@
         </ng-template>
 
         <p-tabView>
-          <p-tabPanel header="Quote Builder">
+          <p-tabPanel>
             <ng-template pTemplate="header">
-              <lib-icons icon="money-check-alt" class="me-2"></lib-icons> Quote
-              Builder
+              <lib-icons icon="money-check-alt" class="me-2"></lib-icons> Loan
+              Products
             </ng-template>
             <div class="row">
               <div class="col col-12 col-lg-7">
                 <form [formGroup]="loanProductsForm">
-                  <p>Creditors (Select for payoff)</p>
+                  <p class="mb-1">
+                    <strong class="me-2">Assets</strong>
+                    <small><em>Select for collateral</em></small>
+                  </p>
+                  <table class="table table-sm table-striped table-hover">
+                    <tbody formArrayName="assets">
+                      @for(asset of teamSvc.assets;track asset.label; let index
+                      = $index) {
+                      <tr
+                        class="clickable"
+                        (click)="toggleFormArray('assets', index)"
+                      >
+                        <td>
+                          <p-checkbox
+                            [formControlName]="index"
+                            [binary]="true"
+                          ></p-checkbox>
+                        </td>
+                        <td>{{ asset.label }}</td>
+                        <td>${{ asset.totalOwed }}</td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+                  <p class="mb-1">
+                    <strong class="me-2">Creditors</strong>
+                    <small><em>Select for payoff</em></small>
+                  </p>
+
                   <table class="table table-sm table-striped table-hover">
                     <tbody formArrayName="creditors">
                       @for(creditor of teamSvc.creditors;track creditor.label;
@@ -170,27 +195,6 @@
                       }
                     </tbody>
                   </table>
-                  <p>Assets (Select for collateral)</p>
-                  <table class="table table-sm table-striped table-hover">
-                    <tbody formArrayName="assets">
-                      @for(asset of teamSvc.assets;track asset.label; let index
-                      = $index) {
-                      <tr
-                        class="clickable"
-                        (click)="toggleFormArray('assets', index)"
-                      >
-                        <td>
-                          <p-checkbox
-                            [formControlName]="index"
-                            [binary]="true"
-                          ></p-checkbox>
-                        </td>
-                        <td>{{ asset.label }}</td>
-                        <td>${{ asset.totalOwed }}</td>
-                      </tr>
-                      }
-                    </tbody>
-                  </table>
                 </form>
               </div>
               <div class="col col-12 col-lg-5">
@@ -204,14 +208,7 @@
               </div>
             </div>
             <hr />
-            <div class="d-flex" style="justify-content: space-between">
-              <button
-                class="p-button p-button-outlined me-2"
-                (click)="openNonCreditModal()"
-              >
-                <lib-icons icon="creditcard" class="me-2"></lib-icons> Select
-                Non-Credit Products
-              </button>
+            <div class="text-end">
               <button class="p-button" (click)="generateProducts()">
                 <lib-icons icon="plus" class="me-2"></lib-icons> Add Product
               </button>
