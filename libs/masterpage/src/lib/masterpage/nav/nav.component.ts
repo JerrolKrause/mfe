@@ -18,7 +18,7 @@ export class NavComponent implements OnInit, OnDestroy {
   public navMenu: MainMenuItem[] = [
     {
       label: 'Team Member Dashboard',
-      routerLink: '/team-member',
+      routerLink: '/class-web/CD10084/loan-products',
       routerLinkActiveOptions: { exact: false },
     },
     {

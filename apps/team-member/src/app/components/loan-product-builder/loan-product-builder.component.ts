@@ -9,6 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -169,10 +170,18 @@ export class LoanProductBuilderComponent implements OnInit {
     public dialogService: DialogService,
     public teamSvc: TeamMemberService,
     private socket: SocketService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
+    this.loanId$.pipe(take(1)).subscribe((loanId: string) => {
+      const borrowerName = loanId.includes('84')
+        ? 'Smith, John'
+        : 'Johnson, James';
+      this.title.setTitle(`#${loanId} | Loan Products | ${borrowerName}`);
+    });
+
     this.socket.onMessageReceived((msg) => {
       const payload = JSON.parse(msg) as { type: string; data?: any };
       if (payload.type === 'CUSTOMER_CONNECTED') {

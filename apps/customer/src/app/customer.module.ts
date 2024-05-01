@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
@@ -35,6 +36,7 @@ import { QuoteComponent } from './routes/quote/quote.component';
     MasterpageModule,
     QuoteCalculatorModule,
     CardModule,
+    CheckboxModule,
     SliderModule,
     InputTextModule,
     AccordionModule,
