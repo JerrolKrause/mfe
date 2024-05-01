@@ -3,6 +3,36 @@
   margin-left: 0.25rem;
   border: 1px solid #004b75;
   margin-bottom: 1em;
+  .lp-details {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+    &:last-child {
+      border: 0;
+      margin: 0;
+    }
+    .label {
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .value {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .lp-main {
+    background: rgba(0, 0, 0, 0.035);
+    padding: 0.5rem;
+    .label {
+    }
+    .value {
+      font-size: 28px;
+    }
+  }
+
+  .green {
+    color: green;
+  }
   @media (min-width: 768px) {
     display: block;
     width: initial;
@@ -19,14 +49,7 @@
     min-width: 205px;
   }
 }
-.label {
-  text-transform: uppercase;
-  font-size: 11px;
-}
-.value {
-  font-size: 18px;
-  font-weight: 500;
-}
+
 table {
   width: initial;
 }
