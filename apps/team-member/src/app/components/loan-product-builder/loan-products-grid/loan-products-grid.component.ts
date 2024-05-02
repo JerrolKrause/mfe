@@ -1,3 +1,4 @@
+import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, Input } from '@angular/core';
 import { LoanProduct } from '../../../shared/services/team-member.service';
@@ -23,14 +24,13 @@ export class LoanProductsGridComponent {
 
   public highlightRow(i: number) {
     this.rowActive = i;
-
-    /**
+    const product = this.loanProducts?.[i];
+    if (!product) {
+      return;
+    }
     this.socket.sendMessageToUser(
-      'customer',
-      JSON.stringify({
-        type: 'PRODUCTS_HIGHLIGHTED',
-        data: i,
-      })
-    ); */
+      UserIds.customer,
+      JSON.stringify(QUOTE_FORM_ACTIONS.PRODUCT_CHANGE(product))
+    );
   }
 }

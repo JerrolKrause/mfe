@@ -28,6 +28,7 @@ export module LoanCalculator {
     term: number;
     apr: number;
     vehicle: string[];
+    paymentImpact: number;
   }
 
   export interface LoanProduct {

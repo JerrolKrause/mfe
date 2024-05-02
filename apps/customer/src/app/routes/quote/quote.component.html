@@ -10,7 +10,7 @@
             Loan Offer
           </ng-template>
 
-          <div class="loan-product p-3" *ngIf="product">
+          <div class="loan-product p-3" *ngIf="product$ | async as product">
             <div class="row">
               <div class="col col-6">
                 <div class="lp-main">
@@ -33,14 +33,19 @@
                     </div>
                   </div>
 
-                  <div class="lp-details">
+                  <div class="lp-details" *ngIf="product.paymentImpact > 0">
                     <div class="label">Monthly Savings</div>
-                    <div class="value green">+$225</div>
+                    <div class="value green">
+                      +{{
+                        product.paymentImpact
+                          | currency : 'USD' : 'symbol' : '1.0-2'
+                      }}
+                    </div>
                   </div>
 
                   <div class="lp-details">
                     <div class="label">With Optional Products</div>
-                    <div class="value">$0 - $127</div>
+                    <div class="value">+$0 - $127</div>
                   </div>
                 </div>
               </div>
@@ -71,18 +76,26 @@
                 <div class="lp-details">
                   <div class="label">Type</div>
                   <div class="value">
+                    @if(product.isSecured) {
                     <lib-icons
                       icon="lock"
                       title="Secured"
                       class="me-1"
                     ></lib-icons>
-                    Secured
+                    Secured } @else {
+                    <lib-icons
+                      icon="lock-open"
+                      title="Secured"
+                      class="me-1"
+                    ></lib-icons>
+                    Unsecured }
                   </div>
                 </div>
                 <div class="lp-details">
                   <div class="label">Vehicle</div>
                   <div class="value">
-                    <lib-icons icon="car" class="me-1"></lib-icons> 2020 RAV4
+                    <lib-icons icon="car" class="me-1"></lib-icons>
+                    {{product.vehicle?.[0]}}
                   </div>
                 </div>
               </div>

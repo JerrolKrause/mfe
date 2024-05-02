@@ -13,6 +13,22 @@ export module QuoteFormModels {
     monthlyPayment?: number | null;
   }
 
+  export interface LoanProduct {
+    productDescription: string;
+    productType: number;
+    systemDecision: number;
+    baseAdvance: number;
+    ltv: number;
+    term: number;
+    totalAdvance: number;
+    monthlyPayment: number;
+    apr: number;
+    lti: number;
+    ndi: number;
+    pti: number;
+    paymentImpact: number;
+  }
+
   export interface UserSelectionDetail {
     value?: number | null;
     range?: [number | null, number | null];

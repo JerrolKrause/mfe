@@ -14,29 +14,46 @@ import { BehaviorSubject } from 'rxjs';
 export class QuoteComponent implements OnInit {
   public isDisabled = true;
 
-  public loanGoals: boolean[] = [false, false, false];
-
   public quoteFormDefaults$ =
     new BehaviorSubject<Partial<LoanCalculator.Quote> | null>(null);
   public ranges$ = new BehaviorSubject<Partial<LoanCalculator.Ranges> | null>(
     null
   );
 
-  public product: LoanCalculator.Product | null = {
+  public product$ = new BehaviorSubject<LoanCalculator.Product | null>({
     isSecured: true,
     cashOut: 18500,
     loanAmount: 22100,
     monthlyPayment: 432,
-    term: 36,
-    apr: 17.16,
+    term: 66,
+    apr: 16.16,
     vehicle: ['2020 RAV4'],
-  };
+    paymentImpact: 250,
+  });
 
   public isUpdating = false;
 
   constructor(private socket: SocketService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.socket.onMessageReceived((msg) => {
+      const data = JSON.parse(msg);
+      if (QUOTE_FORM_ACTIONS.PRODUCT_CHANGE.match(data)) {
+        this.product$.next({
+          isSecured: !!(
+            data.payload?.productType === 0 || data.payload?.productType === 1
+          ),
+          cashOut: data.payload?.systemDecision ?? 0,
+          loanAmount: data.payload?.totalAdvance ?? 0,
+          monthlyPayment: data.payload?.monthlyPayment ?? 0,
+          term: data.payload?.term ?? 24,
+          apr: data.payload?.apr ?? 0,
+          vehicle: [data.payload?.productDescription ?? ''],
+          paymentImpact: data.payload?.paymentImpact ?? 0,
+        });
+      }
+    });
+  }
 
   /**
    * When quote form is changed, notify agent
@@ -47,9 +64,5 @@ export class QuoteComponent implements OnInit {
       UserIds.teamMember,
       JSON.stringify(QUOTE_FORM_ACTIONS.CUSTOMER_QUOTE_CHANGED(quote ?? null))
     );
-  }
-
-  public loanGoalSelection(i: number) {
-    this.loanGoals[i] = !this.loanGoals[i];
   }
 }

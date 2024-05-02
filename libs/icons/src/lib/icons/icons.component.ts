@@ -28,6 +28,7 @@ import {
   faSadCry,
   faSave,
   faSearchDollar,
+  faSmile,
   faSpinner,
   faThumbsDown,
   faThumbsUp,
@@ -38,6 +39,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'smile'
   | 'bullseye'
   | 'info-circle'
   | 'search-dollar'
@@ -84,6 +86,7 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    smile: faSmile,
     bullseye: faBullseye,
     'info-circle': faInfoCircle,
     'search-dollar': faSearchDollar,
