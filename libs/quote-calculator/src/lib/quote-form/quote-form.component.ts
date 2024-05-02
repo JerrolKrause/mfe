@@ -61,6 +61,12 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     monthlyPayment: 200,
     loanGoal: '', // cashOut, cashFlow, debt
     vehicles: this.fb.array([new FormControl(), new FormControl()]),
+    creditors: this.fb.array([
+      new FormControl(),
+      new FormControl(),
+      new FormControl(),
+      new FormControl(),
+    ]),
     // Old
     cashOutRange: this.fb.array([2000, 3000]),
     loanAmountRange: this.fb.array([2000, 3000]),
@@ -70,6 +76,18 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
 
   /** When the form is changed, send the form values to the parent */
   @Output() quoteFormChanged = new EventEmitter<LoanCalculator.Quote>();
+
+  public creditors = [
+    { label: 'DISCOVER FIN SVCS', totalOwed: 673, monthlyPayment: 33, apr: 29 },
+    { label: 'BANK CREDIT CARD', totalOwed: 6430, monthlyPayment: 33, apr: 18 },
+    {
+      label: 'ULTRAMAR DIAMOND S',
+      totalOwed: 1250,
+      monthlyPayment: 45,
+      apr: 21,
+    },
+    { label: 'EXXON/MBGA', totalOwed: 345, monthlyPayment: 30, apr: 14 },
+  ];
 
   // Unsub on destroy
   private sub: Subscription;

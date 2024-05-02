@@ -1,6 +1,13 @@
 .quote-form {
   $brandColor: #00a39e;
   $titleColor: #004b75;
+  thead {
+    font-size: 12px;
+    text-transform: uppercase;
+    th {
+      font-weight: 300;
+    }
+  }
 
   .w-100-mobile {
     width: 100%;

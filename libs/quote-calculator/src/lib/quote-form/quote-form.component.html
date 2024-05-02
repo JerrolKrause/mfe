@@ -40,6 +40,13 @@
 
   <h3><lib-icons icon="car" class="me-2"></lib-icons> Available Vehicles</h3>
   <table class="table table-striped table-hover w-100" formArrayName="vehicles">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Vehicle</th>
+        <th>Value</th>
+      </tr>
+    </thead>
     <tbody>
       <tr class="clickable">
         <td>
@@ -63,6 +70,32 @@
         <td>2010 CHEVROLET SILVERADO</td>
         <td>$10,905</td>
       </tr>
+    </tbody>
+  </table>
+  <!---->
+  <h3><lib-icons icon="weighthanging" class="me-2"></lib-icons> Creditors</h3>
+  <table class="table table-sm table-striped table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Creditor</th>
+        <th>Total Owed</th>
+        <th>Monthly Payment</th>
+        <th>APR</th>
+      </tr>
+    </thead>
+    <tbody formArrayName="creditors">
+      @for(creditor of creditors;track creditor.label; let index = $index) {
+      <tr class="clickable">
+        <td>
+          <p-checkbox [formControlName]="index" [binary]="true"></p-checkbox>
+        </td>
+        <td>{{ creditor.label }}</td>
+        <td>${{ creditor.totalOwed }}</td>
+        <td>${{ creditor.monthlyPayment }}</td>
+        <td>{{ creditor.apr }}%</td>
+      </tr>
+      }
     </tbody>
   </table>
   <!---->

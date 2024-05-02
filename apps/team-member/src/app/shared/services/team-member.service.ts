@@ -19,10 +19,15 @@ export interface LoanProduct {
 @Injectable({ providedIn: 'root' })
 export class TeamMemberService {
   public creditors = [
-    { label: 'DISCOVER FIN SVCS', totalOwed: 673, monthlyPayment: 33 },
-    { label: 'BANK CREDIT CARD', totalOwed: 643, monthlyPayment: 33 },
-    { label: 'ULTRAMAR DIAMOND S', totalOwed: 125, monthlyPayment: 45 },
-    { label: 'EXXON/MBGA', totalOwed: 145, monthlyPayment: 30 },
+    { label: 'DISCOVER FIN SVCS', totalOwed: 673, monthlyPayment: 33, apr: 29 },
+    { label: 'BANK CREDIT CARD', totalOwed: 6430, monthlyPayment: 33, apr: 18 },
+    {
+      label: 'ULTRAMAR DIAMOND S',
+      totalOwed: 1250,
+      monthlyPayment: 45,
+      apr: 21,
+    },
+    { label: 'EXXON/MBGA', totalOwed: 345, monthlyPayment: 30, apr: 14 },
   ];
 
   public assets = [

@@ -35,10 +35,12 @@ import {
   faTrash,
   faUser,
   faUsers,
+  faWeightHanging,
   faX,
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'weighthanging'
   | 'smile'
   | 'bullseye'
   | 'info-circle'
@@ -86,6 +88,7 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    weighthanging: faWeightHanging,
     smile: faSmile,
     bullseye: faBullseye,
     'info-circle': faInfoCircle,
