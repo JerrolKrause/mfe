@@ -2,6 +2,7 @@ import { IconsModule } from '$icons';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -20,6 +21,7 @@ const PRIME = [
   ButtonModule,
   SelectButtonModule,
   CheckboxModule,
+  AccordionModule,
 ];
 
 /**

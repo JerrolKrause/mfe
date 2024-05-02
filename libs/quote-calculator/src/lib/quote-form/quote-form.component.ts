@@ -67,6 +67,13 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
       new FormControl(),
       new FormControl(),
     ]),
+    // Details
+    visible: this.fb.array([
+      new FormControl(),
+      new FormControl(),
+      new FormControl(),
+      new FormControl(),
+    ]),
     // Old
     cashOutRange: this.fb.array([2000, 3000]),
     loanAmountRange: this.fb.array([2000, 3000]),
@@ -97,6 +104,12 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     this.sub = this.quoteFrm.valueChanges
       .pipe(debounceTime(250))
       .subscribe((quote) => this.quoteFormChanged.emit(quote));
+  }
+
+  public activeIndexChange(index: number | number[]) {
+    const val = Array.isArray(index) ? index : [index];
+    this.quoteFrm.get('visible')?.reset();
+    this.quoteFrm.get('visible')?.patchValue(val);
   }
 
   ngOnInit(): void {
