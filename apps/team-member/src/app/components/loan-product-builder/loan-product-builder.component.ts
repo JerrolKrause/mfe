@@ -14,7 +14,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BehaviorSubject, map, take } from 'rxjs';
-import { TeamMemberService } from '../../shared/services/team-member.service';
+import {
+  LoanProduct,
+  TeamMemberService,
+} from '../../shared/services/team-member.service';
 import { FeesModalComponent } from './fees/fees-modal.component';
 import { NonCreditProductsModalComponent } from './non-credit-products/non-credit-products-modal.component';
 
@@ -94,37 +97,6 @@ export class LoanProductBuilderComponent implements OnInit {
         },
       ],
     },
-    /**
-    {
-      type: 'row',
-      columns: [
-        {
-          type: 'column',
-          width: 6,
-          content: [
-            {
-              label: 'Non-Credit',
-              type: 'formField',
-              formFieldType: 'number',
-              mode: 'currency',
-              field: 'nonCreditProducts',
-            },
-          ],
-        },
-        {
-          type: 'column',
-          width: 6,
-          content: [
-            {
-              cssClasses: 'p-button w-100 text-center mt-4',
-              type: 'button',
-              label: 'Select',
-              cmd: (btn) => this.openNonCreditModal(btn),
-            },
-          ],
-      ],
-
-    },*/
   ];
 
   public loanAdvanceOptions: MenuItem[] = [
@@ -154,8 +126,7 @@ export class LoanProductBuilderComponent implements OnInit {
     assets: this.fb.array([false, false, false, false]),
   });
 
-  public loanProducts: any[] = [];
-  public lpVisibility: boolean[] = [];
+  public loanProducts: LoanProduct[] = [this.teamSvc.loanProducts[0]];
 
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
@@ -234,28 +205,11 @@ export class LoanProductBuilderComponent implements OnInit {
         ...this.loanProducts,
         this.teamSvc.loanProducts[count],
       ];
-      this.updateLPVisibility();
     }
   }
 
   public generateAllProducts() {
     this.loanProducts = [...this.teamSvc.loanProducts];
-    this.updateLPVisibility();
-  }
-
-  public updateLPVisibility() {
-    const total = this.loanProducts.length;
-    if (total >= 6) {
-      this.lpVisibility = [true, true, true, true];
-    } else if (total >= 5) {
-      this.lpVisibility = [true, true, true];
-    } else if (total >= 2) {
-      this.lpVisibility = [true, true];
-    } else if (total >= 1) {
-      this.lpVisibility = [true];
-    } else {
-      this.lpVisibility = [];
-    }
   }
 
   public sendToCustomer() {

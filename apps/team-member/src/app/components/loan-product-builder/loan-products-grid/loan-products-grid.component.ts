@@ -10,7 +10,7 @@ import { LoanProduct } from '../../../shared/services/team-member.service';
 export class LoanProductsGridComponent {
   @Input() loanProducts: LoanProduct[] | null = [];
 
-  public rowActive: number | null = null;
+  public rowActive: number | null = 0;
 
   constructor(private socket: SocketService) {
     console.log(this.loanProducts);
