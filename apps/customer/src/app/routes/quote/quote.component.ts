@@ -36,23 +36,17 @@ export class QuoteComponent implements OnInit {
 
   constructor(private socket: SocketService) {}
 
-  ngOnInit(): void {
-    this.socket.onMessageReceived((msg) => {
-      console.log(msg);
-    });
-  }
+  ngOnInit(): void {}
 
   /**
    * When quote form is changed, notify agent
    * @param quote
    */
   public quoteFormChanged(quote?: LoanCalculator.Quote | null) {
-    this.isUpdating = true;
     this.socket.sendMessageToUser(
       UserIds.teamMember,
       JSON.stringify(QUOTE_FORM_ACTIONS.CUSTOMER_QUOTE_CHANGED(quote ?? null))
     );
-    setTimeout(() => (this.isUpdating = false), 250);
   }
 
   public loanGoalSelection(i: number) {

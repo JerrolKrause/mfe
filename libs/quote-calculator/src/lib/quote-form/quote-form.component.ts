@@ -56,12 +56,15 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
   /** Quote Form */
   public quoteFrm = this.fb.group({
     cashOut: 2000,
-    cashOutRange: this.fb.array([2000, 3000]),
-    loanAmount: [6000],
-    loanAmountRange: this.fb.array([2000, 3000]),
-    loanDuration: [48],
-    loanDurationRange: this.fb.array([24, 48]),
+    loanAmount: 6000,
+    loanDuration: 48,
     monthlyPayment: 200,
+    loanGoal: '', // cashFlow, debt
+    vehicles: this.fb.array([new FormControl(), new FormControl()]),
+    // Old
+    cashOutRange: this.fb.array([2000, 3000]),
+    loanAmountRange: this.fb.array([2000, 3000]),
+    loanDurationRange: this.fb.array([24, 48]),
     monthlyPaymentRange: this.fb.array([200, 300]),
   });
 

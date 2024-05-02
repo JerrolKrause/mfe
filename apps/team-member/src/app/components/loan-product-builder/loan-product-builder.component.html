@@ -1,6 +1,6 @@
 <div class="loan-products-builder" *ngIf="lpState$ | async as state">
   <div class="float-end">
-    <button class="p-button p-button-text">
+    <button class="p-button p-button-text" (click)="openClassLink()">
       <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open In
       Class
     </button>
@@ -102,10 +102,17 @@
           [loanProducts]="loanProducts"
         ></app-loan-products-grid>
         <div class="loan-products-footer">
-          <div>
+          <div class="d-flex">
             <button class="p-button p-button-outlined me-2">
               <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
             </button>
+            <a
+              class="p-button p-button-outlined me-2"
+              (click)="openClassLink()"
+            >
+              <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open
+              in Class
+            </a>
           </div>
           <div>
             <button class="p-button me-2">
@@ -266,32 +273,9 @@
             </ng-template>
             <div class="overlay"></div>
             <div class="px-3">
-              <p>Select your loan goals</p>
-              <p>
-                <button class="p-button p-button-outlined w-100">
-                  More Cash Out
-                </button>
-              </p>
-              <p>
-                <button class="p-button p-button-outlined w-100">
-                  Improve Monthly Cash Flow
-                </button>
-              </p>
-              <p>
-                <button class="p-button p-button-outlined w-100">
-                  Consolidate Debt
-                </button>
-              </p>
-              <lib-quote-form></lib-quote-form>
-              <!--
-                  [ranges]="ranges$ | async"
+              <lib-quote-form
                 [formDefaults]="quoteFormDefaults$ | async"
-
-                (quoteFormChanged)="quoteFormChanged($event)"
-              <app-customer-controls
-                [creditors]="teamSvc.creditors"
-              ></app-customer-controls>
-              -->
+              ></lib-quote-form>
             </div>
           </p-tabPanel>
         </p-tabView>

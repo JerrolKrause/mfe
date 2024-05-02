@@ -12,9 +12,7 @@ export class LoanProductsGridComponent {
 
   public rowActive: number | null = 0;
 
-  constructor(private socket: SocketService) {
-    console.log(this.loanProducts);
-  }
+  constructor(private socket: SocketService) {}
 
   public productDelete(index: number) {
     if (!this.loanProducts) {

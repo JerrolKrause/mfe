@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   IconDefinition,
   faBars,
+  faBullseye,
   faCar,
   faCaretDown,
   faCaretUp,
@@ -37,6 +38,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'bullseye'
   | 'info-circle'
   | 'search-dollar'
   | 'sad'
@@ -82,6 +84,7 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    bullseye: faBullseye,
     'info-circle': faInfoCircle,
     'search-dollar': faSearchDollar,
     sad: faSadCry,

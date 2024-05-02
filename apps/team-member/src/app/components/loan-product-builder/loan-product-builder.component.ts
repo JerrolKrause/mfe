@@ -108,6 +108,9 @@ export class LoanProductBuilderComponent implements OnInit {
     },
   ];
 
+  public quoteFormDefaults$ =
+    new BehaviorSubject<Partial<LoanCalculator.Quote> | null>(null);
+
   public formOptions: FormsLib.FormOptions = {
     submitButton: {
       hide: true,
@@ -146,6 +149,7 @@ export class LoanProductBuilderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Change page title
     this.loanId$.pipe(take(1)).subscribe((loanId: string) => {
       const borrowerName = loanId.includes('84')
         ? 'Smith, John'
@@ -154,18 +158,10 @@ export class LoanProductBuilderComponent implements OnInit {
     });
 
     this.socket.onMessageReceived((msg) => {
-      const payload = JSON.parse(msg) as { type: string; data?: any };
-      if (payload.type === 'CUSTOMER_CONNECTED') {
-        this.stateChange({
-          customerConnected: true,
-        });
-      }
-      if (payload.type === 'PREF_CHANGE') {
-        this.stateChange({ customerPreferences: payload.data });
-      }
-      if (payload.type === 'LOCATION_CHANGE') {
-        console.log(payload);
-        this.stateChange({ customerLocation: payload.data });
+      const data = JSON.parse(msg);
+
+      if (QUOTE_FORM_ACTIONS.CUSTOMER_QUOTE_CHANGED.match(data)) {
+        this.quoteFormDefaults$.next(data.payload);
       }
     });
   }
@@ -212,8 +208,13 @@ export class LoanProductBuilderComponent implements OnInit {
     this.loanProducts = [...this.teamSvc.loanProducts];
   }
 
+  public openClassLink() {
+    const src_pid = sessionStorage.getItem('src_pid');
+    const src_sid = sessionStorage.getItem('src_sid');
+    alert(`Stored parameters:\nsrc_pid: ${src_pid}\nsrc_sid: ${src_sid}`);
+  }
+
   public sendToCustomer() {
-    console.log(this.loanProducts);
     this.socket.sendMessageToUser(
       UserIds.customer,
       JSON.stringify(QUOTE_FORM_ACTIONS.PRODUCTS_READY(this.loanProducts))

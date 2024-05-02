@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SliderModule } from 'primeng/slider';
@@ -18,6 +19,7 @@ const PRIME = [
   InputTextModule,
   ButtonModule,
   SelectButtonModule,
+  CheckboxModule,
 ];
 
 /**
