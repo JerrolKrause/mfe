@@ -7,7 +7,7 @@
         <p-tabPanel>
           <ng-template pTemplate="header">
             <lib-icons icon="money-check-alt" class="me-2"></lib-icons> Current
-            Loan Offer
+            Offer
           </ng-template>
 
           <div class="loan-product p-3" *ngIf="product$ | async as product">
@@ -44,8 +44,13 @@
                   </div>
 
                   <div class="lp-details">
-                    <div class="label">With Optional Products</div>
-                    <div class="value">+$0 - $127</div>
+                    <div
+                      class="label"
+                      style="font-size: 10.5px; letter-spacing: -0.15px"
+                    >
+                      With Optional Products
+                    </div>
+                    <div class="value" style="font-size: 26px">+$0 - $127</div>
                   </div>
                 </div>
               </div>
@@ -108,8 +113,7 @@
         </p-tabPanel>
         <p-tabPanel>
           <ng-template pTemplate="header">
-            <lib-icons icon="cog" class="me-2"></lib-icons>Customize Loan
-            Options
+            <lib-icons icon="cog" class="me-2"></lib-icons>Loan Options
           </ng-template>
 
           <lib-quote-form
