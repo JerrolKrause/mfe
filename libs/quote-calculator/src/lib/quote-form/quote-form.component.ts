@@ -59,6 +59,7 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     loanAmount: 6000,
     loanDuration: 48,
     monthlyPayment: 200,
+    ndi: 1,
     loanGoal: '', // cashOut, cashFlow, debt
     vehicles: this.fb.array([new FormControl(), new FormControl()]),
     creditors: this.fb.array([

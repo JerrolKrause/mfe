@@ -121,7 +121,7 @@
         </tbody>
       </table>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab *ngIf="(quoteFrm.value?.ndi ?? 0) > 0">
       <ng-template pTemplate="header">
         <lib-icons icon="cog" class="me-2"></lib-icons> Loan Options
       </ng-template>

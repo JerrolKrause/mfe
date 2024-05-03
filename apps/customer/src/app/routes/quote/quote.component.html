@@ -33,14 +33,29 @@
                     </div>
                   </div>
 
-                  <div class="lp-details" *ngIf="product.paymentImpact > 0">
-                    <div class="label">Monthly Savings</div>
-                    <div class="value green">
-                      +{{
+                  <div class="lp-details">
+                    <div class="label">Cash Flow Change</div>
+                    <div
+                      class="value green"
+                      *ngIf="product.paymentImpact > 0; else impact"
+                    >
+                      -{{
                         product.paymentImpact
                           | currency : 'USD' : 'symbol' : '1.0-2'
                       }}
+                      <span class="label" style="color: initial">Monthly</span>
                     </div>
+                    <ng-template #impact>
+                      <div class="value" *ngIf="product.paymentImpact < 0">
+                        {{
+                          -product.paymentImpact
+                            | currency : 'USD' : 'symbol' : '1.0-2'
+                        }}
+                        <span class="label" style="color: initial"
+                          >Monthly</span
+                        >
+                      </div></ng-template
+                    >
                   </div>
 
                   <div class="lp-details">
@@ -70,10 +85,12 @@
                   <div class="label">Term</div>
                   <div class="value">{{ product.term }} Months</div>
                 </div>
+                <!--
                 <div class="lp-details">
                   <div class="label">Rate</div>
                   <div class="value">{{ product.apr }}%</div>
                 </div>
+                -->
                 <div class="lp-details">
                   <div class="label">APR</div>
                   <div class="value">{{ product.apr }}%</div>
@@ -106,8 +123,12 @@
               </div>
             </div>
             <hr />
-            <button class="p-button w-100 text-center d-block mt-3">
-              <lib-icons icon="thumbsup" class="me-2"></lib-icons> Select
+            <button
+              class="p-button w-100 text-center d-block mt-3"
+              routerLink="/products"
+            >
+              <lib-icons icon="search" class="me-1"></lib-icons> Compare Offers
+              (4)
             </button>
           </div>
         </p-tabPanel>
@@ -115,7 +136,6 @@
           <ng-template pTemplate="header">
             <lib-icons icon="cog" class="me-2"></lib-icons>Loan Options
           </ng-template>
-
           <lib-quote-form
             [ranges]="ranges$ | async"
             [formDefaults]="quoteFormDefaults$ | async"

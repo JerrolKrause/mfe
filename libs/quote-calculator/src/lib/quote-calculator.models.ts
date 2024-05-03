@@ -9,6 +9,7 @@ export module LoanCalculator {
     collateral?: any | null;
     cashOut?: number | null;
     monthlyPayment?: number | null;
+    ndi?: number | null;
   }
 
   export type Ranges = {
@@ -29,6 +30,7 @@ export module LoanCalculator {
     apr: number;
     vehicle: string[];
     paymentImpact: number;
+    ndi: number;
   }
 
   export interface LoanProduct {

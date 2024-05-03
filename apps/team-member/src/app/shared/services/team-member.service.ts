@@ -14,6 +14,10 @@ export interface LoanProduct {
   ndi: number;
   pti: number;
   paymentImpact: number;
+  loanOptions: {
+    cashOutMax: number;
+    loanAmountMax: number;
+  };
 }
 
 @Injectable({ providedIn: 'root' })
@@ -57,6 +61,10 @@ export class TeamMemberService {
       ndi: 1325,
       pti: 36,
       paymentImpact: 250,
+      loanOptions: {
+        cashOutMax: 15000,
+        loanAmountMax: 15000,
+      },
     },
     {
       productDescription: 'MULTI VEHICLE',
@@ -69,9 +77,13 @@ export class TeamMemberService {
       monthlyPayment: 455,
       apr: 17.16,
       lti: 95,
-      ndi: 1325,
+      ndi: 1211,
       pti: 36,
       paymentImpact: 175,
+      loanOptions: {
+        cashOutMax: 15000,
+        loanAmountMax: 15000,
+      },
     },
     {
       productDescription: '2010 SILVERADO',
@@ -84,9 +96,13 @@ export class TeamMemberService {
       monthlyPayment: 125,
       apr: 22.16,
       lti: 95,
-      ndi: 1325,
+      ndi: 980,
       pti: 36,
       paymentImpact: -52,
+      loanOptions: {
+        cashOutMax: 15000,
+        loanAmountMax: 15000,
+      },
     },
     {
       productDescription: '2020 RAV4',
@@ -99,9 +115,13 @@ export class TeamMemberService {
       monthlyPayment: 140,
       apr: 23.46,
       lti: 95,
-      ndi: 1325,
+      ndi: 250,
       pti: 36,
       paymentImpact: -180,
+      loanOptions: {
+        cashOutMax: 8500,
+        loanAmountMax: 8500,
+      },
     },
     {
       productDescription: '2010 SILVERADO',
@@ -114,9 +134,13 @@ export class TeamMemberService {
       monthlyPayment: 185,
       apr: 25.22,
       lti: 95,
-      ndi: 1325,
+      ndi: 325,
       pti: 36,
       paymentImpact: -222,
+      loanOptions: {
+        cashOutMax: 6000,
+        loanAmountMax: 6000,
+      },
     },
     {
       productDescription: 'NOTE LOAN',
@@ -129,9 +153,31 @@ export class TeamMemberService {
       monthlyPayment: 85,
       apr: 27.16,
       lti: 95,
-      ndi: 1325,
+      ndi: -220,
       pti: 36,
       paymentImpact: -380,
+      loanOptions: {
+        cashOutMax: 3000,
+        loanAmountMax: 3000,
+      },
     },
   ];
+}
+
+/**
+ * Generates a random number within a specified range based on a base number and a percentage.
+ * The function calculates the range as ± the percentage of the base number and returns a random number within that range.
+ *
+ * @param baseNumber The base number to calculate the range from.
+ * @param percentage The percentage to calculate the plus and minus range.
+ * @returns A random number within the calculated range.
+ */
+function getRandomNumberInRange(
+  baseNumber: number,
+  percentage: number
+): number {
+  const range = baseNumber * (percentage / 100);
+  const min = baseNumber - range;
+  const max = baseNumber + range;
+  return Math.random() * (max - min) + min;
 }

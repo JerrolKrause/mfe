@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -38,6 +39,7 @@ import { appRoutes } from './team-member.routes';
   imports: [
     CommonModule,
     RouterModule.forChild(appRoutes),
+    AccordionModule,
     FormsLibModule,
     IconsModule,
     MasterpageModule,

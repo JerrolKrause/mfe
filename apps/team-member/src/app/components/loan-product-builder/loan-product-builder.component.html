@@ -1,7 +1,7 @@
 <div class="loan-products-builder" *ngIf="lpState$ | async as state">
   <div class="float-end">
     <button class="p-button p-button-text" (click)="openClassLink()">
-      <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open In
+      <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Resume In
       Class
     </button>
   </div>
@@ -103,9 +103,11 @@
         ></app-loan-products-grid>
         <div class="loan-products-footer">
           <div class="d-flex">
+            <!--
             <button class="p-button p-button-outlined me-2">
               <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
             </button>
+
             <a
               class="p-button p-button-outlined me-2"
               (click)="openClassLink()"
@@ -113,6 +115,7 @@
               <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open
               in Class
             </a>
+            -->
           </div>
           <div>
             <button class="p-button me-2">
@@ -228,44 +231,17 @@
               Non-Credit Products
             </ng-template>
             <div class="px-3">
-              <table class="table table-sm table-striped">
-                <thead>
-                  <tr>
-                    <th>Product / Insured or Member Name</th>
-                    <th>Benefit Amount</th>
-                    <th>Premium Or Fee</th>
-                    <th>Included In Loan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="tr-group">
-                    <td colspan="12">Auto Plan</td>
-                  </tr>
-                  <tr>
-                    <td>Short Term Disability</td>
-                    <td>$1,000</td>
-                    <td>$7/mo</td>
-                    <td>
-                      <button class="p-button w-100 text-center d-block">
-                        <lib-icons icon="plus" class="me-2"></lib-icons> Add
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="tr-group">
-                    <td colspan="12">Home & Auto Plan</td>
-                  </tr>
-                  <tr>
-                    <td>Life Insurance</td>
-                    <td>$6,000</td>
-                    <td>$50/mo</td>
-                    <td>
-                      <button class="p-button w-100 text-center d-block">
-                        <lib-icons icon="plus" class="me-2"></lib-icons> Add
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <p-accordion [activeIndex]="0">
+                <p-accordionTab header="Term Life">
+                  Coming soon!
+                </p-accordionTab>
+                <p-accordionTab header="Auto / Home & Auto">
+                  Coming soon!
+                </p-accordionTab>
+                <p-accordionTab header="Silver Safeguard Plan">
+                  Coming soon!
+                </p-accordionTab>
+              </p-accordion>
             </div>
           </p-tabPanel>
           <p-tabPanel>

@@ -14,10 +14,15 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.socket.onMessageReceived((msg) => {
       const data = JSON.parse(msg);
+      if (QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(data)) {
+        this.quoteSvc.loanProducts$.next(data.payload);
+        console.log(data.payload);
+      }
+      /**
       if (QUOTE_FORM_ACTIONS.PRODUCTS_READY(data)) {
         this.quoteSvc.loanProducts$.next(data.payload);
       }
-      /**
+
       const payload = JSON.parse(msg) as { type: string; data?: any };
       if (payload.type === 'PRODUCTS_READY') {
         this.quoteSvc.loanProducts$.next(payload.data);

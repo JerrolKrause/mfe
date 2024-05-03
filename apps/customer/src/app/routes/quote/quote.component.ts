@@ -4,6 +4,7 @@ import { SocketService } from '$state-management';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
+import { QuotingService } from '../../shared/services/quoting.service';
 
 @Component({
   selector: 'app-quote',
@@ -29,16 +30,33 @@ export class QuoteComponent implements OnInit {
     apr: 16.16,
     vehicle: ['2020 RAV4'],
     paymentImpact: 250,
+    ndi: 0,
   });
 
   public isUpdating = false;
 
-  constructor(private socket: SocketService) {}
+  constructor(
+    private socket: SocketService,
+    private quoteSvc: QuotingService
+  ) {}
 
   ngOnInit(): void {
     this.socket.onMessageReceived((msg) => {
       const data = JSON.parse(msg);
+      if (QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(data)) {
+        this.quoteSvc.loanProducts$.next(data.payload);
+      }
       if (QUOTE_FORM_ACTIONS.PRODUCT_CHANGE.match(data)) {
+        this.ranges$.next({
+          cashOut: {
+            max: data.payload?.loanOptions.cashOutMax ?? 15000,
+          },
+          loanAmount: {
+            max: data.payload?.loanOptions.loanAmountMax ?? 15000,
+          },
+        });
+
+        this.quoteFormDefaults$.next({ ndi: data.payload?.ndi ?? 0 });
         this.product$.next({
           isSecured: !!(
             data.payload?.productType === 0 || data.payload?.productType === 1
@@ -50,6 +68,7 @@ export class QuoteComponent implements OnInit {
           apr: data.payload?.apr ?? 0,
           vehicle: [data.payload?.productDescription ?? ''],
           paymentImpact: data.payload?.paymentImpact ?? 0,
+          ndi: data.payload?.ndi ?? 0,
         });
       }
     });
