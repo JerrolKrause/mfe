@@ -18,6 +18,7 @@ export interface LoanProduct {
     cashOutMax: number;
     loanAmountMax: number;
   };
+  systemQuote: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -65,6 +66,7 @@ export class TeamMemberService {
         cashOutMax: 15000,
         loanAmountMax: 15000,
       },
+      systemQuote: true,
     },
     {
       productDescription: 'MULTI VEHICLE',
@@ -84,6 +86,7 @@ export class TeamMemberService {
         cashOutMax: 15000,
         loanAmountMax: 15000,
       },
+      systemQuote: true,
     },
     {
       productDescription: '2010 SILVERADO',
@@ -103,6 +106,7 @@ export class TeamMemberService {
         cashOutMax: 15000,
         loanAmountMax: 15000,
       },
+      systemQuote: true,
     },
     {
       productDescription: '2020 RAV4',
@@ -122,6 +126,7 @@ export class TeamMemberService {
         cashOutMax: 8500,
         loanAmountMax: 8500,
       },
+      systemQuote: false,
     },
     {
       productDescription: '2010 SILVERADO',
@@ -141,6 +146,7 @@ export class TeamMemberService {
         cashOutMax: 6000,
         loanAmountMax: 6000,
       },
+      systemQuote: false,
     },
     {
       productDescription: 'NOTE LOAN',
@@ -160,6 +166,7 @@ export class TeamMemberService {
         cashOutMax: 3000,
         loanAmountMax: 3000,
       },
+      systemQuote: false,
     },
   ];
 }

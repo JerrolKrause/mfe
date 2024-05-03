@@ -1,15 +1,40 @@
 import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { LoanProduct } from '../../../shared/services/team-member.service';
 
 @Component({
   selector: 'app-loan-products-grid',
   templateUrl: './loan-products-grid.component.html',
   styleUrl: './loan-products-grid.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoanProductsGridComponent {
   @Input() loanProducts: LoanProduct[] | null = [];
+
+  public items: MenuItem[] = [
+    {
+      label: 'Edit',
+      icon: 'pi pi-refresh',
+    },
+    {
+      label: 'Escalate',
+      icon: 'pi pi-refresh',
+    },
+    {
+      label: 'Approve',
+      icon: 'pi pi-refresh',
+    },
+    {
+      label: 'Reject',
+      icon: 'pi pi-refresh',
+    },
+    {
+      label: 'Delete',
+      icon: 'pi pi-refresh',
+    },
+  ];
 
   public rowActive: number | null = 0;
 
