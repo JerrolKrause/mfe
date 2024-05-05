@@ -1,3 +1,4 @@
+import { IconsModule } from '$icons';
 import { MasterpageModule } from '$masterpage';
 import { StateManagementModule } from '$state-management';
 import { CommonModule } from '@angular/common';
@@ -17,15 +18,16 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import { EmbedComponent } from './routes/embed/embed.component';
 import { SandboxComponent } from './sandbox.component';
 import { SandboxRoutes } from './sandbox.routes';
-import { EmbedComponent } from './routes/embed/embed.component';
 @NgModule({
   declarations: [SandboxComponent, EmbedComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(SandboxRoutes),
     MasterpageModule,
+    IconsModule,
     ReactiveFormsModule,
     CardModule,
     InputTextModule,

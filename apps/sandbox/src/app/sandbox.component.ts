@@ -28,7 +28,7 @@ export class SandboxComponent implements OnInit {
 
   public loading$ = new BehaviorSubject(false);
 
-  /** Extract userId and brandID from the route params and ensure type safety */
+  /** Extract userId and branchID from the route params and ensure type safety */
   public routeParams$ = this.route.params.pipe(
     map((params) => ({
       userId: params['userId'] as string,
@@ -42,6 +42,27 @@ export class SandboxComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient
   ) {}
+
+  public openClassLink() {
+    const src_pid = sessionStorage.getItem('src_pid');
+    const src_sid = sessionStorage.getItem('src_sid');
+    const branchId = this.route.snapshot.params['branchId'];
+    const userId = this.route.snapshot.params['userId'];
+    // const url = `CLASSAppLookupIB:${src_pid}:${src_sid}:${branchId}:${userId}`;
+    const url = `CLASSAppLookupIB:${branchId}:${userId}`;
+    // alert(url);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.click();
+    link.remove();
+    setTimeout(function () {
+      window.self.close();
+    }, 500);
+  }
+
+  public closeBrowserTab() {
+    window.self.close();
+  }
 
   ngOnInit(): void {
     this.loading$.next(true);

@@ -52,10 +52,16 @@
             </button>
           </div>
           <div class="text-end">
-            <a href="CLASSAppLookupIB:{{ params.branchId }}:{{ params.userId }}"
-              >Open In CLASS - Branch: {{ params.branchId }}, Application:
-              {{ params.userId }}</a
-            >
+            <p (click)="openClassLink()">
+              Back to the Future of CLASS for Branch: {{ params.branchId }}, App
+              No:
+              {{ params.userId }}
+              <img src="assets/BackToTheFuture.png" style="max-width: 200px" />
+            </p>
+            <!-- <button class="p-button p-button-text" (click)="openClassLink()">
+              <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open
+              In Class
+            </button> -->
           </div>
         </form>
       </p-card>
