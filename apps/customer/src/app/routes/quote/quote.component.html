@@ -36,14 +36,17 @@
                   <div class="lp-details">
                     <div class="label">Cash Flow Change</div>
                     <div
-                      class="value green"
+                      class="value green d-flex"
+                      style="align-items: center"
                       *ngIf="product.paymentImpact > 0; else impact"
                     >
-                      -{{
+                      {{
                         product.paymentImpact
                           | currency : 'USD' : 'symbol' : '1.0-2'
                       }}
-                      <span class="label" style="color: initial">Monthly</span>
+                      <span class="label ms-1" style="color: initial"
+                        >Monthly<br />Savings</span
+                      >
                     </div>
                     <ng-template #impact>
                       <div class="value" *ngIf="product.paymentImpact < 0">

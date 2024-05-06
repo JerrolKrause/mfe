@@ -18,22 +18,6 @@ export class ProductsComponent implements OnInit {
         this.quoteSvc.loanProducts$.next(data.payload);
         console.log(data.payload);
       }
-      /**
-      if (QUOTE_FORM_ACTIONS.PRODUCTS_READY(data)) {
-        this.quoteSvc.loanProducts$.next(data.payload);
-      }
-
-      const payload = JSON.parse(msg) as { type: string; data?: any };
-      if (payload.type === 'PRODUCTS_READY') {
-        this.quoteSvc.loanProducts$.next(payload.data);
-        console.log(payload.data);
-      }
-
-      if (payload.type === 'PRODUCTS_HIGHLIGHTED') {
-        this.quoteSvc.loanProductsHighlighted$.next(payload.data);
-        console.log(payload.data);
-      }
-       */
     });
   }
 }

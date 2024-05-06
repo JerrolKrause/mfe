@@ -1,8 +1,7 @@
 import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
-import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { OverlayPanel } from 'primeng/overlaypanel';
 import { LoanProduct } from '../../../shared/services/team-member.service';
 
 @Component({
@@ -37,8 +36,6 @@ export class LoanProductsGridComponent {
       command: (event) => this.productDelete(event.index ?? 0),
     },
   ];
-
-  @ViewChild('op') overlayPanel!: OverlayPanel; // Template reference for the overlay panel
 
   public rowActive: number | null = 0;
 

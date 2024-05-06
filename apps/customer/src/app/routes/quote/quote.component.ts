@@ -71,6 +71,10 @@ export class QuoteComponent implements OnInit {
           ndi: data.payload?.ndi ?? 0,
         });
       }
+      // When loan products received
+      if (QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(data)) {
+        this.quoteSvc.loanProducts$.next(data.payload);
+      }
     });
   }
 
