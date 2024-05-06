@@ -1,20 +1,37 @@
-<lib-masterpage [showNav]="false">
-  <div class="container py-4" *ngIf="routeParams$ | async as params">
+<lib-masterpage
+  [showNav]="false"
+  *ngIf="{ state: state$ | async, params: routeParams$ | async } as comp"
+>
+  <div class="container py-4">
     <div style="margin: auto; max-width: 480px">
-      <p-card>
+      <p-card *ngIf="!!comp.state?.finished">
+        <div class="py-5 text-center">
+          <h1 style="font-size: 1.8rem">User Updated Successfully</h1>
+          <a class="clickable" (click)="openClassLink()">
+            Back to the Future of CLASS for Branch:
+            {{ comp.params?.branchId }}, App No:
+            {{ comp.params?.userId }}
+            <img
+              src="assets/back-to-class-button.webp"
+              style="max-width: 200px"
+            />
+          </a>
+        </div>
+      </p-card>
+      <p-card *ngIf="!comp.state?.finished">
         <ng-template pTemplate="header">
           <div style="height: 6px">
             <p-progressBar
               mode="indeterminate"
               [style]="{ height: '6px' }"
-              *ngIf="loading$ | async"
+              *ngIf="comp.state?.loading"
             ></p-progressBar>
           </div>
         </ng-template>
 
         <div class="p-card-title">
-          Customer Information ({{ params.userId }})<br />
-          Branch: {{ params.branchId }}
+          Customer Information ({{ comp.params?.userId }})<br />
+          Branch: {{ comp.params?.branchId }}
         </div>
 
         <form (submit)="submit()" [formGroup]="form">
@@ -47,17 +64,20 @@
           </table>
 
           <div class="mb-3 text-end">
-            <button pButton type="submit" [disabled]="loading$ | async">
+            <button pButton type="submit" [disabled]="comp.state?.loading">
               Update User
             </button>
           </div>
           <div class="text-end">
-            <p (click)="openClassLink()">
-              Back to the Future of CLASS for Branch: {{ params.branchId }}, App
-              No:
-              {{ params.userId }}
-              <img src="assets/BackToTheFuture.png" style="max-width: 200px" />
-            </p>
+            <a class="clickable" (click)="openClassLink()">
+              Back to the Future of CLASS for Branch:
+              {{ comp.params?.branchId }}, App No:
+              {{ comp.params?.userId }}
+              <img
+                src="assets/back-to-class-button.webp"
+                style="max-width: 200px"
+              />
+            </a>
             <!-- <button class="p-button p-button-text" (click)="openClassLink()">
               <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open
               In Class

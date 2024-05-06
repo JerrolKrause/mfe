@@ -12,6 +12,11 @@ export interface CustomerData {
   OTHER_NAMES_USED_X: string;
 }
 
+interface State {
+  finished: boolean;
+  loading: boolean;
+}
+
 @Component({
   selector: 'app-sandbox',
   templateUrl: './sandbox.component.html',
@@ -26,7 +31,10 @@ export class SandboxComponent implements OnInit {
     OTHER_NAMES_USED_X: new FormControl(),
   });
 
-  public loading$ = new BehaviorSubject(false);
+  public state$ = new BehaviorSubject<State>({
+    finished: false,
+    loading: false,
+  });
 
   /** Extract userId and branchID from the route params and ensure type safety */
   public routeParams$ = this.route.params.pipe(
@@ -64,8 +72,15 @@ export class SandboxComponent implements OnInit {
     window.self.close();
   }
 
+  public stateChange(state: Partial<State>) {
+    this.state$
+      .pipe(take(1))
+      .subscribe((stateOld) => this.state$.next({ ...stateOld, ...state }));
+  }
+
   ngOnInit(): void {
-    this.loading$.next(true);
+    this.stateChange({ loading: true });
+
     // Look at the route param and use that to load the correct user ID
     this.routeParams$
       .pipe(
@@ -79,11 +94,11 @@ export class SandboxComponent implements OnInit {
       )
       .subscribe(
         (user) => {
-          this.loading$.next(false);
+          this.stateChange({ loading: false });
           this.form.patchValue(user);
         },
         () => {
-          this.loading$.next(false);
+          this.stateChange({ loading: false });
           this.messageService.add({
             life: 3000,
             severity: 'error',
@@ -98,7 +113,8 @@ export class SandboxComponent implements OnInit {
    * Submit updated user
    */
   public submit() {
-    this.loading$.next(true);
+    this.stateChange({ loading: true });
+
     const val = this.form.getRawValue() as Partial<CustomerData>;
     this.routeParams$
       .pipe(
@@ -111,16 +127,25 @@ export class SandboxComponent implements OnInit {
       )
       .subscribe(
         () => {
-          this.loading$.next(false);
+          // Show 'User Updated' window
+          this.stateChange({ loading: false, finished: true });
+          // Attempt to close window programmatically
+          try {
+            window.close();
+          } catch (err) {
+            console.error(err);
+          }
+          /** Moved to standalone card
           this.messageService.add({
             life: 3000,
             severity: 'success',
             summary: 'Success',
             detail: 'User Updated Successfully',
           });
+           */
         },
         () => {
-          this.loading$.next(false);
+          this.stateChange({ loading: false });
           this.messageService.add({
             life: 3000,
             severity: 'error',
