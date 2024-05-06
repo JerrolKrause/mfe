@@ -48,8 +48,8 @@ export class SandboxComponent implements OnInit {
     const src_sid = sessionStorage.getItem('src_sid');
     const branchId = this.route.snapshot.params['branchId'];
     const userId = this.route.snapshot.params['userId'];
-    // const url = `CLASSAppLookupIB:${src_pid}:${src_sid}:${branchId}:${userId}`;
-    const url = `CLASSAppLookupIB:${branchId}:${userId}`;
+    const url = `CLASSAppLookupIB:${src_pid}:${src_sid}:${branchId}:${userId}`;
+    // const url = `CLASSAppLookupIB:${branchId}:${userId}`;
     // alert(url);
     const link = document.createElement('a');
     link.setAttribute('href', url);
