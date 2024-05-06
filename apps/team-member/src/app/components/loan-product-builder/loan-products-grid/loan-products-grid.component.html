@@ -1,79 +1,87 @@
-@if(loanProducts?.length) {
-<div class="table-responsive">
-  <table class="table table-sm table-hover small">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Product</th>
-        <th>Vehicle</th>
-        <th>Cash Out</th>
-        <th>Total Loan Amount</th>
-        <th>Monthly Payment</th>
-        <th>Payment Impact</th>
-        <th>Term</th>
-        <th>Base Advance</th>
-        <th>APR</th>
-        <th>NDI</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for(product of loanProducts; track product.productDescription; let index
-      = $index) {
-      <tr
-        (click)="highlightRow(index)"
-        [ngClass]="rowActive === index ? 'row-highlight' : ''"
-      >
-        <td style="width: 28px; color: #00a39e">
-          <lib-icons
-            icon="eye"
-            title="Customer Is Viewing"
-            *ngIf="rowActive === index"
-          ></lib-icons>
-        </td>
-        <td>
-          @if(product.productType === 0) {
-          <lib-icons icon="car" title="Direct Auto" class="me-2"></lib-icons> DA
-          } @else if(product.productType === 1) {
-          <lib-icons icon="lock" title="Secured" class="me-2"></lib-icons>
-          Secured } @else if(product.productType === 2) {
-          <lib-icons
-            icon="lock-open"
-            title="Partially Secured"
-            class="me-2"
-          ></lib-icons>
-          Secured } @else if(product.productType === 3) {
-          <lib-icons icon="sad" title="Unsecured" class="me-2"></lib-icons>
-          Unsecured }
-        </td>
-        <td>
-          {{ product.productDescription }}
-        </td>
-        <td>
-          {{ product.systemDecision | currency : 'USD' : 'symbol' : '1.0-2' }}
-        </td>
-        <td>
-          {{ product.totalAdvance | currency : 'USD' : 'symbol' : '1.0-2' }}
-        </td>
-        <td>
-          {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
-        </td>
-        <td [ngClass]="product.paymentImpact > 0 ? 'green' : 'red'">
-          @if(product.paymentImpact > 0) {
-          <lib-icons icon="caret-up" class="me-2"></lib-icons>
-          } @else {
-          <lib-icons icon="caret-down" class="me-2"></lib-icons>
-          }
-          {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
-        </td>
-        <td>{{ product.term }} mo</td>
-        <td>
-          {{ product.baseAdvance | currency : 'USD' : 'symbol' : '1.0-2' }}
-        </td>
-        <td>{{ product.apr }}%</td>
-        <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
-
-        <td style="white-space: nowrap">
+<div class="loan-products-table">
+  @if(loanProducts?.length) {
+  <div class="table-responsive">
+    <table class="table table-sm table-hover small">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Product</th>
+          <th>Vehicle</th>
+          <th>Cash Out</th>
+          <th>Total Loan Amount</th>
+          <th>Monthly Payment</th>
+          <th>Payment Impact</th>
+          <th>Term</th>
+          <th>APR</th>
+          <th>NDI</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(product of loanProducts; track product.productDescription; let
+        index = $index) {
+        <tr
+          (click)="highlightRow(index)"
+          [ngClass]="rowActive === index ? 'row-highlight' : ''"
+        >
+          <td style="width: 28px; color: #00a39e">
+            <lib-icons
+              icon="eye"
+              title="Customer Is Viewing"
+              *ngIf="rowActive === index"
+            ></lib-icons>
+          </td>
+          <td>
+            @if(product.productType === 0) {
+            <lib-icons icon="car" title="Direct Auto" class="me-2"></lib-icons>
+            DA } @else if(product.productType === 1) {
+            <lib-icons icon="lock" title="Secured" class="me-2"></lib-icons>
+            Secured } @else if(product.productType === 2) {
+            <lib-icons
+              icon="lock-open"
+              title="Partially Secured"
+              class="me-2"
+            ></lib-icons>
+            Secured } @else if(product.productType === 3) {
+            <lib-icons icon="sad" title="Unsecured" class="me-2"></lib-icons>
+            Unsecured }
+          </td>
+          <td>
+            {{ product.productDescription }}
+          </td>
+          <td>
+            {{ product.systemDecision | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td>
+            {{ product.totalAdvance | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td>
+            {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td [ngClass]="product.paymentImpact > 0 ? 'green' : 'red'">
+            @if(product.paymentImpact > 0) {
+            <lib-icons icon="caret-up" class="me-2"></lib-icons>
+            } @else {
+            <lib-icons icon="caret-down" class="me-2"></lib-icons>
+            }
+            {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td>{{ product.term }} mo</td>
+          <td>{{ product.apr }}%</td>
+          <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
+          <td>
+            @if(product.status) {
+            <lib-icons
+              icon="exclamation-triangle"
+              class="me-2 red"
+              pTooltip="This quote is no longer valid"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            }
+          </td>
+          <td style="white-space: nowrap" class="actions">
+            <!--
           <a
             class="clickable me-2"
             (mouseover)="op.toggle($event)"
@@ -88,39 +96,47 @@
             <lib-icons icon="cog" title="Edit this product"></lib-icons>
           </a>
           <a
+            *ngIf="!product.systemQuote"
             class="clickable"
             (click)="productDelete(index)"
             title="Delete this product"
           >
             <lib-icons icon="trash"></lib-icons
           ></a>
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
-</div>
-}
-<p class="mb-1"><strong>Non Credit Products</strong></p>
-<p>Coming soon!</p>
-
-<p-overlayPanel #op>
-  <div class="p-2">
-    <table class="table table-sm table-striped mb-0">
-      <tbody>
-        <tr>
-          <td><strong>System Decision</strong></td>
-          <td>$18,500</td>
+          -->
+            <p-splitButton
+              label="Info"
+              [model]="items"
+              appendTo="body"
+            ></p-splitButton>
+          </td>
         </tr>
-        <tr>
-          <td><strong>PTI</strong></td>
-          <td>36%</td>
-        </tr>
-        <tr>
-          <td><strong>LTV</strong></td>
-          <td>120</td>
-        </tr>
+        }
       </tbody>
     </table>
   </div>
-</p-overlayPanel>
+  }
+  <p class="mb-1"><strong>Non Credit Products</strong></p>
+  <p>Coming soon!</p>
+
+  <p-overlayPanel #op>
+    <div class="p-2">
+      <table class="table table-sm table-striped mb-0">
+        <tbody>
+          <tr>
+            <td><strong>System Decision</strong></td>
+            <td>$18,500</td>
+          </tr>
+          <tr>
+            <td><strong>PTI</strong></td>
+            <td>36%</td>
+          </tr>
+          <tr>
+            <td><strong>LTV</strong></td>
+            <td>120</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </p-overlayPanel>
+</div>

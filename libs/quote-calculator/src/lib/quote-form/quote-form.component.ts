@@ -59,9 +59,17 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     loanAmount: 6000,
     loanDuration: 48,
     monthlyPayment: 200,
+    ndi: 1,
     loanGoal: '', // cashOut, cashFlow, debt
     vehicles: this.fb.array([new FormControl(), new FormControl()]),
     creditors: this.fb.array([
+      new FormControl(),
+      new FormControl(),
+      new FormControl(),
+      new FormControl(),
+    ]),
+    // Details
+    visible: this.fb.array([
       new FormControl(),
       new FormControl(),
       new FormControl(),
@@ -97,6 +105,12 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     this.sub = this.quoteFrm.valueChanges
       .pipe(debounceTime(250))
       .subscribe((quote) => this.quoteFormChanged.emit(quote));
+  }
+
+  public activeIndexChange(index: number | number[]) {
+    const val = Array.isArray(index) ? index : [index];
+    this.quoteFrm.get('visible')?.reset();
+    this.quoteFrm.get('visible')?.patchValue(val);
   }
 
   ngOnInit(): void {

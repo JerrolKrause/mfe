@@ -129,7 +129,7 @@ export class LoanProductBuilderComponent implements OnInit {
     assets: this.fb.array([false, false, false, false]),
   });
 
-  public loanProducts: LoanProduct[] = [this.teamSvc.loanProducts[0]];
+  public loanProducts: LoanProduct[] = [...this.teamSvc.loanProducts];
 
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
@@ -164,6 +164,13 @@ export class LoanProductBuilderComponent implements OnInit {
         this.quoteFormDefaults$.next(data.payload);
       }
     });
+
+    setTimeout(() => {
+      this.socket.sendMessageToUser(
+        UserIds.customer,
+        JSON.stringify(QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(this.loanProducts))
+      );
+    }, 1000);
   }
 
   private stateChange(stateNew: Partial<State>) {
@@ -212,13 +219,6 @@ export class LoanProductBuilderComponent implements OnInit {
     const src_pid = sessionStorage.getItem('src_pid');
     const src_sid = sessionStorage.getItem('src_sid');
     alert(`Stored parameters:\nsrc_pid: ${src_pid}\nsrc_sid: ${src_sid}`);
-  }
-
-  public sendToCustomer() {
-    this.socket.sendMessageToUser(
-      UserIds.customer,
-      JSON.stringify(QUOTE_FORM_ACTIONS.PRODUCTS_READY(this.loanProducts))
-    );
   }
 
   /**

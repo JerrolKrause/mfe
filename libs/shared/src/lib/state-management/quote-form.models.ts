@@ -27,6 +27,10 @@ export module QuoteFormModels {
     ndi: number;
     pti: number;
     paymentImpact: number;
+    loanOptions: {
+      cashOutMax: number;
+      loanAmountMax: number;
+    };
   }
 
   export interface UserSelectionDetail {

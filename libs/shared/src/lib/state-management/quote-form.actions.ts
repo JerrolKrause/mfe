@@ -12,7 +12,9 @@ export const QUOTE_FORM_ACTIONS = {
   CUSTOMER_QUOTE_CHANGED: actionCreator<QuoteFormModels.Quote | null>(
     'CUSTOMER_QUOTE_CHANGED'
   ),
-  PRODUCTS_READY: actionCreator<any[]>('PRODUCTS_READY'),
+  PRODUCTS_UPDATE: actionCreator<QuoteFormModels.LoanProduct[] | null[]>(
+    'PRODUCTS_UPDATE'
+  ),
   PRODUCT_CHANGE: actionCreator<QuoteFormModels.LoanProduct | null>(
     'PRODUCT_CHANGE'
   ),
