@@ -19,6 +19,7 @@ export interface LoanProduct {
     loanAmountMax: number;
   };
   systemQuote: boolean;
+  status: 'error' | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -67,6 +68,7 @@ export class TeamMemberService {
         loanAmountMax: 15000,
       },
       systemQuote: true,
+      status: null,
     },
     {
       productDescription: 'MULTI VEHICLE',
@@ -87,6 +89,7 @@ export class TeamMemberService {
         loanAmountMax: 15000,
       },
       systemQuote: true,
+      status: null,
     },
     {
       productDescription: '2010 SILVERADO',
@@ -107,6 +110,7 @@ export class TeamMemberService {
         loanAmountMax: 15000,
       },
       systemQuote: true,
+      status: null,
     },
     {
       productDescription: '2020 RAV4',
@@ -127,6 +131,7 @@ export class TeamMemberService {
         loanAmountMax: 8500,
       },
       systemQuote: false,
+      status: 'error',
     },
     {
       productDescription: '2010 SILVERADO',
@@ -147,6 +152,7 @@ export class TeamMemberService {
         loanAmountMax: 6000,
       },
       systemQuote: false,
+      status: null,
     },
     {
       productDescription: 'NOTE LOAN',
@@ -167,6 +173,7 @@ export class TeamMemberService {
         loanAmountMax: 3000,
       },
       systemQuote: false,
+      status: null,
     },
   ];
 }

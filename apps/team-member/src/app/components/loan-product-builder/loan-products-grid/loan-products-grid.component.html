@@ -68,10 +68,18 @@
             {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
           </td>
           <td>{{ product.term }} mo</td>
-
           <td>{{ product.apr }}%</td>
           <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
-          <td></td>
+          <td>
+            @if(product.status) {
+            <lib-icons
+              icon="exclamation-triangle"
+              class="me-2 red"
+              pTooltip="This quote is no longer valid"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            }
+          </td>
           <td style="white-space: nowrap" class="actions">
             <!--
           <a

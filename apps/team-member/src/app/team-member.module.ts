@@ -18,6 +18,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SliderModule } from 'primeng/slider';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TabViewModule } from 'primeng/tabview';
+import { TooltipModule } from 'primeng/tooltip';
 import { CustomerControlsComponent } from './components/loan-product-builder/customer-controls/customer-controls.component';
 import { FeesModalComponent } from './components/loan-product-builder/fees/fees-modal.component';
 import { LoanProductBuilderComponent } from './components/loan-product-builder/loan-product-builder.component';
@@ -42,6 +43,7 @@ import { appRoutes } from './team-member.routes';
     AccordionModule,
     FormsLibModule,
     IconsModule,
+    TooltipModule,
     MasterpageModule,
     QuoteCalculatorModule,
     InputNumberModule,
