@@ -35,6 +35,89 @@
 
       @for(product of comp.loanProducts; track product; let index = $index) {
 
+      <div class="loan-product">
+        <div class="lp-details">
+          <div class="label">Cash Out</div>
+          <div class="value">
+            {{ product.systemDecision | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </div>
+        </div>
+
+        <div class="lp-details">
+          <div class="label">Monthly Payment</div>
+          <div class="value">
+            {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </div>
+        </div>
+
+        <div class="lp-details">
+          <div class="label">Cash Flow Change</div>
+          <div
+            class="value green d-flex"
+            style="align-items: center"
+            *ngIf="product.paymentImpact > 0; else impact"
+          >
+            +{{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </div>
+          <ng-template #impact>
+            <div class="value" *ngIf="product.paymentImpact < 0">
+              -{{
+                -product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2'
+              }}
+            </div></ng-template
+          >
+        </div>
+
+        <div class="lp-details">
+          <div class="label" style="font-size: 10.5px; letter-spacing: -0.15px">
+            Optional Products
+          </div>
+          <div class="value">+$0 - $127</div>
+        </div>
+        <div class="lp-details">
+          <div class="label">Total Loan Amount</div>
+          <div class="value">
+            {{ product.totalAdvance | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </div>
+        </div>
+        <div class="lp-details">
+          <div class="label">Term</div>
+          <div class="value">{{ product.term }} Months</div>
+        </div>
+        <!--
+        <div class="lp-details">
+          <div class="label">Rate</div>
+          <div class="value">{{ product.apr }}%</div>
+        </div>
+        -->
+        <div class="lp-details">
+          <div class="label">APR</div>
+          <div class="value">{{ product.apr }}%</div>
+        </div>
+        <div class="lp-details">
+          <div class="label">Type</div>
+          <div class="value">
+            @if(product.isSecured) {
+            <lib-icons icon="lock" title="Secured" class="me-1"></lib-icons>
+            Secured } @else {
+            <lib-icons
+              icon="lock-open"
+              title="Secured"
+              class="me-1"
+            ></lib-icons>
+            Unsecured }
+          </div>
+        </div>
+        <div class="lp-details">
+          <div class="label">Vehicle</div>
+          <div class="value">
+            <lib-icons icon="car" class="me-1"></lib-icons>
+            {{ product.productDescription }}
+          </div>
+        </div>
+      </div>
+
+      <!--
       <div
         class="loan-product"
         [ngClass]="comp?.highlights?.[index] ? 'highlight' : ''"
@@ -105,11 +188,13 @@
               </tr>
             </tbody>
           </table>
+
           <button class="p-button w-100 text-center d-block">
             <lib-icons icon="thumbsup" class="me-2"></lib-icons> Select
           </button>
+
         </div>
-      </div>
+      </div>-->
       }
     </div>
   </p-card>
