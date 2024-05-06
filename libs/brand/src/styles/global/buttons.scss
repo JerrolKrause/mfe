@@ -35,3 +35,16 @@
     border: #ccc !important;
   }
 }
+
+.p-tieredmenu-overlay {
+  .p-tieredmenu-root-list {
+    margin: 0;
+    padding: 0;
+  }
+  .p-menuitem-link {
+    text-decoration: none;
+    .p-menuitem-text {
+      color: $brandColor;
+    }
+  }
+}

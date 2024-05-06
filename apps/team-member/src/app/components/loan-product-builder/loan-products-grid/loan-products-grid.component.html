@@ -106,9 +106,30 @@
           -->
             <p-splitButton
               label="Info"
-              [model]="items"
               appendTo="body"
+              [model]="items"
+              (onClick)="op.toggle($event)"
             ></p-splitButton>
+            <p-overlayPanel #op>
+              <div class="p-2">
+                <table class="table table-sm table-striped mb-0">
+                  <tbody>
+                    <tr>
+                      <td><strong>System Decision</strong></td>
+                      <td>$18,500</td>
+                    </tr>
+                    <tr>
+                      <td><strong>PTI</strong></td>
+                      <td>36%</td>
+                    </tr>
+                    <tr>
+                      <td><strong>LTV</strong></td>
+                      <td>120</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </p-overlayPanel>
           </td>
         </tr>
         }
@@ -118,25 +139,4 @@
   }
   <p class="mb-1"><strong>Non Credit Products</strong></p>
   <p>Coming soon!</p>
-
-  <p-overlayPanel #op>
-    <div class="p-2">
-      <table class="table table-sm table-striped mb-0">
-        <tbody>
-          <tr>
-            <td><strong>System Decision</strong></td>
-            <td>$18,500</td>
-          </tr>
-          <tr>
-            <td><strong>PTI</strong></td>
-            <td>36%</td>
-          </tr>
-          <tr>
-            <td><strong>LTV</strong></td>
-            <td>120</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </p-overlayPanel>
 </div>

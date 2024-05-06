@@ -1,7 +1,8 @@
 import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { OverlayPanel } from 'primeng/overlaypanel';
 import { LoanProduct } from '../../../shared/services/team-member.service';
 
 @Component({
@@ -33,8 +34,11 @@ export class LoanProductsGridComponent {
     {
       label: 'Delete',
       icon: 'pi pi-refresh',
+      command: (event) => this.productDelete(event.index ?? 0),
     },
   ];
+
+  @ViewChild('op') overlayPanel!: OverlayPanel; // Template reference for the overlay panel
 
   public rowActive: number | null = 0;
 
@@ -44,7 +48,10 @@ export class LoanProductsGridComponent {
     if (!this.loanProducts) {
       return;
     }
-    this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
+    const c = confirm('Are you sure you want to delete this loan product?');
+    if (c) {
+      this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
+    }
   }
 
   public highlightRow(i: number) {
