@@ -233,13 +233,31 @@
             <div class="px-3">
               <p-accordion [activeIndex]="0">
                 <p-accordionTab header="Term Life">
-                  Coming soon!
+                  <lib-form-generator
+                    [formModel]="loanProductsModel"
+                    [formGroup]="loanProductsForm"
+                    [options]="formOptions"
+                    [disableSubmit]="false"
+                    (completed)="onFormCompleted($event)"
+                  ></lib-form-generator>
                 </p-accordionTab>
                 <p-accordionTab header="Auto / Home & Auto">
-                  Coming soon!
+                  <lib-form-generator
+                    [formModel]="loanProductsModel"
+                    [formGroup]="loanProductsForm"
+                    [options]="formOptions"
+                    [disableSubmit]="false"
+                    (completed)="onFormCompleted($event)"
+                  ></lib-form-generator>
                 </p-accordionTab>
                 <p-accordionTab header="Silver Safeguard Plan">
-                  Coming soon!
+                  <lib-form-generator
+                    [formModel]="loanProductsModel"
+                    [formGroup]="loanProductsForm"
+                    [options]="formOptions"
+                    [disableSubmit]="false"
+                    (completed)="onFormCompleted($event)"
+                  ></lib-form-generator>
                 </p-accordionTab>
               </p-accordion>
             </div>
