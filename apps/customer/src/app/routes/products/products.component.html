@@ -6,7 +6,11 @@
   } as comp"
 >
   <p-card>
-    <h1>Loan Options</h1>
+    <h1>Available Loan Products</h1>
+    <div class="d-flex mb-3">
+      <p-dropdown [options]="optionsSort" placeholder="Sort By" class="me-2" />
+      <p-dropdown [options]="[]" placeholder="Filter By" class="me-2" />
+    </div>
     <div class="loan-products">
       <div class="loan-product legend d-none d-md-block">
         <div class="collateral no-bg"></div>
@@ -114,6 +118,11 @@
             <lib-icons icon="car" class="me-1"></lib-icons>
             {{ product.productDescription }}
           </div>
+        </div>
+        <div class="lp-details mt-3">
+          <button class="p-button w-100 text-center d-block">
+            <lib-icons icon="thumbsup" class="me-2"></lib-icons> Select
+          </button>
         </div>
       </div>
 

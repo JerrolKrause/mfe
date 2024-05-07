@@ -9,6 +9,12 @@ import { QuotingService } from '../../shared/services/quoting.service';
   styleUrl: './products.component.scss',
 })
 export class ProductsComponent implements OnInit {
+  public optionsSort = [
+    { label: 'Most Cash Out' },
+    { label: 'Lowest Monthly Payment' },
+    { label: 'Lowest APR' },
+  ];
+
   constructor(private socket: SocketService, public quoteSvc: QuotingService) {}
 
   ngOnInit(): void {
@@ -16,7 +22,6 @@ export class ProductsComponent implements OnInit {
       const data = JSON.parse(msg);
       if (QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(data)) {
         this.quoteSvc.loanProducts$.next(data.payload);
-        console.log(data.payload);
       }
     });
   }
