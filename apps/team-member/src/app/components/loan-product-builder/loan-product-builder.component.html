@@ -100,22 +100,12 @@
         @if(loanProducts.length) {
         <app-loan-products-grid
           [loanProducts]="loanProducts"
+          (statusChanged)="handleStatusChange($event)"
         ></app-loan-products-grid>
+        <!--
         <div class="loan-products-footer">
           <div class="d-flex">
-            <!--
-            <button class="p-button p-button-outlined me-2">
-              <lib-icons icon="save" class="me-2"></lib-icons> Save Quote
-            </button>
 
-            <a
-              class="p-button p-button-outlined me-2"
-              (click)="openClassLink()"
-            >
-              <lib-icons icon="external-link-alt" class="me-2"></lib-icons> Open
-              in Class
-            </a>
-            -->
           </div>
           <div>
             <button class="p-button me-2">
@@ -127,6 +117,8 @@
             </button>
           </div>
         </div>
+        -->
+
         } @else {
         <p>
           Use the panel on the right to build loan products and click the "Add
@@ -228,7 +220,7 @@
           <p-tabPanel>
             <ng-template pTemplate="header">
               <lib-icons icon="search-dollar" class="me-2"></lib-icons>
-              Non-Credit Products
+              Non-Credit
             </ng-template>
             <div class="px-3">
               <p-accordion [activeIndex]="0">
@@ -261,6 +253,13 @@
                 </p-accordionTab>
               </p-accordion>
             </div>
+          </p-tabPanel>
+          <p-tabPanel>
+            <ng-template pTemplate="header">
+              <lib-icons icon="money" class="me-2"></lib-icons>
+              Credit
+            </ng-template>
+            Coming eventually!
           </p-tabPanel>
           <p-tabPanel>
             <ng-template pTemplate="header">

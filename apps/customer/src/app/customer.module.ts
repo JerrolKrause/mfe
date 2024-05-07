@@ -22,6 +22,7 @@ import { appRoutes } from './customer.routes';
 import { HomeComponent } from './routes/home/home.component';
 import { ProductsComponent } from './routes/products/products.component';
 import { QuoteComponent } from './routes/quote/quote.component';
+
 @NgModule({
   declarations: [
     CustomerComponent,

@@ -1,6 +1,6 @@
 <div class="loan-products-table">
   @if(loanProducts?.length) {
-  <div class="table-responsive">
+  <div class="table-responsive mb-3">
     <table class="table table-sm table-hover small">
       <thead>
         <tr>
@@ -59,11 +59,19 @@
           <td>
             {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
           </td>
-          <td [ngClass]="product.paymentImpact > 0 ? 'green' : 'red'">
+          <td>
             @if(product.paymentImpact > 0) {
-            <lib-icons icon="caret-up" class="me-2"></lib-icons>
+            <lib-icons
+              icon="caret-up"
+              class="me-2"
+              style="position: relative; top: -3px"
+            ></lib-icons>
             } @else {
-            <lib-icons icon="caret-down" class="me-2"></lib-icons>
+            <lib-icons
+              icon="caret-down"
+              class="me-2"
+              style="position: relative; top: 3px"
+            ></lib-icons>
             }
             {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
           </td>
@@ -71,7 +79,28 @@
           <td>{{ product.apr }}%</td>
           <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
           <td>
-            @if(product.status) {
+            @if(product.status?.approved) {
+            <lib-icons
+              icon="thumbsup"
+              class="me-2 green"
+              pTooltip="This quote approved"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status?.rejected) {
+            <lib-icons
+              icon="thumbsdown"
+              class="me-2 orange"
+              pTooltip="This quote is rejected"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status?.customerSelected) {
+            <lib-icons
+              icon="user"
+              class="me-2 blue"
+              pTooltip="This quote has been selected by the customer"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status?.error) {
             <lib-icons
               icon="exclamation-triangle"
               class="me-2 red"
@@ -107,7 +136,7 @@
             <p-splitButton
               label="Info"
               appendTo="body"
-              [model]="items"
+              [model]="items(index)"
               (onClick)="op.toggle($event)"
             ></p-splitButton>
             <p-overlayPanel #op>
@@ -138,5 +167,38 @@
   </div>
   }
   <p class="mb-1"><strong>Non Credit Products</strong></p>
-  <p>Coming soon!</p>
+  <div class="table-responsive non-credit-products-table">
+    <table class="table table-sm small">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Type</th>
+          <th>Insured</th>
+          <th>Term</th>
+          <th>Premium/Fee</th>
+          <th>Effective Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(product of nonCreditProducts; track product) {
+        <tr>
+          <td>{{ product.product }}</td>
+          <td>{{ product.type }}</td>
+          <td>{{ product.insuredName }}</td>
+          <td>{{ product.term }}</td>
+          <td>{{ product.fee }}</td>
+          <td>{{ product.dateStart }}</td>
+          <td class="actions text-end">
+            <p-splitButton
+              label="Edit"
+              appendTo="body"
+              [model]="items2"
+            ></p-splitButton>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>

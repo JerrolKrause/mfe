@@ -19,6 +19,7 @@ import {
   faInfoCircle,
   faLock,
   faLockOpen,
+  faMoneyBill1Wave,
   faMoneyCheckAlt,
   faPhone,
   faPlus,
@@ -41,6 +42,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'money'
   | 'search'
   | 'weighthanging'
   | 'smile'
@@ -90,6 +92,7 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    money: faMoneyBill1Wave,
     search: faSearch,
     weighthanging: faWeightHanging,
     smile: faSmile,

@@ -19,7 +19,14 @@ export interface LoanProduct {
     loanAmountMax: number;
   };
   systemQuote: boolean;
-  status: 'error' | null;
+  status: LoanProductStatus;
+}
+
+export interface LoanProductStatus {
+  error?: boolean;
+  approved?: boolean;
+  rejected?: boolean;
+  customerSelected?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -68,7 +75,11 @@ export class TeamMemberService {
         loanAmountMax: 15000,
       },
       systemQuote: true,
-      status: null,
+      status: {
+        approved: true,
+
+        customerSelected: true,
+      },
     },
     {
       productDescription: 'MULTI VEHICLE',
@@ -89,7 +100,7 @@ export class TeamMemberService {
         loanAmountMax: 15000,
       },
       systemQuote: true,
-      status: null,
+      status: {},
     },
     {
       productDescription: '2010 SILVERADO',
@@ -110,7 +121,9 @@ export class TeamMemberService {
         loanAmountMax: 15000,
       },
       systemQuote: true,
-      status: null,
+      status: {
+        rejected: true,
+      },
     },
     {
       productDescription: '2020 RAV4',
@@ -120,18 +133,20 @@ export class TeamMemberService {
       ltv: 120,
       term: 54,
       totalAdvance: 14500,
-      monthlyPayment: 140,
+      monthlyPayment: 180,
       apr: 23.46,
       lti: 95,
       ndi: 250,
       pti: 36,
-      paymentImpact: -180,
+      paymentImpact: -135,
       loanOptions: {
         cashOutMax: 8500,
         loanAmountMax: 8500,
       },
       systemQuote: false,
-      status: 'error',
+      status: {
+        error: true,
+      },
     },
     {
       productDescription: '2010 SILVERADO',
@@ -141,7 +156,7 @@ export class TeamMemberService {
       ltv: 120,
       term: 66,
       totalAdvance: 9100,
-      monthlyPayment: 185,
+      monthlyPayment: 222,
       apr: 25.22,
       lti: 95,
       ndi: 325,
@@ -152,7 +167,9 @@ export class TeamMemberService {
         loanAmountMax: 6000,
       },
       systemQuote: false,
-      status: null,
+      status: {
+        error: true,
+      },
     },
     {
       productDescription: 'NOTE LOAN',
@@ -162,7 +179,7 @@ export class TeamMemberService {
       ltv: 120,
       term: 42,
       totalAdvance: 22100,
-      monthlyPayment: 85,
+      monthlyPayment: 380,
       apr: 27.16,
       lti: 95,
       ndi: -220,
@@ -173,7 +190,9 @@ export class TeamMemberService {
         loanAmountMax: 3000,
       },
       systemQuote: false,
-      status: null,
+      status: {
+        error: true,
+      },
     },
   ];
 }

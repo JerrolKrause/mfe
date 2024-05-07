@@ -221,6 +221,27 @@ export class LoanProductBuilderComponent implements OnInit {
     alert(`Stored parameters:\nsrc_pid: ${src_pid}\nsrc_sid: ${src_sid}`);
   }
 
+  handleStatusChange(event: any) {
+    console.warn('Status Changed:', event);
+  }
+
+  public statusChanged(e: any) {
+    console.warn(e); /**
+    this.loanProducts = this.loanProducts.map((p, i) => {
+      if (i === e.index) {
+        return {
+          ...p,
+          status: {
+            ...p.status,
+            ...e.status,
+          },
+        };
+      }
+
+      return p;
+    }); */
+  }
+
   /**
    * Toggle a boolean checkbox array
    * @param array
