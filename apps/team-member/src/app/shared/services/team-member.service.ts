@@ -77,7 +77,6 @@ export class TeamMemberService {
       systemQuote: true,
       status: {
         approved: true,
-
         customerSelected: true,
       },
     },

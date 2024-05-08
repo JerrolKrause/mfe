@@ -79,28 +79,28 @@
           <td>{{ product.apr }}%</td>
           <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
           <td>
-            @if(product.status?.approved) {
+            @if(product.status.approved) {
             <lib-icons
               icon="thumbsup"
               class="me-2 green"
               pTooltip="This quote approved"
               tooltipPosition="bottom"
             ></lib-icons>
-            } @if(product.status?.rejected) {
+            } @if(product.status.rejected) {
             <lib-icons
               icon="thumbsdown"
               class="me-2 orange"
               pTooltip="This quote is rejected"
               tooltipPosition="bottom"
             ></lib-icons>
-            } @if(product.status?.customerSelected) {
+            } @if(product.status.customerSelected) {
             <lib-icons
               icon="user"
               class="me-2 blue"
               pTooltip="This quote has been selected by the customer"
               tooltipPosition="bottom"
             ></lib-icons>
-            } @if(product.status?.error) {
+            } @if(product.status.error) {
             <lib-icons
               icon="exclamation-triangle"
               class="me-2 red"
