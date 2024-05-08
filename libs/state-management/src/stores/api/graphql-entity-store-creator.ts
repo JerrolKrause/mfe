@@ -6,6 +6,7 @@ import {
   combineLatest,
   debounceTime,
   defer,
+  from,
   map,
   mergeMap,
   share,
@@ -70,7 +71,8 @@ export class graphQLEntityStore<t> extends BaseStore {
   constructor(
     private apollo: Apollo,
     protected config: State.ConfigEntity,
-    protected GetDocument: TypedDocumentNode<unknown, unknown>
+    protected GetDocument: TypedDocumentNode<unknown, unknown>,
+    protected CreateDocument: TypedDocumentNode<unknown, unknown>
   ) {
     super();
   }
@@ -115,7 +117,7 @@ export class graphQLEntityStore<t> extends BaseStore {
           this.stateChange({ loading: true, error: null });
           return this.apollo
             .watchQuery({
-              query: this.GetDocument, // Replace 'any' with your actual GraphQL document if applicable
+              query: this.GetDocument,
             })
             .valueChanges.pipe(
               // Handle api success
@@ -175,6 +177,62 @@ export class graphQLEntityStore<t> extends BaseStore {
         return this.httpGet$;
       })
     );
+  }
+
+  public create(user: Partial<t>) {
+    this.stateChange({ modifying: true });
+    return this.apollo
+      .mutate({
+        // Use the mutation response type here
+        mutation: this.CreateDocument,
+        variables: {
+          input: user,
+        },
+        update: (cache, { data }) => {
+          const existingUsers = cache.readQuery({
+            query: this.GetDocument,
+          });
+          console.log(data, existingUsers);
+          /**
+          if (existingUsers && data?.createUser) {
+            cache.writeQuery({
+              query: this.GetDocument,
+              data: {
+                users: {
+                  ...existingUsers.users,
+                  data: [
+                    ...(existingUsers?.users?.data || []),
+                    data.createUser,
+                  ],
+                },
+              },
+            });
+          }
+ */
+        },
+      })
+      .pipe(tap(() => this.stateChange({ modifying: false })));
+  }
+
+  public update() {
+    // Temp
+  }
+
+  public delete() {
+    // Temp
+  }
+
+  /**
+   * Refresh cached users
+   * @returns
+   */
+  public refresh() {
+    this.stateChange({ loading: true });
+    return from(
+      this.apollo.client.refetchQueries({
+        include: 'active',
+      })
+    ).pipe(tap(() => this.stateChange({ loading: false })));
   }
 
   /**

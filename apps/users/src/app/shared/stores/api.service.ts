@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { BehaviorSubject, from, take, tap } from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 import {
   CreateUserDocument,
   CreateUserMutation,
@@ -46,7 +46,8 @@ export class ApiService {
 
   public usersStore = this.graph.createEntityStore<any>(
     { uniqueId: 'id' },
-    GetUsersDocument
+    GetUsersDocument,
+    CreateUserDocument
   );
 
   public state$ = this.usersStore.state$;
@@ -81,15 +82,18 @@ export class ApiService {
   /**
    * Refresh cached users
    * @returns
-   */
+
   public refresh() {
+    this.usersStore.refresh().subscribe();
+
     this.stateChange({ loading: true });
     return from(
       this.apollo.client.refetchQueries({
         include: 'active',
       })
     ).pipe(tap(() => this.stateChange({ loading: false })));
-  }
+
+  }*/
 
   /**
    * Create a new user

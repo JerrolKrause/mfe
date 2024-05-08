@@ -17,9 +17,15 @@ export class GraphQLStoreCreatorService {
    */
   public createEntityStore = <t>(
     config: State.ConfigEntity<t>,
-    GetDocument: TypedDocumentNode<t, unknown>
+    GetDocument: TypedDocumentNode<t, unknown>,
+    CreateDocument: TypedDocumentNode<t, unknown>
   ) => {
-    const store = new graphQLEntityStore<t>(this.apollo, config, GetDocument);
+    const store = new graphQLEntityStore<t>(
+      this.apollo,
+      config,
+      GetDocument,
+      CreateDocument
+    );
     // Set unique IDs
     return store;
   };

@@ -19,13 +19,18 @@ export class UsersComponent implements OnInit {
   }
 
   public userAdd() {
+    this.svc.usersStore
+      .create({ username: 'Test', name: 'Test', email: 'test@test.com' })
+      .subscribe();
+    /**
     this.svc
       .userCreate({ username: 'Test', name: 'Test', email: 'test@test.com' })
       .subscribe();
+       */
   }
 
   public refresh() {
-    this.svc.refresh().subscribe();
+    this.svc.usersStore.refresh().subscribe();
   }
 
   public userUpdate() {
