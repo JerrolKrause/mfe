@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import {
-  BehaviorSubject,
-  combineLatest,
-  debounceTime,
-  from,
-  map,
-  take,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, from, take, tap } from 'rxjs';
 import {
   CreateUserDocument,
   CreateUserMutation,
@@ -20,25 +12,22 @@ import {
   User,
 } from '../models/models';
 
-interface State {
-  loading: boolean;
-  error: null | string;
-  modifying: boolean;
-  modifyError: null | string;
-}
+import { GraphQLStoreCreatorService, State } from '$state-management';
+
+type UserState = State.EntityApiState<any>;
 
 @Injectable()
 export class ApiService {
   /** API State */
-  private _state$ = new BehaviorSubject<State>({
+  private _state$ = new BehaviorSubject({
     loading: false,
     error: null,
     modifying: false,
-    modifyError: null,
+    errorModify: null,
   });
 
-  /** User State */
-  public state$ = combineLatest([
+  /** User State
+  public state2$: Observable<UserState> = combineLatest([
     this.apollo
       .watchQuery<GetUsersQuery>({
         query: GetUsersDocument,
@@ -50,16 +39,28 @@ export class ApiService {
     map(([data, state]) => ({
       data,
       ...state,
+      entities: {},
     }))
   );
+  */
 
-  constructor(private apollo: Apollo) {}
+  public usersStore = this.graph.createEntityStore<any>(
+    { uniqueId: 'id' },
+    GetUsersDocument
+  );
+
+  public state$ = this.usersStore.state$;
+
+  constructor(
+    private apollo: Apollo,
+    private graph: GraphQLStoreCreatorService
+  ) {}
 
   /**
    * Change API state
    * @param stateNew
    */
-  private stateChange(stateNew: Partial<State>) {
+  private stateChange(stateNew: Partial<UserState>) {
     this._state$
       .pipe(take(1))
       .subscribe((stateOld) => this._state$.next({ ...stateOld, ...stateNew }));

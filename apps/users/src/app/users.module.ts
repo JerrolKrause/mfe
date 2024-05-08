@@ -1,4 +1,5 @@
 import { MasterpageModule } from '$masterpage';
+import { StateManagementModule } from '$state-management';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -29,6 +30,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     CommonModule,
     RouterModule.forChild(userRoutes),
     MasterpageModule,
+    StateManagementModule,
     ApolloModule,
   ],
   providers: [

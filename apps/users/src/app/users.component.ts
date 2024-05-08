@@ -7,7 +7,7 @@ import { ApiService } from './shared/stores/api.service';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent implements OnInit {
-  constructor(private svc: ApiService) {}
+  constructor(public svc: ApiService) {}
 
   ngOnInit(): void {
     this.svc.state$.subscribe((x) => {

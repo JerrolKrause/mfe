@@ -1,8 +1,30 @@
 <lib-masterpage>
   <div class="container">
     <h1>Users</h1>
-    <button p-button (click)="userAdd()">Add User</button> |
-    <button p-button (click)="userUpdate()">Update User</button> |
-    <button p-button (click)="refresh()">Refresh Users</button>
+    <div class="row">
+      <div class="col col-12 col-md-8">
+        <lib-api-state [state]="state" *ngIf="svc.state$ | async as state">
+          <table class="table table-striped">
+            <tbody>
+              @for(user of state.data; track user?.id) {
+              <tr>
+                <td>{{ user?.username }}</td>
+                <td>TEMP</td>
+                <td>TEMP</td>
+                <td>TEMP</td>
+                <td>TEMP</td>
+                <td>TEMP</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </lib-api-state>
+      </div>
+      <div class="col col-12 col-md-4">
+        <button p-button (click)="userAdd()">Add User</button> |
+        <button p-button (click)="userUpdate()">Update User</button> |
+        <button p-button (click)="refresh()">Refresh Users</button>
+      </div>
+    </div>
   </div>
 </lib-masterpage>
