@@ -47,7 +47,11 @@ export class graphQLEntityStore<t> extends BaseStore {
         query: this.GetDocument,
       })
       .valueChanges.pipe(
-        map((response: any) => (response.data.users?.data as any[]) ?? null)
+        map((response: any) => {
+          console.log(response);
+
+          return (response.data.users?.data as any[]) ?? null;
+        })
       ),
     this._state$,
   ]).pipe(
@@ -65,7 +69,7 @@ export class graphQLEntityStore<t> extends BaseStore {
   /** Store a shared reference to the http get request so it can be canceled and shared */
   private httpGet$ = this.apollo.watchQuery({
     // GetUsersQuery
-    query: this.GetDocument, // GetUsersDocument
+    query: this.GetDocument,
   }).valueChanges;
 
   constructor(
@@ -179,36 +183,46 @@ export class graphQLEntityStore<t> extends BaseStore {
     );
   }
 
-  public create(user: Partial<t>) {
+  public create(entity: Partial<t>) {
     this.stateChange({ modifying: true });
     return this.apollo
       .mutate({
-        // Use the mutation response type here
+        // Mutation response type
         mutation: this.CreateDocument,
         variables: {
-          input: user,
+          input: entity,
         },
-        update: (cache, { data }) => {
-          const existingUsers = cache.readQuery({
+        update: (cache, { data }: Record<string, any>) => {
+          const existingRecord = cache.readQuery({
             query: this.GetDocument,
-          });
-          console.log(data, existingUsers);
-          /**
-          if (existingUsers && data?.createUser) {
+          }) as Record<string, any>;
+
+          // Retrieve the first key from the object
+          const firstKey = Object.keys(existingRecord)[0];
+          if (!firstKey) {
+            return; // No keys found, return undefined
+          }
+          // Access the nested object
+          const existingData: { data: any[] } = existingRecord[firstKey];
+          if (!existingData || typeof existingData !== 'object') {
+            return; // No nested object or not an object type
+          }
+
+          // Extract the newly created data
+          const dataNew = Object.values(data);
+          // console.warn(dataNew);
+          if (existingRecord && existingData.data.length) {
+            /** */
             cache.writeQuery({
               query: this.GetDocument,
               data: {
-                users: {
-                  ...existingUsers.users,
-                  data: [
-                    ...(existingUsers?.users?.data || []),
-                    data.createUser,
-                  ],
+                [firstKey]: {
+                  ...existingData,
+                  data: [...(existingData?.data || []), ...dataNew],
                 },
               },
             });
           }
- */
         },
       })
       .pipe(tap(() => this.stateChange({ modifying: false })));
@@ -223,7 +237,7 @@ export class graphQLEntityStore<t> extends BaseStore {
   }
 
   /**
-   * Refresh cached users
+   * Refresh cached data
    * @returns
    */
   public refresh() {
