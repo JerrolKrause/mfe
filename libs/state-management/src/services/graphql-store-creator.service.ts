@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Apollo, TypedDocumentNode } from 'apollo-angular';
-import { State } from '../state.models';
-import { graphQLEntityStore } from '../stores/api/graphql-entity-store-creator';
+import { Apollo } from 'apollo-angular';
+
+import {
+  GraphQLStore,
+  GraphQLStoreConfig,
+} from '../stores/api/graphql-entity-store-creator';
 
 @Injectable({
   providedIn: 'platform',
@@ -15,17 +18,8 @@ export class GraphQLStoreCreatorService {
    * @param GetDocument
    * @returns
    */
-  public createEntityStore = <t>(
-    config: State.ConfigEntity<t>,
-    GetDocument: TypedDocumentNode<t, unknown>,
-    CreateDocument: TypedDocumentNode<t, unknown>
-  ) => {
-    const store = new graphQLEntityStore<t>(
-      this.apollo,
-      config,
-      GetDocument,
-      CreateDocument
-    );
+  public createEntityStore = <t>(config: GraphQLStoreConfig<t>) => {
+    const store = new GraphQLStore<t>(this.apollo, config);
     // Set unique IDs
     return store;
   };

@@ -16,11 +16,12 @@ export class UsersComponent implements OnInit {
       }
       console.warn(x);
     });
+    this.svc.usersStore.getData().subscribe();
   }
 
   public userAdd() {
     this.svc.usersStore
-      .create({ username: 'Test', name: 'Test', email: 'test@test.com' })
+      .createData({ username: 'Test', name: 'Test', email: 'test@test.com' })
       .subscribe();
     /**
     this.svc
@@ -30,13 +31,14 @@ export class UsersComponent implements OnInit {
   }
 
   public refresh() {
-    this.svc.usersStore.refresh().subscribe();
+    // this.svc.usersStore.refresh().subscribe();
   }
 
   public userUpdate() {
-    this.svc
-      .userUpdate('1', {
+    this.svc.usersStore
+      .updateData('1', {
         email: 'eat@joes.com',
+        username: 'test@test.com',
       })
       .subscribe();
   }

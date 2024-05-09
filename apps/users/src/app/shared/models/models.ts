@@ -567,6 +567,15 @@ export type UpdateUserMutation = {
   } | null;
 };
 
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type DeleteUserMutation = {
+  __typename?: 'Mutation';
+  deleteUser?: boolean | null;
+};
+
 export const GetUsersDocument = gql`
   query GetUsers($options: PageQueryOptions) {
     users(options: $options) {
@@ -654,6 +663,25 @@ export class UpdateUserGQL extends Apollo.Mutation<
   UpdateUserMutationVariables
 > {
   override document = UpdateUserDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const DeleteUserDocument = gql`
+  mutation DeleteUser($id: ID!) {
+    deleteUser(id: $id)
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DeleteUserGQL extends Apollo.Mutation<
+  DeleteUserMutation,
+  DeleteUserMutationVariables
+> {
+  override document = DeleteUserDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

@@ -1,261 +1,153 @@
-import { Apollo, TypedDocumentNode } from 'apollo-angular';
-import {
-  BehaviorSubject,
-  Observable,
-  catchError,
-  combineLatest,
-  debounceTime,
-  defer,
-  from,
-  map,
-  mergeMap,
-  share,
-  take,
-  tap,
-  throwError,
-} from 'rxjs';
-import { State } from '../../state.models';
-import { BaseStore } from '../base/base-store';
-import { ApiEvents } from '../store.enums';
-import { mergeConfig } from './api-store.utils';
+import { Apollo } from 'apollo-angular';
+import { DocumentNode } from 'graphql';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-export class graphQLEntityStore<t> extends BaseStore {
-  /** Default entity API state */
-  private get getStateEntitySrc(): State.EntityApiState<t> {
-    return {
-      loading: false,
-      modifying: false,
-      error: false,
-      errorModify: false,
-      data: null,
-      entities: {},
-    };
+export interface GraphQLStoreState<T> {
+  loading: boolean;
+  data: T[];
+  error: string | null;
+  operationLoading: boolean;
+  operationError: string | null;
+}
+
+export interface GraphQLStoreConfig<T> {
+  getQuery: DocumentNode;
+  createQuery: DocumentNode;
+  updateQuery: DocumentNode;
+  deleteQuery: DocumentNode;
+  //
+  getResultKey: string;
+  createResultKey: string;
+  updateResultKey: string;
+  deleteResultKey: string;
+  primaryKey: keyof T;
+}
+
+/**
+ * A generic store for managing CRUD operations and state with a GraphQL server.
+ */
+export class GraphQLStore<T> {
+  private stateSubject = new BehaviorSubject<GraphQLStoreState<T>>({
+    loading: false,
+    data: [],
+    error: null,
+    operationLoading: false,
+    operationError: null,
+  });
+
+  public state$ = this.stateSubject.asObservable();
+
+  constructor(private apollo: Apollo, private config: GraphQLStoreConfig<T>) {}
+
+  private updateState(partialState: Partial<GraphQLStoreState<T>>): void {
+    this.stateSubject.next({ ...this.stateSubject.value, ...partialState });
   }
 
-  /** Store state object */
-  // protected state: State.EntityApiState<t> = this.getStateEntitySrc;
-
-  /** Returns both the api state and data */
-  private _state$ = new BehaviorSubject(this.getStateEntitySrc);
-
-  /**
-   * Holds both the store data and api state in a single subscription
-   */
-  public state$: Observable<State.EntityApiState<any>> = combineLatest([
-    this.apollo
-      .watchQuery({
-        query: this.GetDocument,
+  // Fetch data from the server
+  getData(): Observable<T[]> {
+    this.updateState({ loading: true, error: null });
+    return this.apollo
+      .watchQuery<{ [key: string]: any }>({
+        // TODO
+        query: this.config.getQuery,
       })
       .valueChanges.pipe(
-        map((response: any) => {
-          console.log(response);
-
-          return (response.data.users?.data as any[]) ?? null;
+        map((result) => result.data[this.config.getResultKey].data),
+        catchError((error) => {
+          this.updateState({ loading: false, error: error.message });
+          throw error;
+        }),
+        map((data) => {
+          this.updateState({ loading: false, data });
+          return data;
         })
-      ),
-    this._state$,
-  ]).pipe(
-    debounceTime(1),
-    map(([data, state]) => ({
-      ...state,
-      data,
-      entities: data.reduce(
-        (acc, item) => ({ ...acc, [item[this.config.uniqueId]]: item }),
-        {}
-      ),
-    }))
-  );
-
-  /** Store a shared reference to the http get request so it can be canceled and shared */
-  private httpGet$ = this.apollo.watchQuery({
-    // GetUsersQuery
-    query: this.GetDocument,
-  }).valueChanges;
-
-  constructor(
-    private apollo: Apollo,
-    protected config: State.ConfigEntity,
-    protected GetDocument: TypedDocumentNode<unknown, unknown>,
-    protected CreateDocument: TypedDocumentNode<unknown, unknown>
-  ) {
-    super();
+      );
   }
 
-  /**
-   * Perform a get request to load data into the store
-   * @param optionsSrct
-   */
-  public get(optionsOverride: State.Options = {}) {
-    return this._get(optionsOverride);
-  }
-
-  /**
-   * Request is a POST operation that functions a GET. A payload body is passed and the response is loaded into the store
-   *
-   * Useful for things like search requests that need parameters not in a query string
-   * @param payload
-   * @param optionsOverride
-
-  public request<p = unknown>(payload: p, optionsOverride?: State.Options) {
-    return this._get({ refresh: true, ...optionsOverride }, payload);
-  }
-  */
-
-  /**
-   * Perform a get request to load data into the store
-   * @param optionsOverride
-   * @param postPayload
-   */
-  private _get<t>(optionsOverride: State.Options = {}) {
-    const options = mergeConfig(this.config, optionsOverride);
-    return this._state$.pipe(
-      mergeMap((state) => {
-        // If data is null or refresh cache is requested, otherwise default to cache
-        if (
-          (state.data === null || options.refresh || !this.httpGet$) &&
-          !state.loading
-        ) {
-          return this.httpGet$;
-        }
-        const httpGet$ = defer(() => {
-          this.stateChange({ loading: true, error: null });
-          return this.apollo
-            .watchQuery({
-              query: this.GetDocument,
-            })
-            .valueChanges.pipe(
-              // Handle api success
-              tap((r) => {
-                // Map api response if requested
-                const result =
-                  this.config.map && this.config.map.get
-                    ? this.config.map.get(r)
-                    : r;
-                const state: Partial<State.ApiState> = {
-                  loading: false,
-                  data: result,
-                  errorModify: null,
-                };
-                let entities: Record<string, t> | null = null;
-                // Check if this api response has entities, create entity property
-                const config = this.config; // Run through typeguard so it doesn't need to be typechecked again in the reduce
-                if (config.uniqueId && Array.isArray(result)) {
-                  entities = <Record<string, t>>(
-                    result.reduce(
-                      (a, b) => ({ ...a, [b[String(config.uniqueId)]]: b }),
-                      {}
-                    )
-                  );
-                  state['entities'] = entities;
-                }
-
-                // Update state
-                this.stateChange(state);
-                // Dispatch event to the global scope
-                if (this.config.storeId) {
-                  this.dispatch({
-                    type: ApiEvents.GET_SUCCESS,
-                    storeId: this.config.storeId,
-                    payload: r,
-                  });
-                }
-              }),
-              // Handle api errors
-              catchError((err) => {
-                // Update state
-                this.stateChange({ loading: false, error: err });
-                if (this.config.storeId) {
-                  this.dispatch({
-                    type: ApiEvents.GET_ERROR,
-                    storeId: this.config.storeId,
-                    payload: err,
-                  });
-                }
-                return throwError(err);
-              }),
-              take(1), // Ensure http request only fires once since the memory reference is stored
-              share() // If multiple components are requesting data at the same time, share the stream to avoid multiple http requests
-            );
-        });
-        this.httpGet$ = httpGet$;
-        return this.httpGet$;
-      })
-    );
-  }
-
-  public create(entity: Partial<t>) {
-    this.stateChange({ modifying: true });
+  // Create new data
+  createData(input: T): Observable<T | null> {
+    this.updateState({ operationLoading: true, operationError: null });
     return this.apollo
-      .mutate({
-        // Mutation response type
-        mutation: this.CreateDocument,
-        variables: {
-          input: entity,
-        },
-        update: (cache, { data }: Record<string, any>) => {
-          const existingRecord = cache.readQuery({
-            query: this.GetDocument,
-          }) as Record<string, any>;
-
-          // Retrieve the first key from the object
-          const firstKey = Object.keys(existingRecord)[0];
-          if (!firstKey) {
-            return; // No keys found, return undefined
-          }
-          // Access the nested object
-          const existingData: { data: any[] } = existingRecord[firstKey];
-          if (!existingData || typeof existingData !== 'object') {
-            return; // No nested object or not an object type
-          }
-
-          // Extract the newly created data
-          const dataNew = Object.values(data);
-          // console.warn(dataNew);
-          if (existingRecord && existingData.data.length) {
-            /** */
-            cache.writeQuery({
-              query: this.GetDocument,
-              data: {
-                [firstKey]: {
-                  ...existingData,
-                  data: [...(existingData?.data || []), ...dataNew],
-                },
-              },
-            });
-          }
-        },
+      .mutate<{ [key: string]: T }>({
+        mutation: this.config.createQuery,
+        variables: { input },
       })
-      .pipe(tap(() => this.stateChange({ modifying: false })));
+      .pipe(
+        catchError((error) => {
+          this.updateState({
+            operationLoading: false,
+            operationError: error.message,
+          });
+          throw error;
+        }),
+        map((response) => {
+          const newData = response.data?.[this.config.createResultKey];
+          if (!newData) {
+            return null;
+          }
+          this.updateState({
+            data: [...this.stateSubject.value.data, newData],
+            operationLoading: false,
+          });
+          return newData;
+        })
+      );
   }
 
-  public update() {
-    // Temp
-  }
-
-  public delete() {
-    // Temp
-  }
-
-  /**
-   * Refresh cached data
-   * @returns
-   */
-  public refresh() {
-    this.stateChange({ loading: true });
-    return from(
-      this.apollo.client.refetchQueries({
-        include: 'active',
+  // Update existing data
+  updateData(id: string, input: Partial<T>): Observable<T | null> {
+    this.updateState({ operationLoading: true, operationError: null });
+    return this.apollo
+      .mutate<{ [key: string]: T }>({
+        mutation: this.config.updateQuery,
+        variables: { id, input },
       })
-    ).pipe(tap(() => this.stateChange({ loading: false })));
+      .pipe(
+        catchError((error) => {
+          this.updateState({
+            operationLoading: false,
+            operationError: error.message,
+          });
+          throw error;
+        }),
+        map((response) => {
+          const updatedData = response.data?.[this.config.updateResultKey];
+          if (!updatedData) {
+            return null;
+          }
+          const updatedItems = this.stateSubject.value.data.map((item) =>
+            item[this.config.primaryKey] === id ? { ...item, ...input } : item
+          );
+          this.updateState({ data: updatedItems, operationLoading: false });
+          return updatedData;
+        })
+      );
   }
 
-  /**
-   * Perform updates to the base state object, shallow only
-   * @param state
-   */
-  private stateChange(state: Partial<State.ApiState>) {
-    this._state$
-      .pipe(take(1))
-      .subscribe((stateOld) => ({ ...stateOld, ...state }));
+  // Delete data
+  deleteData(id: string): Observable<object> {
+    this.updateState({ operationLoading: true, operationError: null });
+    return this.apollo
+      .mutate<{ [key: string]: object }>({
+        mutation: this.config.deleteQuery,
+        variables: { id },
+      })
+      .pipe(
+        catchError((error) => {
+          this.updateState({
+            operationLoading: false,
+            operationError: error.message,
+          });
+          throw error;
+        }),
+        map(() => {
+          const filteredData = this.stateSubject.value.data.filter(
+            (item) => item[this.config.primaryKey] !== id
+          );
+          this.updateState({ data: filteredData, operationLoading: false });
+          return {};
+        })
+      );
   }
 }

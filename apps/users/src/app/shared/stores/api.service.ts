@@ -3,12 +3,11 @@ import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, take, tap } from 'rxjs';
 import {
   CreateUserDocument,
-  CreateUserMutation,
+  DeleteUserDocument,
   GetUsersDocument,
   GetUsersQuery,
   UpdateUserDocument,
   UpdateUserInput,
-  UpdateUserMutation,
   User,
 } from '../models/models';
 
@@ -44,17 +43,30 @@ export class ApiService {
   );
   */
 
+  public usersStore = this.graphSvc.createEntityStore<User>({
+    primaryKey: 'id',
+    getQuery: GetUsersDocument,
+    createQuery: CreateUserDocument,
+    updateQuery: UpdateUserDocument,
+    deleteQuery: DeleteUserDocument,
+    getResultKey: 'users',
+    createResultKey: 'createUser',
+    updateResultKey: 'updateUser',
+    deleteResultKey: 'deleteUser',
+  });
+
+  /**
   public usersStore = this.graph.createEntityStore<any>(
     { uniqueId: 'id' },
     GetUsersDocument,
     CreateUserDocument
-  );
+  ); */
 
   public state$ = this.usersStore.state$;
 
   constructor(
     private apollo: Apollo,
-    private graph: GraphQLStoreCreatorService
+    private graphSvc: GraphQLStoreCreatorService
   ) {}
 
   /**
@@ -101,6 +113,8 @@ export class ApiService {
    * @returns
    */
   public userCreate(user: Partial<User>) {
+    this.usersStore.createData(user).subscribe();
+    /**
     this.stateChange({ modifying: true });
     return this.apollo
       .mutate<CreateUserMutation>({
@@ -130,6 +144,7 @@ export class ApiService {
         },
       })
       .pipe(tap(() => this.stateChange({ modifying: false })));
+       */
   }
 
   /**
@@ -138,7 +153,9 @@ export class ApiService {
    * @param userData
    * @returns
    */
-  userUpdate(userId: string, userData: UpdateUserInput) {
+  userUpdate(userId: string, user: UpdateUserInput) {
+    this.usersStore.updateData(userId, user).subscribe();
+    /**
     this.stateChange({ modifying: true });
     return this.apollo
       .mutate<UpdateUserMutation>({
@@ -171,5 +188,6 @@ export class ApiService {
         },
       })
       .pipe(tap(() => this.stateChange({ modifying: false })));
+       */
   }
 }

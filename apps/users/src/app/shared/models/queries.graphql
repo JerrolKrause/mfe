@@ -44,3 +44,7 @@ mutation UpdateUser($id: ID!, $input: UpdateUserInput!) {
     }
   }
 }
+
+mutation DeleteUser($id: ID!) {
+  deleteUser(id: $id)
+}
