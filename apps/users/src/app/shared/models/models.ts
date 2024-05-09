@@ -507,6 +507,8 @@ export type GetUsersQuery = {
     data?: Array<{
       __typename?: 'User';
       id?: string | null;
+      name?: string | null;
+      phone?: string | null;
       username?: string | null;
       email?: string | null;
       address?: {
@@ -531,6 +533,8 @@ export type CreateUserMutation = {
   createUser?: {
     __typename?: 'User';
     id?: string | null;
+    name?: string | null;
+    phone?: string | null;
     username?: string | null;
     email?: string | null;
     address?: {
@@ -554,6 +558,8 @@ export type UpdateUserMutation = {
   updateUser?: {
     __typename?: 'User';
     id?: string | null;
+    name?: string | null;
+    phone?: string | null;
     username?: string | null;
     email?: string | null;
     address?: {
@@ -581,6 +587,8 @@ export const GetUsersDocument = gql`
     users(options: $options) {
       data {
         id
+        name
+        phone
         username
         email
         address {
@@ -614,6 +622,8 @@ export const CreateUserDocument = gql`
   mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
       id
+      name
+      phone
       username
       email
       address {
@@ -643,6 +653,8 @@ export const UpdateUserDocument = gql`
   mutation UpdateUser($id: ID!, $input: UpdateUserInput!) {
     updateUser(id: $id, input: $input) {
       id
+      name
+      phone
       username
       email
       address {

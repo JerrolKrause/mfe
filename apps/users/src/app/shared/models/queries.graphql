@@ -2,6 +2,8 @@ query GetUsers($options: PageQueryOptions) {
   users(options: $options) {
     data {
       id
+      name
+      phone
       username
       email
       address {
@@ -20,6 +22,8 @@ query GetUsers($options: PageQueryOptions) {
 mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
     id
+    name
+    phone
     username
     email
     address {
@@ -34,6 +38,8 @@ mutation CreateUser($input: CreateUserInput!) {
 mutation UpdateUser($id: ID!, $input: UpdateUserInput!) {
   updateUser(id: $id, input: $input) {
     id
+    name
+    phone
     username
     email
     address {
