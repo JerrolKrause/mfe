@@ -11,12 +11,9 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.svc.state$.subscribe((x) => {
-      if (!x) {
-        return;
-      }
       console.warn(x);
     });
-    this.svc.usersStore.getData().subscribe();
+    // this.svc.usersStore.getData().subscribe();
   }
 
   public userAdd() {
@@ -41,5 +38,9 @@ export class UsersComponent implements OnInit {
         username: 'test@test.com',
       })
       .subscribe();
+  }
+
+  public userDelete() {
+    this.svc.usersStore.deleteData('1').subscribe();
   }
 }

@@ -10,12 +10,10 @@
           <tbody>
             @for(user of state.data; track user?.id) {
             <tr>
+              <td>{{ user?.name }}</td>
               <td>{{ user?.username }}</td>
-              <td>TEMP</td>
-              <td>TEMP</td>
-              <td>TEMP</td>
-              <td>TEMP</td>
-              <td>TEMP</td>
+              <td>{{ user?.phone }}</td>
+              <td>{{ user?.email }}</td>
             </tr>
             }
           </tbody>
@@ -25,6 +23,7 @@
         <button p-button (click)="userAdd()">Add User</button> |
         <button p-button (click)="userUpdate()">Update User</button> |
         <button p-button (click)="refresh()">Refresh Users</button>
+        <button p-button (click)="userDelete()">Delete User</button>
       </div>
     </div>
   </div>
