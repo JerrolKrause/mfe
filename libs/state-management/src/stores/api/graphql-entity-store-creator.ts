@@ -74,7 +74,34 @@ export class GraphQLStore<T> {
       );
   }
 
-  // Fetch data from the server
+  /**
+   * Retrieves data from a GraphQL server using a predefined query specified in the configuration.
+   * This method initiates the fetching process, sets the loading state to true at the beginning,
+   * and handles the state update based on the result of the fetch operation.
+   *
+   * The method employs the Apollo client's `watchQuery` method to observe the data. It processes
+   * the data through a series of RxJS operators to manage state updates and error handling.
+   *
+   * ### Usage Examples:
+   *
+   * Assuming an instance of a class using this method is created and the configuration is set for a specific data model,
+   * here's how you might use this function:
+   *
+   * ```typescript
+   * // Assume you have an instance of the class called `store`.
+   * // Subscribing to the data:
+   * store.getData().subscribe();
+   *
+   * // Do not use the data returned from this response, subscribe to the state$ observable instead.
+   *
+   * // To use this method effectively, ensure that the `config.getQuery` is defined,
+   * // and `config.getResultKey` is correctly set to match the key in the GraphQL response that
+   * // contains the desired data array.
+   * ```
+   *
+   * @returns {Observable<T[]>} An observable that emits the array of data fetched from the server.
+   * This observable will complete after emitting once or if an error occurs.
+   */
   getData(): Observable<T[]> {
     this.updateState({ loading: true, error: null });
     return this.apollo
