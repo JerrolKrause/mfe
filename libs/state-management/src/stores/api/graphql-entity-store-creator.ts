@@ -44,25 +44,41 @@ export interface GraphQLStoreConfig<T> {
  * A generic store for managing CRUD operations and state with a GraphQL server.
  */
 export class GraphQLStore<T> {
+  /**
+   * @private
+   * @type {BehaviorSubject<GraphQLStoreState<T>>}
+   * The BehaviorSubject that holds the state of the store. It emits the current state
+   * every time there's an update to the state. The initial state is set with all properties
+   * defaulted to indicate no loading, no error, and no data.
+   */
   private stateSubject$ = new BehaviorSubject<GraphQLStoreState<T>>({
-    loading: false,
-    data: null,
-    error: null,
-    operationLoading: false,
-    operationError: null,
+    loading: false, // Indicates whether a global loading state is active.
+    data: null, // The current data held in the store, initialized to null.
+    error: null, // Any error that has occurred in fetching or manipulating the data.
+    operationLoading: false, // Indicates if there is a loading state for individual operations like create, update, or delete.
+    operationError: null, // Error state for individual CRUD operations.
   });
 
+  /**
+   * @public
+   * @type {Observable<GraphQLStoreState<T>>}
+   * The observable derived from the stateSubject$, which any component or service
+   * can subscribe to, to get the latest state updates. It includes a debounceTime to
+   * minimize the number of emissions it makes in a very short time, improving performance.
+   * The tap operator checks if this is the first subscription without existing data and
+   * triggers the initial data loading if necessary.
+   */
   public state$ = this.stateSubject$.pipe(
-    debounceTime(1),
-    // If no data is in the store on first subscription, autoload the store
+    debounceTime(1), // Introduces a minimal delay between successive emissions to handle rapid state changes efficiently.
     tap((state) => {
+      // This checks if there's no ongoing loading, no existing data, and if the initial load hasn't been triggered yet.
       if (
         state.loading === false &&
         state.data === null &&
         this.initialLoad === false
       ) {
-        this.initialLoad = true;
-        this.getData().pipe(take(1)).subscribe();
+        this.initialLoad = true; // Set to true to prevent future autoloading on the first subscription.
+        this.getData().pipe(take(1)).subscribe(); // Fetches data and subscribes once, ensuring the data is loaded on initial access.
       }
     })
   );
@@ -71,14 +87,6 @@ export class GraphQLStore<T> {
   private initialLoad = false;
 
   constructor(private apollo: Apollo, private config: GraphQLStoreConfig<T>) {}
-
-  private updateState(partialState: Partial<GraphQLStoreState<T>>): void {
-    this.stateSubject$
-      .pipe(take(1))
-      .subscribe((statePrev) =>
-        this.stateSubject$.next({ ...statePrev, ...partialState })
-      );
-  }
 
   /**
    * Retrieves data from a GraphQL server using a predefined query specified in the configuration.
@@ -337,6 +345,20 @@ export class GraphQLStore<T> {
           throw error;
         }),
         take(1)
+      );
+  }
+
+  /**
+   * Updates the state of the store by merging a partial state object into the current state.
+   * This method takes a partial state object that represents only the fields that need to be updated
+   * and merges it with the current state to form a new state. The operation is performed reactively:
+   * it ensures that the update is based on the most recent state available.
+   */
+  private updateState(partialState: Partial<GraphQLStoreState<T>>): void {
+    this.stateSubject$
+      .pipe(take(1))
+      .subscribe((statePrev) =>
+        this.stateSubject$.next({ ...statePrev, ...partialState })
       );
   }
 }
