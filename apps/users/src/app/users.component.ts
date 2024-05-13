@@ -11,7 +11,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.svc.state$.subscribe((x) => {
-      console.warn(x);
+      console.warn(x.data);
     });
     // this.svc.usersStore.getData().subscribe();
   }
