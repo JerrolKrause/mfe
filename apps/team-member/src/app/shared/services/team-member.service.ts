@@ -27,6 +27,7 @@ export interface LoanProductStatus {
   approved?: boolean;
   rejected?: boolean;
   customerSelected?: boolean;
+  systemGenerated?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -78,6 +79,7 @@ export class TeamMemberService {
       status: {
         approved: true,
         customerSelected: true,
+        systemGenerated: true,
       },
     },
     {
@@ -99,7 +101,9 @@ export class TeamMemberService {
         loanAmountMax: 15000,
       },
       systemQuote: true,
-      status: {},
+      status: {
+        systemGenerated: true,
+      },
     },
     {
       productDescription: '2010 SILVERADO',

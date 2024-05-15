@@ -7,6 +7,9 @@ import { LoginComponent } from './login.component';
 import { routing } from './login.routes';
 
 import { HttpClientModule } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
   imports: [
@@ -16,6 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
     routing,
     MasterpageModule,
     HttpClientModule,
+    CardModule,
+    ButtonModule,
+    MessageModule,
   ],
   declarations: [LoginComponent],
   providers: [],

@@ -99,6 +99,36 @@ export class LoanProductBuilderComponent implements OnInit {
     },
   ];
 
+  public nonCreditProducts: FormsLib.FormGenerator = [
+    {
+      label: 'Insured Or Member Name',
+      type: 'formField',
+      formFieldType: 'radio',
+      field: 'cashToCustomer',
+      options: [{ label: 'Colleen Denning', value: 0 }],
+    },
+    {
+      label: 'Benefit Amount',
+      type: 'formField',
+      formFieldType: 'number',
+      mode: 'currency',
+      field: 'fees',
+    },
+    {
+      label: 'Premium Or Fee',
+      type: 'formField',
+      formFieldType: 'number',
+      mode: 'currency',
+      field: 'fees',
+    },
+    {
+      label: 'Effective Date',
+      type: 'formField',
+      formFieldType: 'date',
+      field: 'fees',
+    },
+  ];
+
   public loanAdvanceOptions: MenuItem[] = [
     {
       label: 'Approve',

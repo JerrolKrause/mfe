@@ -142,6 +142,25 @@ export class LoanProductsGridComponent {
     },
   ];
 
+  public creditProducts = [
+    {
+      product: 'Life Insurance',
+      type: 'Quote',
+      insuredName: 'Colleen Denning',
+      term: '66',
+      fee: 499,
+      dateStart: '03/11/24',
+    },
+    {
+      product: 'Disability',
+      type: 'Quote',
+      insuredName: 'Colleen Denning',
+      term: '33',
+      fee: 599,
+      dateStart: '03/11/24',
+    },
+  ];
+
   public rowActive: number | null = 0;
 
   public statusChanged = new EventEmitter<any>();

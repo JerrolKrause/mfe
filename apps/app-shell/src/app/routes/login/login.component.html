@@ -1,3 +1,24 @@
 <lib-masterpage>
+  <div style="max-width: 480px; margin: auto">
     <h1>Please Log In</h1>
+    <p-card>
+      <p-message
+        *ngIf="errorMessage$ | async"
+        severity="error"
+        text="{{ errorMessage$ | async }}"
+      ></p-message>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <p-inputText
+          formControlName="username"
+          placeholder="Username"
+        ></p-inputText>
+        <p-password
+          formControlName="password"
+          placeholder="Password"
+          feedback="false"
+        ></p-password>
+        <p-button label="Log In" type="submit"></p-button>
+      </form>
+    </p-card>
+  </div>
 </lib-masterpage>

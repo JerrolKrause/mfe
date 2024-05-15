@@ -1,4 +1,5 @@
 /* eslint-disable @nx/enforce-module-boundaries */
+import { AuthGuard } from '$shared';
 import { Route } from '@angular/router';
 
 export const appRoutes: Route[] = [
@@ -26,6 +27,7 @@ export const appRoutes: Route[] = [
     path: 'quoting',
     loadChildren: () =>
       import('@quoting/app/quoting.module').then((m) => m.QuotingModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'class-web',

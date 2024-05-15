@@ -1,6 +1,11 @@
-
-.input-date{
-    p-calendar, .p-calendar, input{
-        width:100%;
-    }
+.input-date {
+  .p-datepicker-trigger {
+    width: 40px;
+    text-align: center;
+  }
+  p-calendar,
+  .p-calendar,
+  input {
+    width: 100%;
+  }
 }

@@ -1,6 +1,7 @@
 <div class="loan-products-table">
   @if(loanProducts?.length) {
   <div class="table-responsive mb-3">
+    <p class="mb-1"><strong>Loan Products</strong></p>
     <table class="table table-sm table-hover small">
       <thead>
         <tr>
@@ -8,9 +9,18 @@
           <th>Product</th>
           <th>Vehicle</th>
           <th>Cash Out</th>
-          <th>Total Loan Amount</th>
-          <th>Monthly Payment</th>
-          <th>Payment Impact</th>
+          <th>
+            Total Loan<br />
+            Amount
+          </th>
+          <th>
+            Monthly<br />
+            Payment
+          </th>
+          <th>
+            Payment<br />
+            Impact
+          </th>
           <th>Term</th>
           <th>APR</th>
           <th>NDI</th>
@@ -79,7 +89,14 @@
           <td>{{ product.apr }}%</td>
           <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
           <td>
-            @if(product.status.approved) {
+            @if(product.status.systemGenerated) {
+            <lib-icons
+              icon="lock"
+              class="me-2 grey"
+              pTooltip="System generated quote, cannot be removed"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status.approved) {
             <lib-icons
               icon="thumbsup"
               class="me-2 green"
@@ -181,7 +198,7 @@
         </tr>
       </thead>
       <tbody>
-        @for(product of nonCreditProducts; track product) {
+        @for(product of creditProducts; track product) {
         <tr>
           <td>{{ product.product }}</td>
           <td>{{ product.type }}</td>
@@ -200,5 +217,40 @@
         }
       </tbody>
     </table>
+    <p class="mb-1"><strong>Credit Products</strong></p>
+    <div class="table-responsive non-credit-products-table">
+      <table class="table table-sm small">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Type</th>
+            <th>Insured</th>
+            <th>Term</th>
+            <th>Premium/Fee</th>
+            <th>Effective Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(product of nonCreditProducts; track product) {
+          <tr>
+            <td>{{ product.product }}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product.insuredName }}</td>
+            <td>{{ product.term }}</td>
+            <td>{{ product.fee }}</td>
+            <td>{{ product.dateStart }}</td>
+            <td class="actions text-end">
+              <p-splitButton
+                label="Edit"
+                appendTo="body"
+                [model]="items2"
+              ></p-splitButton>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
