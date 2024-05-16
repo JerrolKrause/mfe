@@ -3,7 +3,7 @@ import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import { QuotingService } from '../../shared/services/quoting.service';
 
 @Component({
@@ -32,6 +32,9 @@ export class QuoteComponent implements OnInit {
     paymentImpact: 250,
     ndi: 0,
   });
+
+  // Used to prev/next the current offer
+  public index = 0;
 
   public isUpdating = false;
 
@@ -75,6 +78,45 @@ export class QuoteComponent implements OnInit {
       if (QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(data)) {
         this.quoteSvc.loanProducts$.next(data.payload);
       }
+    });
+  }
+
+  public prev() {
+    this.quoteSvc.loanProducts$.pipe(take(1)).subscribe((products) => {
+      const next = products[this.index - 1];
+
+      this.product$.next({
+        isSecured: !!(next?.productType === 0 || next?.productType === 1),
+        cashOut: next?.systemDecision ?? 0,
+        loanAmount: next?.totalAdvance ?? 0,
+        monthlyPayment: next?.monthlyPayment ?? 0,
+        term: next?.term ?? 24,
+        apr: next?.apr ?? 0,
+        vehicle: [next?.productDescription ?? ''],
+        paymentImpact: next?.paymentImpact ?? 0,
+        ndi: next?.ndi ?? 0,
+      });
+
+      this.index = this.index - 1;
+    });
+  }
+
+  public next() {
+    this.quoteSvc.loanProducts$.pipe(take(1)).subscribe((products) => {
+      const next = products[this.index + 1];
+      this.product$.next({
+        isSecured: !!(next?.productType === 0 || next?.productType === 1),
+        cashOut: next?.systemDecision ?? 0,
+        loanAmount: next?.totalAdvance ?? 0,
+        monthlyPayment: next?.monthlyPayment ?? 0,
+        term: next?.term ?? 24,
+        apr: next?.apr ?? 0,
+        vehicle: [next?.productDescription ?? ''],
+        paymentImpact: next?.paymentImpact ?? 0,
+        ndi: next?.ndi ?? 0,
+      });
+
+      this.index = this.index + 1;
     });
   }
 

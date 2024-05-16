@@ -101,7 +101,9 @@
         <app-loan-products-grid
           [loanProducts]="loanProducts"
           (statusChanged)="handleStatusChange($event)"
+          (deleteProduct)="deleteProduct($event)"
         ></app-loan-products-grid>
+
         <!--
         <div class="loan-products-footer">
           <div class="d-flex">

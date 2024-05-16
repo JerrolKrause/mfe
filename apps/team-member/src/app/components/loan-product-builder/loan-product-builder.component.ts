@@ -159,7 +159,11 @@ export class LoanProductBuilderComponent implements OnInit {
     assets: this.fb.array([false, false, false, false]),
   });
 
-  public loanProducts: LoanProduct[] = [...this.teamSvc.loanProducts];
+  public loanProducts: LoanProduct[] = [
+    this.teamSvc.loanProducts[0],
+    this.teamSvc.loanProducts[1],
+    this.teamSvc.loanProducts[2],
+  ];
 
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
@@ -238,6 +242,16 @@ export class LoanProductBuilderComponent implements OnInit {
         ...this.loanProducts,
         this.teamSvc.loanProducts[count],
       ];
+    }
+  }
+
+  public deleteProduct(index: any) {
+    if (!this.loanProducts) {
+      return;
+    }
+    const c = confirm('Are you sure you want to delete this loan product?');
+    if (c) {
+      this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
     }
   }
 

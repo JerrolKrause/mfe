@@ -4,6 +4,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { MenuItem } from 'primeng/api';
@@ -15,10 +18,10 @@ import { LoanProduct } from '../../../shared/services/team-member.service';
   styleUrl: './loan-products-grid.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class LoanProductsGridComponent {
+export class LoanProductsGridComponent implements OnChanges {
   @Input() loanProducts: LoanProduct[] | null = [];
 
-  public items = (i: number): MenuItem[] => [
+  public items = (index: number) => [
     {
       label: 'Edit',
       icon: 'pi pi-refresh',
@@ -30,9 +33,9 @@ export class LoanProductsGridComponent {
     {
       label: 'Approve',
       icon: 'pi pi-refresh',
-      command: (event) => {
+      command: () => {
         this.statusChange({
-          index: event.index ?? 0,
+          index: index,
           status: { approved: true },
         });
       },
@@ -40,78 +43,42 @@ export class LoanProductsGridComponent {
     {
       label: 'Reject',
       icon: 'pi pi-refresh',
-      command: (event) =>
+      command: () =>
         this.statusChange({
-          index: event.index ?? 0,
+          index: index,
           status: { rejected: true },
         }),
     },
     {
       label: 'Set Customer Selection',
       icon: 'pi pi-refresh',
-      command: (event) =>
+      command: () =>
         this.statusChange({
-          index: event.index ?? 0,
+          index: index,
           status: { customerSelected: true },
         }),
     },
     {
       label: 'Delete',
       icon: 'pi pi-refresh',
-      command: (event) => this.productDelete(event.index ?? 0),
-      visible: i >= 2,
+      command: () => {
+        this.deleteProduct.emit(index);
+      },
+      visible: index >= 2,
     },
   ];
 
-  public itemstest: MenuItem[] = [
-    {
-      label: 'Edit',
-      icon: 'pi pi-refresh',
-    },
-    {
-      label: 'Escalate',
-      icon: 'pi pi-refresh',
-    },
-    {
-      label: 'Approve',
-      icon: 'pi pi-refresh',
-      command: (event) => {
-        this.statusChange({
-          index: event.index ?? 0,
-          status: { approved: true },
-        });
-      },
-    },
-    {
-      label: 'Reject',
-      icon: 'pi pi-refresh',
-      command: (event) =>
-        this.statusChange({
-          index: event.index ?? 0,
-          status: { rejected: true },
-        }),
-    },
-    {
-      label: 'Set Customer Selection',
-      icon: 'pi pi-refresh',
-      command: (event) =>
-        this.statusChange({
-          index: event.index ?? 0,
-          status: { customerSelected: true },
-        }),
-    },
-    {
-      label: 'Delete',
-      icon: 'pi pi-refresh',
-      command: (event) => this.productDelete(event.index ?? 0),
-    },
-  ];
+  public items3: MenuItem[][] = (this.loanProducts ?? [])?.map((_a, i) =>
+    this.items(i)
+  );
 
   public items2: MenuItem[] = [
     {
       label: 'Delete',
       icon: 'pi pi-refresh',
-      // command: (event) => this.productDelete(event.index ?? 0),
+      command: (event) => {
+        this.productDelete(event.index ?? 0);
+      },
     },
   ];
 
@@ -163,13 +130,22 @@ export class LoanProductsGridComponent {
 
   public rowActive: number | null = 0;
 
-  public statusChanged = new EventEmitter<any>();
+  @Output() statusChanged = new EventEmitter<any>();
+  @Output() deleteProduct = new EventEmitter<any>();
 
   constructor(private socket: SocketService) {
+    /**
     setTimeout(() => {
       this.statusChanged.emit('Test');
       this.statusChange('Test');
     }, 1000);
+     */
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['loanProducts']) {
+      this.items3 = (this.loanProducts ?? [])?.map((_a, i) => this.items(i));
+    }
   }
 
   public productDelete(index: number) {
@@ -183,7 +159,6 @@ export class LoanProductsGridComponent {
   }
 
   public statusChange(event: any) {
-    console.log(event);
     this.statusChanged.emit(event);
   }
 
