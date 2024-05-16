@@ -155,8 +155,8 @@ export class LoanProductBuilderComponent implements OnInit {
     nonCreditProducts: '',
     dueDay: '1',
     term: '12',
-    creditors: this.fb.array([false, false, false, false]),
-    assets: this.fb.array([false, false, false, false]),
+    creditors: this.fb.array([false, false, false, false, false, false]),
+    assets: this.fb.array([false, false, false, false, false, false]),
   });
 
   public loanProducts: LoanProduct[] = [
@@ -293,7 +293,7 @@ export class LoanProductBuilderComponent implements OnInit {
    */
   public toggleFormArray(array: string, i: number) {
     const control = this.loanProductsForm?.get(array)?.get(i.toString());
-
+    console.log(array, i, control);
     control?.patchValue(!control.value);
   }
 

@@ -157,10 +157,7 @@
                     <tbody formArrayName="assets">
                       @for(asset of teamSvc.assets;track asset.label; let index
                       = $index) {
-                      <tr
-                        class="clickable"
-                        (click)="toggleFormArray('assets', index)"
-                      >
+                      <tr class="clickable">
                         <td>
                           <p-checkbox
                             [formControlName]="index"
@@ -182,10 +179,7 @@
                     <tbody formArrayName="creditors">
                       @for(creditor of teamSvc.creditors;track creditor.label;
                       let index = $index) {
-                      <tr
-                        class="clickable"
-                        (click)="toggleFormArray('creditors', index)"
-                      >
+                      <tr class="clickable">
                         <td>
                           <p-checkbox
                             [formControlName]="index"
