@@ -39,6 +39,8 @@ module Storage {
   }
 }
 
+const process: any = {};
+
 /**
  * A wrapper for local & session storage
  *
