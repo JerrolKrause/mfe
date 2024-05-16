@@ -150,7 +150,7 @@ export class LoanProductBuilderComponent implements OnInit {
   public loanProductsForm = this.fb.group({
     cashToCustomer: '2100.00',
     payoffs: '',
-    cashAdvance: '2100.00',
+    cashAdvance: '2600.00',
     fees: '',
     nonCreditProducts: '',
     dueDay: '1',
@@ -235,14 +235,45 @@ export class LoanProductBuilderComponent implements OnInit {
   }
 
   public generateProducts() {
-    const count = this.loanProducts.length;
-    const product = this.teamSvc.loanProducts[count];
-    if (product) {
-      this.loanProducts = [
-        ...this.loanProducts,
-        this.teamSvc.loanProducts[count],
-      ];
+    const frmData = this.loanProductsForm.value;
+    console.log(frmData);
+    let vehicle = 'Unsecured';
+    let productType = 3;
+    if (frmData.assets?.[0] && frmData.assets?.[1]) {
+      vehicle = 'MULTI-VEHICLE';
+      productType = 0;
+    } else if (frmData.assets?.[1]) {
+      vehicle = '2010 CHEVROLET SILVERADO';
+      productType = 1;
+    } else if (frmData.assets?.[0]) {
+      vehicle = '2020 RAV4';
+      productType = 1;
     }
+
+    this.loanProducts = [
+      ...this.loanProducts,
+      {
+        productDescription: vehicle,
+        productType: productType,
+        systemDecision: parseInt(frmData.cashToCustomer ?? '0'),
+        baseAdvance: 15000,
+        ltv: 120,
+        term: parseInt(frmData.term ?? '0'),
+        totalAdvance: parseInt(frmData.cashAdvance ?? '0'),
+        monthlyPayment: 432,
+        apr: 16.16,
+        lti: 95,
+        ndi: 1325,
+        pti: 36,
+        paymentImpact: 250,
+        loanOptions: {
+          cashOutMax: 15000,
+          loanAmountMax: 15000,
+        },
+        systemQuote: false,
+        status: {},
+      },
+    ];
   }
 
   public deleteProduct(index: any) {
