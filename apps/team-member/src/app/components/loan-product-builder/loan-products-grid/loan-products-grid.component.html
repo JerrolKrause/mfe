@@ -25,7 +25,7 @@
           <th>APR</th>
           <th>NDI</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th style="width: 105px">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -126,7 +126,7 @@
             ></lib-icons>
             }
           </td>
-          <td style="white-space: nowrap" class="actions">
+          <td style="white-space: nowrap" class="actions text-end">
             <!--
           <a
             class="clickable me-2"
@@ -151,6 +151,7 @@
           ></a>
           -->
             <p-splitButton
+              styleClass="w-100"
               label="Info"
               appendTo="body"
               [model]="items3[index]"
@@ -189,12 +190,12 @@
       <thead>
         <tr>
           <th>Product</th>
-          <th>Type</th>
-          <th>Insured</th>
-          <th>Term</th>
-          <th>Premium/Fee</th>
-          <th>Effective Date</th>
-          <th>Actions</th>
+          <th style="width: 105px">Type</th>
+          <th style="width: 200px">Insured</th>
+          <th style="width: 50px">Term</th>
+          <th style="width: 70px">Premium/Fee</th>
+          <th style="width: 70px">Effective Date</th>
+          <th style="width: 105px">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -208,6 +209,7 @@
           <td>{{ product.dateStart }}</td>
           <td class="actions text-end">
             <p-splitButton
+              styleClass="w-100"
               label="Edit"
               appendTo="body"
               [model]="items2"
@@ -223,12 +225,12 @@
         <thead>
           <tr>
             <th>Product</th>
-            <th>Type</th>
-            <th>Insured</th>
-            <th>Term</th>
-            <th>Premium/Fee</th>
-            <th>Effective Date</th>
-            <th>Actions</th>
+            <th style="width: 105px">Type</th>
+            <th style="width: 200px">Insured</th>
+            <th style="width: 50px">Term</th>
+            <th style="width: 70px">Premium/Fee</th>
+            <th style="width: 70px">Effective Date</th>
+            <th style="width: 105px">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -242,6 +244,7 @@
             <td>{{ product.dateStart }}</td>
             <td class="actions text-end">
               <p-splitButton
+                styleClass="w-100"
                 label="Edit"
                 appendTo="body"
                 [model]="items2"
