@@ -3,6 +3,7 @@
   margin-left: 0.25rem;
   border: 1px solid #004b75;
   margin-bottom: 1em;
+
   .lp-details {
     border-bottom: 1px solid #ccc;
     padding-bottom: 0.25rem;
@@ -83,5 +84,23 @@ h3 {
   }
   &.no-bg {
     background: initial;
+  }
+}
+.circle {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: green;
+  margin-right: 0.5rem;
+  animation: pulse 1.5s infinite ease-in-out; /* Apply the pulse animation */
+}
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1); /* Original size */
+  }
+  50% {
+    transform: scale(1.2); /* Increase size by 10% */
   }
 }

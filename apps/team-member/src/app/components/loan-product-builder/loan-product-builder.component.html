@@ -261,10 +261,19 @@
             <ng-template pTemplate="header">
               <lib-icons icon="eye" class="me-2"></lib-icons> Customer View
             </ng-template>
+            <!--
             <div class="text-end mb-3" style="position: relative; z-index: 999">
               <button class="p-button">Take Control</button>
             </div>
             <div class="overlay"></div>
+-->
+            <div class="mb-3 px-3">
+              <span
+                class="circle green"
+                style="position: relative; top: 3px; margin-left: 2px"
+              ></span>
+              Customer Is Online
+            </div>
             <div class="px-3">
               <lib-quote-form
                 [formDefaults]="quoteFormDefaults$ | async"
