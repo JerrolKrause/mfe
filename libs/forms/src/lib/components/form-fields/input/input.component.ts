@@ -22,7 +22,7 @@ import {
 
 import { isRequired } from '../../../utils';
 import { expressionReplacer$ } from '../../../utils/expression-replacer.util';
-import { validatorsAdd } from '../../../validators/validators.util';
+import { validatorsAdd } from '../../../validators';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 interface InputState {
@@ -91,10 +91,12 @@ export class InputComponent<t>
       this.hint$ = expressionReplacer$(this.formGroup, this.hint);
     }
 
-    // If input control changes, update validators
-    if ((changes['control'] || changes['validators']) && this.validators) {
-      validatorsAdd(this.formControl, this.validators);
-    }
+    // Adding validators needs to defer execution, otherwise triggers ExpressionChangedAfterItHasBeenCheckedError error
+    Promise.resolve().then(() => {
+      if ((changes['control'] || changes['validators']) && this.validators) {
+        validatorsAdd(this.formControl, this.validators);
+      }
+    });
 
     if (changes['formGroup'] || changes['control']) {
       this.inputState$ = combineLatest({

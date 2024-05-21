@@ -3,21 +3,19 @@
     <h1>Please Log In</h1>
     <p-card>
       <p-message
+        styleClass="mb-3"
         *ngIf="errorMessage$ | async"
         severity="error"
         text="{{ errorMessage$ | async }}"
       ></p-message>
       <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <p-inputText
-          formControlName="username"
-          placeholder="Username"
-        ></p-inputText>
-        <p-password
-          formControlName="password"
-          placeholder="Password"
-          feedback="false"
-        ></p-password>
-        <p-button label="Log In" type="submit"></p-button>
+        <lib-form-generator
+          [formModel]="formModel"
+          [formGroup]="loginForm"
+          [options]="formOptions"
+          (completed)="login()"
+        >
+        </lib-form-generator>
       </form>
     </p-card>
   </div>

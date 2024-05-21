@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/prefer-namespace-keyword */
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
@@ -11,11 +12,17 @@ export module NtsValidators {
     /** GET or POST request. If post the form control value will be passed as the payload */
     request: 'get' | 'post';
     /** Map the api response to a format needed by the validator */
-    map?: (apiResponse: unknown, control: AbstractControl) => ValidationErrors | null | boolean;
+    map?: (
+      apiResponse: unknown,
+      control: AbstractControl
+    ) => ValidationErrors | null | boolean;
     /** How long to wait between value changes before polling the api */
     debounceTime?: number | null;
     /** Custom error message, supports a string or a callback function that receives the api response and the form control */
-    errorMessage?: string | null | ((apiResponse: unknown, control: AbstractControl) => string);
+    errorMessage?:
+      | string
+      | null
+      | ((apiResponse: unknown, control: AbstractControl) => string);
   }
 
   export interface Options extends OptionsSrc {
@@ -25,7 +32,10 @@ export module NtsValidators {
     errorMessage?:
       | string
       | null
-      | ((compareValue: string | number | boolean | null, control: AbstractControl) => string);
+      | ((
+          compareValue: string | number | boolean | null,
+          control: AbstractControl
+        ) => string);
   }
 
   interface OptionsSrc {
@@ -42,15 +52,17 @@ export module NtsValidators {
     /** An id unique to this validator. Is used in the form control's error object  */
     id: string;
     /** Default error message. Can be a string or a callback function  */
-    errorMessageDefault: string | ((compareValue: t, control: AbstractControl) => string);
+    errorMessageDefault:
+      | string
+      | ((compareValue: t, control: AbstractControl) => string);
     /** A function that looks at the desired value and the actual value and returns a boolean if the control is valid or not */
     evaluatorFn: (
       /** The desired value to compare the form value against */
-      compareValue: t,
+      compareValue: any,
       /** The actual value in the form */
       formValue: any,
       /** The form control */
-      control: AbstractControl,
+      control: AbstractControl
     ) => boolean | ValidationErrors;
   }
 

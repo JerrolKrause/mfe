@@ -1,6 +1,17 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { NtsValidators } from '../validators.models';
-import { isRequired } from './misc.validators';
+
+/**
+ * Is the input value required
+ * @param value
+ * @returns
+ */
+export const isRequired = (value: any): ValidationErrors | null => {
+  if (['', null, undefined].includes(value || null)) {
+    return { required: 'This field is required' };
+  }
+  return null;
+};
 
 /** Is this a config type */
 const isConfig = (config: any): config is NtsValidators.Config =>
@@ -8,7 +19,9 @@ const isConfig = (config: any): config is NtsValidators.Config =>
 
 /** Is this a validation errors type: Record<string, any> */
 const isValidationErrors = (value: any): value is ValidationErrors =>
-  typeof value === 'object' && !Array.isArray(value) && !!Object.keys(value).length;
+  typeof value === 'object' &&
+  !Array.isArray(value) &&
+  !!Object.keys(value).length;
 
 /**
  * A base builder for doing comparisons between properties
@@ -20,7 +33,7 @@ export const baseValidator =
   <t>(
     compareValueSrc: t | NtsValidators.Config,
     config: NtsValidators.BaseOptions<t>,
-    options?: NtsValidators.Options,
+    options?: NtsValidators.Options
   ) =>
   (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -31,7 +44,9 @@ export const baseValidator =
     // If compare value is null then the extractValue config could not find the requested form control
     if (compareValue === null && isConfig(compareValueSrc)) {
       // Return an error in the browser with info about the missing control
-      return { ['missing-control']: `Unable to find a field of ${compareValueSrc.compareToField}` };
+      return {
+        ['missing-control']: `Unable to find a field of ${compareValueSrc.compareToField}`,
+      };
     }
 
     // Disable additional required validator. Default is all validators are required
@@ -41,7 +56,12 @@ export const baseValidator =
 
     const evalResult = config.evaluatorFn(compareValue, value, control);
     // Evaluate the supplied fn to see it it passes. Also allow through nill values because those are checked above
-    if (evalResult === true || typeof value === 'undefined' || value === null || value === '') {
+    if (
+      evalResult === true ||
+      typeof value === 'undefined' ||
+      value === null ||
+      value === ''
+    ) {
       return null;
     } else if (isValidationErrors(evalResult)) {
       return evalResult;
@@ -49,7 +69,8 @@ export const baseValidator =
 
     // Create the error message
     const err = options?.errorMessage || config?.errorMessageDefault;
-    const errorMessage = typeof err === 'function' ? err?.(compareValue, control) : err;
+    const errorMessage =
+      typeof err === 'function' ? err?.(compareValue, control) : err;
 
     // Create error object
     return { [options?.customID ?? config.id]: errorMessage };
@@ -61,7 +82,10 @@ export const baseValidator =
  * @param control
  * @returns
  */
-const extractValue = <t>(compareValue: t | NtsValidators.Config, control: AbstractControl) => {
+const extractValue = <t>(
+  compareValue: t | NtsValidators.Config,
+  control: AbstractControl
+) => {
   // If this is a config type with a compare value, get the dynamic field and then its value
   if (isConfig(compareValue)) {
     const c = control?.root?.get(compareValue.compareToField);

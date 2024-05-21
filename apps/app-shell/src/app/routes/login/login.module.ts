@@ -6,10 +6,13 @@ import { MasterpageModule } from '$masterpage';
 import { LoginComponent } from './login.component';
 import { routing } from './login.routes';
 
+import { FormsLibModule } from '$forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   imports: [
@@ -22,6 +25,9 @@ import { MessageModule } from 'primeng/message';
     CardModule,
     ButtonModule,
     MessageModule,
+    PasswordModule,
+    InputTextModule,
+    FormsLibModule,
   ],
   declarations: [LoginComponent],
   providers: [],
