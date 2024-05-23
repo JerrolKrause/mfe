@@ -3,7 +3,7 @@
     <h1>Please Log In</h1>
     <p-card>
       <p-message
-        styleClass="mb-3"
+        styleClass="mb-3 w-100"
         *ngIf="errorMessage$ | async"
         severity="error"
         text="{{ errorMessage$ | async }}"

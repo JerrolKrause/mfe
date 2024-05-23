@@ -1,38 +1,38 @@
 import { FormsLib } from '$forms';
-import { AuthExpiredReason } from '$shared';
+import { AuthExpiredReason, AuthenticationService } from '$shared';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { BehaviorSubject, combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  public loginForm = this.fb.group({
-    username: [null],
-    password: [null],
-  });
-
+  public loginForm: FormGroup;
   public formOptions: FormsLib.FormOptions = {};
 
-  public errorMessage$ = this.route.queryParams.pipe(
-    map((params) => (params['reason'] ? (params['reason'] as string) : null)),
-    map((reason) => {
-      switch (reason) {
-        case AuthExpiredReason.tokenExpired:
-          return 'Your session has expired. Please log in again.';
-        case AuthExpiredReason.inactivity:
-          return 'You have been logged out due to inactivity.';
-        case AuthExpiredReason.manual:
-          return 'You have logged out successfully.';
-        default:
-          return null;
-      }
-    })
-  );
+  private errorSubject$ = new BehaviorSubject<string | null>(null);
+  public errorMessage$ = combineLatest([
+    this.route.queryParams.pipe(
+      map((params) => (params['reason'] ? (params['reason'] as string) : null)),
+      map((reason) => {
+        switch (reason) {
+          case AuthExpiredReason.tokenExpired:
+            return 'Your session has expired. Please log in again.';
+          case AuthExpiredReason.inactivity:
+            return 'You have been logged out due to inactivity.';
+          case AuthExpiredReason.manual:
+            return 'You have logged out successfully.';
+          default:
+            return null;
+        }
+      })
+    ),
+    this.errorSubject$,
+  ]).pipe(map(([routeError, loginError]) => loginError || routeError));
 
   public formModel: FormsLib.FormGenerator = [
     {
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     {
       label: 'Password',
       type: 'formField',
-      formFieldType: 'text',
+      formFieldType: 'password',
       field: 'password',
       validators: {
         required: true,
@@ -58,19 +58,33 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
-
-  ngOnInit() {
-    console.log(this.loginForm);
+    private route: ActivatedRoute,
+    private authService: AuthenticationService
+  ) {
+    this.loginForm = this.fb.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required],
+    });
   }
 
+  ngOnInit() {}
+
   login() {
-    this.loginForm.updateValueAndValidity();
-    this.loginForm.patchValue(this.loginForm.value);
-    console.log(this.loginForm);
     if (!this.loginForm.valid) {
       return;
     }
+
+    const { username, password } = this.loginForm.value;
+
+    this.authService.login(username, password).subscribe(
+      () => {
+        const redirectUrl =
+          this.route.snapshot.queryParams['redirectUrl'] || '/';
+        this.router.navigateByUrl(decodeURIComponent(redirectUrl));
+      },
+      () => {
+        this.errorSubject$.next('Invalid username or password.');
+      }
+    );
   }
 }

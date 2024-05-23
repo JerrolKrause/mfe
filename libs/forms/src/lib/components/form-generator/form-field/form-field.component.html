@@ -25,6 +25,25 @@
       [disabled]="disabled$ | async"
     ></lib-text>
 
+    <!-- Password Field -->
+    <lib-password
+      *ngIf="formField.formFieldType === 'password'"
+      [label]="formField.label"
+      [placeholder]="formField.placeholder"
+      [prefix]="formField.prefix"
+      [suffix]="formField.suffix"
+      [hint]="formField.hint"
+      [automationId]="formField.automationId"
+      [id]="formField.id"
+      [name]="formField.name"
+      [minLength]="formField.minLength"
+      [maxLength]="formField.maxLength"
+      [control]="formGroup.get(formField.field)"
+      [formGroup]="formGroup"
+      [validators]="formField.validators"
+      [disabled]="disabled$ | async"
+    ></lib-password>
+
     <!-- TextArea Field -->
     <lib-textarea
       *ngIf="formField.formFieldType === 'textarea'"

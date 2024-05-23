@@ -43,6 +43,7 @@ import { FormGeneratorComponent } from './components/form-generator/form-generat
 import { HtmlComponent } from './components/form-generator/html/html.component';
 import { RowComponent } from './components/form-generator/row/row.component';
 // Pipe
+import { PasswordComponent } from './components/form-fields/password/password.component';
 import { SlugPipe } from './pipes/slug.pipe';
 
 // Exported form fields
@@ -62,6 +63,7 @@ const COMPONENTS = [
   TextAreaComponent,
   ZipcodeComponent,
   InputComponent,
+  PasswordComponent,
   // Form Generator
   FormGeneratorComponent,
 ];

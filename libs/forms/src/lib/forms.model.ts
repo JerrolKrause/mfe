@@ -101,6 +101,7 @@ export module FormsLib {
   /** Available form field types */
   export type FormField =
     | TextField
+    | PasswordField
     | DateField
     | SelectButtonField
     | DropdownField
@@ -114,6 +115,7 @@ export module FormsLib {
   /** Enum for form field types */
   export type FormFieldType =
     | 'text'
+    | 'password'
     | 'date'
     | 'selectButton'
     | 'dropdown'
@@ -203,6 +205,14 @@ export module FormsLib {
 
   export interface TextField extends FieldInputSrc {
     formFieldType: 'text';
+    /** The MAXIMUM number of characters allowed by this input */
+    maxLength?: number | null;
+    /** The MINIMUM number of characters allowed by this input */
+    minLength?: number | null;
+  }
+
+  export interface PasswordField extends FieldInputSrc {
+    formFieldType: 'password';
     /** The MAXIMUM number of characters allowed by this input */
     maxLength?: number | null;
     /** The MINIMUM number of characters allowed by this input */
