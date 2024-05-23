@@ -1,12 +1,20 @@
-body {
-  font-size: 1rem;
-}
+// Option 1: Import only parts of Bootstrap - 99k
+@import 'bootstrap/scss/bootstrap-utilities'; // Needed for reboot
+@import 'bootstrap/scss/reboot';
 
-// UI Lib
-@import 'global/accordion.scss';
-@import 'global/tabs.scss';
+// Components
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/grid';
+// @import 'bootstrap/scss/nav';
+// @import 'bootstrap/scss/navbar';
+// @import 'bootstrap/scss/tables';
+// @import 'bootstrap/scss/type';
+
+/* You can add global styles to this file, and also import other style files */
+// @import 'primeng/resources/primeng.min.css'; // 7k
+// Core OMF Theme for PrimeNG
+@import 'omf/theme'; //
 
 // Global encapsulated styles
-@import 'global/typography.scss';
-@import 'global/layout.scss';
-@import 'global/buttons.scss';
+@import 'omf/custom/typography.scss';
+@import 'omf/custom/layout.scss';
