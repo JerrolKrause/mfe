@@ -27,7 +27,8 @@
       "@quoting/*": ["apps/quoting/src/*"],
       "@sandbox/*": ["apps/sandbox/src/*"],
       "@team-member/*": ["apps/team-member/src/*"],
-      "@users/*": ["apps/users/src/*"]
+      "@users/*": ["apps/users/src/*"],
+      "@loan-products/*": ["apps/loan/loan-products/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

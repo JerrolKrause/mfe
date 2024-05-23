@@ -14,14 +14,16 @@ export const appRoutes: Route[] = [
       import('@users/app/users.module').then((m) => m.UsersModule),
   },
   {
-    path: '',
-    loadChildren: () =>
-      import('@customer/app/customer.module').then((m) => m.CustomerModule),
-  },
-  {
     path: 'sandbox',
     loadChildren: () =>
       import('@sandbox/app/sandbox.module').then((m) => m.SandboxModule),
+  },
+  {
+    path: 'loan/loan-products',
+    loadChildren: () =>
+      import('@loan-products/app/loan-products.module').then(
+        (m) => m.LoanProductsModule
+      ),
   },
   {
     path: 'quoting',
@@ -35,6 +37,11 @@ export const appRoutes: Route[] = [
       import('@team-member/app/team-member.module').then(
         (m) => m.TeamMemberModule
       ),
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('@customer/app/customer.module').then((m) => m.CustomerModule),
   },
   /**
   {
