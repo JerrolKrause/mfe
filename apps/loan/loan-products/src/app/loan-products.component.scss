@@ -1,0 +1,23 @@
+$width: 200px;
+$pad: 1rem;
+
+#loan-products {
+  .left-col {
+    position: fixed;
+    top: 53px;
+    left: 0;
+    bottom: 0;
+    width: $width;
+    background: var(--color-bg-dark);
+    color: #fff;
+    padding: $pad;
+  }
+  .main-col {
+    margin-left: calc($width + $pad);
+  }
+  @media (min-width: 768px) {
+    .lp-layout {
+      display: flex;
+    }
+  }
+}

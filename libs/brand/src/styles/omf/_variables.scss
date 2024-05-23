@@ -18,10 +18,10 @@ $primeIconFontSize: 1.25em;
 
 // CSS Variables, need to be after primary scss variables
 :root {
-  --color-interact: $primaryColor; // Used for interactive elements like buttons and links
-  --color-bg-dark: $primaryBgDark; // Dark blue used for backgrounds
-  --color-bg-lt: $primaryBgLt; // Light grey used for backgrounds
-  --color-text: $textColor; // Light grey used for backgrounds
+  --color-interact: #{$primaryColor}; // Used for interactive elements like buttons and links
+  --color-bg-dark: #{$primaryBgDark}; // Dark blue used for backgrounds
+  --color-bg-lt: #{$primaryBgLt}; // Light grey used for backgrounds
+  --color-text: #{$textColor}; // Text Color
 }
 
 //anchors
