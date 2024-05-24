@@ -18,7 +18,21 @@
             </p-card>
           </div>
           <div class="col col-12 col-md-4">
-            <app-loan-products-builder></app-loan-products-builder>
+            <p-tabView>
+              <p-tabPanel>
+                <ng-template pTemplate="header">
+                  <lib-icons icon="money-check-alt" class="me-2"></lib-icons>
+                  Loan Products
+                </ng-template>
+                <app-loan-products-builder></app-loan-products-builder>
+              </p-tabPanel>
+              <p-tabPanel>
+                <ng-template pTemplate="header">
+                  <lib-icons icon="eye" class="me-2"></lib-icons> Customer View
+                </ng-template>
+                Coming soon!
+              </p-tabPanel>
+            </p-tabView>
           </div>
         </div>
       </div>

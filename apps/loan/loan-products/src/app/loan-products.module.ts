@@ -8,11 +8,13 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
+import { TabViewModule } from 'primeng/tabview';
 import { CreditProductsBuilderComponent } from './components/credit-products-builder/credit-products-builder.component';
 import { LoanProductsBuilderComponent } from './components/loan-products-builder/loan-products-builder.component';
 import { LoanProductsGridComponent } from './components/loan-products-grid/loan-products-grid.component';
@@ -39,6 +41,8 @@ import { appRoutes } from './loan-products.routes';
     MasterpageModule,
     FormsLibModule,
     CardModule,
+    TabViewModule,
+    CheckboxModule,
     SplitButtonModule,
     OverlayPanelModule,
     InputTextModule,

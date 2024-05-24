@@ -1,1 +1,47 @@
-<p>loan-products-builder works!</p>
+<div class="loan-form-container">
+  <form [formGroup]="loanProductsForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col col-12 col-md-6">
+        <div class="section">
+          <h3>Assets <span class="sub-title">Select for collateral</span></h3>
+          <div
+            *ngFor="let asset of assetsFormArray.controls; let i = index"
+            class="item"
+          >
+            <p-checkbox
+              [binary]="true"
+              (onChange)="onSelectAsset(i)"
+            ></p-checkbox>
+            <span>{{ asset.value.name }}</span>
+            <span>{{ asset.value.amount | currency }}</span>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Creditors <span class="sub-title">Select for payoff</span></h3>
+          <div
+            *ngFor="let creditor of creditorsFormArray.controls; let i = index"
+            class="item"
+          >
+            <p-checkbox
+              [binary]="true"
+              (onChange)="onSelectCreditor(i)"
+            ></p-checkbox>
+            <span>{{ creditor.value.name }}</span>
+            <span>{{ creditor.value.amount | currency }}</span>
+            <span>{{ creditor.value.payment | currency }}</span>
+            <span>{{ creditor.value.rate }}%</span>
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6">
+        <lib-form-generator
+          [formModel]="loanProductsModel"
+          [formGroup]="loanProductsForm"
+          [options]="formOptions"
+          [disableSubmit]="false"
+          (completed)="onSubmit()"
+        ></lib-form-generator>
+      </div>
+    </div>
+  </form>
+</div>

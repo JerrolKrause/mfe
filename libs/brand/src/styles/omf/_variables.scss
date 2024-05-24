@@ -22,6 +22,7 @@ $primeIconFontSize: 1.25em;
   --color-bg-dark: #{$primaryBgDark}; // Dark blue used for backgrounds
   --color-bg-lt: #{$primaryBgLt}; // Light grey used for backgrounds
   --color-text: #{$textColor}; // Text Color
+  --border-radius: #{$borderRadius}; // Text Color
 }
 
 //anchors
@@ -306,8 +307,8 @@ $inputSwitchHandleOnBgColor: #cccccc;
 $inputSwitchSliderOnFocusBgColor: $primaryDarkerColor;
 
 //panel common (e.g. accordion, panel, tabview)
-$panelHeaderBorder: 1px solid #c8c8c8;
-$panelHeaderBgColor: #f4f4f4;
+$panelHeaderBorder: 0; // 1px solid #c8c8c8;
+$panelHeaderBgColor: transparent; //#f4f4f4;
 $panelHeaderTextColor: #333333;
 $panelHeaderIconColor: #848484;
 $panelHeaderIconHoverColor: #333333;
@@ -326,8 +327,8 @@ $panelHeaderHoverBgColor: #dbdbdb;
 $panelHeaderHoverBorder: 1px solid #dbdbdb;
 $panelHeaderHoverTextColor: #333333;
 $panelHeaderHoverIconColor: #333333;
-$panelHeaderActiveBgColor: $primaryColor;
-$panelHeaderActiveBorder: 1px solid $primaryColor;
+$panelHeaderActiveBgColor: #fff;
+$panelHeaderActiveBorder: 1px solid #fff;
 $panelHeaderActiveTextColor: #ffffff;
 $panelHeaderActiveIconColor: #ffffff;
 $panelHeaderActiveHoverBgColor: $primaryDarkerColor;

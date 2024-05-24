@@ -19,13 +19,14 @@
 -->
     <ng-template pTemplate="header">
       <tr>
+        @for(column of columns; track column; let index = $index) {
         <th
-          *ngFor="let column of columns; let i = index; track: $index"
           [pSortableColumn]="column.prop"
-          [ngClass]="{ 'text-end': i === columns.length - 1 }"
+          [ngClass]="{ 'text-end': index === columns.length - 1 }"
         >
           <span [innerHTML]="column.label" class="me-2"></span>
         </th>
+        }
       </tr>
     </ng-template>
     <ng-template

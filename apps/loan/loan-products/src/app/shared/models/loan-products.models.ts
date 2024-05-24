@@ -44,4 +44,21 @@ export module LoanProductModels {
   export interface NonCreditProduct extends SubProduct {
     type: SubProductType.Noncredit;
   }
+
+  export interface Asset {
+    id: string;
+    name: string;
+    amount: number;
+    payment: number;
+    rate: number;
+    selected: boolean;
+  }
+  export interface Creditor {
+    id: string;
+    name: string;
+    amountOwed: number;
+    monthlyPayment: number;
+    rate: number;
+    selected: boolean;
+  }
 }
