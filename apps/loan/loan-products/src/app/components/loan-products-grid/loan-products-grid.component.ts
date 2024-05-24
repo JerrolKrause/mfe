@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 @Component({
@@ -33,6 +34,37 @@ export class LoanProductsGridComponent {
   ];
 
   public SubProductType = LoanProductModels.SubProductType;
+
+  public actions: MenuItem[] = [
+    {
+      label: 'Edit',
+      icon: 'pi pi-refresh',
+    },
+    {
+      label: 'Escalate',
+      icon: 'pi pi-refresh',
+    },
+    {
+      label: 'Approve',
+      icon: 'pi pi-refresh',
+      command: () => {},
+    },
+    {
+      label: 'Reject',
+      icon: 'pi pi-refresh',
+      command: () => {},
+    },
+    {
+      label: 'Set Customer Selection',
+      icon: 'pi pi-refresh',
+      command: () => {},
+    },
+    {
+      label: 'Delete',
+      icon: 'pi pi-refresh',
+      command: () => {},
+    },
+  ];
 
   @Output() modalOpen = new EventEmitter<{
     type: LoanProductModels.SubProductType;

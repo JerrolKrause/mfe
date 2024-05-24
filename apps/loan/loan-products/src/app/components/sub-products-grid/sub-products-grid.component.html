@@ -1,1 +1,35 @@
-<p>sub-products-grid works!</p>
+@if(products?.length) {
+<p-table [value]="products ?? []" dataKey="id" styleClass="mb-3">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="type">Product</th>
+      <th pSortableColumn="label">Type</th>
+      <th pSortableColumn="insured">Insured</th>
+      <th pSortableColumn="term">Term</th>
+      <th pSortableColumn="fee">Premium/Fee</th>
+      <th pSortableColumn="dateEffective">Effective Date</th>
+      <th pSortableColumn="">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-product>
+    <tr>
+      <td>{{ product.type }}</td>
+      <td>{{ product.label }}</td>
+      <td>{{ product.insured }}</td>
+      <td>{{ product.term }} mo</td>
+      <td>{{ product.fee | currency : 'USD' }}</td>
+      <td>{{ product.dateEffective }}</td>
+      <td>Actions</td>
+    </tr>
+  </ng-template>
+  <!--
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="colLength">
+        There are no credit/non-credit products for this loan product.
+      </td>
+    </tr>
+  </ng-template>
+  -->
+</p-table>
+}

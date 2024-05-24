@@ -6,6 +6,7 @@
   (onRowExpand)="onRowExpand($event)"
   (onRowCollapse)="onRowCollapse($event)"
 >
+  <!--
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
       <h2 class="mb-0">
@@ -14,6 +15,7 @@
       </h2>
     </div>
   </ng-template>
+-->
   <ng-template pTemplate="header">
     <tr>
       @for (column of columns; track $index) {
@@ -62,46 +64,46 @@
       <td>{{ product.apr }}%</td>
       <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
       <td>Status</td>
-      <td>Action</td>
+      <td>
+        <p-splitButton
+          styleClass="w-100"
+          label="Info"
+          appendTo="body"
+          [model]="actions"
+          (onClick)="op.toggle($event)"
+        ></p-splitButton>
+        <p-overlayPanel #op>
+          <div class="p-2">
+            <table class="table table-sm table-striped mb-0">
+              <tbody>
+                <tr>
+                  <td><strong>System Decision</strong></td>
+                  <td>$18,500</td>
+                </tr>
+                <tr>
+                  <td><strong>PTI</strong></td>
+                  <td>36%</td>
+                </tr>
+                <tr>
+                  <td><strong>LTV</strong></td>
+                  <td>120</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </p-overlayPanel>
+      </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="rowexpansion" let-product>
     <tr>
       <td [attr.colspan]="columns.length + 1">
         <div class="p-3">
-          @if(product.subproduct?.length) {
-          <p-table [value]="product.orders" dataKey="id" styleClass="mb-2">
-            <ng-template pTemplate="header">
-              <tr>
-                <th pSortableColumn="id">Product</th>
-                <th pSortableColumn="customer">Type</th>
-                <th pSortableColumn="date">Insured</th>
-                <th pSortableColumn="amount">Term</th>
-                <th pSortableColumn="status">Premium/Fee</th>
-                <th pSortableColumn="status">Effective Date</th>
-                <th pSortableColumn="status">Actions</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-order>
-              <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.customer }}</td>
-                <td>{{ order.date }}</td>
-                <td>{{ order.amount | currency : 'USD' }}</td>
-                <td></td>
-                <td></td>
-                <td>Actions</td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-              <tr>
-                <td [attr.colspan]="columns.length + 1">
-                  There are no credit/non-credit products for this loan product.
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-          } @else { }
+          <app-sub-products-grid
+            [products]="product.subProducts"
+            [colLength]="columns.length + 1"
+          ></app-sub-products-grid>
+
           <div class="text-end">
             <p-button
               class="me-2"

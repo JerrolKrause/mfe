@@ -6,6 +6,8 @@ export module LoanProductModels {
     Noncredit,
   }
 
+  export type SubProducts = (CreditProduct | NonCreditProduct)[];
+
   export interface LoanProduct {
     id?: string;
     cashOut?: number;
@@ -21,26 +23,25 @@ export module LoanProductModels {
       systemGenerated?: boolean;
     };
     vehicles?: string[];
-    subProducts?: any[];
-    /**
-    productDescription: '2020 RAV4';
-    productType: 0;
-    systemDecision: 18500;
-    baseAdvance: 15000;
-    ltv: 120;
-    term: 66;
-    totalAdvance: 22100;
-    monthlyPayment: 432;
-    apr: 16.16;
-    lti: 95;
-    ndi: 1325;
-    pti: 36;
-    paymentImpact: 250;
-    loanOptions: {
-      cashOutMax: 15000;
-      loanAmountMax: 15000;
-    };
-    systemQuote: true;
-    */
+    subProducts?: SubProducts;
+  }
+
+  interface SubProduct {
+    id: string;
+    parentId: string;
+    label?: string;
+    type?: SubProductType;
+    insured?: string;
+    term?: number;
+    fee?: number;
+    dateEffective?: string;
+  }
+
+  export interface CreditProduct extends SubProduct {
+    type: SubProductType.Credit;
+  }
+
+  export interface NonCreditProduct extends SubProduct {
+    type: SubProductType.Noncredit;
   }
 }
