@@ -8,10 +8,10 @@
       <th pSortableColumn="term">Term</th>
       <th pSortableColumn="fee">Premium/Fee</th>
       <th pSortableColumn="dateEffective">Effective Date</th>
-      <th pSortableColumn="">Actions</th>
+      <th pSortableColumn="" class="text-end">Actions</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-product>
+  <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
     <tr>
       <td>{{ product.type }}</td>
       <td>{{ product.label }}</td>
@@ -19,7 +19,15 @@
       <td>{{ product.term }} mo</td>
       <td>{{ product.fee | currency : 'USD' }}</td>
       <td>{{ product.dateEffective }}</td>
-      <td>Actions</td>
+      <td class="text-end">
+        <p-splitButton
+          label="Edit"
+          icon="pi pi-pencil"
+          appendTo="body"
+          [model]="actions[rowIndex]"
+          (onClick)="edit(rowIndex)"
+        ></p-splitButton>
+      </td>
     </tr>
   </ng-template>
   <!--

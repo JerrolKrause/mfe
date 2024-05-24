@@ -1,0 +1,20 @@
+#loan-products-grid {
+  .p-splitbutton {
+    padding: 0;
+    .p-splitbutton-defaultbutton {
+      padding: 0;
+    }
+    .p-splitbutton-menubutton.p-button-icon-only {
+      padding: 0 0.75rem;
+    }
+    .p-button-icon {
+      font-size: 12px;
+      padding-left: 0.5rem;
+      padding-right: 0;
+      margin: 0;
+    }
+    .p-button-label {
+      padding: 0 0.5rem;
+    }
+  }
+}

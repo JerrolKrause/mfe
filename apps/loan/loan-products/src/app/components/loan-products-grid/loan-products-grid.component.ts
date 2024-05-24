@@ -3,7 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
+  ViewEncapsulation,
 } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
@@ -12,10 +15,10 @@ import { LoanProductModels } from '../../shared/models/loan-products.models';
   selector: 'app-loan-products-grid',
   templateUrl: './loan-products-grid.component.html',
   styleUrl: './loan-products-grid.component.scss',
-
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanProductsGridComponent {
+export class LoanProductsGridComponent implements OnChanges {
   @Input() loanProducts?: LoanProductModels.LoanProduct[] | null = null;
 
   public columns = [
@@ -35,44 +38,27 @@ export class LoanProductsGridComponent {
 
   public SubProductType = LoanProductModels.SubProductType;
 
-  public actions: MenuItem[] = [
-    {
-      label: 'Edit',
-      icon: 'pi pi-refresh',
-    },
-    {
-      label: 'Escalate',
-      icon: 'pi pi-refresh',
-    },
-    {
-      label: 'Approve',
-      icon: 'pi pi-refresh',
-      command: () => {},
-    },
-    {
-      label: 'Reject',
-      icon: 'pi pi-refresh',
-      command: () => {},
-    },
-    {
-      label: 'Set Customer Selection',
-      icon: 'pi pi-refresh',
-      command: () => {},
-    },
-    {
-      label: 'Delete',
-      icon: 'pi pi-refresh',
-      command: () => {},
-    },
-  ];
+  /** Split button menu actions for loan products */
+  public actions: MenuItem[][] = this.actionsGenerate(this.loanProducts);
 
   @Output() modalOpen = new EventEmitter<{
     type: LoanProductModels.SubProductType;
     productId: string;
   }>();
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // When loan products change, generate action menus
+    if (this.loanProducts && changes['loanProducts']) {
+      this.actions = this.actionsGenerate(this.loanProducts);
+    }
+  }
+
   expandedRows: Record<string, boolean> = {};
 
+  /**
+   * Expand all rows
+   * @returns
+   */
   expandAll() {
     if (!this.loanProducts) {
       return;
@@ -83,15 +69,68 @@ export class LoanProductsGridComponent {
     ); // TODO
   }
 
-  collapseAll() {
+  /**
+   * Generate action menus for each loan product
+   * @param loanProducts
+   * @returns
+   */
+  private actionsGenerate(
+    loanProducts?: LoanProductModels.LoanProduct[] | null
+  ): MenuItem[][] {
+    if (!loanProducts?.length) {
+      return [];
+    }
+    return loanProducts.map((lp) => {
+      return [
+        {
+          label: 'Edit',
+          icon: 'pi pi-pencil',
+        },
+        {
+          label: 'Escalate',
+          icon: 'pi pi-exclamation-triangle',
+        },
+        {
+          label: 'Approve',
+          icon: 'pi pi-check',
+          command: () => {
+            console.log(lp);
+          },
+        },
+        {
+          label: 'Reject',
+          icon: 'pi pi-times',
+          command: () => {
+            console.log(lp);
+          },
+        },
+        {
+          label: 'Set Customer Selection',
+          icon: 'pi pi-check-square',
+          command: () => {
+            console.log(lp);
+          },
+        },
+        {
+          label: 'Delete',
+          icon: 'pi pi-trash',
+          command: () => {
+            console.log(lp);
+          },
+        },
+      ];
+    });
+  }
+
+  public collapseAll() {
     this.expandedRows = {};
   }
 
-  onRowExpand(event: TableRowExpandEvent) {
+  public onRowExpand(event: TableRowExpandEvent) {
     console.log('onRowExpand', event);
   }
 
-  onRowCollapse(event: TableRowCollapseEvent) {
+  public onRowCollapse(event: TableRowCollapseEvent) {
     console.log('onRowCollapse', event);
   }
 }
