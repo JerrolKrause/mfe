@@ -14,6 +14,7 @@ $pad: 1rem;
   }
   .main-col {
     margin-left: calc($width + $pad);
+    flex: 1;
   }
   @media (min-width: 768px) {
     .lp-layout {

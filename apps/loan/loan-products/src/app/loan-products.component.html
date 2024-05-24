@@ -3,7 +3,20 @@
     <div class="lp-layout">
       <div class="left-col"></div>
       <div class="main-col">
-        <router-outlet></router-outlet>
+        <app-title-bar></app-title-bar>
+        <div class="row">
+          <div class="col col-12 col-md-8">
+            <p-card styleClass="p-2">
+              <app-loan-products-grid
+                [loanProducts]="lpSvc.loanProducts$ | async"
+                (modalOpen)="modalOpen($event)"
+              ></app-loan-products-grid>
+            </p-card>
+          </div>
+          <div class="col col-12 col-md-4">
+            <app-loan-products-builder></app-loan-products-builder>
+          </div>
+        </div>
       </div>
     </div>
   </lib-masterpage>

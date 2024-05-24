@@ -1,0 +1,135 @@
+<p-table
+  dataKey="id"
+  [value]="loanProducts ?? []"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [expandedRowKeys]="expandedRows"
+  (onRowExpand)="onRowExpand($event)"
+  (onRowCollapse)="onRowCollapse($event)"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <h2 class="mb-0">
+        <lib-icons icon="money-check-alt"></lib-icons>
+        Loan Products
+      </h2>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      @for (column of columns; track $index) {
+      <th [pSortableColumn]="column.prop">
+        <span [innerHTML]="column.label" class="me-2"></span>
+        <!--
+        <p-sortIcon
+          [field]="column.prop"
+          styleClass="ms-2"
+          *ngIf="!!column.prop"
+        />
+        -->
+      </th>
+      }
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    pTemplate="body"
+    let-product
+    let-expanded="expanded"
+  >
+    <tr>
+      @for (column of columns; track $index) {}
+      <td>
+        <p-button
+          type="button"
+          pRipple
+          [pRowToggler]="product"
+          [text]="true"
+          [rounded]="true"
+          [plain]="true"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        />
+      </td>
+      <td>Secure</td>
+      <td>{{ product.vehicles }}</td>
+      <td>{{ product.cashOut | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
+      <td>{{ product.loanAmount | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
+      <td>
+        {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
+      </td>
+      <td>
+        {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
+      </td>
+      <td>{{ product.apr }}%</td>
+      <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
+      <td>Status</td>
+      <td>Action</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-product>
+    <tr>
+      <td [attr.colspan]="columns.length + 1">
+        <div class="p-3">
+          @if(product.subproduct?.length) {
+          <p-table [value]="product.orders" dataKey="id" styleClass="mb-2">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="id">Product</th>
+                <th pSortableColumn="customer">Type</th>
+                <th pSortableColumn="date">Insured</th>
+                <th pSortableColumn="amount">Term</th>
+                <th pSortableColumn="status">Premium/Fee</th>
+                <th pSortableColumn="status">Effective Date</th>
+                <th pSortableColumn="status">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order>
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.amount | currency : 'USD' }}</td>
+                <td></td>
+                <td></td>
+                <td>Actions</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td [attr.colspan]="columns.length + 1">
+                  There are no credit/non-credit products for this loan product.
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          } @else { }
+          <div class="text-end">
+            <p-button
+              class="me-2"
+              (click)="
+                modalOpen.emit({
+                  type: SubProductType.Credit,
+                  productId: product.id
+                })
+              "
+              >Add Credit Product</p-button
+            >
+            <p-button
+              (click)="
+                modalOpen.emit({
+                  type: SubProductType.Noncredit,
+                  productId: product.id
+                })
+              "
+              >Add Non-Credit Product</p-button
+            >
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="columns.length + 1">There are no loan products.</td>
+    </tr>
+  </ng-template>
+</p-table>

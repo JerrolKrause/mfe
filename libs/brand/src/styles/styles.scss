@@ -1,6 +1,8 @@
-// Option 1: Import only parts of Bootstrap - 99k
+// Bootstrap  defaults
 @import 'bootstrap/scss/bootstrap-utilities'; // Needed for reboot
 @import 'bootstrap/scss/reboot';
+// Prime defaults
+@import 'primeng/resources/primeng.min.css'; // 7k
 
 // Components
 @import 'bootstrap/scss/containers';
@@ -10,11 +12,14 @@
 // @import 'bootstrap/scss/tables';
 // @import 'bootstrap/scss/type';
 
-/* You can add global styles to this file, and also import other style files */
-// @import 'primeng/resources/primeng.min.css'; // 7k
+// Prime icons
+@import 'primeicons/primeicons.css';
+@import 'primeng/resources/themes/nova/theme.css'; // 134k. It would be nice to remove this
 // Core OMF Theme for PrimeNG
 @import 'omf/theme'; //
 
 // Global encapsulated styles
 @import 'omf/custom/typography.scss';
 @import 'omf/custom/layout.scss';
+@import 'omf/custom/table.scss';
+@import 'omf/custom/buttons.scss';

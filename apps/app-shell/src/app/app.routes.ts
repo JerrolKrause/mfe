@@ -19,7 +19,7 @@ export const appRoutes: Route[] = [
       import('@sandbox/app/sandbox.module').then((m) => m.SandboxModule),
   },
   {
-    path: 'loan/loan-products',
+    path: 'loan/:loanId/loan-products',
     loadChildren: () =>
       import('@loan-products/app/loan-products.module').then(
         (m) => m.LoanProductsModule
