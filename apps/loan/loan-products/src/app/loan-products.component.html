@@ -1,42 +1,39 @@
 <div id="loan-products">
   <lib-masterpage [fullWidth]="true">
-    <div class="lp-layout">
-      <div class="left-col"></div>
-      <div class="main-col">
-        <app-title-bar></app-title-bar>
-        <div class="row">
-          <div class="col col-12 col-md-8">
-            <p-card styleClass="p-2">
-              <h1>
-                <lib-icons icon="money-check-alt"></lib-icons>
+    <div>
+      <app-title-bar></app-title-bar>
+      <div class="row">
+        <div class="col col-12 col-md-8">
+          <p-card styleClass="p-2">
+            <h1>
+              <lib-icons icon="money-check-alt"></lib-icons>
+              Loan Products
+            </h1>
+            <app-loan-products-grid
+              [loanProducts]="loanProducts$ | async"
+              (modalOpen)="modalOpen($event)"
+            ></app-loan-products-grid>
+          </p-card>
+        </div>
+        <div class="col col-12 col-md-4">
+          <p-tabView>
+            <p-tabPanel>
+              <ng-template pTemplate="header">
+                <lib-icons icon="money-check-alt" class="me-2"></lib-icons>
                 Loan Products
-              </h1>
-              <app-loan-products-grid
-                [loanProducts]="lpSvc.loanProducts$ | async"
-                (modalOpen)="modalOpen($event)"
-              ></app-loan-products-grid>
-            </p-card>
-          </div>
-          <div class="col col-12 col-md-4">
-            <p-tabView>
-              <p-tabPanel>
-                <ng-template pTemplate="header">
-                  <lib-icons icon="money-check-alt" class="me-2"></lib-icons>
-                  Loan Products
-                </ng-template>
-                <app-loan-products-builder
-                  [assets]="lpSvc.assets$ | async"
-                  [creditors]="lpSvc.creditors$ | async"
-                ></app-loan-products-builder>
-              </p-tabPanel>
-              <p-tabPanel>
-                <ng-template pTemplate="header">
-                  <lib-icons icon="eye" class="me-2"></lib-icons> Customer View
-                </ng-template>
-                Coming soon!
-              </p-tabPanel>
-            </p-tabView>
-          </div>
+              </ng-template>
+              <app-loan-products-builder
+                [assets]="assets$ | async"
+                [creditors]="creditors$ | async"
+              ></app-loan-products-builder>
+            </p-tabPanel>
+            <p-tabPanel>
+              <ng-template pTemplate="header">
+                <lib-icons icon="eye" class="me-2"></lib-icons> Customer View
+              </ng-template>
+              Coming soon!
+            </p-tabPanel>
+          </p-tabView>
         </div>
       </div>
     </div>

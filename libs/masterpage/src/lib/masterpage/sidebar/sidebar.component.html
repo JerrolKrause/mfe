@@ -1,0 +1,39 @@
+<div id="sidebar" *ngIf="{ loanId: loanId$ | async } as comp">
+  <p class="sidebar-title">Applications</p>
+  @if(applications.length) { @for (app of applications; track $index) {
+  <button
+    class="p-button mb-1 w-100 text-start sidebar-btn"
+    [ngClass]="{
+      'p-button-inactive': app.loanID !== comp.loanId
+    }"
+    [routerLink]="['/', 'loan', app.loanID, 'loan-products']"
+  >
+    <span>#{{ app.loanID }}</span>
+    <span
+      ><a
+        class="sidebar-actions"
+        [pTooltip]="tooltipContent"
+        [autoHide]="false"
+        [hideDelay]="500"
+        tooltipPosition="right"
+        ><i class="pi pi-bars"></i
+      ></a>
+      <ng-template #tooltipContent>
+        <div class="nav-list">
+          <div
+            *ngFor="let item of navItems"
+            class="nav-item"
+            [ngClass]="{ completed: item.completed }"
+          >
+            <a
+              class="nav-label d-block"
+              [routerLink]="['/', 'loan', app.loanID, item.path]"
+              >{{ item.label }}</a
+            >
+          </div>
+        </div>
+      </ng-template></span
+    >
+  </button>
+  } }
+</div>

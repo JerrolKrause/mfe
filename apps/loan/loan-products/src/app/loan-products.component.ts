@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { map, mergeMap, of } from 'rxjs';
 import { CreditProductsBuilderComponent } from './components/credit-products-builder/credit-products-builder.component';
 import { NonCreditProductsBuilderComponent } from './components/non-credit-products-builder/non-credit-products-builder.component';
 import { LoanProductModels } from './shared/models/loan-products.models';
@@ -13,9 +15,28 @@ import { LoanProductsService } from './shared/services/loan-products.service';
 })
 export class LoanProductsComponent {
   ref: DynamicDialogRef | undefined;
+
+  public loanProducts$ = this.route.params.pipe(
+    map((params) => params['loanId']),
+    mergeMap((loanId) =>
+      loanId === '533854' ? this.lpSvc.loanProducts$ : of([])
+    )
+  );
+
+  public assets$ = this.route.params.pipe(
+    map((params) => params['loanId']),
+    mergeMap((loanId) => (loanId === '533854' ? this.lpSvc.assets$ : of([])))
+  );
+
+  public creditors$ = this.route.params.pipe(
+    map((params) => params['loanId']),
+    mergeMap((loanId) => (loanId === '533854' ? this.lpSvc.creditors$ : of([])))
+  );
+
   constructor(
     public lpSvc: LoanProductsService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private route: ActivatedRoute
   ) {}
 
   /**

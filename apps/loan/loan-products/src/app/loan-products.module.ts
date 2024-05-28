@@ -23,6 +23,9 @@ import { SubProductsGridComponent } from './components/sub-products-grid/sub-pro
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
 import { LoanProductsComponent } from './loan-products.component';
 import { appRoutes } from './loan-products.routes';
+import { NoContentComponent } from './routes/no-content/no-content.component';
+import { SelectLoanIdComponent } from './routes/select-loan-id/select-loan-id.component';
+import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-task.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { appRoutes } from './loan-products.routes';
     CreditProductsBuilderComponent,
     NonCreditProductsBuilderComponent,
     SubProductsGridComponent,
+    NoContentComponent,
+    SelectLoanIdComponent,
+    SelectLoanTaskComponent,
   ],
   imports: [
     CommonModule,

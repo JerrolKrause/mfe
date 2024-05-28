@@ -1,0 +1,47 @@
+$widthSm: 26px;
+$width: 225px;
+$pad: 1rem;
+
+footer {
+  margin-top: 2rem;
+  background: #f5f6f6;
+  padding: 2rem 0rem;
+  font-size: 11px;
+}
+
+.mp-layout {
+  .left-col {
+    position: fixed;
+    top: 53px;
+    left: 0;
+    bottom: 0;
+    width: $widthSm;
+    background: var(--color-bg-dark);
+    color: #fff;
+    padding-top: 3rem;
+    padding-right: 0.25rem;
+  }
+  .main-col {
+    padding-left: calc($pad + $widthSm);
+    padding-right: $pad;
+  }
+  &.left-col-open {
+    .left-col {
+      width: $width;
+      padding: $pad;
+      padding-top: 3rem;
+    }
+    .main-col {
+      margin-left: calc($width + $pad);
+      flex: 1;
+      padding-left: calc($pad - $widthSm);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .lp-layout {
+      display: flex;
+      padding-right: 1rem;
+    }
+  }
+}

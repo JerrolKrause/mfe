@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-title-bar',
@@ -6,4 +8,18 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './title-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TitleBarComponent {}
+export class TitleBarComponent {
+  public title$ = this.route.params.pipe(
+    map((params) => {
+      const loanId = params['loanId'] as string | null;
+      if (!loanId) {
+        return 'No Loan ID Found';
+      }
+      return loanId === '533854'
+        ? `#${loanId} | Colleen Denning`
+        : `#${loanId} | John Smith`;
+    })
+  );
+
+  constructor(private route: ActivatedRoute) {}
+}

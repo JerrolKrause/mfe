@@ -3,4 +3,24 @@
   <lib-nav></lib-nav>
   }
 </lib-header>
-<ng-content></ng-content>
+<div class="mp-layout" [ngClass]="leftColOpen ? 'left-col-open' : ''">
+  <!--
+    Left Col/App selector
+  -->
+  <div class="left-col" *ngIf="showLeftCol">
+    @if(leftColOpen) {
+    <a class="float-end linky" (click)="leftColOpen = !leftColOpen"
+      ><i class="pi pi-chevron-left"></i
+    ></a>
+    <lib-sidebar></lib-sidebar>
+    } @else {
+    <a class="float-end" (click)="leftColOpen = !leftColOpen"
+      ><i class="pi pi-chevron-right"></i
+    ></a>
+    }
+  </div>
+  <!--
+    Main Column
+  -->
+  <div class="main-col"><ng-content></ng-content></div>
+</div>

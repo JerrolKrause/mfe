@@ -1,0 +1,37 @@
+#sidebar {
+  .sidebar-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 16px;
+  }
+  .sidebar-apps {
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .sidebar-btn {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    box-shadow: initial;
+    .sidebar-actions {
+      font-size: 12px;
+      color: #fff;
+      // padding-top: 5px;
+      cursor: pointer;
+    }
+  }
+  .p-button-inactive {
+    background: transparent;
+    border: transparent;
+  }
+  .sidebar-link {
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    &.sidebar-link-active {
+      background-color: var(--color-interact);
+    }
+  }
+}

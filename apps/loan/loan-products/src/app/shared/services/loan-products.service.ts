@@ -14,6 +14,7 @@ export class LoanProductsService {
   );
 
   public assets$ = new BehaviorSubject<LoanProductModels.Asset[]>(assets);
+
   public creditors$ = new BehaviorSubject<LoanProductModels.Creditor[]>(
     creditors
   );

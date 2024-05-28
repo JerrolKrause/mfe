@@ -25,10 +25,10 @@ export class LoanProductsBuilderComponent implements OnChanges {
   @Input() formDefaults?: LoanProductModels.LoanProduct | null = null;
 
   public loanProductsForm = this.fb.group({
-    cashOut: [2100, Validators.required],
+    cashOut: [0, Validators.required],
     payoffs: [0, Validators.required],
-    baseCashAdvance: [2600, Validators.required],
-    term: [12, Validators.required],
+    baseCashAdvance: [0, Validators.required],
+    term: [0, Validators.required],
     fees: [0, Validators.required],
     assets: this.fb.array([]),
     creditors: this.fb.array([]),
@@ -64,6 +64,9 @@ export class LoanProductsBuilderComponent implements OnChanges {
   }
 
   populateAssets() {
+    // Clear the form array before populating
+    this.assetsFormArray.clear();
+
     if (!this.assets?.length) {
       return;
     }
@@ -84,6 +87,9 @@ export class LoanProductsBuilderComponent implements OnChanges {
   }
 
   populateCreditors() {
+    // Clear the form array before populating
+    this.creditorsFormArray.clear();
+
     if (!this.creditors?.length) {
       return;
     }
