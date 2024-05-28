@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import {
   assets,
   creditors,
@@ -20,4 +20,16 @@ export class LoanProductsService {
   );
 
   constructor() {}
+
+  public loanProductAdd(loanProduct: LoanProductModels.LoanProductForm) {
+    // Force type since we're faking an API call
+    this.loanProducts$
+      .pipe(take(1))
+      .subscribe((lps) =>
+        this.loanProducts$.next([
+          ...lps,
+          loanProduct as LoanProductModels.LoanProduct,
+        ])
+      );
+  }
 }

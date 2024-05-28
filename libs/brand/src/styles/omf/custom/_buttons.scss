@@ -1,6 +1,18 @@
 .p-button {
   border-radius: var(--border-radius);
+  // position: initial;
+  z-index: 1;
   &.p-button-icon-only {
     height: initial;
+  }
+}
+.p-splitbutton {
+  .p-splitbutton-defaultbutton {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .p-splitbutton-menubutton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 }

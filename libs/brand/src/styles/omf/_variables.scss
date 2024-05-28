@@ -15,14 +15,18 @@ $textSecondaryColor: #848484;
 $borderRadius: 4px;
 $transitionDuration: 0.2s;
 $primeIconFontSize: 1.25em;
+$boxShadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+  0 2px 1px -1px rgba(0, 0, 0, 0.12);
 
 // CSS Variables, need to be after primary scss variables
 :root {
   --color-interact: #{$primaryColor}; // Used for interactive elements like buttons and links
   --color-bg-dark: #{$primaryBgDark}; // Dark blue used for backgrounds
+  --color-bg-dark-blue: #{$primaryDarkerColor}; // Dark blue used for backgrounds
   --color-bg-lt: #{$primaryBgLt}; // Light grey used for backgrounds
   --color-text: #{$textColor}; // Text Color
-  --border-radius: #{$borderRadius}; // Text Color
+  --border-radius: #{$borderRadius}; // Border radius
+  --box-shadow: #{$boxShadow}; // Box shadow
 }
 
 //anchors

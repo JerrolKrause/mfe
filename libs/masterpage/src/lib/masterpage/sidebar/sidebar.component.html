@@ -10,15 +10,8 @@
   >
     <span>#{{ app.loanID }}</span>
     <span
-      ><a
-        class="sidebar-actions"
-        [pTooltip]="tooltipContent"
-        [autoHide]="false"
-        [hideDelay]="500"
-        tooltipPosition="right"
-        ><i class="pi pi-bars"></i
-      ></a>
-      <ng-template #tooltipContent>
+      ><a class="sidebar-actions"><i class="pi pi-bars"></i></a>
+      <div class="sidebar-popout">
         <div class="nav-list">
           <div
             *ngFor="let item of navItems"
@@ -32,8 +25,8 @@
             >
           </div>
         </div>
-      </ng-template></span
-    >
+      </div>
+    </span>
   </button>
   } }
 </div>

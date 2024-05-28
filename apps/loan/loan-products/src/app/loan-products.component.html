@@ -25,6 +25,7 @@
               <app-loan-products-builder
                 [assets]="assets$ | async"
                 [creditors]="creditors$ | async"
+                (formSubmit)="lpSvc.loanProductAdd($event)"
               ></app-loan-products-builder>
             </p-tabPanel>
             <p-tabPanel>

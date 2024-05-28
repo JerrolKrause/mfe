@@ -2,8 +2,10 @@ import { FormsLib } from '$forms';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -42,6 +44,8 @@ export class LoanProductsBuilderComponent implements OnChanges {
   };
 
   public loanProductsModel: FormsLib.FormGenerator = loanProductsModel;
+
+  @Output() formSubmit = new EventEmitter<LoanProductModels.LoanProductForm>();
 
   constructor(private fb: FormBuilder) {
     this.populateAssets();
@@ -127,5 +131,6 @@ export class LoanProductsBuilderComponent implements OnChanges {
 
   onSubmit() {
     console.log(this.loanProductsForm.value);
+    this.formSubmit.emit(this.loanProductsForm.value);
   }
 }

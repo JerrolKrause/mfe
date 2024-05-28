@@ -8,6 +8,12 @@ h2 {
 }
 .section {
   margin-bottom: 1.5rem;
+  .item {
+    padding: 3px;
+  }
+  .item:nth-child(odd) {
+    background: var(--color-bg-lt);
+  }
 }
 .sub-text {
   font-size: 11px;

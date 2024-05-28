@@ -3,6 +3,7 @@
   border: 1px solid #e2e8f0;
   border-radius: $borderRadius;
   overflow: hidden;
+  position: initial;
   .p-datatable-header {
     background: #fff;
     border: 0;
@@ -29,5 +30,8 @@
   }
   .p-button-icon-only {
     font-size: 8px;
+  }
+  .p-button {
+    position: initial;
   }
 }

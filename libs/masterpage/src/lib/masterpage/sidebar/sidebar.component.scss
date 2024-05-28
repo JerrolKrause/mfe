@@ -5,6 +5,31 @@
     text-transform: uppercase;
     line-height: 16px;
   }
+
+  .sidebar-popout {
+    display: none;
+    position: absolute;
+    left: 100%;
+    padding-left: 1rem;
+    z-index: 999;
+    top: -5px;
+    margin-left: -1rem;
+
+    .nav-list {
+      padding: 1rem;
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      .nav-label {
+        width: 150px;
+      }
+    }
+  }
+  .sidebar-actions:hover + .sidebar-popout,
+  .sidebar-popout:hover {
+    display: block;
+  }
   .sidebar-apps {
     margin-left: 0;
     padding-left: 0;
@@ -15,12 +40,18 @@
     justify-content: space-between;
     width: 100%;
     box-shadow: initial;
+    &:hover {
+      background-color: var(--color-bg-dark-blue);
+    }
     .sidebar-actions {
       font-size: 12px;
       color: #fff;
       // padding-top: 5px;
       cursor: pointer;
     }
+  }
+  .p-button {
+    overflow: initial;
   }
   .p-button-inactive {
     background: transparent;

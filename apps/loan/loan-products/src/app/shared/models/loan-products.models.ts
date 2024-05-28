@@ -6,6 +6,10 @@ export module LoanProductModels {
     Noncredit,
   }
 
+  export type Nullable<T> = {
+    [P in keyof T]: T[P] | null;
+  };
+
   export type SubProducts = (CreditProduct | NonCreditProduct)[];
 
   export interface LoanProduct {
@@ -25,6 +29,10 @@ export module LoanProductModels {
     vehicles?: string[];
     subProducts?: SubProducts;
   }
+
+  export type LoanProductForm = Nullable<
+    Partial<LoanProductModels.LoanProduct>
+  >;
 
   interface SubProduct {
     id: string;

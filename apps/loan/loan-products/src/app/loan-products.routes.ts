@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { LoanProductsComponent } from './loan-products.component';
+import { NoContentComponent } from './routes/no-content/no-content.component';
 import { SelectLoanIdComponent } from './routes/select-loan-id/select-loan-id.component';
 import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-task.component';
 
@@ -24,7 +25,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: '**',
-    component: SelectLoanIdComponent,
+    component: NoContentComponent,
     data: { title: 'Loan Products' },
     children: [],
   },
