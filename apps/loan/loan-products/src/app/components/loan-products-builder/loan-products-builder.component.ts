@@ -1,7 +1,14 @@
 import { FormsLib } from '$forms';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
+import { loanProductsModel } from './utils/loan-products-form-model.util';
 
 @Component({
   selector: 'app-loan-products-builder',
@@ -10,7 +17,13 @@ import { LoanProductModels } from '../../shared/models/loan-products.models';
 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanProductsBuilderComponent {
+export class LoanProductsBuilderComponent implements OnChanges {
+  @Input() assets?: LoanProductModels.Asset[] | null = [];
+
+  @Input() creditors?: LoanProductModels.Creditor[] | null = [];
+
+  @Input() formDefaults?: LoanProductModels.LoanProduct | null = null;
+
   public loanProductsForm = this.fb.group({
     cashOut: [2100, Validators.required],
     payoffs: [0, Validators.required],
@@ -23,136 +36,37 @@ export class LoanProductsBuilderComponent {
 
   public formOptions: FormsLib.FormOptions = {
     submitButton: {
-      label: 'Add Loan Product',
-      // hide: true,
+      // label: 'Add Loan Product',
+      hide: true,
     },
   };
 
-  assets: LoanProductModels.Asset[] = [
-    {
-      id: '1',
-      label: '2020 TOYOTA RAV4',
-      assetValue: 36000,
-      totalOwed: 0,
-      monthlyPayment: 0,
-      apr: 0,
-      selected: false,
-    },
-    {
-      id: '2',
-      label: '2010 CHEVROLET SILVERADO',
-      assetValue: 10905,
-      totalOwed: 4000,
-      monthlyPayment: 0,
-      apr: 12,
-      selected: false,
-    },
-  ];
-  creditors: LoanProductModels.Creditor[] = [
-    {
-      id: '0',
-      label: 'DISCOVER FIN SVCS',
-      totalOwed: 673,
-      monthlyPayment: 33,
-      apr: 29,
-      selected: false,
-    },
-    {
-      id: '1',
-      label: 'BANK CREDIT CARD',
-      totalOwed: 6430,
-      monthlyPayment: 33,
-      apr: 18,
-      selected: false,
-    },
-    {
-      id: '2',
-      label: 'ULTRAMAR DIAMOND S',
-      totalOwed: 1250,
-      monthlyPayment: 45,
-      apr: 21,
-      selected: false,
-    },
-    {
-      id: '3',
-      label: 'EXXON/MBGA',
-      totalOwed: 345,
-      monthlyPayment: 30,
-      apr: 14,
-      selected: false,
-    },
-  ];
-
-  public loanProductsModel: FormsLib.FormGenerator = [
-    {
-      label: 'Cash to Customer',
-      type: 'formField',
-      formFieldType: 'number',
-      mode: 'currency',
-      field: 'cashOut',
-    },
-    {
-      label: 'Payoffs',
-      type: 'formField',
-      formFieldType: 'number',
-      mode: 'currency',
-      field: 'payoffs',
-    },
-    {
-      label: 'Base Cash Advance',
-      type: 'formField',
-      formFieldType: 'number',
-      mode: 'currency',
-      field: 'baseCashAdvance',
-    },
-    {
-      type: 'html',
-      html: '<hr/>',
-    },
-    {
-      label: 'Term',
-      type: 'formField',
-      formFieldType: 'number',
-      field: 'term',
-    },
-    {
-      type: 'row',
-      columns: [
-        {
-          type: 'column',
-          width: 6,
-          content: [
-            {
-              label: 'Fees',
-              type: 'formField',
-              formFieldType: 'number',
-              mode: 'currency',
-              field: 'fees',
-            },
-          ],
-        },
-        {
-          type: 'column',
-          width: 6,
-          content: [
-            {
-              cssClasses: 'p-button w-100 text-center mt-4',
-              type: 'button',
-              label: 'Select',
-              cmd: () => {},
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  public loanProductsModel: FormsLib.FormGenerator = loanProductsModel;
 
   constructor(private fb: FormBuilder) {
     this.populateAssets();
     this.populateCreditors();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // When assets change, regenerate assets in the form
+    if (changes['assets']) {
+      this.populateAssets();
+    }
+    // When creditors change, regenerate assets in the form
+    if (changes['creditors']) {
+      this.populateCreditors();
+    }
+    // Change default values in the forms
+    if (changes['formDefaults'] && this.formDefaults) {
+      this.loanProductsForm.patchValue(this.formDefaults);
+    }
+  }
+
   populateAssets() {
+    if (!this.assets?.length) {
+      return;
+    }
     this.assets.forEach((asset) => {
       this.assetsFormArray.push(
         this.fb.group({
@@ -170,6 +84,9 @@ export class LoanProductsBuilderComponent {
   }
 
   populateCreditors() {
+    if (!this.creditors?.length) {
+      return;
+    }
     this.creditors.forEach((creditor) => {
       this.creditorsFormArray.push(
         this.fb.group({

@@ -4,6 +4,7 @@
       <div class="col col-12 col-md-7">
         <div class="section">
           <h2>Assets <span class="sub-title">Select for collateral</span></h2>
+          @if(assetsFormArray.controls.length) {
           <div
             *ngFor="let asset of assetsFormArray.controls; let i = index"
             class="item"
@@ -27,9 +28,13 @@
               </div>
             </div>
           </div>
+          } @else {
+          <p>No assets listed.</p>
+          }
         </div>
         <div class="section">
           <h2>Creditors <span class="sub-title">Select for payoff</span></h2>
+          @if(creditorsFormArray.controls.length) {
           <div
             *ngFor="let creditor of creditorsFormArray.controls; let i = index"
             class="item"
@@ -50,6 +55,9 @@
               <div><strong>APR:</strong> {{ creditor.value.apr }}%</div>
             </div>
           </div>
+          } @else {
+          <p>No creditors listed.</p>
+          }
         </div>
       </div>
       <div class="col col-12 col-md-5">
@@ -60,6 +68,9 @@
           [disableSubmit]="false"
         ></lib-form-generator>
       </div>
+    </div>
+    <div class="text-end">
+      <p-button type="submit" label="Add Loan Product"></p-button>
     </div>
   </form>
 </div>

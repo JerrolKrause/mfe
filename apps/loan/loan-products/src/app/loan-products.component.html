@@ -24,7 +24,10 @@
                   <lib-icons icon="money-check-alt" class="me-2"></lib-icons>
                   Loan Products
                 </ng-template>
-                <app-loan-products-builder></app-loan-products-builder>
+                <app-loan-products-builder
+                  [assets]="lpSvc.assets$ | async"
+                  [creditors]="lpSvc.creditors$ | async"
+                ></app-loan-products-builder>
               </p-tabPanel>
               <p-tabPanel>
                 <ng-template pTemplate="header">
