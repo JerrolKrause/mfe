@@ -1,6 +1,6 @@
 import { FormsLib } from '$forms';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 
 @Component({
@@ -23,7 +23,7 @@ export class LoanProductsBuilderComponent {
 
   public formOptions: FormsLib.FormOptions = {
     submitButton: {
-      label: 'Create Loan Product',
+      label: 'Add Loan Product',
       // hide: true,
     },
   };
@@ -31,52 +31,54 @@ export class LoanProductsBuilderComponent {
   assets: LoanProductModels.Asset[] = [
     {
       id: '1',
-      name: '2020 TOYOTA RAV4',
-      amount: 36000,
-      payment: 0,
-      rate: 0,
+      label: '2020 TOYOTA RAV4',
+      assetValue: 36000,
+      totalOwed: 0,
+      monthlyPayment: 0,
+      apr: 0,
       selected: false,
     },
     {
       id: '2',
-      name: '2010 CHEVROLET SILVERADO',
-      amount: 10905,
-      payment: 0,
-      rate: 0,
+      label: '2010 CHEVROLET SILVERADO',
+      assetValue: 10905,
+      totalOwed: 4000,
+      monthlyPayment: 0,
+      apr: 12,
       selected: false,
     },
   ];
   creditors: LoanProductModels.Creditor[] = [
     {
-      id: '1',
-      name: 'DISCOVER FIN SVCS',
-      amountOwed: 673,
+      id: '0',
+      label: 'DISCOVER FIN SVCS',
+      totalOwed: 673,
       monthlyPayment: 33,
-      rate: 29,
+      apr: 29,
+      selected: false,
+    },
+    {
+      id: '1',
+      label: 'BANK CREDIT CARD',
+      totalOwed: 6430,
+      monthlyPayment: 33,
+      apr: 18,
       selected: false,
     },
     {
       id: '2',
-      name: 'BANK CREDIT CARD',
-      amountOwed: 6430,
-      monthlyPayment: 33,
-      rate: 18,
+      label: 'ULTRAMAR DIAMOND S',
+      totalOwed: 1250,
+      monthlyPayment: 45,
+      apr: 21,
       selected: false,
     },
     {
       id: '3',
-      name: 'ULTRAMAR DIAMOND S',
-      amountOwed: 1250,
-      monthlyPayment: 45,
-      rate: 21,
-      selected: false,
-    },
-    {
-      id: '4',
-      name: 'EXXON/MBGA',
-      amountOwed: 345,
+      label: 'EXXON/MBGA',
+      totalOwed: 345,
       monthlyPayment: 30,
-      rate: 14,
+      apr: 14,
       selected: false,
     },
   ];
@@ -152,24 +154,33 @@ export class LoanProductsBuilderComponent {
 
   populateAssets() {
     this.assets.forEach((asset) => {
-      this.assetsFormArray.push(this.createSubProductGroup(asset));
+      this.assetsFormArray.push(
+        this.fb.group({
+          id: [asset.id],
+          label: [asset.label],
+          totalOwed: [asset.totalOwed],
+          assetValue: [asset.assetValue],
+          monthlyPayment: [asset.monthlyPayment],
+          apr: [asset.apr],
+          selected: [asset.selected],
+        })
+      );
+      asset;
     });
   }
 
   populateCreditors() {
     this.creditors.forEach((creditor) => {
-      this.creditorsFormArray.push(this.createSubProductGroup(creditor));
-    });
-  }
-
-  createSubProductGroup(subProduct: any): FormGroup {
-    return this.fb.group({
-      id: [subProduct.id],
-      name: [subProduct.name],
-      amount: [subProduct.amount],
-      payment: [subProduct.payment],
-      rate: [subProduct.rate],
-      selected: [subProduct.selected],
+      this.creditorsFormArray.push(
+        this.fb.group({
+          id: [creditor.id],
+          label: [creditor.label],
+          totalOwed: [creditor.totalOwed],
+          monthlyPayment: [creditor.monthlyPayment],
+          apr: [creditor.apr],
+          selected: [creditor.selected],
+        })
+      );
     });
   }
 

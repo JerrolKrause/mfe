@@ -47,18 +47,19 @@ export module LoanProductModels {
 
   export interface Asset {
     id: string;
-    name: string;
-    amount: number;
-    payment: number;
-    rate: number;
+    label: string;
+    assetValue: number;
+    totalOwed: number;
+    monthlyPayment: number;
+    apr: number;
     selected: boolean;
   }
   export interface Creditor {
     id: string;
-    name: string;
-    amountOwed: number;
+    label: string;
+    totalOwed: number;
     monthlyPayment: number;
-    rate: number;
+    apr: number;
     selected: boolean;
   }
 }

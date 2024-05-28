@@ -49,31 +49,86 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
   },
   {
     id: '2',
+    cashOut: 19200,
+    loanAmount: 24200,
+    monthlyPayment: 455,
+    paymentImpact: 175,
+    term: 54,
+    apr: 17.28,
+    ndi: 1211,
+    status: {
+      systemGenerated: true,
+    },
+    vehicles: ['MULTI VEHICLE'],
+    subProducts: [],
   },
   {
     id: '3',
-  },
-  {
-    id: '4',
-  },
-  {
-    id: '5',
+    cashOut: 8500,
+    loanAmount: 12100,
+    monthlyPayment: 125,
+    paymentImpact: -52,
+    term: 36,
+    apr: 22.96,
+    ndi: 980,
+    status: {},
+    vehicles: ['2010 SILVERADO'],
+    subProducts: [],
   },
 ];
 
-export const creditors = [
-  { label: 'DISCOVER FIN SVCS', totalOwed: 673, monthlyPayment: 33, apr: 29 },
-  { label: 'BANK CREDIT CARD', totalOwed: 6430, monthlyPayment: 33, apr: 18 },
+export const creditors: LoanProductModels.Creditor[] = [
   {
+    id: '0',
+    label: 'DISCOVER FIN SVCS',
+    totalOwed: 673,
+    monthlyPayment: 33,
+    apr: 29,
+    selected: false,
+  },
+  {
+    id: '1',
+    label: 'BANK CREDIT CARD',
+    totalOwed: 6430,
+    monthlyPayment: 33,
+    apr: 18,
+    selected: false,
+  },
+  {
+    id: '2',
     label: 'ULTRAMAR DIAMOND S',
     totalOwed: 1250,
     monthlyPayment: 45,
     apr: 21,
+    selected: false,
   },
-  { label: 'EXXON/MBGA', totalOwed: 345, monthlyPayment: 30, apr: 14 },
+  {
+    id: '3',
+    label: 'EXXON/MBGA',
+    totalOwed: 345,
+    monthlyPayment: 30,
+    apr: 14,
+    selected: false,
+  },
 ];
 
-export const assets = [
-  { label: '2020 TOYOTA RAV4', totalOwed: 36000 },
-  { label: '2010 CHEVROLET SILVERADO', totalOwed: 10905 },
+export const assets: LoanProductModels.Asset[] = [
+  {
+    id: '1',
+    label: '2020 TOYOTA RAV4',
+    assetValue: 36000,
+    totalOwed: 0,
+    monthlyPayment: 0,
+    apr: 0,
+    selected: false,
+  },
+  {
+    id: '2',
+    label: '2010 CHEVROLET SILVERADO',
+    assetValue: 10905,
+    totalOwed: 4000,
+    monthlyPayment: 0,
+    apr: 0,
+    selected: false,
+  },
 ];

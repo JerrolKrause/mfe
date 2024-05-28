@@ -1,45 +1,63 @@
 <div class="loan-form-container">
   <form [formGroup]="loanProductsForm" (ngSubmit)="onSubmit()">
     <div class="row">
-      <div class="col col-12 col-md-6">
+      <div class="col col-12 col-md-7">
         <div class="section">
-          <h3>Assets <span class="sub-title">Select for collateral</span></h3>
+          <h2>Assets <span class="sub-title">Select for collateral</span></h2>
           <div
             *ngFor="let asset of assetsFormArray.controls; let i = index"
             class="item"
           >
-            <p-checkbox
-              [binary]="true"
-              (onChange)="onSelectAsset(i)"
-            ></p-checkbox>
-            <span>{{ asset.value.name }}</span>
-            <span>{{ asset.value.amount | currency }}</span>
+            <div>
+              <p-checkbox
+                [binary]="true"
+                [label]="asset.value.label"
+                (onChange)="onSelectAsset(i)"
+              ></p-checkbox>
+            </div>
+            <div class="sub-text">
+              <div class="me-2"></div>
+              <strong>Valued:</strong> {{ asset.value.assetValue | currency }}
+
+              <div class="me-2" *ngIf="asset.value.totalOwed">
+                <strong>Owed:</strong> {{ asset.value.totalOwed | currency }}
+              </div>
+              <div *ngIf="asset.value.apr">
+                <strong>APR:</strong> {{ asset.value.apr }}%
+              </div>
+            </div>
           </div>
         </div>
         <div class="section">
-          <h3>Creditors <span class="sub-title">Select for payoff</span></h3>
+          <h2>Creditors <span class="sub-title">Select for payoff</span></h2>
           <div
             *ngFor="let creditor of creditorsFormArray.controls; let i = index"
             class="item"
           >
             <p-checkbox
               [binary]="true"
+              [label]="creditor.value.label"
               (onChange)="onSelectCreditor(i)"
             ></p-checkbox>
-            <span>{{ creditor.value.name }}</span>
-            <span>{{ creditor.value.amount | currency }}</span>
-            <span>{{ creditor.value.payment | currency }}</span>
-            <span>{{ creditor.value.rate }}%</span>
+            <div class="sub-text">
+              <div class="me-3">
+                <strong>Owed:</strong> {{ creditor.value.totalOwed | currency }}
+              </div>
+              <div>
+                <strong>Monthly:</strong>
+                {{ creditor.value.monthlyPayment | currency }}
+              </div>
+              <div><strong>APR:</strong> {{ creditor.value.apr }}%</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col col-12 col-md-6">
+      <div class="col col-12 col-md-5">
         <lib-form-generator
           [formModel]="loanProductsModel"
           [formGroup]="loanProductsForm"
           [options]="formOptions"
           [disableSubmit]="false"
-          (completed)="onSubmit()"
         ></lib-form-generator>
       </div>
     </div>
