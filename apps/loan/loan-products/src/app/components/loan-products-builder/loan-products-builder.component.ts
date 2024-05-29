@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { loanProductsModel } from './utils/loan-products-form-model.util';
 
@@ -24,14 +24,28 @@ export class LoanProductsBuilderComponent implements OnChanges {
 
   @Input() creditors?: LoanProductModels.Creditor[] | null = [];
 
-  @Input() formDefaults?: LoanProductModels.LoanProduct | null = null;
+  @Input() formDefaults?: any | null = {
+    cashOut: 1000,
+    loanAmount: 0,
+    monthlyPayment: 0,
+    paymentImpact: 0,
+    term: 24,
+    apr: 0,
+    payoffs: 10,
+    baseCashAdvance: 2000,
+    fees: 100,
+  };
 
   public loanProductsForm = this.fb.group({
-    cashOut: [0, Validators.required],
-    payoffs: [0, Validators.required],
-    baseCashAdvance: [0, Validators.required],
-    term: [0, Validators.required],
-    fees: [0, Validators.required],
+    cashOut: [0],
+    loanAmount: [0],
+    monthlyPayment: [0],
+    paymentImpact: [0],
+    term: [0],
+    apr: [0],
+    payoffs: [0],
+    baseCashAdvance: [0],
+    fees: [0],
     assets: this.fb.array([]),
     creditors: this.fb.array([]),
   });
@@ -50,6 +64,7 @@ export class LoanProductsBuilderComponent implements OnChanges {
   constructor(private fb: FormBuilder) {
     this.populateAssets();
     this.populateCreditors();
+    this.loanProductsForm.patchValue(this.formDefaults as any);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,7 +78,7 @@ export class LoanProductsBuilderComponent implements OnChanges {
     }
     // Change default values in the forms
     if (changes['formDefaults'] && this.formDefaults) {
-      this.loanProductsForm.patchValue(this.formDefaults);
+      this.loanProductsForm.patchValue(this.formDefaults as any);
     }
   }
 
@@ -130,7 +145,18 @@ export class LoanProductsBuilderComponent implements OnChanges {
   }
 
   onSubmit() {
-    console.log(this.loanProductsForm.value);
-    this.formSubmit.emit(this.loanProductsForm.value);
+    this.loanProductsForm.patchValue(this.loanProductsForm.value);
+    this.loanProductsForm.markAllAsTouched();
+    if (this.loanProductsForm.invalid) {
+      return;
+    }
+    this.formSubmit.emit(this.loanProductsForm.value as any);
+    this.loanProductsForm.reset();
+    if (this.formDefaults) {
+      this.loanProductsForm.patchValue(this.formDefaults as any);
+    }
+
+    this.populateAssets();
+    this.populateCreditors();
   }
 }

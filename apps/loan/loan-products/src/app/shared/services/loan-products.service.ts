@@ -21,15 +21,36 @@ export class LoanProductsService {
 
   constructor() {}
 
-  public loanProductAdd(loanProduct: LoanProductModels.LoanProductForm) {
+  /**
+   * Add a loan product to the mock API
+   * @param lp
+   */
+  public loanProductAdd(lp: LoanProductModels.LoanProductForm) {
+    console.log('loanProduct', lp);
+    // This is all stub since this will be coming from the API
+    const vehicles = lp.assets?.filter((v) => v.selected).map((v) => v.label);
+    const payoff: number = (lp as any).creditors
+      .filter((c: any) => c.selected)
+      .map((c: any) => c.totalOwed)
+      .reduce((a: number, b: number) => a + b, 0);
+    const product = {
+      ...lp,
+      apr: this.getRandomNumberInRange(14, 24),
+      monthlyPayment: this.getRandomNumberInRange(200, 400),
+      paymentImpact: this.getRandomNumberInRange(50, 300),
+      ndi: this.getRandomNumberInRange(100, 1200),
+      loanAmount: (lp.cashOut ?? 0) + payoff,
+      vehicles: (vehicles ?? [])?.length > 1 ? 'MULTI-VEHICLE' : vehicles,
+    } as LoanProductModels.LoanProduct;
+
     // Force type since we're faking an API call
     this.loanProducts$
       .pipe(take(1))
-      .subscribe((lps) =>
-        this.loanProducts$.next([
-          ...lps,
-          loanProduct as LoanProductModels.LoanProduct,
-        ])
-      );
+      .subscribe((lps) => this.loanProducts$.next([...lps, product]));
+  }
+
+  getRandomNumberInRange(min: number, max: number): number {
+    const randomNum = Math.random() * (max - min) + min;
+    return parseFloat(randomNum.toFixed(2));
   }
 }

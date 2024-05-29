@@ -26,13 +26,15 @@ export module LoanProductModels {
       customerSelected?: boolean;
       systemGenerated?: boolean;
     };
-    vehicles?: string[];
+    vehicles?: any[];
     subProducts?: SubProducts;
   }
 
-  export type LoanProductForm = Nullable<
-    Partial<LoanProductModels.LoanProduct>
-  >;
+  export type LoanProductForm = Nullable<Partial<LPForm>>;
+
+  interface LPForm extends LoanProduct {
+    assets: Asset[];
+  }
 
   interface SubProduct {
     id: string;

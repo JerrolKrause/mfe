@@ -29,7 +29,7 @@ export class LoanProductsGridComponent implements OnChanges {
     { label: 'Total<br/> Loan Amount', prop: 'loanAmount' },
     { label: 'Monthly<br/> Payment Range', prop: 'monthlyPayment' },
     { label: 'Payment<br/> Impact', prop: 'paymentImpact' },
-
+    { label: 'Term', prop: 'term' },
     { label: 'APR', prop: 'apr' },
     { label: 'NDI', prop: 'ndi' },
     { label: 'Status', prop: 'status' },

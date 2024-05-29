@@ -92,11 +92,10 @@ export class InputComponent<t>
     }
 
     // Adding validators needs to defer execution, otherwise triggers ExpressionChangedAfterItHasBeenCheckedError error
-    Promise.resolve().then(() => {
-      if ((changes['control'] || changes['validators']) && this.validators) {
-        validatorsAdd(this.formControl, this.validators);
-      }
-    });
+    // Promise.resolve().then(() => {// });
+    if ((changes['control'] || changes['validators']) && this.validators) {
+      validatorsAdd(this.formControl, this.validators);
+    }
 
     if (changes['formGroup'] || changes['control']) {
       this.inputState$ = combineLatest({

@@ -7,6 +7,9 @@ export const loanProductsModel: FormsLib.FormGenerator = [
     formFieldType: 'number',
     mode: 'currency',
     field: 'cashOut',
+    validators: {
+      required: true,
+    },
   },
   {
     label: 'Payoffs',
@@ -14,6 +17,9 @@ export const loanProductsModel: FormsLib.FormGenerator = [
     formFieldType: 'number',
     mode: 'currency',
     field: 'payoffs',
+    validators: {
+      required: true,
+    },
   },
   {
     label: 'Base Cash Advance',
@@ -21,6 +27,9 @@ export const loanProductsModel: FormsLib.FormGenerator = [
     formFieldType: 'number',
     mode: 'currency',
     field: 'baseCashAdvance',
+    validators: {
+      required: true,
+    },
   },
   {
     type: 'html',
@@ -31,6 +40,9 @@ export const loanProductsModel: FormsLib.FormGenerator = [
     type: 'formField',
     formFieldType: 'number',
     field: 'term',
+    validators: {
+      required: true,
+    },
   },
   {
     type: 'row',
