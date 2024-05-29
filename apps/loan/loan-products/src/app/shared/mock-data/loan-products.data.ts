@@ -12,6 +12,7 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
     ndi: 1325,
     status: {
       systemGenerated: true,
+      secured: true,
     },
     vehicles: ['2020 TOYOTA RAV4'],
     creditors: [],
@@ -62,6 +63,7 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
     ndi: 1211,
     status: {
       systemGenerated: true,
+      secured: true,
     },
     vehicles: ['MULTI VEHICLE'],
     creditors: [],
@@ -79,7 +81,9 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
     term: 36,
     apr: 22.96,
     ndi: 980,
-    status: {},
+    status: {
+      invalid: 'NDI threshold exceeded',
+    },
     vehicles: ['2010 CHEVROLET SILVERADO'],
     subProducts: [],
     payoffs: 674,

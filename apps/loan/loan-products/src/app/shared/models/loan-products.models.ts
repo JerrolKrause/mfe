@@ -21,11 +21,7 @@ export module LoanProductModels {
     term?: number;
     apr?: number;
     ndi?: number;
-    status?: {
-      approved?: boolean;
-      customerSelected?: boolean;
-      systemGenerated?: boolean;
-    };
+    status?: LoanProductStatus;
     vehicles?: any[];
     creditors?: Creditor[];
     subProducts?: SubProducts;
@@ -33,6 +29,15 @@ export module LoanProductModels {
     payoffs?: number;
     baseCashAdvance?: number;
     fees?: number;
+  }
+
+  export interface LoanProductStatus {
+    approved?: boolean;
+    rejected?: boolean;
+    customerSelected?: boolean;
+    systemGenerated?: boolean;
+    secured?: boolean;
+    invalid?: string;
   }
 
   export type LoanProductForm = Nullable<Partial<LPForm>>;

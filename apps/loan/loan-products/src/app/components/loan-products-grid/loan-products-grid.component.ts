@@ -11,6 +11,7 @@ import {
 import { MenuItem } from 'primeng/api';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
+import { LoanProductsService } from '../../shared/services/loan-products.service';
 @Component({
   selector: 'app-loan-products-grid',
   templateUrl: './loan-products-grid.component.html',
@@ -23,7 +24,7 @@ export class LoanProductsGridComponent implements OnChanges {
 
   public columns = [
     { label: '', prop: 'droprow' },
-    { label: 'Product', prop: 'product' },
+    { label: 'Type', prop: 'product' },
     { label: 'Vehicle', prop: 'vehicle' },
     { label: 'Cash Out', prop: 'cashOut' },
     { label: 'Total<br/> Loan Amount', prop: 'loanAmount' },
@@ -47,6 +48,8 @@ export class LoanProductsGridComponent implements OnChanges {
   }>();
   @Output() loanProductEdit = new EventEmitter<LoanProductModels.LoanProduct>();
   @Output() loanProductDelete = new EventEmitter<string>();
+  @Output() loanProductStatusChange =
+    new EventEmitter<LoanProductModels.LoanProduct>();
 
   ngOnChanges(changes: SimpleChanges): void {
     // When loan products change, generate action menus
@@ -95,16 +98,42 @@ export class LoanProductsGridComponent implements OnChanges {
         },
         {
           label: 'Approve',
-          icon: 'pi pi-check',
+          icon: 'pi pi-thumbs-up',
           command: () => {
-            console.log(lp);
+            if (!lp.id) {
+              return;
+            }
+            if (lp.status?.approved) {
+              this.lpSvc.loanProductStatusChange(lp.id, {
+                approved: false,
+                rejected: false,
+              });
+            } else {
+              this.lpSvc.loanProductStatusChange(lp.id, {
+                approved: true,
+                rejected: false,
+              });
+            }
           },
         },
         {
           label: 'Reject',
-          icon: 'pi pi-times',
+          icon: 'pi pi-thumbs-down',
           command: () => {
-            console.log(lp);
+            if (!lp.id) {
+              return;
+            }
+            if (lp.status?.rejected) {
+              this.lpSvc.loanProductStatusChange(lp.id, {
+                approved: false,
+                rejected: false,
+              });
+            } else {
+              this.lpSvc.loanProductStatusChange(lp.id, {
+                approved: false,
+                rejected: true,
+              });
+            }
           },
         },
         {
@@ -117,11 +146,18 @@ export class LoanProductsGridComponent implements OnChanges {
         {
           label: 'Delete',
           icon: 'pi pi-trash',
-          command: () => this.loanProductDelete.emit(lp.id),
+          command: () => {
+            if (!lp.id) {
+              return;
+            }
+            this.lpSvc.loanProductDelete(lp.id);
+          },
         },
       ];
     });
   }
+
+  constructor(private lpSvc: LoanProductsService) {}
 
   public collapseAll() {
     this.expandedRows = {};

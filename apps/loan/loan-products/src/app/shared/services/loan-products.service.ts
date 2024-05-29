@@ -76,6 +76,32 @@ export class LoanProductsService {
   }
 
   /**
+   * Change loan product status
+   * @param id
+   * @param status
+   */
+  public loanProductStatusChange(
+    id: string,
+    status: Partial<LoanProductModels.LoanProductStatus>
+  ) {
+    this.loanProducts$.pipe(take(1)).subscribe((lps) => {
+      const newProducts = lps.map((l) => {
+        if (l.id === id) {
+          return {
+            ...l,
+            status: {
+              ...l.status,
+              ...status,
+            },
+          };
+        }
+        return l;
+      });
+      this.loanProducts$.next(newProducts);
+    });
+  }
+
+  /**
    *
    * @param id
    */

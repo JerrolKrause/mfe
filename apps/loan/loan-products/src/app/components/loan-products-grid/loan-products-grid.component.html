@@ -48,7 +48,21 @@
             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
           />
         </td>
-        <td>Secure</td>
+        <td>
+          @if(product.status.secured) {
+          <lib-icons
+            icon="lock"
+            pTooltip="Secured"
+            tooltipPosition="bottom"
+          ></lib-icons>
+          } @else {
+          <lib-icons
+            icon="lock-open"
+            pTooltip="Unsecured"
+            tooltipPosition="bottom"
+          ></lib-icons>
+          }
+        </td>
         <td>{{ product.vehicles }}</td>
         <td>{{ product.cashOut | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
         <td>
@@ -63,7 +77,44 @@
         <td>{{ product.term }} mos</td>
         <td>{{ product.apr }}%</td>
         <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
-        <td>Status</td>
+        <td>
+          @if(product.status.systemGenerated) {
+          <lib-icons
+            icon="info-circle"
+            class="me-2 grey"
+            pTooltip="System generated quote, cannot be removed"
+            tooltipPosition="bottom"
+          ></lib-icons>
+          } @if(product.status.approved) {
+          <lib-icons
+            icon="thumbsup"
+            class="me-2 green"
+            pTooltip="This quote is approved"
+            tooltipPosition="bottom"
+          ></lib-icons>
+          } @if(product.status.rejected) {
+          <lib-icons
+            icon="thumbsdown"
+            class="me-2 orange"
+            pTooltip="This quote is rejected"
+            tooltipPosition="bottom"
+          ></lib-icons>
+          } @if(product.status.customerSelected) {
+          <lib-icons
+            icon="user"
+            class="me-2 blue"
+            pTooltip="This quote has been selected by the customer"
+            tooltipPosition="bottom"
+          ></lib-icons>
+          } @if(product.status.invalid) {
+          <lib-icons
+            icon="exclamation-triangle"
+            class="me-2 red"
+            [pTooltip]="product.status.invalid"
+            tooltipPosition="bottom"
+          ></lib-icons>
+          }
+        </td>
         <td class="text-end">
           <p-splitButton
             label="Info"
@@ -80,6 +131,7 @@
                     <td><strong>System Decision</strong></td>
                     <td>$18,500</td>
                   </tr>
+                  <!--
                   <tr>
                     <td><strong>PTI</strong></td>
                     <td>36%</td>
@@ -88,6 +140,7 @@
                     <td><strong>LTV</strong></td>
                     <td>120</td>
                   </tr>
+                  -->
                 </tbody>
               </table>
             </div>
