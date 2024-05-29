@@ -72,7 +72,6 @@ export class LoanProductsBuilderComponent implements OnChanges {
   }
 
   public reset() {
-    console.log('Reset');
     this.loanProductsForm.reset();
     this.populateAssets();
     this.populateCreditors();
@@ -178,7 +177,6 @@ export class LoanProductsBuilderComponent implements OnChanges {
     }
     this.formSubmit.emit(this.loanProductsForm.value as any);
     this.loanProductsForm.reset();
-
     this.reset();
   }
 }

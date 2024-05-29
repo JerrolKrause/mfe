@@ -1,6 +1,7 @@
 import { FormsLibModule } from '$forms';
 import { IconsModule } from '$icons';
 import { MasterpageModule } from '$masterpage';
+import { QuoteCalculatorModule } from '$quote-calculator';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-t
     CommonModule,
     IconsModule,
     RouterModule.forChild(appRoutes),
+    QuoteCalculatorModule,
     MasterpageModule,
     FormsLibModule,
     CardModule,
