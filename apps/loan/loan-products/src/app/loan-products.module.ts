@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -47,6 +48,7 @@ import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-t
     RouterModule.forChild(appRoutes),
     QuoteCalculatorModule,
     MasterpageModule,
+    InputSwitchModule,
     FormsLibModule,
     CardModule,
     TabViewModule,

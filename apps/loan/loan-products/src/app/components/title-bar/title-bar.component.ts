@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { InputSwitchChangeEvent } from 'primeng/inputswitch';
 import { map } from 'rxjs';
+import { LoanProductsService } from '../../shared/services/loan-products.service';
 
 @Component({
   selector: 'app-title-bar',
@@ -21,5 +23,12 @@ export class TitleBarComponent {
     })
   );
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private lpSvc: LoanProductsService
+  ) {}
+
+  public isCentral(e: InputSwitchChangeEvent) {
+    this.lpSvc.stateChange({ isCentral: e.checked });
+  }
 }

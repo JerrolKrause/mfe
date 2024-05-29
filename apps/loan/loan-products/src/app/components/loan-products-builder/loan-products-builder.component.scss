@@ -18,4 +18,13 @@ h2 {
 .sub-text {
   font-size: 11px;
   padding-left: 28px;
+  & > div {
+    display: inline;
+    margin-right: 0.25rem;
+  }
+}
+.additional-info {
+  margin-top: 1rem;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem;
 }

@@ -1,4 +1,4 @@
-<div id="loan-products">
+<div id="loan-products" *ngIf="{ state: lpSvc.state$ | async } as comp">
   <lib-masterpage [fullWidth]="true">
     <div>
       <app-title-bar></app-title-bar>
@@ -25,6 +25,7 @@
                 Loan Products
               </ng-template>
               <app-loan-products-builder
+                [state]="comp.state"
                 [assets]="assets$ | async"
                 [creditors]="creditors$ | async"
                 [formDefaults]="loanProductToEdit()"

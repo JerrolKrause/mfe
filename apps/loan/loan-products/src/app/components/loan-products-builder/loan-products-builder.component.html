@@ -29,11 +29,19 @@
               ></p-checkbox>
 
               <div class="sub-text">
-                <div class="me-2"></div>
-                <strong>Valued:</strong> {{ asset.value.assetValue | currency }}
-
-                <div class="me-2" *ngIf="asset.value.totalOwed">
-                  <strong>Owed:</strong> {{ asset.value.totalOwed | currency }}
+                <div>
+                  <strong>Valued:</strong>
+                  {{
+                    asset.value.assetValue
+                      | currency : 'USD' : 'symbol' : '1.0-0'
+                  }}
+                </div>
+                <div *ngIf="asset.value.totalOwed">
+                  <strong>Owed:</strong>
+                  {{
+                    asset.value.totalOwed
+                      | currency : 'USD' : 'symbol' : '1.0-0'
+                  }}
                 </div>
                 <div *ngIf="asset.value.apr">
                   <strong>APR:</strong> {{ asset.value.apr }}%
@@ -58,12 +66,19 @@
               (onChange)="onSelectCreditor(i)"
             ></p-checkbox>
             <div class="sub-text">
-              <div class="me-3">
-                <strong>Owed:</strong> {{ creditor.value.totalOwed | currency }}
+              <div>
+                <strong>Owed:</strong>
+                {{
+                  creditor.value.totalOwed
+                    | currency : 'USD' : 'symbol' : '1.0-0'
+                }}
               </div>
               <div>
                 <strong>Monthly:</strong>
-                {{ creditor.value.monthlyPayment | currency }}
+                {{
+                  creditor.value.monthlyPayment
+                    | currency : 'USD' : 'symbol' : '1.0-0'
+                }}
               </div>
               <div><strong>APR:</strong> {{ creditor.value.apr }}%</div>
             </div>
@@ -72,6 +87,30 @@
           <p>No creditors listed.</p>
           }
         </div>
+        @if(state?.isCentral) {
+        <div class="additional-info">
+          <p class="mb-0"><small>Additional Info</small></p>
+          <table class="table table-sm table-striped mb-0">
+            <tbody>
+              <tr>
+                <td><strong>NDI</strong></td>
+                <td>
+                  {{ ndi$ | async | currency : 'USD' : 'symbol' : '1.0-0' }}
+                </td>
+              </tr>
+              <tr>
+                <td><strong>PTI</strong></td>
+                <td>36%</td>
+              </tr>
+              <tr>
+                <td><strong>LTV</strong></td>
+                <td>120</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        }
       </div>
       <div class="col col-12 col-md-5">
         <lib-form-generator

@@ -1,4 +1,13 @@
-.title {
-  font-size: 24px;
-  margin-bottom: 0.5rem;
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .title {
+    font-size: 24px;
+    margin-bottom: 0.5rem;
+  }
+  .align {
+    display: flex;
+    align-items: center;
+  }
 }

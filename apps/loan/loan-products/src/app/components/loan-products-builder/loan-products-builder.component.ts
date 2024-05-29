@@ -11,6 +11,7 @@ import {
 import { FormArray, FormBuilder } from '@angular/forms';
 import { debounceTime, map, startWith } from 'rxjs';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
+import { LoanProductsState } from '../../shared/services/loan-products.service';
 import { loanProductsModel } from './utils/loan-products-form-model.util';
 
 @Component({
@@ -20,6 +21,7 @@ import { loanProductsModel } from './utils/loan-products-form-model.util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoanProductsBuilderComponent implements OnChanges {
+  @Input() state?: LoanProductsState | null = null;
   @Input() assets?: LoanProductModels.Asset[] | null = [];
   @Input() creditors?: LoanProductModels.Creditor[] | null = [];
   @Input() formDefaults?: any | null = {
@@ -62,6 +64,11 @@ export class LoanProductsBuilderComponent implements OnChanges {
       hide: true,
     },
   };
+
+  public ndi$ = this.loanProductsForm.valueChanges.pipe(
+    startWith(this.loanProductsForm.value),
+    map((form) => 4000 - (form.cashOut ?? 0))
+  );
 
   public loanProductsModel: FormsLib.FormGenerator = loanProductsModel;
 

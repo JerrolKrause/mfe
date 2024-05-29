@@ -7,8 +7,16 @@ import {
 } from '../mock-data/loan-products.data';
 import { LoanProductModels } from '../models/loan-products.models';
 
+export interface LoanProductsState {
+  isCentral: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class LoanProductsService {
+  public state$ = new BehaviorSubject<LoanProductsState>({
+    isCentral: false,
+  });
+
   public loanProducts$ = new BehaviorSubject<LoanProductModels.LoanProduct[]>(
     loanProducts
   );
@@ -20,6 +28,16 @@ export class LoanProductsService {
   );
 
   constructor() {}
+
+  /**
+   * Change state of the app
+   * @param stateNew
+   */
+  public stateChange(stateNew: Partial<LoanProductsState>) {
+    this.state$
+      .pipe(take(1))
+      .subscribe((stateOld) => this.state$.next({ ...stateOld, ...stateNew }));
+  }
 
   /**
    * Add a loan product to the mock API
