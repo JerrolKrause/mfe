@@ -9,6 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
+import { debounceTime, map, startWith } from 'rxjs';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { loanProductsModel } from './utils/loan-products-form-model.util';
 
@@ -16,15 +17,13 @@ import { loanProductsModel } from './utils/loan-products-form-model.util';
   selector: 'app-loan-products-builder',
   templateUrl: './loan-products-builder.component.html',
   styleUrl: './loan-products-builder.component.scss',
-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoanProductsBuilderComponent implements OnChanges {
   @Input() assets?: LoanProductModels.Asset[] | null = [];
-
   @Input() creditors?: LoanProductModels.Creditor[] | null = [];
-
   @Input() formDefaults?: any | null = {
+    id: '',
     cashOut: 1000,
     loanAmount: 0,
     monthlyPayment: 0,
@@ -37,18 +36,25 @@ export class LoanProductsBuilderComponent implements OnChanges {
   };
 
   public loanProductsForm = this.fb.group({
-    cashOut: [0],
-    loanAmount: [0],
-    monthlyPayment: [0],
-    paymentImpact: [0],
-    term: [0],
-    apr: [0],
-    payoffs: [0],
-    baseCashAdvance: [0],
-    fees: [0],
+    id: '',
+    cashOut: 0,
+    loanAmount: 0,
+    monthlyPayment: 0,
+    paymentImpact: 0,
+    term: 0,
+    apr: 0,
+    payoffs: 0,
+    baseCashAdvance: 0,
+    fees: 0,
     assets: this.fb.array([]),
     creditors: this.fb.array([]),
   });
+
+  public isEditing$ = this.loanProductsForm.valueChanges.pipe(
+    startWith(this.loanProductsForm.value),
+    debounceTime(1),
+    map((lp) => !!lp.id)
+  );
 
   public formOptions: FormsLib.FormOptions = {
     submitButton: {
@@ -62,9 +68,14 @@ export class LoanProductsBuilderComponent implements OnChanges {
   @Output() formSubmit = new EventEmitter<LoanProductModels.LoanProductForm>();
 
   constructor(private fb: FormBuilder) {
+    this.reset();
+  }
+
+  public reset() {
+    console.log('Reset');
+    this.loanProductsForm.reset();
     this.populateAssets();
     this.populateCreditors();
-    this.loanProductsForm.patchValue(this.formDefaults as any);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -78,7 +89,12 @@ export class LoanProductsBuilderComponent implements OnChanges {
     }
     // Change default values in the forms
     if (changes['formDefaults'] && this.formDefaults) {
-      this.loanProductsForm.patchValue(this.formDefaults as any);
+      this.loanProductsForm.reset();
+      if (this.formDefaults) {
+        this.loanProductsForm.patchValue(this.formDefaults as any);
+      }
+      this.populateAssets();
+      this.populateCreditors();
     }
   }
 
@@ -89,7 +105,16 @@ export class LoanProductsBuilderComponent implements OnChanges {
     if (!this.assets?.length) {
       return;
     }
+
     this.assets.forEach((asset) => {
+      let isSelected = false;
+      if (
+        asset.selected ||
+        this.formDefaults?.vehicles?.includes('MULTI VEHICLE') ||
+        this.formDefaults?.vehicles?.includes(asset.label)
+      ) {
+        isSelected = true;
+      }
       this.assetsFormArray.push(
         this.fb.group({
           id: [asset.id],
@@ -98,7 +123,7 @@ export class LoanProductsBuilderComponent implements OnChanges {
           assetValue: [asset.assetValue],
           monthlyPayment: [asset.monthlyPayment],
           apr: [asset.apr],
-          selected: [asset.selected],
+          selected: [isSelected],
         })
       );
       asset;
@@ -112,6 +137,7 @@ export class LoanProductsBuilderComponent implements OnChanges {
     if (!this.creditors?.length) {
       return;
     }
+
     this.creditors.forEach((creditor) => {
       this.creditorsFormArray.push(
         this.fb.group({
@@ -152,11 +178,7 @@ export class LoanProductsBuilderComponent implements OnChanges {
     }
     this.formSubmit.emit(this.loanProductsForm.value as any);
     this.loanProductsForm.reset();
-    if (this.formDefaults) {
-      this.loanProductsForm.patchValue(this.formDefaults as any);
-    }
 
-    this.populateAssets();
-    this.populateCreditors();
+    this.reset();
   }
 }

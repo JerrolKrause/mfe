@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { map, mergeMap, of } from 'rxjs';
@@ -33,6 +33,8 @@ export class LoanProductsComponent {
     mergeMap((loanId) => (loanId === '533854' ? this.lpSvc.creditors$ : of([])))
   );
 
+  public loanProductToEdit = signal<null | LoanProductModels.LoanProduct>(null);
+
   constructor(
     public lpSvc: LoanProductsService,
     public dialogService: DialogService,
@@ -66,5 +68,9 @@ export class LoanProductsComponent {
       closable: true,
       dismissableMask: true,
     });
+  }
+
+  public loanProductEdit(lp: LoanProductModels.LoanProduct) {
+    this.loanProductToEdit.update(() => lp);
   }
 }

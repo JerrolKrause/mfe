@@ -12,6 +12,8 @@
             <app-loan-products-grid
               [loanProducts]="loanProducts$ | async"
               (modalOpen)="modalOpen($event)"
+              (loanProductEdit)="loanProductEdit($event)"
+              (loanProductDelete)="lpSvc.loanProductDelete($event)"
             ></app-loan-products-grid>
           </p-card>
         </div>
@@ -25,6 +27,7 @@
               <app-loan-products-builder
                 [assets]="assets$ | async"
                 [creditors]="creditors$ | async"
+                [formDefaults]="loanProductToEdit()"
                 (formSubmit)="lpSvc.loanProductAdd($event)"
               ></app-loan-products-builder>
             </p-tabPanel>

@@ -27,7 +27,12 @@ export module LoanProductModels {
       systemGenerated?: boolean;
     };
     vehicles?: any[];
+    creditors?: Creditor[];
     subProducts?: SubProducts;
+    // Stub properties for form
+    payoffs?: number;
+    baseCashAdvance?: number;
+    fees?: number;
   }
 
   export type LoanProductForm = Nullable<Partial<LPForm>>;

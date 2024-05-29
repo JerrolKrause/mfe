@@ -45,6 +45,8 @@ export class LoanProductsGridComponent implements OnChanges {
     type: LoanProductModels.SubProductType;
     productId: string;
   }>();
+  @Output() loanProductEdit = new EventEmitter<LoanProductModels.LoanProduct>();
+  @Output() loanProductDelete = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     // When loan products change, generate action menus
@@ -85,6 +87,7 @@ export class LoanProductsGridComponent implements OnChanges {
         {
           label: 'Edit',
           icon: 'pi pi-pencil',
+          command: () => this.loanProductEdit.emit(lp),
         },
         {
           label: 'Escalate',
@@ -114,9 +117,7 @@ export class LoanProductsGridComponent implements OnChanges {
         {
           label: 'Delete',
           icon: 'pi pi-trash',
-          command: () => {
-            console.log(lp);
-          },
+          command: () => this.loanProductDelete.emit(lp.id),
         },
       ];
     });

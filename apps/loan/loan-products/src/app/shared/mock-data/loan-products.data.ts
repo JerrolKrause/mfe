@@ -13,7 +13,11 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
     status: {
       systemGenerated: true,
     },
-    vehicles: ['2020 RAV4'],
+    vehicles: ['2020 TOYOTA RAV4'],
+    creditors: [],
+    payoffs: 1288,
+    baseCashAdvance: 16000,
+    fees: 500,
     subProducts: [
       {
         id: '0',
@@ -60,7 +64,11 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
       systemGenerated: true,
     },
     vehicles: ['MULTI VEHICLE'],
+    creditors: [],
     subProducts: [],
+    payoffs: 6588,
+    baseCashAdvance: 12110,
+    fees: 254,
   },
   {
     id: '3',
@@ -72,8 +80,11 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
     apr: 22.96,
     ndi: 980,
     status: {},
-    vehicles: ['2010 SILVERADO'],
+    vehicles: ['2010 CHEVROLET SILVERADO'],
     subProducts: [],
+    payoffs: 674,
+    baseCashAdvance: 2300,
+    fees: 97,
   },
 ];
 
