@@ -47,7 +47,7 @@ export class LoanProductsService {
     if (lp.id) {
       this.loanProducts$.pipe(take(1)).subscribe((lps) => {
         const newProducts = lps.map((l) =>
-          l.id === lp.id ? lp : l
+          l.id === lp.id ? { ...l, ...lp } : l
         ) as LoanProductModels.LoanProduct[];
         this.loanProducts$.next(newProducts);
       });
@@ -60,12 +60,14 @@ export class LoanProductsService {
         .reduce((a: number, b: number) => a + b, 0);
       const product = {
         ...lp,
+        id: String(this.getRandomNumberInRange(100, 1000000)),
         apr: this.getRandomNumberInRange(14, 24),
         monthlyPayment: this.getRandomNumberInRange(200, 400),
         paymentImpact: this.getRandomNumberInRange(50, 300),
         ndi: this.getRandomNumberInRange(100, 1200),
         loanAmount: (lp.cashOut ?? 0) + payoff,
         vehicles: (vehicles ?? [])?.length > 1 ? 'MULTI-VEHICLE' : vehicles,
+        status: {},
       } as LoanProductModels.LoanProduct;
 
       // Force type since we're faking an API call

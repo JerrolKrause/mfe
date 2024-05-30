@@ -101,7 +101,9 @@ export class LoanProductsBuilderComponent implements OnChanges {
       }
       this.populateAssets();
       this.populateCreditors();
+      console.log(this.loanProductsForm.value);
     }
+    console.log(this.loanProductsForm.value);
   }
 
   populateAssets() {

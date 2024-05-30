@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  signal,
 } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
@@ -42,6 +43,8 @@ export class LoanProductsGridComponent implements OnChanges {
   /** Split button menu actions for loan products */
   public actions: MenuItem[][] = this.actionsGenerate(this.loanProducts);
 
+  public monthlyPaymentRange = signal<number[]>([]);
+
   @Output() modalOpen = new EventEmitter<{
     type: LoanProductModels.SubProductType;
     productId: string;
@@ -55,7 +58,19 @@ export class LoanProductsGridComponent implements OnChanges {
     // When loan products change, generate action menus
     if (this.loanProducts && changes['loanProducts']) {
       this.actions = this.actionsGenerate(this.loanProducts);
+      this.monthlyPaymentRange.set(
+        this.generateMonthlyRange(this.loanProducts)
+      );
     }
+  }
+
+  generateMonthlyRange(loanProducts?: LoanProductModels.LoanProduct[] | null) {
+    if (!loanProducts) {
+      return [];
+    }
+    return loanProducts.map((lp) => {
+      return (lp.subProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0);
+    });
   }
 
   expandedRows: Record<string, boolean> = {};
@@ -164,10 +179,10 @@ export class LoanProductsGridComponent implements OnChanges {
   }
 
   public onRowExpand(event: TableRowExpandEvent) {
-    console.log('onRowExpand', event);
+    // console.log('onRowExpand', event);
   }
 
   public onRowCollapse(event: TableRowCollapseEvent) {
-    console.log('onRowCollapse', event);
+    // console.log('onRowCollapse', event);
   }
 }

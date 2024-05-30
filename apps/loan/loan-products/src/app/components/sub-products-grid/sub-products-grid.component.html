@@ -13,7 +13,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
     <tr>
-      <td>{{ product.type }}</td>
+      <td>{{ !product.type ? 'Credit' : 'Non-Credit' }}</td>
       <td>{{ product.label }}</td>
       <td>{{ product.insured }}</td>
       <td>{{ product.term }} mo</td>

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   IconDefinition,
+  faArrowDown,
+  faArrowUp,
   faBars,
   faBullseye,
   faCar,
@@ -42,6 +44,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export type AvailableIcons =
+  | 'arrow-up'
+  | 'arrow-down'
   | 'money'
   | 'search'
   | 'weighthanging'
@@ -92,6 +96,8 @@ export class IconsComponent {
 
   /** Map icon key to actual icon */
   public iconMap: { [key in AvailableIcons]: IconDefinition } = {
+    'arrow-up': faArrowUp,
+    'arrow-down': faArrowDown,
     money: faMoneyBill1Wave,
     search: faSearch,
     weighthanging: faWeightHanging,

@@ -36,6 +36,18 @@
               <ng-template pTemplate="header">
                 <lib-icons icon="eye" class="me-2"></lib-icons> Customer View
               </ng-template>
+              <div class="online-status">
+                <div><span class="circle me-2"></span>Customer Is Online</div>
+                <div class="align">
+                  @if(isOnline()) { Online: } @else { Offline: }
+
+                  <p-inputSwitch
+                    class="ms-2"
+                    (onChange)="isOnline.set($event.checked)"
+                  />
+                </div>
+              </div>
+
               <lib-quote-form></lib-quote-form>
             </p-tabPanel>
           </p-tabView>

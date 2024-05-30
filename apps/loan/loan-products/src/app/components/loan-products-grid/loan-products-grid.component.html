@@ -49,7 +49,7 @@
           />
         </td>
         <td>
-          @if(product.status.secured) {
+          @if(product.status?.secured) {
           <lib-icons
             icon="lock"
             pTooltip="Secured"
@@ -63,16 +63,42 @@
           ></lib-icons>
           }
         </td>
-        <td>{{ product.vehicles }}</td>
+        <td>{{ product.vehicles.length ? product.vehicles : 'None' }}</td>
         <td>{{ product.cashOut | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
         <td>
           {{ product.loanAmount | currency : 'USD' : 'symbol' : '1.0-2' }}
         </td>
         <td>
           {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
+          @if(monthlyPaymentRange()[rowIndex]) { -
+          {{
+            product.monthlyPayment + monthlyPaymentRange()[rowIndex]
+              | currency : 'USD' : 'symbol' : '1.0-2'
+          }}
+          }
         </td>
         <td>
           {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
+          @if( product.paymentImpact > 0) {
+          <lib-icons
+            icon="smile"
+            [pTooltip]="
+              'This loan product will save the customer $' +
+              product.paymentImpact +
+              ' per month'
+            "
+            tooltipPosition="bottom"
+          ></lib-icons>
+          } @else {
+          <lib-icons
+            icon="arrow-down"
+            [pTooltip]="
+              'Actual cost to the customer will be $' +
+              -product.paymentImpact +
+              ' per month based on selected payoffs'
+            "
+          ></lib-icons>
+          }
         </td>
         <td>{{ product.term }} mos</td>
         <td>{{ product.apr }}%</td>

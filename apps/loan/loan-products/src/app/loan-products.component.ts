@@ -35,6 +35,8 @@ export class LoanProductsComponent {
 
   public loanProductToEdit = signal<null | LoanProductModels.LoanProduct>(null);
 
+  public isOnline = signal(false);
+
   constructor(
     public lpSvc: LoanProductsService,
     public dialogService: DialogService,
