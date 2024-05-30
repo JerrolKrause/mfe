@@ -1,18 +1,42 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
+import { applicationRoutes } from '$shared';
+import { Component, OnInit, ViewEncapsulation, signal } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  filter,
+  map,
+  startWith,
+  take,
+} from 'rxjs';
 @Component({
   selector: 'lib-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   public loanId$ = this.route.params.pipe(
+    debounceTime(100),
     map((params) => params['loanId'] as string | null)
   );
 
-  public applications = [
+  public routeCurrent$ = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    debounceTime(1),
+    startWith(null),
+    map(() => {
+      // Get the URL after the domain
+      const url = this.router.url;
+      // Split the URL into segments
+      const segments = url.split('/');
+      // Return the last segment
+      return segments[segments.length - 1];
+    })
+  );
+
+  public applications$ = new BehaviorSubject([
     {
       loanID: '533854',
       borrowerNameFirst: 'Colleen',
@@ -23,29 +47,31 @@ export class SidebarComponent {
       borrowerNameFirst: 'Smith',
       borrowerNameLast: 'John',
     },
-  ];
+  ]);
 
-  navItems = [
-    { label: 'Applicant Info', path: 'applicant-info', completed: true },
-    { label: 'Assets', path: 'assets', completed: true },
-    { label: 'Income', path: 'income', completed: true },
-    { label: 'Expenses', path: 'expenses', completed: true },
-    {
-      label: 'Non-Credit Products',
-      path: 'non-credit-products',
-      completed: false,
-    },
-    { label: 'Loan Products', path: 'loan-products', completed: false },
-    { label: 'Notes Review', path: 'notes-review', completed: false },
-    { label: 'Verifications', path: 'verifications', completed: true },
-    { label: 'Decision', path: 'decision', completed: false },
-    { label: 'Pre-Closing', path: 'pre-closing', completed: true },
-    {
-      label: 'eSignature Closing',
-      path: 'esignature-closing',
-      completed: false,
-    },
-  ];
+  public openTabs = signal<number[]>([]);
 
-  constructor(private route: ActivatedRoute) {}
+  navItems = applicationRoutes;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit(): void {
+    combineLatest([
+      this.applications$,
+      this.route.params.pipe(
+        map((params) => params['loanId'] as string | null)
+      ),
+    ])
+      .pipe(
+        map(([apps, loanId]) => {
+          if (loanId === null) {
+            return [];
+          }
+          const index = apps.findIndex((app) => app.loanID === loanId);
+          return index !== -1 ? [index] : [];
+        }),
+        take(1)
+      )
+      .subscribe((index) => this.openTabs.set(index));
+  }
 }

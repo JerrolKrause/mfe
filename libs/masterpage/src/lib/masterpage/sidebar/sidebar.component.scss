@@ -57,12 +57,17 @@
     background: transparent;
     border: transparent;
   }
+
   .sidebar-link {
-    color: #fff;
+    display: block;
     cursor: pointer;
-    font-size: 12px;
+    padding: 1px 1rem;
+    &:hover {
+      background: var(--color-bg-lt);
+    }
     &.sidebar-link-active {
       background-color: var(--color-interact);
+      color: #fff;
     }
   }
 }

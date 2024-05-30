@@ -311,7 +311,7 @@ $inputSwitchHandleOnBgColor: #cccccc;
 $inputSwitchSliderOnFocusBgColor: $primaryDarkerColor;
 
 //panel common (e.g. accordion, panel, tabview)
-$panelHeaderBorder: 0; // 1px solid #c8c8c8;
+$panelHeaderBorder: 1px solid transparent; // 1px solid #c8c8c8;
 $panelHeaderBgColor: transparent; //#f4f4f4;
 $panelHeaderTextColor: #333333;
 $panelHeaderIconColor: #848484;
