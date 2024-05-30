@@ -3,8 +3,8 @@
     <div>
       <app-title-bar></app-title-bar>
       <div class="row">
-        <div class="col col-12 col-md-8">
-          <p-card styleClass="p-2">
+        <div class="col col-12 col-md-8 mb-3">
+          <p-card styleClass="p-2 mb-3">
             <h1>
               <lib-icons icon="money-check-alt"></lib-icons>
               Loan Products
@@ -16,8 +16,11 @@
               (loanProductDelete)="lpSvc.loanProductDelete($event)"
             ></app-loan-products-grid>
           </p-card>
+          <p-card styleClass="p-2">
+            <h2>Modify All Loan Products</h2>
+          </p-card>
         </div>
-        <div class="col col-12 col-md-4">
+        <div class="col col-12 col-md-4 mb-3">
           <p-tabView>
             <p-tabPanel>
               <ng-template pTemplate="header">

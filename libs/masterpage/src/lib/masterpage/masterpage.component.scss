@@ -10,35 +10,40 @@ footer {
 }
 
 .mp-layout {
+  padding: 1rem;
   .left-col {
-    position: fixed;
-    top: 53px;
-    left: 0;
-    bottom: 0;
-    width: $widthSm;
-    background: var(--color-bg-dark);
-    color: #fff;
-    padding-top: 3rem;
-    padding-right: 0.25rem;
+    display: none;
   }
-  .main-col {
-    padding-left: calc($pad + $widthSm);
-    padding-right: $pad;
-  }
-  &.left-col-open {
+  @media (min-width: 768px) {
+    padding: 0rem;
     .left-col {
-      width: $width;
-      padding: $pad;
+      position: fixed;
+      top: 53px;
+      left: 0;
+      bottom: 0;
+      width: $widthSm;
+      background: var(--color-bg-dark);
+      color: #fff;
       padding-top: 3rem;
+      padding-right: 0.25rem;
+      display: block;
     }
     .main-col {
-      margin-left: calc($width + $pad);
-      flex: 1;
-      padding-left: calc($pad - $widthSm);
+      padding-left: calc($pad + $widthSm);
+      padding-right: $pad;
     }
-  }
-
-  @media (min-width: 768px) {
+    &.left-col-open {
+      .left-col {
+        width: $width;
+        padding: $pad;
+        padding-top: 3rem;
+      }
+      .main-col {
+        margin-left: calc($width + $pad);
+        flex: 1;
+        padding-left: calc($pad - $widthSm);
+      }
+    }
     .lp-layout {
       display: flex;
       padding-right: 1rem;
