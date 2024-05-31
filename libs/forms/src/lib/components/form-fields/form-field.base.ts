@@ -7,11 +7,14 @@ import {
   Optional,
   Output,
   Self,
+  forwardRef,
 } from '@angular/core';
 import {
   AbstractControl,
+  ControlValueAccessor,
   FormControl,
   FormGroup,
+  NG_VALUE_ACCESSOR,
   NgControl,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -21,8 +24,17 @@ import { FormsLib } from '../../forms.model';
   selector: 'lib-form-field',
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => BaseFormFieldComponent),
+      multi: true,
+    },
+  ],
 })
-export class BaseFormFieldComponent<t> implements OnDestroy {
+export class BaseFormFieldComponent<t>
+  implements ControlValueAccessor, OnDestroy
+{
   /** Standard html placeholder text */
   @Input() placeholder?: string | null = null;
   /** Floating label that appears in front of the content and moves above it when focused */
@@ -117,6 +129,7 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
     private ngControl?: NgControl
   ) {
     if (this.ngControl?.control) {
+      this.ngControl.valueAccessor = this;
       this.control = this.ngControl.control;
       this.formGroup = this.control?.root as FormGroup;
     }

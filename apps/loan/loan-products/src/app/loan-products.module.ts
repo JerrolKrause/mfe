@@ -4,7 +4,7 @@ import { MasterpageModule } from '$masterpage';
 import { QuoteCalculatorModule } from '$quote-calculator';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideClientHydration } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -20,6 +20,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { CreditProductsBuilderComponent } from './components/credit-products-builder/credit-products-builder.component';
 import { LoanProductsBuilderComponent } from './components/loan-products-builder/loan-products-builder.component';
 import { LoanProductsGridComponent } from './components/loan-products-grid/loan-products-grid.component';
+import { ModifyLoanProductsComponent } from './components/modify-loan-products/modify-loan-products.component';
 import { NonCreditProductsBuilderComponent } from './components/non-credit-products-builder/non-credit-products-builder.component';
 import { SubProductsGridComponent } from './components/sub-products-grid/sub-products-grid.component';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
@@ -41,6 +42,7 @@ import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-t
     NoContentComponent,
     SelectLoanIdComponent,
     SelectLoanTaskComponent,
+    ModifyLoanProductsComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-t
     MasterpageModule,
     InputSwitchModule,
     FormsLibModule,
+    FormsModule,
     CardModule,
     TabViewModule,
     CheckboxModule,

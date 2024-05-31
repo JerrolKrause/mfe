@@ -122,4 +122,12 @@ export class LoanProductsService {
     const randomNum = Math.random() * (max - min) + min;
     return parseFloat(randomNum.toFixed(2));
   }
+
+  public modifyAll(lp: Partial<LoanProductModels.LoanProduct>) {
+    this.loanProducts$
+      .pipe(take(1))
+      .subscribe((lps) =>
+        this.loanProducts$.next(lps.map((l) => ({ ...l, ...lp })))
+      );
+  }
 }

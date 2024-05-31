@@ -1,0 +1,13 @@
+<h2>Modify All Loan Products</h2>
+<p>Modify Loan Amount</p>
+<form [formGroup]="modifyForm">
+  <div class="d-flex">
+    <lib-number
+      mode="currency"
+      [control]="modifyForm.get('loanAmount')"
+      placeholder="$1,000"
+      class="me-2"
+    ></lib-number>
+    <p-button label="Update All" (click)="updateLoanAmount()"></p-button>
+  </div>
+</form>
