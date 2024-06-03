@@ -4,18 +4,16 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Optional,
   Output,
-  Self,
   forwardRef,
 } from '@angular/core';
 import {
   AbstractControl,
+  ControlContainer,
   ControlValueAccessor,
   FormControl,
   FormGroup,
   NG_VALUE_ACCESSOR,
-  NgControl,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FormsLib } from '../../forms.model';
@@ -35,6 +33,8 @@ import { FormsLib } from '../../forms.model';
 export class BaseFormFieldComponent<t>
   implements ControlValueAccessor, OnDestroy
 {
+  /** Accept form control name so that the form control can be extracted from the form group */
+  @Input() formControlName: string | null = null;
   /** Standard html placeholder text */
   @Input() placeholder?: string | null = null;
   /** Floating label that appears in front of the content and moves above it when focused */
@@ -123,16 +123,19 @@ export class BaseFormFieldComponent<t>
   /** Manage subs used by this class and it's children */
   protected subs: Subscription[] = [];
 
-  constructor(
-    @Self()
-    @Optional()
-    private ngControl?: NgControl
-  ) {
-    if (this.ngControl?.control) {
-      this.ngControl.valueAccessor = this;
-      this.control = this.ngControl.control;
-      this.formGroup = this.control?.root as FormGroup;
-    }
+  constructor(private controlContainer: ControlContainer) {
+    setTimeout(() => {
+      // console.log(this.formControlName, this.controlContainer.control);
+      if (
+        this.formControlName &&
+        this.controlContainer.control?.get(this.formControlName)
+      ) {
+        console.warn(
+          this.formControlName,
+          this.controlContainer.control?.get(this.formControlName)
+        );
+      }
+    }, 100);
   }
 
   /**

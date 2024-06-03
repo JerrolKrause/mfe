@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
@@ -11,8 +12,8 @@ export class EmailComponent
   extends BaseFormFieldComponent<string>
   implements OnInit
 {
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}

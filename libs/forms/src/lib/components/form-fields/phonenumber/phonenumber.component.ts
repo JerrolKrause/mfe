@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { take, timer } from 'rxjs';
 import { BaseFormFieldComponent } from '../form-field.base';
 
@@ -21,8 +22,8 @@ export class PhonenumberComponent
 {
   /** Should form controls with input masks return the raw data or the masksed/formatted data? */
   @Input() unmask = true;
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}

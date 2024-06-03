@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ControlContainer, FormGroup } from '@angular/forms';
 import {
   BehaviorSubject,
   Observable,
@@ -66,8 +66,8 @@ export class InputComponent<t>
   /** DOM element for showing required status */
   public requiredTag = `<sup class="required">*</sup>`;
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}

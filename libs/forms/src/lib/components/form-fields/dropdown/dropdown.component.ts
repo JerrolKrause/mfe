@@ -6,6 +6,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { FormsLib } from '../../../forms.model';
 import { BaseFormFieldComponent } from '../form-field.base';
 
@@ -50,8 +51,8 @@ export class DropdownComponent
   // Add in empty option if selected
   public optionsUpdated?: FormsLib.FieldOptions[] | null = null;
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}

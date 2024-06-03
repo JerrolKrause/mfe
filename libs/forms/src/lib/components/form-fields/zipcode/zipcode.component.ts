@@ -8,6 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BaseFormFieldComponent } from '../form-field.base';
 
@@ -29,8 +30,8 @@ export class ZipcodeComponent
 
   @ViewChild('input', { static: true }) input!: ElementRef;
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}

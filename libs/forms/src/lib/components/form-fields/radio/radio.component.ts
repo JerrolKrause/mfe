@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { FormsLib } from '../../../forms.model';
 import { BaseFormFieldComponent } from '../form-field.base';
 
@@ -28,8 +29,8 @@ export class RadioComponent
   /** Specifies the property of the option to use as the value that will be bound to the form control */
   @Input() optionValue = 'value';
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {

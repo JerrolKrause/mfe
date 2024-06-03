@@ -236,7 +236,6 @@ export class LoanProductBuilderComponent implements OnInit {
 
   public generateProducts() {
     const frmData = this.loanProductsForm.value;
-    console.log(frmData);
     let vehicle = 'Unsecured';
     let productType = 3;
     if (frmData.assets?.[0] && frmData.assets?.[1]) {
@@ -324,7 +323,6 @@ export class LoanProductBuilderComponent implements OnInit {
    */
   public toggleFormArray(array: string, i: number) {
     const control = this.loanProductsForm?.get(array)?.get(i.toString());
-    console.log(array, i, control);
     control?.patchValue(!control.value);
   }
 

@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { SelectButtonOptionClickEvent } from 'primeng/selectbutton';
 import { FormsLib } from '../../../forms.model';
 import { BaseFormFieldComponent } from '../form-field.base';
@@ -36,8 +37,8 @@ export class SelectButtonComponent
   // Store the previous value of the user selection, used to unselect
   private lastValue: string | null = '';
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}
