@@ -44,10 +44,7 @@ export class LoanProductsComponent {
     public dialogService: DialogService,
     public storage: AppStorageService,
     private route: ActivatedRoute
-  ) {
-    this.storage.customerSelection$.subscribe(console.warn);
-    // this.storage.localStorage.storageEvent$.subscribe(console.log);
-  }
+  ) {}
 
   /**
    * Open a subproduct modal
