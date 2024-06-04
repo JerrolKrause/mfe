@@ -75,4 +75,15 @@ export class LoanProductsComponent {
   public loanProductEdit(lp: LoanProductModels.LoanProduct) {
     this.loanProductToEdit.update(() => lp);
   }
+
+  /**
+   * When the tab index changes
+   * @param i
+   */
+  public activeIndexChange(i: number) {
+    // If the second tab is highlighted, remove the hasCustomerUpdate flag
+    if (i === 1) {
+      this.lpSvc.stateChange({ hasCustomerUpdate: false });
+    }
+  }
 }

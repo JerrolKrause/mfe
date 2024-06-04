@@ -9,12 +9,14 @@ import { LoanProductModels } from '../models/loan-products.models';
 
 export interface LoanProductsState {
   isCentral: boolean;
+  hasCustomerUpdate: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class LoanProductsService {
   public state$ = new BehaviorSubject<LoanProductsState>({
     isCentral: false,
+    hasCustomerUpdate: false,
   });
 
   public loanProducts$ = new BehaviorSubject<LoanProductModels.LoanProduct[]>(

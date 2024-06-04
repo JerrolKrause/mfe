@@ -21,7 +21,7 @@
           </p-card>
         </div>
         <div class="col col-12 col-md-4 mb-3">
-          <p-tabView>
+          <p-tabView (activeIndexChange)="activeIndexChange($event)">
             <p-tabPanel>
               <ng-template pTemplate="header">
                 <lib-icons icon="money-check-alt" class="me-2"></lib-icons>
@@ -38,6 +38,9 @@
             <p-tabPanel>
               <ng-template pTemplate="header">
                 <lib-icons icon="eye" class="me-2"></lib-icons> Customer View
+                @if(comp.state?.hasCustomerUpdate) {
+                <span class="circle updated"></span>
+                }
               </ng-template>
               <div class="online-status">
                 <div><span class="circle me-2"></span>Customer Is Online</div>

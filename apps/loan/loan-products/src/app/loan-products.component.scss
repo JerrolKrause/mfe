@@ -15,6 +15,15 @@
   background: green;
   margin-right: 0.5rem;
   animation: pulse 1.5s infinite ease-in-out; /* Apply the pulse animation */
+  &.updated {
+    animation: none;
+    background: red;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-left: 5px;
+    position: relative;
+    top: -3px;
+  }
 }
 @keyframes pulse {
   0%,
