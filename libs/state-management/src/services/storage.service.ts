@@ -4,11 +4,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Inject } from '@angular/core';
 import {
+  BehaviorSubject,
   distinctUntilChanged,
   filter,
   fromEvent,
   identity,
   map,
+  merge,
   Observable,
   of,
   startWith,
@@ -16,8 +18,7 @@ import {
 
 /**
  * @todo
- * - Add options support for a comparator function for distinctUntilChanged so it works with non-primatives
- * - Add support for observable storage subs to update on the tab that initiated the change, by default only works on non origin tabs
+ * - Add options support for a comparator function for distinctUntilChanged so it works with non-primitives
  */
 
 module Storage {
@@ -35,6 +36,8 @@ module Storage {
   export interface Options$ extends Options {
     /** By default only distinct emissions are allowed through the observable. This allows all updates through. Only works with primitives */
     disableDistinct?: boolean;
+    /** Setting this property to true will ensure that this observable updates only when other tabs update localstorage. */
+    onlyAllowCrossTab?: boolean;
   }
   export interface JSON$ extends Options$ {
     isJson: true;
@@ -77,7 +80,7 @@ export class StorageService<LocalStorageKeys, SessionStorageKeys = void> {
  * Base class for interacting with storage
  */
 class BaseStorageService<Keys> {
-  /** Is currently node  */
+  /** Is currently node, adds SSR support  */
   private isNode =
     typeof process !== 'undefined' &&
     process.versions != null &&
@@ -101,6 +104,14 @@ class BaseStorageService<Keys> {
     ? fromEvent<StorageEvent>(window, 'storage')
     : of();
 
+  /**
+   * Manually handle changes to the storage event.
+   * By default storageEvents do not emit on the same tab which is not always desirable
+   */
+  private storageEventsAll$ = new BehaviorSubject<
+    Record<string, string | null>
+  >(this.isBrowser ? { ...window.localStorage } : {});
+
   constructor(@Inject('') private useSessionStorage = false) {}
 
   /**
@@ -115,6 +126,23 @@ class BaseStorageService<Keys> {
   ): Observable<string | null>;
   public getItem$<t>(key: Keys, options: Storage.JSON$): Observable<t | null>;
   public getItem$(key: Keys, options?: Storage.Options$) {
+    return options?.onlyAllowCrossTab
+      ? this.storageEvent$
+      : merge(
+          // StorageEvent only fires on crosstab storage updates
+          this.storageEvent$.pipe(
+            filter((e) => e.key === key), // Only key this key from the event
+            map((e) => e.newValue) // Extract the new value
+          ),
+          // Storage event will fire on same tab storage updates
+          this.storageEventsAll$.pipe(map((val) => val[String(key)])) // Map to desired key
+        ).pipe(
+          map((val) => (options?.isJson && val ? JSON.parse(val) : val)), // Convert to JSON if desired
+          startWith(this.getItem(key, options)), // Hydrate observable on first subscription
+          options?.disableDistinct ? identity : distinctUntilChanged() // Allow non distinct emissions. Only works with primatives
+        );
+
+    /**
     return this.storageEvent$.pipe(
       filter((e) => e.key === key), // Only key this key from the event
       map(
@@ -124,6 +152,7 @@ class BaseStorageService<Keys> {
       startWith(this.getItem(key, options)), // Hydrate observable on first subscription
       options?.disableDistinct ? identity : distinctUntilChanged() // Allow non distinct emissions. Only works with primatives
     );
+     */
   }
 
   /**
@@ -135,7 +164,6 @@ class BaseStorageService<Keys> {
   public getItem(key: Keys, options?: Storage.NoJSON): string | null;
   public getItem(key: Keys, options?: Storage.Options): string | null;
   public getItem(key: Keys, options?: Storage.Options) {
-    console.log('options', options);
     const val = this.storage.getItem(String(key));
     if (val && options?.isJson) {
       return JSON.parse(val);
@@ -156,9 +184,11 @@ class BaseStorageService<Keys> {
     // If set item is a nill value, remove from storage instead
     if (!value) {
       this.removeItem(key);
+      this.storageEventsAll$.next({ [String(key)]: null }); // Notifiy same tab subscribers
     } else {
       const val = typeof value === 'string' ? value : JSON.stringify(value);
       this.storage.setItem(String(key), val);
+      this.storageEventsAll$.next({ [String(key)]: val }); // Notifiy same tab subscribers
     }
   }
 
@@ -170,6 +200,7 @@ class BaseStorageService<Keys> {
    */
   public removeItem(key: Keys) {
     this.storage.removeItem(String(key));
+    this.storageEventsAll$.next({ [String(key)]: null }); // Notifiy same tab subscribers
   }
 
   /**
