@@ -1,7 +1,7 @@
 import { LoanCalculator } from '$quote-calculator';
 import { StorageService } from '$state-management';
 import { Injectable } from '@angular/core';
-type LocalStorageKeys = 'token' | 'customerSelection';
+type LocalStorageKeys = 'token' | 'quote';
 
 @Injectable({
   providedIn: 'root',
@@ -16,19 +16,17 @@ export class AppStorageService extends StorageService<LocalStorageKeys> {
     return this.localStorage.getItem('token');
   }
 
-  // Customer Selection
-  public customerSelection$ = this.localStorage.getItem$<LoanCalculator.Quote>(
-    'customerSelection',
-    { isJson: true }
-  );
-  public set customerSelection(customerSelection: LoanCalculator.Quote | null) {
-    this.localStorage.setItem('customerSelection', customerSelection);
+  // Quote Updates
+  public quote$ = this.localStorage.getItem$<LoanCalculator.Quote>('quote', {
+    isJson: true,
+  });
+  public set quote(quote: LoanCalculator.Quote | null) {
+    this.localStorage.setItem('quote', quote);
   }
-  public get customerSelection() {
-    return this.localStorage.getItem<LoanCalculator.Quote>(
-      'customerSelection',
-      { isJson: true }
-    );
+  public get quote() {
+    return this.localStorage.getItem<LoanCalculator.Quote>('quote', {
+      isJson: true,
+    });
   }
 
   constructor() {

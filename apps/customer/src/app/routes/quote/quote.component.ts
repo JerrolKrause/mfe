@@ -126,6 +126,6 @@ export class QuoteComponent implements OnInit {
    * @param quote
    */
   public quoteFormChanged(quote?: LoanCalculator.Quote | null) {
-    this.storage.customerSelection = quote ?? null;
+    this.storage.quote = quote ?? null;
   }
 }

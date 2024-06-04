@@ -55,7 +55,7 @@
               </div>
 
               <lib-quote-form
-                [formDefaults]="storage.customerSelection$ | async"
+                [formDefaults]="storage.quote$ | async"
                 (quoteFormChanged)="quoteFormChanged($event)"
               ></lib-quote-form>
             </p-tabPanel>
