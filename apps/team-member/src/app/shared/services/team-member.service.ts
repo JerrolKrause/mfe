@@ -1,17 +1,47 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
-interface LPState {}
+export interface LoanProduct {
+  productDescription: string;
+  productType: number;
+  systemDecision: number;
+  baseAdvance: number;
+  ltv: number;
+  term: number;
+  totalAdvance: number;
+  monthlyPayment: number;
+  apr: number;
+  lti: number;
+  ndi: number;
+  pti: number;
+  paymentImpact: number;
+  loanOptions: {
+    cashOutMax: number;
+    loanAmountMax: number;
+  };
+  systemQuote: boolean;
+  status: LoanProductStatus;
+}
+
+export interface LoanProductStatus {
+  error?: boolean;
+  approved?: boolean;
+  rejected?: boolean;
+  customerSelected?: boolean;
+  systemGenerated?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class TeamMemberService {
-  public state$ = new BehaviorSubject<LPState>({});
-
   public creditors = [
-    { label: 'DISCOVER FIN SVCS', totalOwed: 673, monthlyPayment: 33 },
-    { label: 'BANK CREDIT CARD', totalOwed: 643, monthlyPayment: 33 },
-    { label: 'ULTRAMAR DIAMOND S', totalOwed: 125, monthlyPayment: 45 },
-    { label: 'EXXON/MBGA', totalOwed: 145, monthlyPayment: 30 },
+    { label: 'DISCOVER FIN SVCS', totalOwed: 673, monthlyPayment: 33, apr: 29 },
+    { label: 'BANK CREDIT CARD', totalOwed: 6430, monthlyPayment: 33, apr: 18 },
+    {
+      label: 'ULTRAMAR DIAMOND S',
+      totalOwed: 1250,
+      monthlyPayment: 45,
+      apr: 21,
+    },
+    { label: 'EXXON/MBGA', totalOwed: 345, monthlyPayment: 30, apr: 14 },
   ];
 
   public assets = [
@@ -26,76 +56,123 @@ export class TeamMemberService {
     { label: 'Personal Loan Unsecured', productTypeId: 3, qty: 1 },
   ];
 
-  public loanProducts = [
+  public loanProducts: LoanProduct[] = [
     {
       productDescription: '2020 RAV4',
       productType: 0,
       systemDecision: 18500,
-      baseAdvance: 43200,
+      baseAdvance: 15000,
       ltv: 120,
       term: 66,
-      totalAdvance: 43200,
-      monthlyPayment: '$432 - $486',
+      totalAdvance: 22100,
+      monthlyPayment: 432,
       apr: 16.16,
       lti: 95,
       ndi: 1325,
       pti: 36,
+      paymentImpact: 250,
+      loanOptions: {
+        cashOutMax: 15000,
+        loanAmountMax: 15000,
+      },
+      systemQuote: true,
+      status: {
+        approved: true,
+        customerSelected: true,
+        systemGenerated: true,
+      },
     },
     {
       productDescription: 'MULTI VEHICLE',
       productType: 1,
-      systemDecision: 18500,
+      systemDecision: 19200,
       baseAdvance: 5000,
       ltv: 120,
       term: 54,
-      totalAdvance: 43200,
-      monthlyPayment: '$50 - $62',
+      totalAdvance: 24200,
+      monthlyPayment: 455,
       apr: 17.16,
       lti: 95,
-      ndi: 1325,
+      ndi: 1211,
       pti: 36,
+      paymentImpact: 175,
+      loanOptions: {
+        cashOutMax: 15000,
+        loanAmountMax: 15000,
+      },
+      systemQuote: true,
+      status: {
+        systemGenerated: true,
+      },
     },
     {
       productDescription: '2010 SILVERADO',
       productType: 1,
-      systemDecision: 18500,
-      baseAdvance: 5000,
+      systemDecision: 8500,
+      baseAdvance: 6000,
       ltv: 120,
       term: 54,
-      totalAdvance: 43200,
-      monthlyPayment: '$50 - $62',
+      totalAdvance: 12100,
+      monthlyPayment: 125,
       apr: 22.16,
       lti: 95,
-      ndi: 1325,
+      ndi: 980,
       pti: 36,
+      paymentImpact: -52,
+      loanOptions: {
+        cashOutMax: 15000,
+        loanAmountMax: 15000,
+      },
+      systemQuote: true,
+      status: {
+        rejected: true,
+      },
     },
     {
       productDescription: '2020 RAV4',
       productType: 1,
-      systemDecision: 18500,
-      baseAdvance: 5000,
+      systemDecision: 7200,
+      baseAdvance: 3500,
       ltv: 120,
       term: 54,
-      totalAdvance: 43200,
-      monthlyPayment: '$50 - $62',
-      apr: 22.16,
+      totalAdvance: 14500,
+      monthlyPayment: 180,
+      apr: 23.46,
       lti: 95,
-      ndi: 1325,
+      ndi: 250,
       pti: 36,
+      paymentImpact: -135,
+      loanOptions: {
+        cashOutMax: 8500,
+        loanAmountMax: 8500,
+      },
+      systemQuote: false,
+      status: {
+        error: true,
+      },
     },
     {
       productDescription: '2010 SILVERADO',
       productType: 2,
-      systemDecision: 18500,
-      baseAdvance: 18500,
+      systemDecision: 4500,
+      baseAdvance: 5200,
       ltv: 120,
       term: 66,
-      totalAdvance: 43200,
-      monthlyPayment: '$185 - $201',
-      apr: 23.16,
+      totalAdvance: 9100,
+      monthlyPayment: 222,
+      apr: 25.22,
       lti: 95,
-      ndi: 1325,
+      ndi: 325,
       pti: 36,
+      paymentImpact: -222,
+      loanOptions: {
+        cashOutMax: 6000,
+        loanAmountMax: 6000,
+      },
+      systemQuote: false,
+      status: {
+        error: true,
+      },
     },
     {
       productDescription: 'NOTE LOAN',
@@ -104,12 +181,39 @@ export class TeamMemberService {
       baseAdvance: 2100,
       ltv: 120,
       term: 42,
-      totalAdvance: 43200,
-      monthlyPayment: '$85 - $110',
+      totalAdvance: 22100,
+      monthlyPayment: 380,
       apr: 27.16,
       lti: 95,
-      ndi: 1325,
+      ndi: -220,
       pti: 36,
+      paymentImpact: -380,
+      loanOptions: {
+        cashOutMax: 3000,
+        loanAmountMax: 3000,
+      },
+      systemQuote: false,
+      status: {
+        error: true,
+      },
     },
   ];
+}
+
+/**
+ * Generates a random number within a specified range based on a base number and a percentage.
+ * The function calculates the range as ± the percentage of the base number and returns a random number within that range.
+ *
+ * @param baseNumber The base number to calculate the range from.
+ * @param percentage The percentage to calculate the plus and minus range.
+ * @returns A random number within the calculated range.
+ */
+function getRandomNumberInRange(
+  baseNumber: number,
+  percentage: number
+): number {
+  const range = baseNumber * (percentage / 100);
+  const min = baseNumber - range;
+  const max = baseNumber + range;
+  return Math.random() * (max - min) + min;
 }

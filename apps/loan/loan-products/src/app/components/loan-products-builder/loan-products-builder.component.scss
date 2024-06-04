@@ -1,0 +1,30 @@
+h2 {
+  margin-bottom: 5px;
+}
+.sub-title {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+}
+.section {
+  margin-bottom: 1.5rem;
+  .item {
+    padding: 3px;
+  }
+  .item:nth-child(odd) {
+    background: var(--color-bg-lt);
+  }
+}
+.sub-text {
+  font-size: 11px;
+  padding-left: 28px;
+  & > div {
+    display: inline;
+    margin-right: 0.25rem;
+  }
+}
+.additional-info {
+  margin-top: 1rem;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem;
+}

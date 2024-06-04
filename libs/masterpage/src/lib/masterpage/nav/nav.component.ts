@@ -18,15 +18,16 @@ export class NavComponent implements OnInit, OnDestroy {
   public navMenu: MainMenuItem[] = [
     {
       label: 'Team Member Dashboard',
-      routerLink: '/team-member',
+      routerLink: '/class-web/CD10084/loan-products',
       routerLinkActiveOptions: { exact: false },
     },
+    /**
     {
       label: 'Quoting',
       routerLink: '/quoting',
       routerLinkActiveOptions: { exact: false },
     },
-    /**
+
     {
       label: 'Dashboard',
       routerLink: '/',
@@ -36,12 +37,13 @@ export class NavComponent implements OnInit, OnDestroy {
       label: 'Users',
       routerLink: '/users',
       routerLinkActiveOptions: { exact: false },
-    }, */
+    },
     {
       label: 'CLASS Data Demo',
       routerLink: '/sandbox',
       routerLinkActiveOptions: { exact: false },
     },
+    */
   ];
 
   public utilityMenu: MainMenuItem[] = [

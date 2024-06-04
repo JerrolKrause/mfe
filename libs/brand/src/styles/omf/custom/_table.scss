@@ -1,0 +1,37 @@
+.p-datatable {
+  font-size: 13px;
+  border: 1px solid #e2e8f0;
+  border-radius: $borderRadius;
+  overflow: hidden;
+  position: initial;
+  .p-datatable-header {
+    background: #fff;
+    border: 0;
+  }
+  .p-datatable-thead > tr > th {
+    text-align: left;
+    padding: 0.25rem;
+    border: 1px solid #e2e8f0;
+    border-width: 0 0 1px 0;
+    font-weight: 600;
+    color: #334155;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+      box-shadow 0.2s, outline-color 0.2s;
+    font-size: 10px;
+  }
+  .p-datatable-tbody > tr > td {
+    text-align: left;
+    border: 1px solid #e2e8f0;
+    border-width: 0 0 1px 0;
+    padding: 0.25rem;
+  }
+  .p-datatable-tbody > tr:nth-child(odd) td {
+    background: var(--color-bg-lt);
+  }
+  .p-button-icon-only {
+    font-size: 8px;
+  }
+  .p-button {
+    position: initial;
+  }
+}

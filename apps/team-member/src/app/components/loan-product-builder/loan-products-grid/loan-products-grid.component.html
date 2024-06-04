@@ -1,0 +1,259 @@
+<div class="loan-products-table">
+  @if(loanProducts?.length) {
+  <div class="table-responsive mb-3">
+    <p class="mb-1"><strong>Loan Products</strong></p>
+    <table class="table table-sm table-hover small">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Product</th>
+          <th>Vehicle</th>
+          <th>Cash Out</th>
+          <th>
+            Total Loan<br />
+            Amount
+          </th>
+          <th>
+            Monthly<br />
+            Payment
+          </th>
+          <th>
+            Payment<br />
+            Impact
+          </th>
+          <th>Term</th>
+          <th>APR</th>
+          <th>NDI</th>
+          <th>Status</th>
+          <th style="width: 105px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(product of loanProducts; track product.productDescription; let
+        index = $index) {
+        <tr
+          (click)="highlightRow(index)"
+          [ngClass]="rowActive === index ? 'row-highlight' : ''"
+        >
+          <td style="width: 28px; color: #00a39e">
+            <lib-icons
+              icon="eye"
+              title="Customer Is Viewing"
+              *ngIf="rowActive === index"
+            ></lib-icons>
+          </td>
+          <td>
+            @if(product.productType === 0) {
+            <lib-icons icon="car" title="Direct Auto" class="me-2"></lib-icons>
+            DA } @else if(product.productType === 1) {
+            <lib-icons icon="lock" title="Secured" class="me-2"></lib-icons>
+            Secured } @else if(product.productType === 2) {
+            <lib-icons
+              icon="lock-open"
+              title="Partially Secured"
+              class="me-2"
+            ></lib-icons>
+            Secured } @else if(product.productType === 3) {
+            <lib-icons icon="sad" title="Unsecured" class="me-2"></lib-icons>
+            Unsecured }
+          </td>
+          <td>
+            {{ product.productDescription }}
+          </td>
+          <td>
+            {{ product.systemDecision | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td>
+            {{ product.totalAdvance | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td>
+            {{ product.monthlyPayment | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td>
+            @if(product.paymentImpact > 0) {
+            <lib-icons
+              icon="caret-up"
+              class="me-2"
+              style="position: relative; top: -3px"
+            ></lib-icons>
+            } @else {
+            <lib-icons
+              icon="caret-down"
+              class="me-2"
+              style="position: relative; top: 3px"
+            ></lib-icons>
+            }
+            {{ product.paymentImpact | currency : 'USD' : 'symbol' : '1.0-2' }}
+          </td>
+          <td>{{ product.term }} mo</td>
+          <td>{{ product.apr }}%</td>
+          <td>{{ product.ndi | currency : 'USD' : 'symbol' : '1.0-2' }}</td>
+          <td>
+            @if(product.status.systemGenerated) {
+            <lib-icons
+              icon="lock"
+              class="me-2 grey"
+              pTooltip="System generated quote, cannot be removed"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status.approved) {
+            <lib-icons
+              icon="thumbsup"
+              class="me-2 green"
+              pTooltip="This quote approved"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status.rejected) {
+            <lib-icons
+              icon="thumbsdown"
+              class="me-2 orange"
+              pTooltip="This quote is rejected"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status.customerSelected) {
+            <lib-icons
+              icon="user"
+              class="me-2 blue"
+              pTooltip="This quote has been selected by the customer"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            } @if(product.status.error) {
+            <lib-icons
+              icon="exclamation-triangle"
+              class="me-2 red"
+              pTooltip="This quote is no longer valid"
+              tooltipPosition="bottom"
+            ></lib-icons>
+            }
+          </td>
+          <td style="white-space: nowrap" class="actions text-end">
+            <!--
+          <a
+            class="clickable me-2"
+            (mouseover)="op.toggle($event)"
+            title="Additional Product Info"
+          >
+            <lib-icons
+              icon="info-circle"
+              title="View product details"
+            ></lib-icons>
+          </a>
+          <a class="clickable me-2">
+            <lib-icons icon="cog" title="Edit this product"></lib-icons>
+          </a>
+          <a
+            *ngIf="!product.systemQuote"
+            class="clickable"
+            (click)="productDelete(index)"
+            title="Delete this product"
+          >
+            <lib-icons icon="trash"></lib-icons
+          ></a>
+          -->
+            <p-splitButton
+              styleClass="w-100"
+              label="Info"
+              appendTo="body"
+              [model]="items3[index]"
+              (onClick)="op.toggle($event)"
+            ></p-splitButton>
+            <p-overlayPanel #op>
+              <div class="p-2">
+                <table class="table table-sm table-striped mb-0">
+                  <tbody>
+                    <tr>
+                      <td><strong>System Decision</strong></td>
+                      <td>$18,500</td>
+                    </tr>
+                    <tr>
+                      <td><strong>PTI</strong></td>
+                      <td>36%</td>
+                    </tr>
+                    <tr>
+                      <td><strong>LTV</strong></td>
+                      <td>120</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </p-overlayPanel>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+  <p class="mb-1"><strong>Non Credit Products</strong></p>
+  <div class="table-responsive non-credit-products-table">
+    <table class="table table-sm small">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th style="width: 105px">Type</th>
+          <th style="width: 200px">Insured</th>
+          <th style="width: 50px">Term</th>
+          <th style="width: 70px">Premium/Fee</th>
+          <th style="width: 70px">Effective Date</th>
+          <th style="width: 105px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(product of creditProducts; track product) {
+        <tr>
+          <td>{{ product.product }}</td>
+          <td>{{ product.type }}</td>
+          <td>{{ product.insuredName }}</td>
+          <td>{{ product.term }}</td>
+          <td>{{ product.fee }}</td>
+          <td>{{ product.dateStart }}</td>
+          <td class="actions text-end">
+            <p-splitButton
+              styleClass="w-100"
+              label="Edit"
+              appendTo="body"
+              [model]="items2"
+            ></p-splitButton>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <p class="mb-1"><strong>Credit Products</strong></p>
+    <div class="table-responsive non-credit-products-table">
+      <table class="table table-sm small">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th style="width: 105px">Type</th>
+            <th style="width: 200px">Insured</th>
+            <th style="width: 50px">Term</th>
+            <th style="width: 70px">Premium/Fee</th>
+            <th style="width: 70px">Effective Date</th>
+            <th style="width: 105px">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(product of nonCreditProducts; track product) {
+          <tr>
+            <td>{{ product.product }}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product.insuredName }}</td>
+            <td>{{ product.term }}</td>
+            <td>{{ product.fee }}</td>
+            <td>{{ product.dateStart }}</td>
+            <td class="actions text-end">
+              <p-splitButton
+                styleClass="w-100"
+                label="Edit"
+                appendTo="body"
+                [model]="items2"
+              ></p-splitButton>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

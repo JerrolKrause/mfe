@@ -1,0 +1,37 @@
+<div
+  id="sidebar"
+  *ngIf="{
+    loanId: loanId$ | async,
+    applications: applications$ | async,
+    routeCurrent: routeCurrent$ | async,
+  } as comp"
+>
+  <p class="sidebar-title">Applications</p>
+
+  @if(comp.applications?.length) {
+  <p-accordion
+    styleClass="accordion-lt no-animation no-pad-body"
+    [activeIndex]="openTabs()"
+    [multiple]="true"
+  >
+    @for (app of comp.applications; track $index) {
+    <p-accordionTab transitionOptions="0ms">
+      <ng-template pTemplate="header"> #{{ app.loanID }}</ng-template>
+      @for (item of navItems; track $index) {
+      <div>
+        <a
+          class="sidebar-link"
+          [routerLink]="['/', 'loan', app.loanID, item.path]"
+          [ngClass]="{
+            'sidebar-link-active':
+              item.path === comp.routeCurrent && app.loanID === comp.loanId
+          }"
+          >{{ item.label }}</a
+        >
+      </div>
+      }
+    </p-accordionTab>
+    }
+  </p-accordion>
+  }
+</div>

@@ -1,0 +1,46 @@
+body {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+h2 {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+h3 {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.grey {
+  color: grey;
+}
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
+.orange {
+  color: orange;
+}
+/*
+@media (min-width: 992px) {
+  h1 {
+    font-size: 3em;
+  }
+  h2 {
+    font-size: 1.3125em;
+  }
+}
+*/

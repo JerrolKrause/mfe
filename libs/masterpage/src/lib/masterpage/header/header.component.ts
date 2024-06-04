@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  @Input() fullWidth = false;
+  @Input() fullWidth = true;
 }

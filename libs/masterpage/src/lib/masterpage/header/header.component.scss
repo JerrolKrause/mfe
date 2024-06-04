@@ -3,11 +3,11 @@
 }
 
 header {
-  background: #fff;
+  background: var(--color-bg-dark);
   // border-bottom: 1px solid #e2e5e8;
-  // margin-bottom: 1rem;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 1rem;
+  padding-top: 5px;
+  padding-bottom: 5px;
   .logo {
     text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.3);
     color: var(--interact);

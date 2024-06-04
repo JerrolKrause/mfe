@@ -1,8 +1,12 @@
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  ValidationErrors,
+} from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, map, mergeMap } from 'rxjs/operators';
 import { NtsValidators } from '../validators.models';
-import { isRequired } from './misc.validators';
+import { isRequired } from './_base.validators';
 
 /**
  * Test
@@ -13,7 +17,10 @@ export const asyncValidator =
   <apiResponse = any>(options: NtsValidators.AsyncOptions): AsyncValidatorFn =>
   (control: AbstractControl): Observable<ValidationErrors | null> => {
     // Get api url, determine if this is a callback function or just a string
-    const apiUrl = typeof options.apiUrl === 'function' ? options.apiUrl(control) : options.apiUrl;
+    const apiUrl =
+      typeof options.apiUrl === 'function'
+        ? options.apiUrl(control)
+        : options.apiUrl;
     // Determine if GET or POST
     const request =
       options.request === 'post'
@@ -56,6 +63,6 @@ export const asyncValidator =
         return error;
       }),
       // If api error, allow to proceed
-      catchError(() => of(null)),
+      catchError(() => of(null))
     );
   };

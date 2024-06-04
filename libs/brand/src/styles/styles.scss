@@ -1,8 +1,30 @@
-body {
-  font-size: 1rem;
-}
+// Bootstrap  defaults
+@import 'bootstrap/scss/bootstrap-utilities'; // Needed for reboot
+@import 'bootstrap/scss/reboot';
+// Prime defaults
+@import 'primeng/resources/primeng.min.css'; // 7k
+
+// Components
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/grid';
+// @import 'bootstrap/scss/nav';
+// @import 'bootstrap/scss/navbar';
+@import 'bootstrap/scss/tables';
+// @import 'bootstrap/scss/type';
+
+// Prime icons
+@import 'primeicons/primeicons.css';
+@import 'primeng/resources/themes/nova/theme.css'; // 134k. It would be nice to remove this
+// Core OMF Theme for PrimeNG
+@import 'omf/theme'; //
 
 // Global encapsulated styles
-@import 'global/typography.scss';
-@import 'global/layout.scss';
-@import 'global/buttons.scss';
+@import 'omf/custom/accordion.scss';
+@import 'omf/custom/typography.scss';
+@import 'omf/custom/layout.scss';
+@import 'omf/custom/table.scss';
+@import 'omf/custom/buttons.scss';
+@import 'omf/custom/cards.scss';
+@import 'omf/custom/menus.scss';
+@import 'omf/custom/tabs.scss';
+@import 'omf/custom/tooltips.scss';

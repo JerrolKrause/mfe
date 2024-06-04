@@ -1,9 +1,30 @@
 .loan-products-builder {
+  $brandColor: #00a39e;
+  $titleColor: #004b75;
+  @import 'libs/brand/src/styles/styles.scss';
+  .overlay {
+    background: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 10;
+  }
+  .p-tabview-panel {
+    position: relative;
+  }
   .green {
     color: green;
   }
   .red {
     color: red;
+  }
+  .blue {
+    color: blue;
+  }
+  .orange {
+    color: orange;
   }
   .clickable {
     cursor: pointer;
@@ -28,14 +49,20 @@
   }
   table {
     th {
-      font-size: 10px;
+      font-size: 9px;
     }
-
+    td {
+      font-size: 14px;
+      padding: 0.5rem 0.25rem;
+    }
     .tr-group td {
       background: #f0ffff;
       box-shadow: initial;
       font-weight: 600;
       font-size: 16px;
+    }
+    tr.row-highlight td {
+      background: #ffffbf;
     }
     td,
     th {
@@ -52,6 +79,13 @@
   hr {
     border-top: 1px solid rgba(0, 75, 117, 0.3);
     opacity: 1;
+  }
+  .loan-products-footer {
+    display: flex;
+    justify-content: space-between;
+    .p-button {
+      min-width: 150px;
+    }
   }
 
   .loan-products-info {

@@ -8,7 +8,7 @@ import { store } from '../stores/base/base-store';
 import { UIStoreCreator } from '../stores/ui/ui-store';
 
 @Injectable({
-  providedIn: 'platform',
+  providedIn: 'root',
 })
 export class StateManagementService {
   /** Listen to global events */

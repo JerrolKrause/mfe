@@ -1,0 +1,106 @@
+.loan-product {
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+  border: 1px solid #004b75;
+  margin-bottom: 1em;
+
+  .lp-details {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+    &:last-child {
+      border: 0;
+      margin: 0;
+    }
+    .label {
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .value {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .lp-main {
+    background: rgba(0, 0, 0, 0.035);
+    padding: 0.5rem;
+    min-height: 275px;
+    .label {
+    }
+    .value {
+      font-size: 28px;
+    }
+  }
+
+  .green {
+    color: green;
+  }
+  @media (min-width: 768px) {
+    display: block;
+    width: initial;
+    margin-left: 0;
+    margin-right: 0.5rem;
+  }
+}
+.lp-wrapper {
+  padding: 1rem;
+  min-width: 100%;
+  @media (min-width: 768px) {
+    padding: 2rem;
+    padding-top: 1rem;
+    min-width: 205px;
+  }
+}
+
+table {
+  width: initial;
+}
+td {
+  line-height: initial;
+  vertical-align: middle;
+  background: transparent;
+  &.has-label {
+    height: 48px;
+  }
+}
+h3 {
+  margin-top: 2rem;
+}
+.highlight {
+  background: #ffffbf;
+}
+.legend {
+  font-weight: 500;
+}
+.collateral {
+  background: linear-gradient(to right, #004b75, #00d0cd);
+  font-size: 12px;
+  text-align: center;
+  min-height: 18px;
+  font-weight: 700;
+  color: #fff;
+  &.unsecured {
+    background: #b9b8b8;
+  }
+  &.no-bg {
+    background: initial;
+  }
+}
+.circle {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: green;
+  margin-right: 0.5rem;
+  animation: pulse 1.5s infinite ease-in-out; /* Apply the pulse animation */
+}
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1); /* Original size */
+  }
+  50% {
+    transform: scale(1.2); /* Increase size by 10% */
+  }
+}

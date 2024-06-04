@@ -1,12 +1,11 @@
 {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.tslint": "explicit",
-      "source.organizeImports": "explicit"
-    },
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "files.trimTrailingWhitespace": true,
-    "typescript.preferences.importModuleSpecifier": "project-relative",
-    "workbench.settings.editor": "json"
-  }
-  
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "workbench.settings.editor": "json"
+}

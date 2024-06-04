@@ -1,0 +1,130 @@
+<div
+  class="loan-form-container"
+  *ngIf="{ isEditing: isEditing$ | async } as comp"
+>
+  <form [formGroup]="loanProductsForm" (ngSubmit)="onSubmit()">
+    @if(comp.isEditing) {
+    <div>
+      <a class="float-end" (click)="reset()">Cancel</a>
+      <p>Editing Loan Product</p>
+    </div>
+    }
+
+    <div class="row">
+      <div class="col col-12 col-md-7 mb-3">
+        <div class="section">
+          <h2>Assets <span class="sub-title">Select for collateral</span></h2>
+          @if(assetsFormArray.controls.length) {
+          <div formArrayName="assets">
+            <div
+              *ngFor="let asset of assetsFormArray.controls; let i = index"
+              [formGroupName]="i"
+              class="item"
+            >
+              <p-checkbox
+                [binary]="true"
+                [label]="asset.value.label"
+                formControlName="selected"
+              ></p-checkbox>
+
+              <div class="sub-text">
+                <div>
+                  <strong>Valued:</strong>
+                  {{
+                    asset.value.assetValue
+                      | currency : 'USD' : 'symbol' : '1.0-0'
+                  }}
+                </div>
+                <div *ngIf="asset.value.totalOwed">
+                  <strong>Owed:</strong>
+                  {{
+                    asset.value.totalOwed
+                      | currency : 'USD' : 'symbol' : '1.0-0'
+                  }}
+                </div>
+                <div *ngIf="asset.value.apr">
+                  <strong>APR:</strong> {{ asset.value.apr }}%
+                </div>
+              </div>
+            </div>
+          </div>
+          } @else {
+          <p>No assets listed.</p>
+          }
+        </div>
+        <div class="section">
+          <h2>Creditors <span class="sub-title">Select for payoff</span></h2>
+          @if(creditorsFormArray.controls.length) {
+          <div
+            *ngFor="let creditor of creditorsFormArray.controls; let i = index"
+            class="item"
+          >
+            <p-checkbox
+              [binary]="true"
+              [label]="creditor.value.label"
+              (onChange)="onSelectCreditor(i)"
+            ></p-checkbox>
+            <div class="sub-text">
+              <div>
+                <strong>Owed:</strong>
+                {{
+                  creditor.value.totalOwed
+                    | currency : 'USD' : 'symbol' : '1.0-0'
+                }}
+              </div>
+              <div>
+                <strong>Monthly:</strong>
+                {{
+                  creditor.value.monthlyPayment
+                    | currency : 'USD' : 'symbol' : '1.0-0'
+                }}
+              </div>
+              <div><strong>APR:</strong> {{ creditor.value.apr }}%</div>
+            </div>
+          </div>
+          } @else {
+          <p>No creditors listed.</p>
+          }
+        </div>
+        @if(state?.isCentral) {
+        <div class="additional-info">
+          <p class="mb-0"><small>Additional Info</small></p>
+          <table class="table table-sm table-striped mb-0">
+            <tbody>
+              <tr>
+                <td><strong>NDI</strong></td>
+                <td>
+                  {{ ndi$ | async | currency : 'USD' : 'symbol' : '1.0-0' }}
+                </td>
+              </tr>
+              <tr>
+                <td><strong>PTI</strong></td>
+                <td>36%</td>
+              </tr>
+              <tr>
+                <td><strong>LTV</strong></td>
+                <td>120</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        }
+      </div>
+      <div class="col col-12 col-md-5 mb-3">
+        <lib-form-generator
+          [formModel]="loanProductsModel"
+          [formGroup]="loanProductsForm"
+          [options]="formOptions"
+          [disableSubmit]="false"
+        ></lib-form-generator>
+      </div>
+    </div>
+    <div class="text-end">
+      <p-button
+        type="submit"
+        [label]="comp.isEditing ? 'Update Loan Product' : 'Add Loan Product'"
+      ></p-button>
+    </div>
+  </form>
+</div>

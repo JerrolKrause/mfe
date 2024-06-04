@@ -9,12 +9,12 @@ export const appRoutes: Route[] = [
     data: { title: 'Borrower Information' },
     children: [
       {
-        path: ':loanID',
+        path: ':loanID/loan-products',
         component: HomeComponent,
         data: { title: 'Borrower Information' },
       },
       {
-        path: '',
+        path: 'loan-products',
         component: HomeComponent,
         data: { title: 'Borrower Information' },
       },

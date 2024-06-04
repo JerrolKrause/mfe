@@ -507,6 +507,8 @@ export type GetUsersQuery = {
     data?: Array<{
       __typename?: 'User';
       id?: string | null;
+      name?: string | null;
+      phone?: string | null;
       username?: string | null;
       email?: string | null;
       address?: {
@@ -531,6 +533,8 @@ export type CreateUserMutation = {
   createUser?: {
     __typename?: 'User';
     id?: string | null;
+    name?: string | null;
+    phone?: string | null;
     username?: string | null;
     email?: string | null;
     address?: {
@@ -554,6 +558,8 @@ export type UpdateUserMutation = {
   updateUser?: {
     __typename?: 'User';
     id?: string | null;
+    name?: string | null;
+    phone?: string | null;
     username?: string | null;
     email?: string | null;
     address?: {
@@ -567,11 +573,22 @@ export type UpdateUserMutation = {
   } | null;
 };
 
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type DeleteUserMutation = {
+  __typename?: 'Mutation';
+  deleteUser?: boolean | null;
+};
+
 export const GetUsersDocument = gql`
   query GetUsers($options: PageQueryOptions) {
     users(options: $options) {
       data {
         id
+        name
+        phone
         username
         email
         address {
@@ -605,6 +622,8 @@ export const CreateUserDocument = gql`
   mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
       id
+      name
+      phone
       username
       email
       address {
@@ -634,6 +653,8 @@ export const UpdateUserDocument = gql`
   mutation UpdateUser($id: ID!, $input: UpdateUserInput!) {
     updateUser(id: $id, input: $input) {
       id
+      name
+      phone
       username
       email
       address {
@@ -654,6 +675,25 @@ export class UpdateUserGQL extends Apollo.Mutation<
   UpdateUserMutationVariables
 > {
   override document = UpdateUserDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const DeleteUserDocument = gql`
+  mutation DeleteUser($id: ID!) {
+    deleteUser(id: $id)
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DeleteUserGQL extends Apollo.Mutation<
+  DeleteUserMutation,
+  DeleteUserMutationVariables
+> {
+  override document = DeleteUserDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

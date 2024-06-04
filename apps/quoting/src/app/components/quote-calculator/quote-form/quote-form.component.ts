@@ -20,6 +20,8 @@ import { LoanCalculator } from '../quote-calculator.models';
   encapsulation: ViewEncapsulation.None,
 })
 export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
+  /** Disable Form */
+  @Input() disabled = true;
   /** Initial/default values to load the form with */
   @Input() formDefaults?: Partial<LoanCalculator.Quote> | null = null;
   /** Controls the debounce time in milliseconds, default is 100ms */
@@ -62,12 +64,18 @@ export class QuoteFormComponent implements OnInit, OnChanges, OnDestroy {
     if (this.emitOnload) {
       this.quoteFormChanged.emit(this.quoteFrm.value);
     }
+
+    this.disabled ? this.quoteFrm.disable() : this.quoteFrm.enable();
+    console.log(this.quoteFrm);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     // If default form values change
     if (changes['formDefaults'] && this.formDefaults) {
       this.quoteFrm.patchValue(this.formDefaults);
+    }
+    if (changes['disabled']) {
+      this.disabled ? this.quoteFrm.disable() : this.quoteFrm.enable();
     }
   }
 

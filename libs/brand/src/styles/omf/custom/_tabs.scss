@@ -1,0 +1,23 @@
+.p-tabview {
+  .p-tabview-nav {
+    margin-bottom: 0;
+    padding: 0;
+    // background: #fff;
+  }
+  .p-tabview-nav-link {
+    border: 0;
+    // background: transparent;
+    // border-right: 1px solid #ccc;
+    border-radius: 0;
+    background: var(--color-bg-lt);
+  }
+  .p-highlight .p-tabview-nav-link {
+    background: #fff;
+    border: 0;
+    border-radius: var(--border-radius);
+  }
+  .p-tabview-panels {
+    border: 0 !important;
+    box-shadow: $boxShadow;
+  }
+}

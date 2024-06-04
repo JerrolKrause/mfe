@@ -1,17 +1,30 @@
 import { FormsLib } from '$forms';
 import { LoanCalculator } from '$quote-calculator';
+import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
 import { SocketService } from '$state-management';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { BehaviorSubject, take } from 'rxjs';
-import { TeamMemberService } from '../../shared/services/team-member.service';
+import { BehaviorSubject, map, take } from 'rxjs';
+import {
+  LoanProduct,
+  TeamMemberService,
+} from '../../shared/services/team-member.service';
 import { FeesModalComponent } from './fees/fees-modal.component';
 import { NonCreditProductsModalComponent } from './non-credit-products/non-credit-products-modal.component';
 
 interface State {
   customerConnected: boolean;
   customerPreferences: LoanCalculator.Quote | null;
+  customerLocation: string;
 }
 @Component({
   selector: 'app-loan-product-builder',
@@ -19,6 +32,7 @@ interface State {
   styleUrl: './loan-product-builder.component.scss',
   providers: [DialogService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoanProductBuilderComponent implements OnInit {
   public loanProductsModel: FormsLib.FormGenerator = [
@@ -48,11 +62,10 @@ export class LoanProductBuilderComponent implements OnInit {
       html: '<hr/>',
     },
     {
-      label: 'Due Day',
+      label: 'Term',
       type: 'formField',
       formFieldType: 'number',
-      field: 'dueDay',
-      hint: 'Valid Due Days are from the 1st to the 16th',
+      field: 'term',
     },
     {
       type: 'row',
@@ -84,38 +97,49 @@ export class LoanProductBuilderComponent implements OnInit {
         },
       ],
     },
-    /**
-    {
-      type: 'row',
-      columns: [
-        {
-          type: 'column',
-          width: 6,
-          content: [
-            {
-              label: 'Non-Credit',
-              type: 'formField',
-              formFieldType: 'number',
-              mode: 'currency',
-              field: 'nonCreditProducts',
-            },
-          ],
-        },
-        {
-          type: 'column',
-          width: 6,
-          content: [
-            {
-              cssClasses: 'p-button w-100 text-center mt-4',
-              type: 'button',
-              label: 'Select',
-              cmd: (btn) => this.openNonCreditModal(btn),
-            },
-          ],
-      ],
-
-    },*/
   ];
+
+  public nonCreditProducts: FormsLib.FormGenerator = [
+    {
+      label: 'Insured Or Member Name',
+      type: 'formField',
+      formFieldType: 'radio',
+      field: 'cashToCustomer',
+      options: [{ label: 'Colleen Denning', value: 0 }],
+    },
+    {
+      label: 'Benefit Amount',
+      type: 'formField',
+      formFieldType: 'number',
+      mode: 'currency',
+      field: 'fees',
+    },
+    {
+      label: 'Premium Or Fee',
+      type: 'formField',
+      formFieldType: 'number',
+      mode: 'currency',
+      field: 'fees',
+    },
+    {
+      label: 'Effective Date',
+      type: 'formField',
+      formFieldType: 'date',
+      field: 'fees',
+    },
+  ];
+
+  public loanAdvanceOptions: MenuItem[] = [
+    {
+      label: 'Approve',
+    },
+    {
+      label: 'Decline',
+    },
+  ];
+
+  public quoteFormDefaults$ =
+    new BehaviorSubject<Partial<LoanCalculator.Quote> | null>(null);
 
   public formOptions: FormsLib.FormOptions = {
     submitButton: {
@@ -126,41 +150,61 @@ export class LoanProductBuilderComponent implements OnInit {
   public loanProductsForm = this.fb.group({
     cashToCustomer: '2100.00',
     payoffs: '',
-    cashAdvance: '2100.00',
+    cashAdvance: '2600.00',
     fees: '',
     nonCreditProducts: '',
     dueDay: '1',
-    creditors: this.fb.array([false, false, false, false]),
-    assets: this.fb.array([false, false, false, false]),
+    term: '12',
+    creditors: this.fb.array([false, false, false, false, false, false]),
+    assets: this.fb.array([false, false, false, false, false, false]),
   });
 
-  public loanProducts: any[] = [];
+  public loanProducts: LoanProduct[] = [
+    this.teamSvc.loanProducts[0],
+    this.teamSvc.loanProducts[1],
+    this.teamSvc.loanProducts[2],
+  ];
 
   public lpState$ = new BehaviorSubject<State>({
     customerConnected: false,
     customerPreferences: null,
+    customerLocation: '',
   });
+
+  public loanId$ = this.route.params.pipe(map((params) => params['loanID']));
 
   constructor(
     private fb: FormBuilder,
     public dialogService: DialogService,
     public teamSvc: TeamMemberService,
-    private socket: SocketService
+    private socket: SocketService,
+    private route: ActivatedRoute,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
-    this.socket.onMessageReceived((msg) => {
-      const payload = JSON.parse(msg) as { type: string; data?: any };
-      if (payload.type === 'CUSTOMER_CONNECTED') {
-        this.stateChange({ customerConnected: true });
-      }
-      if (payload.type === 'PREF_CHANGE') {
-        this.stateChange({ customerPreferences: payload.data });
-        console.log(payload.data);
-      }
-
-      console.log(msg);
+    // Change page title
+    this.loanId$.pipe(take(1)).subscribe((loanId: string) => {
+      const borrowerName = loanId.includes('84')
+        ? 'Smith, John'
+        : 'Johnson, James';
+      this.title.setTitle(`#${loanId} | Loan Products | ${borrowerName}`);
     });
+
+    this.socket.onMessageReceived((msg) => {
+      const data = JSON.parse(msg);
+
+      if (QUOTE_FORM_ACTIONS.CUSTOMER_QUOTE_CHANGED.match(data)) {
+        this.quoteFormDefaults$.next(data.payload);
+      }
+    });
+
+    setTimeout(() => {
+      this.socket.sendMessageToUser(
+        UserIds.customer,
+        JSON.stringify(QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(this.loanProducts))
+      );
+    }, 1000);
   }
 
   private stateChange(stateNew: Partial<State>) {
@@ -191,28 +235,85 @@ export class LoanProductBuilderComponent implements OnInit {
   }
 
   public generateProducts() {
-    const count = this.loanProducts.length;
-    const product = this.teamSvc.loanProducts[count];
-    if (product) {
-      this.loanProducts = [
-        ...this.loanProducts,
-        this.teamSvc.loanProducts[count],
-      ];
+    const frmData = this.loanProductsForm.value;
+    let vehicle = 'Unsecured';
+    let productType = 3;
+    if (frmData.assets?.[0] && frmData.assets?.[1]) {
+      vehicle = 'MULTI-VEHICLE';
+      productType = 0;
+    } else if (frmData.assets?.[1]) {
+      vehicle = '2010 CHEVROLET SILVERADO';
+      productType = 1;
+    } else if (frmData.assets?.[0]) {
+      vehicle = '2020 RAV4';
+      productType = 1;
+    }
+
+    this.loanProducts = [
+      ...this.loanProducts,
+      {
+        productDescription: vehicle,
+        productType: productType,
+        systemDecision: parseInt(frmData.cashToCustomer ?? '0'),
+        baseAdvance: 15000,
+        ltv: 120,
+        term: parseInt(frmData.term ?? '0'),
+        totalAdvance: parseInt(frmData.cashAdvance ?? '0'),
+        monthlyPayment: 432,
+        apr: 16.16,
+        lti: 95,
+        ndi: 1325,
+        pti: 36,
+        paymentImpact: 250,
+        loanOptions: {
+          cashOutMax: 15000,
+          loanAmountMax: 15000,
+        },
+        systemQuote: false,
+        status: {},
+      },
+    ];
+  }
+
+  public deleteProduct(index: any) {
+    if (!this.loanProducts) {
+      return;
+    }
+    const c = confirm('Are you sure you want to delete this loan product?');
+    if (c) {
+      this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
     }
   }
 
-  public sendToCustomer() {
-    this.socket.sendMessageToUser(
-      'customer',
-      JSON.stringify({
-        type: 'PRODUCTS_READY',
-        data: this.loanProducts,
-      })
-    );
+  public generateAllProducts() {
+    this.loanProducts = [...this.teamSvc.loanProducts];
   }
 
-  public productDelete(index: number) {
-    this.loanProducts = this.loanProducts.filter((_p, i) => i !== index);
+  public openClassLink() {
+    const src_pid = sessionStorage.getItem('src_pid');
+    const src_sid = sessionStorage.getItem('src_sid');
+    alert(`Stored parameters:\nsrc_pid: ${src_pid}\nsrc_sid: ${src_sid}`);
+  }
+
+  handleStatusChange(event: any) {
+    console.warn('Status Changed:', event);
+  }
+
+  public statusChanged(e: any) {
+    console.warn(e); /**
+    this.loanProducts = this.loanProducts.map((p, i) => {
+      if (i === e.index) {
+        return {
+          ...p,
+          status: {
+            ...p.status,
+            ...e.status,
+          },
+        };
+      }
+
+      return p;
+    }); */
   }
 
   /**
@@ -222,7 +323,6 @@ export class LoanProductBuilderComponent implements OnInit {
    */
   public toggleFormArray(array: string, i: number) {
     const control = this.loanProductsForm?.get(array)?.get(i.toString());
-
     control?.patchValue(!control.value);
   }
 

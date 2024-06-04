@@ -1,0 +1,15 @@
+<h2>Modify All Loan Products</h2>
+
+<form [formGroup]="modifyForm">
+  <div class="d-flex" style="align-items: center">
+    <lib-number
+      label="Modify Loan Amount"
+      mode="currency"
+      formControlName="loanAmount"
+      placeholder="$1,000"
+      class="me-2"
+      hint="Negative amounts are supported"
+    ></lib-number>
+    <p-button label="Update All" (click)="updateLoanAmount()"></p-button>
+  </div>
+</form>

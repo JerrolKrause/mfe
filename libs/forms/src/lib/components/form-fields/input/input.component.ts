@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ControlContainer, FormGroup } from '@angular/forms';
 import {
   BehaviorSubject,
   Observable,
@@ -22,7 +22,7 @@ import {
 
 import { isRequired } from '../../../utils';
 import { expressionReplacer$ } from '../../../utils/expression-replacer.util';
-import { validatorsAdd } from '../../../validators/validators.util';
+import { validatorsAdd } from '../../../validators';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 interface InputState {
@@ -66,8 +66,8 @@ export class InputComponent<t>
   /** DOM element for showing required status */
   public requiredTag = `<sup class="required">*</sup>`;
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}
@@ -91,7 +91,8 @@ export class InputComponent<t>
       this.hint$ = expressionReplacer$(this.formGroup, this.hint);
     }
 
-    // If input control changes, update validators
+    // Adding validators needs to defer execution, otherwise triggers ExpressionChangedAfterItHasBeenCheckedError error
+    // Promise.resolve().then(() => {// });
     if ((changes['control'] || changes['validators']) && this.validators) {
       validatorsAdd(this.formControl, this.validators);
     }

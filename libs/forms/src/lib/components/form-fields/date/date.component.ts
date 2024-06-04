@@ -8,6 +8,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { debounceTime, filter, startWith } from 'rxjs';
 import { BaseFormFieldComponent } from '../form-field.base';
 
@@ -31,8 +32,8 @@ export class DateComponent
   /** Format of the date which can also be defined at locale settings. */
   @Input() dateFormat?: string | null = null;
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}

@@ -7,32 +7,40 @@ import { ApiService } from './shared/stores/api.service';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent implements OnInit {
-  constructor(private svc: ApiService) {}
+  constructor(public svc: ApiService) {}
 
   ngOnInit(): void {
     this.svc.state$.subscribe((x) => {
-      if (!x) {
-        return;
-      }
-      console.warn(x);
+      console.warn(x.data);
     });
+    // this.svc.usersStore.getData().subscribe();
   }
 
   public userAdd() {
+    this.svc.usersStore
+      .createData({ username: 'Test', name: 'Test', email: 'test@test.com' })
+      .subscribe();
+    /**
     this.svc
       .userCreate({ username: 'Test', name: 'Test', email: 'test@test.com' })
       .subscribe();
+       */
   }
 
   public refresh() {
-    this.svc.refresh().subscribe();
+    // this.svc.usersStore.refresh().subscribe();
   }
 
   public userUpdate() {
-    this.svc
-      .userUpdate('1', {
+    this.svc.usersStore
+      .updateData('1', {
         email: 'eat@joes.com',
+        username: 'test@test.com',
       })
       .subscribe();
+  }
+
+  public userDelete() {
+    this.svc.usersStore.deleteData('1').subscribe();
   }
 }

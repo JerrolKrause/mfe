@@ -1,94 +1,332 @@
-<form [formGroup]="quoteFrm" class="quote-form">
-  <!---->
-  <div class="quote-selector">
-    <p class="label">Desired Loan Amount</p>
+<form
+  [formGroup]="quoteFrm"
+  class="quote-form"
+  *ngIf="{ ranges: ranges$ | async } as comp"
+>
+  <p-accordion
+    [multiple]="true"
+    (activeIndexChange)="activeIndexChange($event)"
+    [activeIndex]="quoteFrm.value.visible"
+  >
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <lib-icons icon="bullseye" class="me-2"></lib-icons> Loan Goals
+      </ng-template>
+      <div class="pt-2">
+        <p>
+          <button
+            class="p-button w-100"
+            (click)="quoteFrm.get('loanGoal')?.patchValue('cashOut')"
+            [ngClass]="
+              quoteFrm.value.loanGoal === 'cashOut' ? '' : 'p-button-outlined'
+            "
+          >
+            More Cash Out
+          </button>
+        </p>
+        <p>
+          <button
+            class="p-button w-100"
+            (click)="quoteFrm.get('loanGoal')?.patchValue('cashFlow')"
+            [ngClass]="
+              quoteFrm.value.loanGoal === 'cashFlow' ? '' : 'p-button-outlined'
+            "
+          >
+            Improve Monthly Cash Flow
+          </button>
+        </p>
+        <p>
+          <button
+            class="p-button w-100"
+            (click)="quoteFrm.get('loanGoal')?.patchValue('debt')"
+            [ngClass]="
+              quoteFrm.value.loanGoal === 'debt' ? '' : 'p-button-outlined'
+            "
+          >
+            Consolidate Debt
+          </button>
+        </p>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <lib-icons icon="car" class="me-2"></lib-icons> Available Vehicles
+      </ng-template>
+      <table
+        class="table table-striped table-hover w-100"
+        formArrayName="vehicles"
+      >
+        <thead>
+          <tr>
+            <th></th>
+            <th>Vehicle</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="clickable">
+            <td>
+              <p-checkbox
+                [binary]="true"
+                inputId="binary"
+                formControlName="0"
+              ></p-checkbox>
+            </td>
+            <td>2020 TOYOTA RAV4</td>
+            <td>$36,000</td>
+          </tr>
+          <tr class="clickable">
+            <td>
+              <p-checkbox
+                [binary]="true"
+                inputId="binary"
+                formControlName="1"
+              ></p-checkbox>
+            </td>
+            <td>2010 CHEVROLET SILVERADO</td>
+            <td>$10,905</td>
+          </tr>
+        </tbody>
+      </table></p-accordionTab
+    >
+    <p-accordionTab>
+      <ng-template pTemplate="header">
+        <lib-icons icon="weighthanging" class="me-2"></lib-icons> Creditors
+      </ng-template>
+      <table class="table table-sm table-striped table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Creditor</th>
+            <th>Total Owed</th>
+            <th>Monthly Payment</th>
+            <th>APR</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="creditors">
+          @for(creditor of creditors;track creditor.label; let index = $index) {
+          <tr class="clickable">
+            <td>
+              <p-checkbox
+                [formControlName]="index"
+                [binary]="true"
+              ></p-checkbox>
+            </td>
+            <td>{{ creditor.label }}</td>
+            <td>${{ creditor.totalOwed }}</td>
+            <td>${{ creditor.monthlyPayment }}</td>
+            <td>{{ creditor.apr }}%</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </p-accordionTab>
+    <p-accordionTab *ngIf="(quoteFrm.value?.ndi ?? 0) > 0">
+      <ng-template pTemplate="header">
+        <lib-icons icon="cog" class="me-2"></lib-icons> Loan Options
+      </ng-template>
+      <div class="quote-selector">
+        <p class="label">Cash Out</p>
+        <p class="value">
+          @if(!!comp.ranges?.cashOut?.allowRange) {
+          {{
+            quoteFrm.value.cashOutRange?.[0] | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          -
+          {{
+            quoteFrm.value.cashOutRange?.[1] | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          } @else {
+          {{ quoteFrm.value.cashOut | currency : 'USD' : 'symbol' : '1.0-0' }}
+          }
+        </p>
+        <p>
+          @if(!!comp.ranges?.cashOut?.allowRange) {
+          <p-slider
+            formControlName="cashOutRange"
+            [range]="true"
+            [min]="comp.ranges?.cashOut?.min ?? 1500"
+            [max]="comp.ranges?.cashOut?.max ?? 15000"
+            [step]="comp.ranges?.cashOut?.step ?? 500"
+          ></p-slider>
+          } @else {
+          <p-slider
+            formControlName="cashOut"
+            [range]="false"
+            [min]="comp.ranges?.cashOut?.min ?? 1500"
+            [max]="comp.ranges?.cashOut?.max ?? 15000"
+            [step]="comp.ranges?.cashOut?.step ?? 500"
+          ></p-slider>
+          }
+        </p>
+        <div class="quote-range">
+          <div>
+            {{
+              comp.ranges?.cashOut?.min | currency : 'USD' : 'symbol' : '1.0-0'
+            }}
+          </div>
+          <div>
+            {{
+              comp.ranges?.cashOut?.max | currency : 'USD' : 'symbol' : '1.0-0'
+            }}
+          </div>
+        </div>
+      </div>
+      <!---->
+      <div class="quote-selector">
+        <p class="label">Total Loan Amount</p>
 
-    <p class="value">
-      {{ quoteFrm.value.loanAmount | currency : 'USD' : 'symbol' : '1.0-0' }}
-    </p>
+        <p class="value">
+          @if(!!comp.ranges?.loanAmount?.allowRange) {
+          {{
+            quoteFrm.value.loanAmountRange?.[0] | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          -
+          {{
+            quoteFrm.value.loanAmountRange?.[1] | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          } @else {
+          {{
+            quoteFrm.value.loanAmount | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          }
+        </p>
 
-    <p>
-      <p-slider
-        formControlName="loanAmount"
-        [min]="1000"
-        [max]="15000"
-        [step]="1000"
-      ></p-slider>
-    </p>
-    <div class="quote-range">
-      <div>$1,000</div>
-      <div>$15,000</div>
-    </div>
-  </div>
-  <!---->
-  <div class="quote-selector">
-    <p class="label">Your Approximate Monthly Income</p>
-    <p class="value">
-      {{ quoteFrm.value.monthlyIncome | currency : 'USD' : 'symbol' : '1.0-0' }}
-      @if(quoteFrm.value.monthlyIncome && quoteFrm.value.monthlyIncome >= 15000)
-      {
-      <span class="nudge-left">+ </span>
-      }
-    </p>
-    <p>
-      <p-slider
-        formControlName="monthlyIncome"
-        [min]="500"
-        [max]="3000"
-        [step]="500"
-      ></p-slider>
-    </p>
-    <div class="quote-range">
-      <div>$500</div>
-      <div>$3,000+</div>
-    </div>
-  </div>
-  <!---->
-  <div class="quote-selector">
-    <p class="label">Desired Loan Duration</p>
-    <p class="value">{{ quoteFrm.value.loanDuration }} Months</p>
-    <p>
-      <p-slider
-        formControlName="loanDuration"
-        [min]="24"
-        [max]="60"
-        [step]="12"
-      ></p-slider>
-    </p>
-    <div class="quote-range">
-      <div>24 Months</div>
-      <div>60 Months</div>
-    </div>
-  </div>
+        <p>
+          @if(!!comp.ranges?.loanAmount?.allowRange) {
+          <p-slider
+            formControlName="loanAmountRange"
+            [range]="true"
+            [min]="comp.ranges?.loanAmount?.min ?? 1500"
+            [max]="comp.ranges?.loanAmount?.max ?? 15000"
+            [step]="comp.ranges?.loanAmount?.step ?? 500"
+          ></p-slider>
+          } @else {
+          <p-slider
+            formControlName="loanAmount"
+            [range]="false"
+            [min]="comp.ranges?.loanAmount?.min ?? 1500"
+            [max]="comp.ranges?.loanAmount?.max ?? 15000"
+            [step]="comp.ranges?.loanAmount?.step ?? 500"
+          ></p-slider>
+          }
+        </p>
+        <div class="quote-range">
+          <div>
+            {{
+              comp.ranges?.loanAmount?.min
+                | currency : 'USD' : 'symbol' : '1.0-0'
+            }}
+          </div>
+          <div>
+            {{
+              comp.ranges?.loanAmount?.max
+                | currency : 'USD' : 'symbol' : '1.0-0'
+            }}
+          </div>
+        </div>
+      </div>
+
+      <!---->
+      <div class="quote-selector">
+        <p class="label">Monthly Payment</p>
+        <p class="value">
+          @if(!!comp.ranges?.monthlyPayment?.allowRange) {
+          {{
+            quoteFrm.value.monthlyPaymentRange?.[0] | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          -
+          {{
+            quoteFrm.value.monthlyPaymentRange?.[1] | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          } @else {
+          {{
+            quoteFrm.value.monthlyPayment
+              | currency : 'USD' : 'symbol' : '1.0-0'
+          }}
+          }
+        </p>
+        <p>
+          @if(!!comp.ranges?.monthlyPayment?.allowRange) {
+          <p-slider
+            formControlName="monthlyPaymentRange"
+            [range]="true"
+            [min]="comp.ranges?.monthlyPayment?.min ?? 1500"
+            [max]="comp.ranges?.monthlyPayment?.max ?? 15000"
+            [step]="comp.ranges?.monthlyPayment?.step ?? 100"
+          ></p-slider>
+          } @else {
+          <p-slider
+            formControlName="monthlyPayment"
+            [range]="false"
+            [min]="comp.ranges?.monthlyPayment?.min ?? 1500"
+            [max]="comp.ranges?.monthlyPayment?.max ?? 15000"
+            [step]="comp.ranges?.monthlyPayment?.step ?? 100"
+          ></p-slider>
+          }
+        </p>
+        <div class="quote-range">
+          <div>
+            {{
+              comp.ranges?.monthlyPayment?.min
+                | currency : 'USD' : 'symbol' : '1.0-0'
+            }}
+          </div>
+          <div>
+            {{
+              comp.ranges?.monthlyPayment?.max
+                | currency : 'USD' : 'symbol' : '1.0-0'
+            }}
+          </div>
+        </div>
+      </div>
+
+      <!---->
+      <div class="quote-selector">
+        <p class="label">Loan Duration</p>
+        <p class="value">
+          @if(!!comp.ranges?.loanDuration?.allowRange) {
+          {{
+            quoteFrm.value.loanDurationRange?.[0]
+          }}
+          -
+          {{
+            quoteFrm.value.loanDurationRange?.[1]
+          }}
+          } @else {
+          {{ quoteFrm.value.loanDuration }}
+          }
+        </p>
+        <p>
+          @if(!!comp.ranges?.loanDuration?.allowRange) {
+          <p-slider
+            formControlName="loanDurationRange"
+            [range]="true"
+            [min]="comp.ranges?.loanDuration?.min ?? 24"
+            [max]="comp.ranges?.loanDuration?.max ?? 60"
+            [step]="comp.ranges?.loanDuration?.step ?? 6"
+          ></p-slider>
+          } @else {
+          <p-slider
+            formControlName="loanDuration"
+            [range]="false"
+            [min]="comp.ranges?.loanDuration?.min ?? 1500"
+            [max]="comp.ranges?.loanDuration?.max ?? 24"
+            [step]="comp.ranges?.loanDuration?.step ?? 6"
+          ></p-slider>
+          }
+        </p>
+        <div class="quote-range">
+          <div>
+            {{ comp.ranges?.loanDuration?.min }}
+          </div>
+          <div>
+            {{ comp.ranges?.loanDuration?.max }}
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
   <!-- -->
-
-  <!---->
-  <div class="quote-selector">
-    <p class="label">Desired Annual Percentage Rate (APR)</p>
-    <p class="value">{{ quoteFrm.value.apr }}%</p>
-    <p>
-      <p-slider
-        formControlName="apr"
-        [min]="5"
-        [max]="30"
-        [step]="1"
-      ></p-slider>
-    </p>
-    <div class="quote-range">
-      <div>13%</div>
-      <div>30%</div>
-    </div>
-  </div>
-
-  <div class="quote-selector">
-    <p class="label mb-2">Do you wish to secure your loan with your vehicle?</p>
-    <p>
-      <p-selectButton
-        styleClass="w-100-mobile"
-        formControlName="collateral"
-        [options]="['Yes', 'No']"
-      ></p-selectButton>
-    </p>
-    <div class="quote-range"></div>
-  </div>
 </form>

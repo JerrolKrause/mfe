@@ -4,7 +4,13 @@ import {
   Input,
   OnInit,
   ViewEncapsulation,
+  forwardRef,
 } from '@angular/core';
+import {
+  ControlContainer,
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { InputNumberInputEvent } from 'primeng/inputnumber';
 import { BaseFormFieldComponent } from '../form-field.base';
 
@@ -14,10 +20,17 @@ import { BaseFormFieldComponent } from '../form-field.base';
   styleUrls: ['./number.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NumberComponent),
+      multi: true,
+    },
+  ],
 })
 export class NumberComponent
   extends BaseFormFieldComponent<string>
-  implements OnInit
+  implements OnInit, ControlValueAccessor
 {
   /** Show or hide spinner buttons */
   @Input() showButtons?: boolean | null = false;
@@ -38,8 +51,8 @@ export class NumberComponent
   /** Use a comma to separate thousands/millions/etc */
   @Input() currencySymbol?: string | null = null;
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {

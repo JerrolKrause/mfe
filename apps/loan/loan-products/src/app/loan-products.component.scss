@@ -1,0 +1,27 @@
+.align {
+  display: flex;
+  align-items: center;
+}
+.online-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.circle {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: green;
+  margin-right: 0.5rem;
+  animation: pulse 1.5s infinite ease-in-out; /* Apply the pulse animation */
+}
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1); /* Original size */
+  }
+  50% {
+    transform: scale(1.2); /* Increase size by 10% */
+  }
+}

@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
@@ -26,8 +27,8 @@ export class TextComponent
 
   @ViewChild('input', { static: true }) input!: ElementRef;
 
-  constructor() {
-    super();
+  constructor(controlContainer: ControlContainer) {
+    super(controlContainer);
   }
 
   ngOnInit(): void {}

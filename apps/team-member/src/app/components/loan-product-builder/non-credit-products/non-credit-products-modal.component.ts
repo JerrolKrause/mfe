@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './non-credit-products-modal.component.html',
   styleUrl: './non-credit-products-modal.component.scss',
 })
-export class NonCreditProductsModalComponent {}
+export class NonCreditProductsModalComponent {
+  public buttonState = [false, false];
+}

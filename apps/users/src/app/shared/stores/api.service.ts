@@ -1,44 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import {
-  BehaviorSubject,
-  combineLatest,
-  debounceTime,
-  from,
-  map,
-  take,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 import {
   CreateUserDocument,
-  CreateUserMutation,
+  DeleteUserDocument,
   GetUsersDocument,
   GetUsersQuery,
   UpdateUserDocument,
   UpdateUserInput,
-  UpdateUserMutation,
   User,
 } from '../models/models';
 
-interface State {
-  loading: boolean;
-  error: null | string;
-  modifying: boolean;
-  modifyError: null | string;
-}
+import { GraphQLStoreCreatorService, State } from '$state-management';
+
+type UserState = State.EntityApiState<any>;
 
 @Injectable()
 export class ApiService {
   /** API State */
-  private _state$ = new BehaviorSubject<State>({
+  private _state$ = new BehaviorSubject({
     loading: false,
     error: null,
     modifying: false,
-    modifyError: null,
+    errorModify: null,
   });
 
-  /** User State */
-  public state$ = combineLatest([
+  /** User State
+  public state2$: Observable<UserState> = combineLatest([
     this.apollo
       .watchQuery<GetUsersQuery>({
         query: GetUsersDocument,
@@ -50,16 +38,42 @@ export class ApiService {
     map(([data, state]) => ({
       data,
       ...state,
+      entities: {},
     }))
   );
+  */
 
-  constructor(private apollo: Apollo) {}
+  public usersStore = this.graphSvc.createEntityStore<User>({
+    primaryKey: 'id',
+    getQuery: GetUsersDocument,
+    createQuery: CreateUserDocument,
+    updateQuery: UpdateUserDocument,
+    deleteQuery: DeleteUserDocument,
+    getResultKey: 'users',
+    createResultKey: 'createUser',
+    updateResultKey: 'updateUser',
+    deleteResultKey: 'deleteUser',
+  });
+
+  /**
+  public usersStore = this.graph.createEntityStore<any>(
+    { uniqueId: 'id' },
+    GetUsersDocument,
+    CreateUserDocument
+  ); */
+
+  public state$ = this.usersStore.state$;
+
+  constructor(
+    private apollo: Apollo,
+    private graphSvc: GraphQLStoreCreatorService
+  ) {}
 
   /**
    * Change API state
    * @param stateNew
    */
-  private stateChange(stateNew: Partial<State>) {
+  private stateChange(stateNew: Partial<UserState>) {
     this._state$
       .pipe(take(1))
       .subscribe((stateOld) => this._state$.next({ ...stateOld, ...stateNew }));
@@ -80,15 +94,18 @@ export class ApiService {
   /**
    * Refresh cached users
    * @returns
-   */
+
   public refresh() {
+    this.usersStore.refresh().subscribe();
+
     this.stateChange({ loading: true });
     return from(
       this.apollo.client.refetchQueries({
         include: 'active',
       })
     ).pipe(tap(() => this.stateChange({ loading: false })));
-  }
+
+  }*/
 
   /**
    * Create a new user
@@ -96,6 +113,8 @@ export class ApiService {
    * @returns
    */
   public userCreate(user: Partial<User>) {
+    this.usersStore.createData(user).subscribe();
+    /**
     this.stateChange({ modifying: true });
     return this.apollo
       .mutate<CreateUserMutation>({
@@ -125,6 +144,7 @@ export class ApiService {
         },
       })
       .pipe(tap(() => this.stateChange({ modifying: false })));
+       */
   }
 
   /**
@@ -133,7 +153,9 @@ export class ApiService {
    * @param userData
    * @returns
    */
-  userUpdate(userId: string, userData: UpdateUserInput) {
+  userUpdate(userId: string, user: UpdateUserInput) {
+    this.usersStore.updateData(userId, user).subscribe();
+    /**
     this.stateChange({ modifying: true });
     return this.apollo
       .mutate<UpdateUserMutation>({
@@ -166,5 +188,6 @@ export class ApiService {
         },
       })
       .pipe(tap(() => this.stateChange({ modifying: false })));
+       */
   }
 }

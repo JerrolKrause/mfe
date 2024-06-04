@@ -1,6 +1,13 @@
 .quote-form {
   $brandColor: #00a39e;
   $titleColor: #004b75;
+  thead {
+    font-size: 12px;
+    text-transform: uppercase;
+    th {
+      font-weight: 300;
+    }
+  }
 
   .w-100-mobile {
     width: 100%;
@@ -15,8 +22,8 @@
     text-align: center;
   }
   .p-selectbutton .p-button {
-    background: #fff;
-    color: $brandColor;
+    background: #fff !important;
+    color: $brandColor !important;
     border-right-width: 1px;
     border-right-style: solid;
     width: 50%;

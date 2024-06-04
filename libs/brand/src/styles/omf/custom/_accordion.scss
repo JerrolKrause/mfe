@@ -1,0 +1,29 @@
+.p-accordion {
+  .p-accordion-header {
+    border-radius: var(--border-radius);
+  }
+  &.accordion-lt {
+    .p-accordion-header {
+      a.p-accordion-header-link,
+      a.p-accordion-header-link .p-accordion-toggle-icon {
+        color: #fff;
+      }
+    }
+
+    .p-highlight {
+      background-color: var(--color-interact);
+      border: var(--color-interact);
+      .p-accordion-header-link {
+        color: #fff;
+      }
+    }
+  }
+  &.no-pad-body .p-accordion-content {
+    padding: 0;
+  }
+  &.no-animation .p-accordion-content,
+  &.no-animation .p-toggleable-content {
+    transition: none !important;
+    animation: none !important;
+  }
+}

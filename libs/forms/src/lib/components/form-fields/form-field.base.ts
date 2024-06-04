@@ -4,15 +4,16 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Optional,
   Output,
-  Self,
+  forwardRef,
 } from '@angular/core';
 import {
   AbstractControl,
+  ControlContainer,
+  ControlValueAccessor,
   FormControl,
   FormGroup,
-  NgControl,
+  NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FormsLib } from '../../forms.model';
@@ -21,8 +22,19 @@ import { FormsLib } from '../../forms.model';
   selector: 'lib-form-field',
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => BaseFormFieldComponent),
+      multi: true,
+    },
+  ],
 })
-export class BaseFormFieldComponent<t> implements OnDestroy {
+export class BaseFormFieldComponent<t>
+  implements ControlValueAccessor, OnDestroy
+{
+  /** Accept form control name so that the form control can be extracted from the form group */
+  @Input() formControlName: string | null = null;
   /** Standard html placeholder text */
   @Input() placeholder?: string | null = null;
   /** Floating label that appears in front of the content and moves above it when focused */
@@ -111,15 +123,19 @@ export class BaseFormFieldComponent<t> implements OnDestroy {
   /** Manage subs used by this class and it's children */
   protected subs: Subscription[] = [];
 
-  constructor(
-    @Self()
-    @Optional()
-    private ngControl?: NgControl
-  ) {
-    if (this.ngControl?.control) {
-      this.control = this.ngControl.control;
-      this.formGroup = this.control?.root as FormGroup;
-    }
+  constructor(private controlContainer: ControlContainer) {
+    // If formControlName was supplied, extract the form control from the parent form group
+    // ControlContainer is not available on initialization, hence async wrapper
+    Promise.resolve().then(() => {
+      if (
+        this.formControlName &&
+        this.controlContainer.control?.get(this.formControlName)
+      ) {
+        this.formControl = this.controlContainer.control.get(
+          this.formControlName
+        ) as FormControl;
+      }
+    });
   }
 
   /**

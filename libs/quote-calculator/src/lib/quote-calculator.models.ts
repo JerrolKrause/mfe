@@ -7,7 +7,32 @@ export module LoanCalculator {
     creditScore?: number | null;
     apr?: number | null;
     collateral?: any | null;
+    cashOut?: number | null;
+    monthlyPayment?: number | null;
+    ndi?: number | null;
   }
+
+  export type Ranges = {
+    [K in keyof Quote]?: {
+      min?: number | null;
+      max?: number | null;
+      step?: number | null;
+      allowRange?: boolean | null;
+    } | null;
+  };
+
+  export interface Product {
+    cashOut: number;
+    monthlyPayment: number;
+    isSecured: boolean;
+    loanAmount: number;
+    term: number;
+    apr: number;
+    vehicle?: string[];
+    paymentImpact: number;
+    ndi: number;
+  }
+
   export interface LoanProduct {
     monthlyPaymentMin: number;
     monthlyPaymentMax: number;

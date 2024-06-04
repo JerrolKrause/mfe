@@ -1,14 +1,37 @@
+.controls {
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
 .loan-products {
+  display: flex;
+  overflow-y: auto;
   @media (min-width: 768px) {
     display: flex;
+  }
+  .lp-details {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+    &:last-child {
+      border: 0;
+      margin: 0;
+    }
+    .label {
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .value {
+      font-size: 14px;
+      font-weight: 500;
+    }
   }
   .loan-product {
     margin-right: 0.25rem;
     margin-left: 0.25rem;
-    border: 1px solid #004b75;
     margin-bottom: 1em;
     display: inline-block;
-    width: 47%;
+    min-width: 132px;
     @media (min-width: 768px) {
       display: block;
       width: initial;
@@ -18,7 +41,7 @@
   }
   .lp-wrapper {
     padding: 1rem;
-    min-width: 100%;
+    min-width: 126px;
     @media (min-width: 768px) {
       padding: 2rem;
       padding-top: 1rem;
@@ -39,9 +62,13 @@
   td {
     line-height: initial;
     vertical-align: middle;
+    background: transparent;
     &.has-label {
       height: 48px;
     }
+  }
+  .highlight {
+    background: #ffffbf;
   }
   .legend {
     font-weight: 500;
