@@ -123,11 +123,15 @@ export class LoanProductsService {
     return parseFloat(randomNum.toFixed(2));
   }
 
-  public modifyAll(lp: Partial<LoanProductModels.LoanProduct>) {
-    this.loanProducts$
-      .pipe(take(1))
-      .subscribe((lps) =>
-        this.loanProducts$.next(lps.map((l) => ({ ...l, ...lp })))
-      );
+  public modifyLoanAmount(loanAmount: number) {
+    this.loanProducts$.pipe(take(1)).subscribe((lps) =>
+      this.loanProducts$.next(
+        lps.map((l) => ({
+          ...l,
+          cashOut: (l.cashOut ?? 0) + loanAmount,
+          loanAmount: (l.loanAmount ?? 0) + loanAmount,
+        }))
+      )
+    );
   }
 }

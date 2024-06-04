@@ -124,18 +124,18 @@ export class BaseFormFieldComponent<t>
   protected subs: Subscription[] = [];
 
   constructor(private controlContainer: ControlContainer) {
-    setTimeout(() => {
-      // console.log(this.formControlName, this.controlContainer.control);
+    // If formControlName was supplied, extract the form control from the parent form group
+    // ControlContainer is not available on initialization, hence async wrapper
+    Promise.resolve().then(() => {
       if (
         this.formControlName &&
         this.controlContainer.control?.get(this.formControlName)
       ) {
-        console.warn(
-          this.formControlName,
-          this.controlContainer.control?.get(this.formControlName)
-        );
+        this.formControl = this.controlContainer.control.get(
+          this.formControlName
+        ) as FormControl;
       }
-    }, 100);
+    });
   }
 
   /**

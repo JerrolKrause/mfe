@@ -12,7 +12,7 @@ import { FormArray, FormBuilder } from '@angular/forms';
 import { debounceTime, map, startWith } from 'rxjs';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsState } from '../../shared/services/loan-products.service';
-import { loanProductsModel } from './utils/loan-products-form-model.util';
+import { loanProductsFormModel } from './utils/loan-products-form-model.util';
 
 @Component({
   selector: 'app-loan-products-builder',
@@ -35,6 +35,12 @@ export class LoanProductsBuilderComponent implements OnChanges {
     payoffs: 10,
     baseCashAdvance: 2000,
     fees: 100,
+  };
+
+  @Input() maxValues: LoanProductModels.LoanProduct = {
+    cashOut: 25000,
+    payoffs: 10000,
+    baseCashAdvance: 20000,
   };
 
   public loanProductsForm = this.fb.group({
@@ -70,7 +76,9 @@ export class LoanProductsBuilderComponent implements OnChanges {
     map((form) => 4000 - (form.cashOut ?? 0))
   );
 
-  public loanProductsModel: FormsLib.FormGenerator = loanProductsModel;
+  public loanProductsModel: FormsLib.FormGenerator = loanProductsFormModel(
+    this.maxValues
+  );
 
   @Output() formSubmit = new EventEmitter<LoanProductModels.LoanProductForm>();
 
