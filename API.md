@@ -12,6 +12,13 @@
   - `updateLoanProduct(productId: ID!, input: LoanProductInput!)`: Update an existing loan product
   - `deleteLoanProduct(productId: ID!)`: Delete a loan product
 
+### Loan Product Restrictions
+
+Limits what values are allowed in the loan product builder, IE max cash out $14,000
+
+- **Queries**
+  - `restrictions(id: ID!)`: Fetch a restriction by ID
+
 ### Assets
 
 - **Queries**
