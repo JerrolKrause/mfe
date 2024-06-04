@@ -5,7 +5,9 @@
 import { Inject } from '@angular/core';
 import {
   BehaviorSubject,
+  debounceTime,
   distinctUntilChanged,
+  filter,
   fromEvent,
   identity,
   map,
@@ -93,7 +95,7 @@ class BaseStorageService<Keys> {
 
   /** Listen to the storage event and update local storage when localstorage is updated in other tabs. Does not update on this tab  */
   public storageEvent$ = this.isBrowser
-    ? fromEvent(window, 'storage').pipe(tap(() => this.update()))
+    ? fromEvent<StorageEvent>(window, 'storage').pipe(tap(() => this.update()))
     : of();
 
   /**
@@ -101,7 +103,8 @@ class BaseStorageService<Keys> {
    * Note that while data is present in this object, the getItem$ observable pulls from storage NOT from this object
    * This ensures a single source of truth for storage data
    */
-  private storage$ = new BehaviorSubject(this.getStorage());
+  private _storage$ = new BehaviorSubject(this.getStorage());
+  private storage$ = this._storage$.pipe(debounceTime(1));
 
   constructor(@Inject('') private useSessionStorage = false) {}
 
@@ -116,9 +119,15 @@ class BaseStorageService<Keys> {
   ): Observable<string | null>;
   public getItem$<t>(key: Keys, options: Storage.JSON$): Observable<t | null>;
   public getItem$(key: Keys, options?: Storage.Options$) {
-    return this.storage$.pipe(
-      map(() => this.getItem(key, options)), // Get data from storage NOT from the observable object
-      options?.disableDistinct ? identity : distinctUntilChanged() // Allow non distinct emissions
+    return this.storageEvent$.pipe(
+      filter((e) => e.key === key),
+      map((e) => {
+        const val = e.newValue;
+        return options?.isJson && val ? JSON.parse(val) : val;
+      }),
+      options?.disableDistinct ? identity : distinctUntilChanged()
+      // map(() => this.getItem(key, options)), // Get data from storage NOT from the observable object
+      // options?.disableDistinct ? identity : distinctUntilChanged() // Allow non distinct emissions
     );
   }
 
@@ -158,7 +167,7 @@ class BaseStorageService<Keys> {
 
     this.storage$
       .pipe(take(1))
-      .subscribe((s) => this.storage$.next({ ...s, [String(key)]: value }));
+      .subscribe((s) => this._storage$.next({ ...s, [String(key)]: value }));
   }
 
   /**
@@ -172,7 +181,7 @@ class BaseStorageService<Keys> {
     this.storage$.pipe(take(1)).subscribe((s) => {
       const storage = { ...s };
       delete storage[String(key)];
-      this.storage$.next(storage);
+      this._storage$.next(storage);
     });
   }
 
@@ -183,7 +192,7 @@ class BaseStorageService<Keys> {
    */
   public clear() {
     this.storage.clear();
-    this.storage$.next({});
+    this._storage$.next({});
   }
 
   /**
@@ -207,7 +216,7 @@ class BaseStorageService<Keys> {
    * Refresh all values in the observable from the storage object
    */
   public update() {
-    this.storage$.next(this.getStorage());
+    this._storage$.next(this.getStorage());
   }
 
   /**

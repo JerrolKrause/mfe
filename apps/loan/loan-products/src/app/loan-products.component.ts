@@ -1,3 +1,5 @@
+import { LoanCalculator } from '$quote-calculator';
+import { AppStorageService } from '$shared';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -40,8 +42,12 @@ export class LoanProductsComponent {
   constructor(
     public lpSvc: LoanProductsService,
     public dialogService: DialogService,
+    public storage: AppStorageService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.storage.customerSelection$.subscribe(console.warn);
+    // this.storage.localStorage.storageEvent$.subscribe(console.log);
+  }
 
   /**
    * Open a subproduct modal
@@ -85,5 +91,9 @@ export class LoanProductsComponent {
     if (i === 1) {
       this.lpSvc.stateChange({ hasCustomerUpdate: false });
     }
+  }
+
+  public quoteFormChanged(form: LoanCalculator.Quote) {
+    console.log(form);
   }
 }

@@ -4,7 +4,9 @@
     <div>
       <h1>Explore Loan Choices with Our Customizable Calculator</h1>
       <div style="max-width: 480px; margin: auto">
-        <app-quote-form></app-quote-form>
+        <app-quote-form
+          (quoteFormChanged)="quoteFormChanged($event)"
+        ></app-quote-form>
       </div>
       <!--
       <app-quote-calculator
