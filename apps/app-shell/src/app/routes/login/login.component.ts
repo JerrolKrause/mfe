@@ -1,7 +1,7 @@
 import { FormsLib } from '$forms';
 import { AuthExpiredReason, AuthenticationService } from '$shared';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
 
@@ -11,7 +11,10 @@ import { BehaviorSubject, combineLatest, map } from 'rxjs';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  public loginForm: FormGroup;
+  public loginForm = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+  });
   public formOptions: FormsLib.FormOptions = {};
 
   private errorSubject$ = new BehaviorSubject<string | null>(null);
@@ -60,21 +63,15 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthenticationService
-  ) {
-    this.loginForm = this.fb.group({
-      username: [null, Validators.required],
-      password: [null, Validators.required],
-    });
-  }
+  ) {}
 
   ngOnInit() {}
 
   login() {
-    if (!this.loginForm.valid) {
+    const { username, password } = this.loginForm.value;
+    if (!this.loginForm.valid || !username || !password) {
       return;
     }
-
-    const { username, password } = this.loginForm.value;
 
     this.authService.login(username, password).subscribe(
       () => {
