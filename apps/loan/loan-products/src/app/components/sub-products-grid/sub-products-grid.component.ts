@@ -14,7 +14,7 @@ import { LoanProductModels } from '../../shared/models/loan-products.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubProductsGridComponent implements OnChanges {
-  @Input() products?: LoanProductModels.SubProducts[] | null = [];
+  @Input() products?: LoanProductModels.SubProduct[] | null = [];
   @Input() colLength = 7;
 
   public actions: MenuItem[][] = this.actionsGenerate(this.products);
@@ -48,7 +48,7 @@ export class SubProductsGridComponent implements OnChanges {
    * @returns
    */
   private actionsGenerate(
-    loanProducts?: LoanProductModels.SubProducts[] | null
+    loanProducts?: LoanProductModels.SubProduct[] | null
   ): MenuItem[][] {
     if (!loanProducts?.length) {
       return [];

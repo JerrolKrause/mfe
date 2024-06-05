@@ -10,8 +10,6 @@ export module LoanProductModels {
     [P in keyof T]: T[P] | null;
   };
 
-  export type SubProducts = (CreditProduct | NonCreditProduct)[];
-
   export interface LoanProduct {
     id?: string;
     cashOut?: number;
@@ -24,7 +22,7 @@ export module LoanProductModels {
     status?: LoanProductStatus;
     vehicles?: any[];
     creditors?: Creditor[];
-    subProducts?: SubProducts;
+    subProducts?: SubProduct[];
     // Stub properties for form
     payoffs?: number;
     baseCashAdvance?: number;
@@ -46,7 +44,9 @@ export module LoanProductModels {
     assets: Asset[];
   }
 
-  interface SubProduct {
+  export type SubProduct = CreditProduct | NonCreditProduct;
+
+  interface SubProductSrc {
     id: string;
     parentId: string;
     label?: string;
@@ -54,15 +54,29 @@ export module LoanProductModels {
     insured?: string;
     term?: number;
     fee?: number;
-    dateEffective?: string;
+    benefitAmount?: number;
+    dateEffective?: string | Date;
   }
 
-  export interface CreditProduct extends SubProduct {
+  export interface CreditProduct extends SubProductSrc {
     type: SubProductType.Credit;
   }
 
-  export interface NonCreditProduct extends SubProduct {
+  export interface NonCreditProduct extends SubProductSrc {
     type: SubProductType.Noncredit;
+  }
+
+  // Type guards for CreditProduct and NonCreditProduct
+  export function isCreditProduct(
+    subProduct: SubProduct
+  ): subProduct is CreditProduct {
+    return subProduct.type === SubProductType.Credit;
+  }
+
+  export function isNonCreditProduct(
+    subProduct: SubProduct
+  ): subProduct is NonCreditProduct {
+    return subProduct.type === SubProductType.Noncredit;
   }
 
   export interface Asset {

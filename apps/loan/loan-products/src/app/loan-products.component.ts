@@ -2,8 +2,8 @@ import { LoanCalculator } from '$quote-calculator';
 import { AppStorageService } from '$shared';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { map, mergeMap, of } from 'rxjs';
+import { DialogService } from 'primeng/dynamicdialog';
+import { map, mergeMap, of, take } from 'rxjs';
 import { CreditProductsBuilderComponent } from './components/credit-products-builder/credit-products-builder.component';
 import { NonCreditProductsBuilderComponent } from './components/non-credit-products-builder/non-credit-products-builder.component';
 import { LoanProductModels } from './shared/models/loan-products.models';
@@ -16,8 +16,6 @@ import { LoanProductsService } from './shared/services/loan-products.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoanProductsComponent {
-  ref: DynamicDialogRef | undefined;
-
   public loanProducts$ = this.route.params.pipe(
     map((params) => params['loanId']),
     mergeMap((loanId) =>
@@ -52,27 +50,40 @@ export class LoanProductsComponent {
    * @param productId
    */
   public modalOpen({
+    parentId,
     type,
-    productId,
+    product,
   }: {
+    parentId: string;
     type: LoanProductModels.SubProductType;
-    productId: string;
+    product?: LoanProductModels.SubProduct | null;
   }) {
+    // Select which modal component to use
     const modal =
       type === LoanProductModels.SubProductType.Credit
         ? CreditProductsBuilderComponent
         : NonCreditProductsBuilderComponent;
+    // Which product type
+    const headerType =
+      type === LoanProductModels.SubProductType.Credit
+        ? 'Credit'
+        : 'Non-Credit';
 
-    this.ref = this.dialogService.open(modal, {
-      header:
-        type === LoanProductModels.SubProductType.Credit
-          ? 'Add/Edit A Credit Product'
-          : 'Add/Edit A Non-Credit Product',
-      data: productId,
-      modal: true,
-      closable: true,
-      dismissableMask: true,
-    });
+    // Launch modal
+    this.dialogService
+      .open(modal, {
+        header: product?.id
+          ? `Edit ${headerType} Product`
+          : `Add ${headerType} Product`,
+        data: { parentId, type, ...product }, // Attach parent ID and sub product type
+        modal: true,
+        closable: true,
+        dismissableMask: true,
+      })
+      .onClose.pipe(take(1))
+      .subscribe((p: LoanProductModels.SubProduct) =>
+        this.lpSvc.subProductUpsert(p)
+      );
   }
 
   public loanProductEdit(lp: LoanProductModels.LoanProduct) {

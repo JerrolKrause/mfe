@@ -46,8 +46,9 @@ export class LoanProductsGridComponent implements OnChanges {
   public monthlyPaymentRange = signal<number[]>([]);
 
   @Output() modalOpen = new EventEmitter<{
+    parentId: string;
     type: LoanProductModels.SubProductType;
-    productId: string;
+    product?: LoanProductModels.SubProduct | null;
   }>();
   @Output() loanProductEdit = new EventEmitter<LoanProductModels.LoanProduct>();
   @Output() loanProductDelete = new EventEmitter<string>();

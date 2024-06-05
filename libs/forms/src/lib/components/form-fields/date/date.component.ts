@@ -12,6 +12,10 @@ import { ControlContainer } from '@angular/forms';
 import { debounceTime, filter, startWith } from 'rxjs';
 import { BaseFormFieldComponent } from '../form-field.base';
 
+/**
+ * @todo - Add support for string type. By default the prime date control is type Date
+ */
+
 @Component({
   selector: 'lib-date',
   templateUrl: './date.component.html',
