@@ -17,13 +17,31 @@
             <p-radioButton
               [id]="id || formFieldID"
               [name]="name || (label || placeholder | slug)"
-              [inputId]="(option.value | slug) + i"
+              [inputId]="
+                'field-' +
+                  (option.value | slug) +
+                  i +
+                  '-' +
+                  (option.label | slug) ||
+                name ||
+                (label || placeholder | slug)
+              "
               [formControl]="formControl"
               [value]="option.value"
             ></p-radioButton>
-            <label class="radio-label" [for]="(option.value | slug) + i">{{
-              option.label
-            }}</label>
+            <label
+              class="radio-label"
+              [for]="
+                'field-' +
+                  (option.value | slug) +
+                  i +
+                  '-' +
+                  (option.label | slug) ||
+                name ||
+                (label || placeholder | slug)
+              "
+              >{{ option.label }}</label
+            >
           </div>
         </div>
       </ng-container>

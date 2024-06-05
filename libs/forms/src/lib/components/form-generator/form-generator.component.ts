@@ -87,7 +87,7 @@ export class FormGeneratorComponent implements OnInit {
     }
     this.formGroup.patchValue(this.formGroup.value);
     this.formGroup.markAllAsTouched();
-    console.log('Test');
+
     if (this.formGroup?.invalid) {
       // Wait for DOM to update with new validation states
       Promise.resolve().then(() => {
