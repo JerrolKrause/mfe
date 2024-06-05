@@ -118,9 +118,7 @@ export class NonCreditProductsBuilderComponent implements OnInit {
     private fb: FormBuilder,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig
-  ) {
-    this.config.data;
-  }
+  ) {}
 
   ngOnInit(): void {
     if (this.config.data) {

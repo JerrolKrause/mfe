@@ -3,7 +3,7 @@ import { AppStorageService } from '$shared';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
-import { map, mergeMap, of, take } from 'rxjs';
+import { map, mergeMap, of } from 'rxjs';
 import { CreditProductsBuilderComponent } from './components/credit-products-builder/credit-products-builder.component';
 import { NonCreditProductsBuilderComponent } from './components/non-credit-products-builder/non-credit-products-builder.component';
 import { LoanProductModels } from './shared/models/loan-products.models';
@@ -80,8 +80,7 @@ export class LoanProductsComponent {
         closable: true,
         dismissableMask: true,
       })
-      .onClose.pipe(take(1))
-      .subscribe((p: LoanProductModels.SubProduct) =>
+      .onClose.subscribe((p: LoanProductModels.SubProduct) =>
         this.lpSvc.subProductUpsert(p)
       );
   }

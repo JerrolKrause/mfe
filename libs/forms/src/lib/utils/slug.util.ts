@@ -1,13 +1,22 @@
 /**
- *
+ * Create a unique ID from an input value
+ * @param value
+ * @returns
  */
-export const slugCreateUniqueId = (value: string, classRef: any) => {
-  // Create a slug from the placeholder
-  let slug = String(value)
+export const slugCreate = (value: unknown) =>
+  String(value)
     .trim()
     .toLowerCase()
     .replace(/ /gi, '-')
+    .replace(/--/gi, '-')
     .replace(/[^A-Z0-9-]/gi, '');
+
+/**
+ * @todo Finalize implementation of a unique per class ID generator
+ */
+export const slugCreateUniqueId = (value: string, classRef?: any | null) => {
+  // Create a slug from the placeholder
+  let slug = slugCreate(value);
   // If a dictionary of unique ID's has not yet been created, add it
   if (!classRef.uniqueIds) {
     classRef.uniqueIds = {};

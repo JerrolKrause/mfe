@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { slugCreate } from '../utils';
 
 /**
  * Convert a string to a slug by making lowercase, remove special characters, replace spaces with hyphens
@@ -10,10 +11,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SlugPipe implements PipeTransform {
   transform(value: unknown): string {
-    return String(value)
-      .trim()
-      .toLowerCase()
-      .replace(/ /gi, '-')
-      .replace(/[^A-Z0-9-]/gi, '');
+    return slugCreate(value);
   }
 }

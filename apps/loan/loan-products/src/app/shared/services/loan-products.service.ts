@@ -130,9 +130,8 @@ export class LoanProductsService {
       return;
     }
 
-    this.loanProducts$.pipe(take(1)).subscribe((lps) => {
-      // Update subproducts
-      const updated = lps.map((lp) => {
+    this.loanProducts$.next(
+      this.loanProducts$.value.map((lp) => {
         // If the subproducts parent ID matches the current product ID
         if (lp.id === product.parentId) {
           // Check if the subproduct has an ID. If so this is an upsert action, otherwise it's a create
@@ -155,10 +154,8 @@ export class LoanProductsService {
           };
         }
         return lp;
-      });
-
-      this.loanProducts$.next(updated);
-    });
+      })
+    );
   }
 
   public modifyLoanAmount(loanAmount: number) {
@@ -173,7 +170,7 @@ export class LoanProductsService {
     );
   }
 
-  private getRandomNumberInRange(min: number, max: number): number {
+  private getRandomNumberInRange(min: number, max: number) {
     const randomNum = Math.random() * (max - min) + min;
     return parseFloat(randomNum.toFixed(2));
   }
