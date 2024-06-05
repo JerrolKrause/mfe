@@ -1,5 +1,5 @@
 import { LoanCalculator } from '$quote-calculator';
-import { QUOTE_FORM_ACTIONS, UserIds } from '$shared';
+import { AppStorageService, QUOTE_FORM_ACTIONS } from '$shared';
 import { SocketService } from '$state-management';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
@@ -40,7 +40,8 @@ export class QuoteComponent implements OnInit {
 
   constructor(
     private socket: SocketService,
-    private quoteSvc: QuotingService
+    private quoteSvc: QuotingService,
+    private storage: AppStorageService
   ) {}
 
   ngOnInit(): void {
@@ -125,9 +126,6 @@ export class QuoteComponent implements OnInit {
    * @param quote
    */
   public quoteFormChanged(quote?: LoanCalculator.Quote | null) {
-    this.socket.sendMessageToUser(
-      UserIds.teamMember,
-      JSON.stringify(QUOTE_FORM_ACTIONS.CUSTOMER_QUOTE_CHANGED(quote ?? null))
-    );
+    this.storage.quote = quote ?? null;
   }
 }

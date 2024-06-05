@@ -17,11 +17,11 @@
             <p-radioButton
               [id]="id || formFieldID"
               [name]="name || (label || placeholder | slug)"
-              [inputId]="(option.value | slug) + i"
+              [inputId]="option | oid : i : 30"
               [formControl]="formControl"
               [value]="option.value"
             ></p-radioButton>
-            <label class="radio-label" [for]="(option.value | slug) + i">{{
+            <label class="radio-label" [for]="option | oid : i : 30">{{
               option.label
             }}</label>
           </div>

@@ -6,14 +6,20 @@ import { Inject } from '@angular/core';
 import {
   BehaviorSubject,
   distinctUntilChanged,
+  filter,
   fromEvent,
   identity,
   map,
+  merge,
   Observable,
   of,
-  take,
-  tap,
+  startWith,
 } from 'rxjs';
+
+/**
+ * @todo
+ * - Add options support for a comparator function for distinctUntilChanged so it works with non-primitives
+ */
 
 module Storage {
   export interface Options {
@@ -28,8 +34,10 @@ module Storage {
   }
   // Observable options
   export interface Options$ extends Options {
-    /** By default only distinct emissions are allowed through the observable. This allows all updates through */
+    /** By default only distinct emissions are allowed through the observable. This allows all updates through. Only works with primitives */
     disableDistinct?: boolean;
+    /** Setting this property to true will ensure that this observable updates only when other tabs update localstorage. */
+    onlyAllowCrossTab?: boolean;
   }
   export interface JSON$ extends Options$ {
     isJson: true;
@@ -72,7 +80,7 @@ export class StorageService<LocalStorageKeys, SessionStorageKeys = void> {
  * Base class for interacting with storage
  */
 class BaseStorageService<Keys> {
-  /** Is currently node  */
+  /** Is currently node, adds SSR support  */
   private isNode =
     typeof process !== 'undefined' &&
     process.versions != null &&
@@ -93,20 +101,22 @@ class BaseStorageService<Keys> {
 
   /** Listen to the storage event and update local storage when localstorage is updated in other tabs. Does not update on this tab  */
   public storageEvent$ = this.isBrowser
-    ? fromEvent(window, 'storage').pipe(tap(() => this.update()))
+    ? fromEvent<StorageEvent>(window, 'storage')
     : of();
 
   /**
-   * A Record of the storage object to keep track of changes for the observable
-   * Note that while data is present in this object, the getItem$ observable pulls from storage NOT from this object
-   * This ensures a single source of truth for storage data
+   * Manually handle changes to the storage event.
+   * By default storageEvents do not emit on the same tab which is not always desirable
    */
-  private storage$ = new BehaviorSubject(this.getStorage());
+  private storageEventsAll$ = new BehaviorSubject<
+    Record<string, string | null>
+  >(this.isBrowser ? { ...window.localStorage } : {});
 
   constructor(@Inject('') private useSessionStorage = false) {}
 
   /**
    * Returns the current value associated with the given key as an observable, or null if the given key does not exist.
+   * This observable only fires on tabs that did not update this property to prevent loops
    * @param key
    * @param options
    */
@@ -116,10 +126,33 @@ class BaseStorageService<Keys> {
   ): Observable<string | null>;
   public getItem$<t>(key: Keys, options: Storage.JSON$): Observable<t | null>;
   public getItem$(key: Keys, options?: Storage.Options$) {
-    return this.storage$.pipe(
-      map(() => this.getItem(key, options)), // Get data from storage NOT from the observable object
-      options?.disableDistinct ? identity : distinctUntilChanged() // Allow non distinct emissions
+    return options?.onlyAllowCrossTab
+      ? this.storageEvent$
+      : merge(
+          // StorageEvent only fires on crosstab storage updates
+          this.storageEvent$.pipe(
+            filter((e) => e.key === key), // Only key this key from the event
+            map((e) => e.newValue) // Extract the new value
+          ),
+          // Storage event will fire on same tab storage updates
+          this.storageEventsAll$.pipe(map((val) => val[String(key)])) // Map to desired key
+        ).pipe(
+          map((val) => (options?.isJson && val ? JSON.parse(val) : val)), // Convert to JSON if desired
+          startWith(this.getItem(key, options)), // Hydrate observable on first subscription
+          options?.disableDistinct ? identity : distinctUntilChanged() // Allow non distinct emissions. Only works with primatives
+        );
+
+    /**
+    return this.storageEvent$.pipe(
+      filter((e) => e.key === key), // Only key this key from the event
+      map(
+        (e) =>
+          options?.isJson && e.newValue ? JSON.parse(e.newValue) : e.newValue // Extract value, convert to JSON
+      ),
+      startWith(this.getItem(key, options)), // Hydrate observable on first subscription
+      options?.disableDistinct ? identity : distinctUntilChanged() // Allow non distinct emissions. Only works with primatives
     );
+     */
   }
 
   /**
@@ -151,14 +184,12 @@ class BaseStorageService<Keys> {
     // If set item is a nill value, remove from storage instead
     if (!value) {
       this.removeItem(key);
+      this.storageEventsAll$.next({ [String(key)]: null }); // Notifiy same tab subscribers
     } else {
       const val = typeof value === 'string' ? value : JSON.stringify(value);
       this.storage.setItem(String(key), val);
+      this.storageEventsAll$.next({ [String(key)]: val }); // Notifiy same tab subscribers
     }
-
-    this.storage$
-      .pipe(take(1))
-      .subscribe((s) => this.storage$.next({ ...s, [String(key)]: value }));
   }
 
   /**
@@ -169,11 +200,7 @@ class BaseStorageService<Keys> {
    */
   public removeItem(key: Keys) {
     this.storage.removeItem(String(key));
-    this.storage$.pipe(take(1)).subscribe((s) => {
-      const storage = { ...s };
-      delete storage[String(key)];
-      this.storage$.next(storage);
-    });
+    this.storageEventsAll$.next({ [String(key)]: null }); // Notifiy same tab subscribers
   }
 
   /**
@@ -183,7 +210,6 @@ class BaseStorageService<Keys> {
    */
   public clear() {
     this.storage.clear();
-    this.storage$.next({});
   }
 
   /**
@@ -206,22 +232,7 @@ class BaseStorageService<Keys> {
   /**
    * Refresh all values in the observable from the storage object
    */
-  public update() {
-    this.storage$.next(this.getStorage());
-  }
-
-  /**
-   * Convert the storage class into a Record for the observable
-   * @returns
-   */
-  private getStorage(): Record<string, unknown> {
-    return this.isBrowser && this.storage
-      ? Object.keys(this.storage).reduce(
-          (a, b) => ({ ...a, [b]: this.storage.getItem(b) }),
-          {}
-        )
-      : {};
-  }
+  public update() {}
 
   /**
    * Abstraction for local/session storage in SSR safe fashion

@@ -188,8 +188,8 @@
                 class="me-2"
                 (click)="
                   modalOpen.emit({
-                    type: SubProductType.Credit,
-                    productId: product.id
+                    parentId: product.id,
+                    type: SubProductType.Credit
                   })
                 "
                 >Add Credit Product</p-button
@@ -197,8 +197,8 @@
               <p-button
                 (click)="
                   modalOpen.emit({
-                    type: SubProductType.Noncredit,
-                    productId: product.id
+                    parentId: product.id,
+                    type: SubProductType.Noncredit
                   })
                 "
                 >Add Non-Credit Product</p-button

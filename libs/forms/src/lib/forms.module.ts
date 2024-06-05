@@ -27,6 +27,7 @@ import { DropdownComponent } from './components/form-fields/dropdown/dropdown.co
 import { EmailComponent } from './components/form-fields/email/email.component';
 import { InputComponent } from './components/form-fields/input/input.component';
 import { NumberComponent } from './components/form-fields/number/number.component';
+import { PasswordComponent } from './components/form-fields/password/password.component';
 import { PhonenumberComponent } from './components/form-fields/phonenumber/phonenumber.component';
 import { RadioComponent } from './components/form-fields/radio/radio.component';
 import { SelectButtonComponent } from './components/form-fields/select-button/select-button.component';
@@ -42,8 +43,9 @@ import { FormFieldComponent } from './components/form-generator/form-field/form-
 import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
 import { HtmlComponent } from './components/form-generator/html/html.component';
 import { RowComponent } from './components/form-generator/row/row.component';
+
 // Pipe
-import { PasswordComponent } from './components/form-fields/password/password.component';
+import { OptionsUniqueId } from './pipes/options-unique-id.pipe';
 import { SlugPipe } from './pipes/slug.pipe';
 
 // Exported form fields
@@ -85,7 +87,7 @@ const FORMGEN = [
  * A form generator library that generates HTML forms based on a configuration object or schema.
  */
 @NgModule({
-  declarations: [COMPONENTS, FORMGEN, SlugPipe],
+  declarations: [COMPONENTS, FORMGEN, SlugPipe, OptionsUniqueId],
   imports: [
     CommonModule,
     FormsModule,

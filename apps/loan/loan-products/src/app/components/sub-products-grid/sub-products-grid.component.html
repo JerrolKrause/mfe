@@ -6,6 +6,7 @@
       <th pSortableColumn="label">Type</th>
       <th pSortableColumn="insured">Insured</th>
       <th pSortableColumn="term">Term</th>
+      <th pSortableColumn="fee">Benefit</th>
       <th pSortableColumn="fee">Premium/Fee</th>
       <th pSortableColumn="dateEffective">Effective Date</th>
       <th pSortableColumn="" class="text-end">Actions</th>
@@ -17,8 +18,10 @@
       <td>{{ product.label }}</td>
       <td>{{ product.insured }}</td>
       <td>{{ product.term }} mo</td>
+      <td>{{ product.benefitAmount | currency : 'USD' }}</td>
+
       <td>{{ product.fee | currency : 'USD' }}</td>
-      <td>{{ product.dateEffective }}</td>
+      <td>{{ product.dateEffective | date : 'M/dd/yy' }}</td>
       <td class="text-end">
         <p-splitButton
           label="Edit"

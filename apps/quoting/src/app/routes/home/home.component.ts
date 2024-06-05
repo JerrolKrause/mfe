@@ -32,7 +32,7 @@ export class HomeComponent {
    * When quote is changed
    * @param quote
    */
-  public quoteChanged(quote: LoanCalculator.Quote) {
+  public quoteFormChanged(quote: LoanCalculator.Quote) {
     console.log('quoteChanged', quote);
   }
 

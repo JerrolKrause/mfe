@@ -1,4 +1,8 @@
 .radio {
+  .p-radiobutton .p-radiobutton-box.p-highlight {
+    border-color: #007ad9;
+    background: #007ad9 !important;
+  }
   .p-inputgroup > .p-float-label {
     position: initial;
   }
