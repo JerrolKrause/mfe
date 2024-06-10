@@ -5,6 +5,32 @@
     text-transform: uppercase;
     line-height: 16px;
   }
+  .sidebar-app-header {
+    line-height: 16px;
+    width: 100%;
+    .sidebar-loanid {
+      font-size: 10px;
+    }
+  }
+  .sidebar-remove {
+    padding: 10px;
+    padding-right: 0;
+    color: #fff;
+    &:hover {
+      color: #000;
+    }
+  }
+  .sidebar-add {
+    display: flex;
+    color: #fff;
+    width: 100%;
+    padding: 0.5rem;
+    &:hover {
+      background: var(--color-interact);
+      cursor: pointer;
+      border-radius: var(--border-radius);
+    }
+  }
 
   .sidebar-popout {
     display: none;
@@ -69,5 +95,9 @@
       background-color: var(--color-interact);
       color: #fff;
     }
+  }
+
+  .p-accordion .p-accordion-header a {
+    padding: 0.5rem;
   }
 }
