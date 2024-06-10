@@ -3,8 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -59,7 +61,7 @@ public formModel: FormsLib.FormGenerator = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class FormGeneratorComponent implements OnInit {
+export class FormGeneratorComponent implements OnInit, OnChanges {
   /** Model to generate the form */
   @Input() formModel?: FormsLib.FormGenerator | null = [];
   /** Main form group */
@@ -69,13 +71,26 @@ export class FormGeneratorComponent implements OnInit {
   /** Datafields for dynamic data */
   @Input() datafields?: FormsLib.Datafields | null = {};
   /** Disable submit button. Otherwise will rely on the form validators to allow submission */
-  @Input() disableSubmit = false;
+  @Input() disableSubmit: null | boolean = false;
+  /** Enable/disable the form  */
+  @Input() disabled?: null | boolean = false;
   /** When the user submits the form */
   @Output() completed = new EventEmitter<unknown>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Disable/enable the form when the input changes
+    if (changes['disabled'] && this.formGroup && is.browser) {
+      // setTimeout is required to set it onload, otherwise it does not disable the form
+      setTimeout(() => {
+        this.disabled ? this.formGroup?.disable() : this.formGroup?.enable();
+        this.formGroup?.markAsUntouched(); // Reset validation state on disable changes
+      }, 1);
+    }
+  }
 
   /**
    * On form submit, run validation

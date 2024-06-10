@@ -43,6 +43,8 @@ export class LoanProductsBuilderComponent implements OnChanges {
     baseCashAdvance: 20000,
   };
 
+  @Input() isLocked = false;
+
   public loanProductsForm = this.fb.group({
     id: '',
     cashOut: 0,
@@ -97,6 +99,7 @@ export class LoanProductsBuilderComponent implements OnChanges {
     if (changes['assets']) {
       this.populateAssets();
     }
+
     // When creditors change, regenerate assets in the form
     if (changes['creditors']) {
       this.populateCreditors();

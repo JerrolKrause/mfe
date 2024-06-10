@@ -8,8 +8,14 @@ import {
 import { LoanProductModels } from '../models/loan-products.models';
 
 export interface LoanProductsState {
+  /** Permission toggle for if this is Central working on this loan */
   isCentral: boolean;
+  /** Toggled when the customer updates their experience */
   hasCustomerUpdate: boolean;
+  /** Is another team member currently working on this loan */
+  loanIsBeingWorkedOn: boolean;
+  /** Is this loan locked and have certain features disabled */
+  isLocked: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -17,6 +23,8 @@ export class LoanProductsService {
   public state$ = new BehaviorSubject<LoanProductsState>({
     isCentral: false,
     hasCustomerUpdate: false,
+    loanIsBeingWorkedOn: true,
+    isLocked: false,
   });
 
   public loanProducts$ = new BehaviorSubject<LoanProductModels.LoanProduct[]>(

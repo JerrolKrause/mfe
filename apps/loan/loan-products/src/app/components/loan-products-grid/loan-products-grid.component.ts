@@ -22,6 +22,7 @@ import { LoanProductsService } from '../../shared/services/loan-products.service
 })
 export class LoanProductsGridComponent implements OnChanges {
   @Input() loanProducts?: LoanProductModels.LoanProduct[] | null = null;
+  @Input() isLocked?: boolean | null = false;
 
   public columns = [
     { label: '', prop: 'droprow' },
@@ -41,7 +42,10 @@ export class LoanProductsGridComponent implements OnChanges {
   public SubProductType = LoanProductModels.SubProductType;
 
   /** Split button menu actions for loan products */
-  public actions: MenuItem[][] = this.actionsGenerate(this.loanProducts);
+  public actions: MenuItem[][] = this.actionsGenerate(
+    this.loanProducts,
+    this.isLocked
+  );
 
   public monthlyPaymentRange = signal<number[]>([]);
 
@@ -58,10 +62,14 @@ export class LoanProductsGridComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // When loan products change, generate action menus
     if (this.loanProducts && changes['loanProducts']) {
-      this.actions = this.actionsGenerate(this.loanProducts);
+      this.actions = this.actionsGenerate(this.loanProducts, this.isLocked);
       this.monthlyPaymentRange.set(
         this.generateMonthlyRange(this.loanProducts)
       );
+    }
+    // When the lock status changes
+    if (changes['isLocked']) {
+      this.actions = this.actionsGenerate(this.loanProducts, this.isLocked);
     }
   }
 
@@ -93,10 +101,12 @@ export class LoanProductsGridComponent implements OnChanges {
   /**
    * Generate action menus for each loan product
    * @param loanProducts
+   * @param isLocked
    * @returns
    */
   private actionsGenerate(
-    loanProducts?: LoanProductModels.LoanProduct[] | null
+    loanProducts?: LoanProductModels.LoanProduct[] | null,
+    isLocked?: null | boolean
   ): MenuItem[][] {
     if (!loanProducts?.length) {
       return [];
@@ -107,6 +117,7 @@ export class LoanProductsGridComponent implements OnChanges {
           label: 'Edit',
           icon: 'pi pi-pencil',
           command: () => this.loanProductEdit.emit(lp),
+          disabled: isLocked ?? false,
         },
         {
           label: 'Escalate',
@@ -162,6 +173,7 @@ export class LoanProductsGridComponent implements OnChanges {
         {
           label: 'Delete',
           icon: 'pi pi-trash',
+          disabled: isLocked ?? false,
           command: () => {
             if (!lp.id) {
               return;

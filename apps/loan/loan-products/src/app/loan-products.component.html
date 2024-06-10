@@ -11,6 +11,7 @@
             </h1>
             <app-loan-products-grid
               [loanProducts]="loanProducts$ | async"
+              [isLocked]="comp.state?.isLocked"
               (modalOpen)="modalOpen($event)"
               (loanProductEdit)="loanProductEdit($event)"
               (loanProductDelete)="lpSvc.loanProductDelete($event)"
@@ -31,6 +32,7 @@
                 [state]="comp.state"
                 [assets]="assets$ | async"
                 [creditors]="creditors$ | async"
+                [isLocked]="comp.state?.isLocked ?? false"
                 [formDefaults]="loanProductToEdit()"
                 (formSubmit)="lpSvc.loanProductAdd($event)"
               ></app-loan-products-builder>

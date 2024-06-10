@@ -62,6 +62,7 @@
             <p-checkbox
               [binary]="true"
               [label]="creditor.value.label"
+              [disabled]="isLocked"
               (onChange)="onSelectCreditor(i)"
             ></p-checkbox>
             <div class="sub-text">
@@ -114,6 +115,7 @@
       <div class="col col-12 col-md-5 mb-3">
         <lib-form-generator
           [formModel]="loanProductsModel"
+          [disabled]="isLocked"
           [formGroup]="loanProductsForm"
           [options]="formOptions"
           [disableSubmit]="false"
