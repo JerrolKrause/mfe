@@ -30,6 +30,19 @@ import { NoContentComponent } from './routes/no-content/no-content.component';
 import { SelectLoanIdComponent } from './routes/select-loan-id/select-loan-id.component';
 import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-task.component';
 
+import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+
+const uri =
+  'https://income-verification-subgraph-dev-egg.cherrypie.alt.meanion.com/';
+export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
+  return {
+    link: httpLink.create({ uri }),
+    cache: new InMemoryCache(),
+  };
+}
+
 @NgModule({
   declarations: [
     LoanProductsComponent,
@@ -62,10 +75,18 @@ import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-t
     ReactiveFormsModule,
     ButtonModule,
     TableModule,
-
+    ApolloModule,
     DynamicDialogModule,
   ],
-  providers: [DialogService, provideClientHydration()],
+  providers: [
+    DialogService,
+    provideClientHydration(),
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: createApollo,
+      deps: [HttpLink],
+    },
+  ],
   bootstrap: [LoanProductsComponent],
 })
 export class LoanProductsModule {}
