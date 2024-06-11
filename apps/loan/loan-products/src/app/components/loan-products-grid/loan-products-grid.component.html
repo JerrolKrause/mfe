@@ -179,11 +179,13 @@
         <td [attr.colspan]="columns.length + 1">
           <div class="p-3">
             <app-sub-products-grid
-              [products]="product.subProducts"
+              [creditProducts]="product.creditProducts"
+              [nonCreditProducts]="product.nonCreditProducts"
               [colLength]="columns.length + 1"
             ></app-sub-products-grid>
 
             <div class="text-end">
+              <!--
               <p-button
                 class="me-2"
                 (click)="
@@ -193,7 +195,7 @@
                   })
                 "
                 >Add Credit Product</p-button
-              >
+              >-->
               <p-button
                 (click)="
                   modalOpen.emit({

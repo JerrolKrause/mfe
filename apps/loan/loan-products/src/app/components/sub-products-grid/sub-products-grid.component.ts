@@ -14,14 +14,27 @@ import { LoanProductModels } from '../../shared/models/loan-products.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubProductsGridComponent implements OnChanges {
-  @Input() products?: LoanProductModels.SubProduct[] | null = [];
+  @Input() creditProducts?: LoanProductModels.CreditProduct[] | null = [];
+  @Input() nonCreditProducts?: LoanProductModels.NonCreditProduct[] | null = [];
   @Input() colLength = 7;
+
+  public products: (
+    | LoanProductModels.CreditProduct
+    | LoanProductModels.NonCreditProduct
+  )[] = [];
+
+  public subProductType = LoanProductModels.SubProductType;
 
   public actions: MenuItem[][] = this.actionsGenerate(this.products);
 
   ngOnChanges(changes: SimpleChanges): void {
-    // When loan products change, generate action menus
-    if (this.products && changes['products']) {
+    // Merge all subproduct types into a single table
+    if (changes['creditProducts'] && changes['nonCreditProducts']) {
+      this.products = [
+        ...(this.creditProducts ?? []),
+        ...(this.nonCreditProducts ?? []),
+      ].sort((a, b) => a.type - b.type);
+      // When loan products change, generate action menus
       this.actions = this.actionsGenerate(this.products);
     }
   }

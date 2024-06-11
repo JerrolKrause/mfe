@@ -28,7 +28,7 @@ export class LoanProductsService {
   });
 
   public loanProducts$ = new BehaviorSubject<LoanProductModels.LoanProduct[]>(
-    loanProducts
+    loanProducts.map((lp) => this.creditProductsAdd(lp))
   );
 
   public assets$ = new BehaviorSubject<LoanProductModels.Asset[]>(assets);
@@ -176,6 +176,57 @@ export class LoanProductsService {
         }))
       )
     );
+  }
+
+  /**
+   * Autogenerate credit products which are fixed per loan product
+   * @param lp
+   * @returns
+   */
+  private creditProductsAdd(
+    lp: LoanProductModels.LoanProduct
+  ): LoanProductModels.LoanProduct {
+    return {
+      ...lp,
+      creditProducts: [
+        {
+          id: '0',
+          parentId: lp.id ?? '0',
+          type: LoanProductModels.SubProductType.Credit,
+          label: 'Life Insurance',
+          insured: 'Colleen Denning',
+          benefitAmount: lp.loanAmount,
+          term: lp.term,
+          fee: (lp.loanAmount ?? 0) / 200,
+          dateEffective: new Date(),
+          selected: true,
+        },
+        {
+          id: '0',
+          parentId: lp.id ?? '0',
+          type: LoanProductModels.SubProductType.Credit,
+          label: 'Disability',
+          insured: 'Colleen Denning',
+          benefitAmount: lp.loanAmount,
+          term: lp.term,
+          fee: (lp.loanAmount ?? 0) / 300,
+          dateEffective: new Date(),
+          selected: true,
+        },
+        {
+          id: '0',
+          parentId: lp.id ?? '0',
+          type: LoanProductModels.SubProductType.Credit,
+          label: 'Unemployment',
+          insured: 'Colleen Denning',
+          benefitAmount: lp.loanAmount,
+          term: lp.term,
+          fee: (lp.loanAmount ?? 0) / 600,
+          dateEffective: new Date(),
+          selected: true,
+        },
+      ],
+    };
   }
 
   private getRandomNumberInRange(min: number, max: number) {
