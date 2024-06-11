@@ -78,7 +78,7 @@ export class LoanProductsGridComponent implements OnChanges {
       return [];
     }
     return loanProducts.map((lp) => {
-      return (lp.subProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0);
+      return (lp.creditProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0);
     });
   }
 

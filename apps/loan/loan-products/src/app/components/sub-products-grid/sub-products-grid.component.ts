@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
+import { LoanProductsService } from '../../shared/services/loan-products.service';
 @Component({
   selector: 'app-sub-products-grid',
   templateUrl: './sub-products-grid.component.html',
@@ -25,17 +26,19 @@ export class SubProductsGridComponent implements OnChanges {
 
   public subProductType = LoanProductModels.SubProductType;
 
-  public actions: MenuItem[][] = this.actionsGenerate(this.products);
+  public actions: MenuItem[][] = this.actionsGenerate(this.nonCreditProducts);
+
+  constructor(public lpSvc: LoanProductsService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     // Merge all subproduct types into a single table
-    if (changes['creditProducts'] && changes['nonCreditProducts']) {
+    if (changes['creditProducts'] || changes['nonCreditProducts']) {
       this.products = [
         ...(this.creditProducts ?? []),
         ...(this.nonCreditProducts ?? []),
       ].sort((a, b) => a.type - b.type);
       // When loan products change, generate action menus
-      this.actions = this.actionsGenerate(this.products);
+      this.actions = this.actionsGenerate(this.nonCreditProducts);
     }
   }
 
@@ -61,7 +64,7 @@ export class SubProductsGridComponent implements OnChanges {
    * @returns
    */
   private actionsGenerate(
-    loanProducts?: LoanProductModels.SubProduct[] | null
+    loanProducts?: LoanProductModels.NonCreditProduct[] | null
   ): MenuItem[][] {
     if (!loanProducts?.length) {
       return [];
@@ -103,6 +106,7 @@ export class SubProductsGridComponent implements OnChanges {
           label: 'Delete',
           icon: 'pi pi-trash',
           command: (x) => {
+            this.lpSvc.nonCreditProductDelete(lp);
             console.log(x, lp);
           },
         },

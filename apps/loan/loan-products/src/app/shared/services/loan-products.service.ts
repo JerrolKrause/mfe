@@ -83,7 +83,9 @@ export class LoanProductsService {
       // Force type since we're faking an API call
       this.loanProducts$
         .pipe(take(1))
-        .subscribe((lps) => this.loanProducts$.next([...lps, product]));
+        .subscribe((lps) =>
+          this.loanProducts$.next([...lps, this.creditProductsAdd(product)])
+        );
     }
   }
 
@@ -129,11 +131,11 @@ export class LoanProductsService {
   }
 
   /**
-   * Upsert a subproduct into a loan products subproduct array
-   * @param product
-   * @returns
+   * Upserts a non-credit product into the loan products array. If the product already exists, it updates it; otherwise, it adds it to the array.
+   * @param {LoanProductModels.NonCreditProduct} product - The non-credit product to be upserted.
+   * @returns {void}
    */
-  public subProductUpsert(product: LoanProductModels.SubProduct) {
+  public nonCreditProductUpsert(product: LoanProductModels.NonCreditProduct) {
     if (!product?.parentId) {
       return;
     }
@@ -142,23 +144,60 @@ export class LoanProductsService {
       this.loanProducts$.value.map((lp) => {
         // If the subproducts parent ID matches the current product ID
         if (lp.id === product.parentId) {
-          // Check if the subproduct has an ID. If so this is an upsert action, otherwise it's a create
-          const subProducts = product.id
-            ? // Edit
-              (lp.subProducts ?? [])?.map((p) =>
-                product.id === p.id ? product : p
-              )
-            : // Add
-              [
-                ...(lp.subProducts ?? []),
-                {
-                  ...product,
-                  id: String(this.getRandomNumberInRange(100, 10000)),
-                },
-              ];
+          let nonCreditProducts = lp.nonCreditProducts ?? [];
+          if (product.id) {
+            nonCreditProducts = nonCreditProducts?.map((productSrc) =>
+              product.id === productSrc.id ? product : productSrc
+            );
+          } else {
+            nonCreditProducts = [
+              ...nonCreditProducts,
+              {
+                ...product,
+                id: String(this.getRandomNumberInRange(1000, 10000000)),
+              },
+            ];
+          }
           return {
             ...lp,
-            subProducts,
+            nonCreditProducts,
+          };
+        }
+        return lp;
+      })
+    );
+  }
+
+  /**
+   * Deletes a non-credit product from the loan products.
+   * Provides a confirmation dialogue before removing.
+   * If the product is found, it is removed from the corresponding loan product's non-credit products array.
+   * If the product or its parentId is not provided, or if the product with the specified id is not found, the method does nothing.
+   * @param product The non-credit product to be deleted.
+   */
+  public nonCreditProductDelete(product: LoanProductModels.NonCreditProduct) {
+    if (!product?.parentId || !product.id) {
+      return;
+    }
+
+    const c = confirm(
+      'Are you sure you want to delete this non-credit product?'
+    );
+
+    if (!c) {
+      return;
+    }
+
+    this.loanProducts$.next(
+      this.loanProducts$.value.map((lp) => {
+        if (lp.id === product.parentId) {
+          const nonCreditProducts = lp.nonCreditProducts ?? [];
+          const updatedNonCreditProducts = nonCreditProducts.filter(
+            (p) => p.id !== product.id
+          );
+          return {
+            ...lp,
+            nonCreditProducts: updatedNonCreditProducts,
           };
         }
         return lp;
@@ -202,7 +241,7 @@ export class LoanProductsService {
           selected: true,
         },
         {
-          id: '0',
+          id: '1',
           parentId: lp.id ?? '0',
           type: LoanProductModels.SubProductType.Credit,
           label: 'Disability',
@@ -214,7 +253,7 @@ export class LoanProductsService {
           selected: true,
         },
         {
-          id: '0',
+          id: '2',
           parentId: lp.id ?? '0',
           type: LoanProductModels.SubProductType.Credit,
           label: 'Unemployment',

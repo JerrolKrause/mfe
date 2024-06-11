@@ -79,7 +79,6 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
       invalid: `Doesn't meet minumum NDI requirements`,
     },
     vehicles: ['2010 CHEVROLET SILVERADO'],
-    subProducts: [],
     payoffs: 674,
     baseCashAdvance: 2300,
     fees: 97,

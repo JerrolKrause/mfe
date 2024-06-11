@@ -39,7 +39,9 @@
           ></lib-icons>
           Edit</a
         >
-        <a title="Delete this product"
+        <a
+          title="Delete this product"
+          (click)="lpSvc.nonCreditProductDelete(product)"
           ><lib-icons icon="trash" class="me-1"></lib-icons> Delete</a
         >
         <!--
