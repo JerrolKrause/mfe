@@ -9,13 +9,14 @@ import { LoanProductsService } from '../../shared/services/loan-products.service
 })
 export class ModifyLoanProductsComponent {
   public modifyForm = this.fb.group({
-    loanAmount: null,
+    cashOut: null,
+    maxPayment: null,
   });
 
   constructor(private lpSvc: LoanProductsService, private fb: FormBuilder) {}
 
   public updateLoanAmount() {
-    const loanAmount = this.modifyForm.value.loanAmount;
+    const loanAmount = this.modifyForm.value.cashOut;
     if (!loanAmount) {
       return;
     }
