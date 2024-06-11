@@ -1,11 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
 } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsService } from '../../shared/services/loan-products.service';
 @Component({
@@ -26,7 +27,13 @@ export class SubProductsGridComponent implements OnChanges {
 
   public subProductType = LoanProductModels.SubProductType;
 
-  public actions: MenuItem[][] = this.actionsGenerate(this.nonCreditProducts);
+  @Output() modalOpen = new EventEmitter<{
+    parentId: string;
+    type: LoanProductModels.SubProductType;
+    product?: LoanProductModels.SubProduct | null;
+  }>();
+
+  // public actions: MenuItem[][] = this.actionsGenerate(this.nonCreditProducts);
 
   constructor(public lpSvc: LoanProductsService) {}
 
@@ -38,7 +45,7 @@ export class SubProductsGridComponent implements OnChanges {
         ...(this.nonCreditProducts ?? []),
       ].sort((a, b) => a.type - b.type);
       // When loan products change, generate action menus
-      this.actions = this.actionsGenerate(this.nonCreditProducts);
+      // this.actions = this.actionsGenerate(this.nonCreditProducts);
     }
   }
 
@@ -46,23 +53,19 @@ export class SubProductsGridComponent implements OnChanges {
    * Edit
    * @param i
    */
-  public edit(i: number) {
-    console.log(i);
-  }
-
-  /**
-   * Delete
-   * @param i
-   */
-  public delete(i: number) {
-    console.log(i);
+  public edit(p: LoanProductModels.NonCreditProduct) {
+    this.modalOpen.emit({
+      type: this.subProductType.Noncredit,
+      parentId: p.parentId,
+      product: p,
+    });
   }
 
   /**
    * Generate action menus for each loan product
    * @param loanProducts
    * @returns
-   */
+
   private actionsGenerate(
     loanProducts?: LoanProductModels.NonCreditProduct[] | null
   ): MenuItem[][] {
@@ -71,7 +74,7 @@ export class SubProductsGridComponent implements OnChanges {
     }
     return loanProducts.map((lp) => {
       return [
-        /**
+
         {
           label: 'Edit',
           icon: 'pi pi-refresh',
@@ -101,7 +104,7 @@ export class SubProductsGridComponent implements OnChanges {
             console.log(lp);
           },
         },
-         */
+
         {
           label: 'Delete',
           icon: 'pi pi-trash',
@@ -113,4 +116,5 @@ export class SubProductsGridComponent implements OnChanges {
       ];
     });
   }
+  */
 }

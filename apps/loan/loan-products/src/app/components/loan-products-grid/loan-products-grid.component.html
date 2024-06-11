@@ -182,6 +182,7 @@
               [creditProducts]="product.creditProducts"
               [nonCreditProducts]="product.nonCreditProducts"
               [colLength]="columns.length + 1"
+              (modalOpen)="modalOpen.emit($event)"
             ></app-sub-products-grid>
 
             <div class="text-end">

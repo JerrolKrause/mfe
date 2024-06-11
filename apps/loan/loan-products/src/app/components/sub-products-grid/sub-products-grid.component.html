@@ -31,13 +31,8 @@
           <p-inputSwitch [(ngModel)]="product.selected"></p-inputSwitch>
         </div>
         } @else {
-        <a class="me-2"
-          ><lib-icons
-            icon="cog"
-            title="Edit this product"
-            class="me-1"
-          ></lib-icons>
-          Edit</a
+        <a class="me-2" title="Edit this product" (click)="edit(product)"
+          ><lib-icons icon="cog" class="me-1"></lib-icons> Edit</a
         >
         <a
           title="Delete this product"
