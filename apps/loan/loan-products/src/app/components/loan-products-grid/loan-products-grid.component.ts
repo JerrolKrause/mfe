@@ -2,17 +2,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
-  OnChanges,
   Output,
-  SimpleChanges,
   ViewEncapsulation,
+  computed,
+  input,
   signal,
 } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsService } from '../../shared/services/loan-products.service';
+
 @Component({
   selector: 'app-loan-products-grid',
   templateUrl: './loan-products-grid.component.html',
@@ -20,8 +19,11 @@ import { LoanProductsService } from '../../shared/services/loan-products.service
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanProductsGridComponent implements OnChanges {
-  @Input() loanProducts?: LoanProductModels.LoanProduct[] | null = null;
+export class LoanProductsGridComponent {
+  public loanProducts = input<
+    LoanProductModels.LoanProduct[] | null | undefined
+  >(null);
+  public isLocked = input<boolean | null | undefined>(null);
 
   public columns = [
     { label: '', prop: 'droprow' },
@@ -41,72 +43,14 @@ export class LoanProductsGridComponent implements OnChanges {
   public SubProductType = LoanProductModels.SubProductType;
 
   /** Split button menu actions for loan products */
-  public actions: MenuItem[][] = this.actionsGenerate(this.loanProducts);
-
-  public monthlyPaymentRange = signal<number[]>([]);
-
-  @Output() modalOpen = new EventEmitter<{
-    parentId: string;
-    type: LoanProductModels.SubProductType;
-    product?: LoanProductModels.SubProduct | null;
-  }>();
-  @Output() loanProductEdit = new EventEmitter<LoanProductModels.LoanProduct>();
-  @Output() loanProductDelete = new EventEmitter<string>();
-  @Output() loanProductStatusChange =
-    new EventEmitter<LoanProductModels.LoanProduct>();
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // When loan products change, generate action menus
-    if (this.loanProducts && changes['loanProducts']) {
-      this.actions = this.actionsGenerate(this.loanProducts);
-      this.monthlyPaymentRange.set(
-        this.generateMonthlyRange(this.loanProducts)
-      );
-    }
-  }
-
-  generateMonthlyRange(loanProducts?: LoanProductModels.LoanProduct[] | null) {
-    if (!loanProducts) {
-      return [];
-    }
-    return loanProducts.map((lp) => {
-      return (lp.subProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0);
-    });
-  }
-
-  expandedRows: Record<string, boolean> = {};
-
-  /**
-   * Expand all rows
-   * @returns
-   */
-  expandAll() {
-    if (!this.loanProducts) {
-      return;
-    }
-    this.expandedRows = this.loanProducts.reduce(
-      (acc, p) => (acc[p.id ?? ''] = true) && acc,
-      {} as any
-    ); // TODO
-  }
-
-  /**
-   * Generate action menus for each loan product
-   * @param loanProducts
-   * @returns
-   */
-  private actionsGenerate(
-    loanProducts?: LoanProductModels.LoanProduct[] | null
-  ): MenuItem[][] {
-    if (!loanProducts?.length) {
-      return [];
-    }
-    return loanProducts.map((lp) => {
+  public actions = computed(() =>
+    (this.loanProducts() ?? []).map((lp) => {
       return [
         {
           label: 'Edit',
           icon: 'pi pi-pencil',
           command: () => this.loanProductEdit.emit(lp),
+          disabled: this.isLocked() ?? false,
         },
         {
           label: 'Escalate',
@@ -162,6 +106,7 @@ export class LoanProductsGridComponent implements OnChanges {
         {
           label: 'Delete',
           icon: 'pi pi-trash',
+          disabled: this.isLocked() ?? false,
           command: () => {
             if (!lp.id) {
               return;
@@ -170,13 +115,46 @@ export class LoanProductsGridComponent implements OnChanges {
           },
         },
       ];
-    });
+    })
+  );
+
+  /** Generate the monthly payment range for each loan product using it's subproducts */
+  public monthlyPaymentRange = computed(() =>
+    (this.loanProducts() ?? []).map((lp) =>
+      (lp.creditProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0)
+    )
+  );
+
+  /** Keep track of all expanded rows */
+  public expandedRows = signal<Record<string, boolean>>({});
+
+  @Output() modalOpen = new EventEmitter<{
+    parentId: string;
+    type: LoanProductModels.SubProductType;
+    product?: LoanProductModels.SubProduct | null;
+  }>();
+  @Output() loanProductEdit = new EventEmitter<LoanProductModels.LoanProduct>();
+  @Output() loanProductDelete = new EventEmitter<string>();
+  @Output() loanProductStatusChange =
+    new EventEmitter<LoanProductModels.LoanProduct>();
+
+  /**
+   * Expand all rows
+   * @returns
+   */
+  public expandAll() {
+    this.expandedRows.set(
+      (this.loanProducts() ?? []).reduce(
+        (acc, p) => (acc[p.id ?? ''] = true) && acc,
+        {} as Record<string, boolean>
+      )
+    );
   }
 
   constructor(private lpSvc: LoanProductsService) {}
 
   public collapseAll() {
-    this.expandedRows = {};
+    this.expandedRows.set({});
   }
 
   public onRowExpand(event: TableRowExpandEvent) {

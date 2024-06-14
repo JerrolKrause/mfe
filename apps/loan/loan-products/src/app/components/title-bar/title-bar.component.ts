@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InputSwitchChangeEvent } from 'primeng/inputswitch';
-import { map } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 import { LoanProductsService } from '../../shared/services/loan-products.service';
 
 @Component({
@@ -23,6 +23,11 @@ export class TitleBarComponent {
     })
   );
 
+  public loanIsBeingWorkedOn$ = this.lpSvc.state$.pipe(
+    map((state) => state.loanIsBeingWorkedOn),
+    distinctUntilChanged()
+  );
+
   constructor(
     private route: ActivatedRoute,
     private lpSvc: LoanProductsService
@@ -30,5 +35,9 @@ export class TitleBarComponent {
 
   public isCentral(e: InputSwitchChangeEvent) {
     this.lpSvc.stateChange({ isCentral: e.checked });
+  }
+
+  public isLocked(e: InputSwitchChangeEvent) {
+    this.lpSvc.stateChange({ isLocked: e.checked });
   }
 }

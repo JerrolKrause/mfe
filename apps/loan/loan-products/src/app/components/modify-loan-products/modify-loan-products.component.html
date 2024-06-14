@@ -1,15 +1,26 @@
 <h2>Modify All Loan Products</h2>
 
 <form [formGroup]="modifyForm">
-  <div class="d-flex" style="align-items: center">
+  <div class="d-flex mb-3" style="align-items: center">
     <lib-number
-      label="Modify Loan Amount"
+      label="Cash Out"
       mode="currency"
-      formControlName="loanAmount"
+      formControlName="cashOut"
       placeholder="$1,000"
       class="me-2"
       hint="Negative amounts are supported"
     ></lib-number>
-    <p-button label="Update All" (click)="updateLoanAmount()"></p-button>
+    <p-button label="Add New Products" (click)="updateLoanAmount()"></p-button>
+  </div>
+  <div class="d-flex" style="align-items: center">
+    <lib-number
+      label="Max Payment"
+      mode="currency"
+      formControlName="maxPayment"
+      placeholder="$500"
+      class="me-2"
+      hint="Max monthly payment"
+    ></lib-number>
+    <p-button label="Add New Products" (click)="updateLoanAmount()"></p-button>
   </div>
 </form>

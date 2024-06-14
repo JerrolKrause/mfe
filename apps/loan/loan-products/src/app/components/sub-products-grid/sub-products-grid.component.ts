@@ -1,99 +1,52 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
+  EventEmitter,
+  Output,
+  computed,
+  input,
 } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
+import { LoanProductsService } from '../../shared/services/loan-products.service';
 @Component({
   selector: 'app-sub-products-grid',
   templateUrl: './sub-products-grid.component.html',
   styleUrl: './sub-products-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SubProductsGridComponent implements OnChanges {
-  @Input() products?: LoanProductModels.SubProduct[] | null = [];
-  @Input() colLength = 7;
+export class SubProductsGridComponent {
+  public creditProducts = input<LoanProductModels.CreditProduct[] | null>(null);
+  public nonCreditProducts = input<LoanProductModels.NonCreditProduct[] | null>(
+    null
+  );
+  public colLength = input(7);
 
-  public actions: MenuItem[][] = this.actionsGenerate(this.products);
+  public products = computed(() =>
+    [
+      ...(this.creditProducts() ?? []),
+      ...(this.nonCreditProducts() ?? []),
+    ].sort((a, b) => a.type - b.type)
+  );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // When loan products change, generate action menus
-    if (this.products && changes['products']) {
-      this.actions = this.actionsGenerate(this.products);
-    }
-  }
+  public subProductType = LoanProductModels.SubProductType;
+
+  @Output() modalOpen = new EventEmitter<{
+    parentId: string;
+    type: LoanProductModels.SubProductType;
+    product?: LoanProductModels.SubProduct | null;
+  }>();
+
+  constructor(public lpSvc: LoanProductsService) {}
 
   /**
    * Edit
    * @param i
    */
-  public edit(i: number) {
-    console.log(i);
-  }
-
-  /**
-   * Delete
-   * @param i
-   */
-  public delete(i: number) {
-    console.log(i);
-  }
-
-  /**
-   * Generate action menus for each loan product
-   * @param loanProducts
-   * @returns
-   */
-  private actionsGenerate(
-    loanProducts?: LoanProductModels.SubProduct[] | null
-  ): MenuItem[][] {
-    if (!loanProducts?.length) {
-      return [];
-    }
-    return loanProducts.map((lp) => {
-      return [
-        /**
-        {
-          label: 'Edit',
-          icon: 'pi pi-refresh',
-        },
-        {
-          label: 'Escalate',
-          icon: 'pi pi-refresh',
-        },
-        {
-          label: 'Approve',
-          icon: 'pi pi-refresh',
-          command: () => {
-            console.log(lp);
-          },
-        },
-        {
-          label: 'Reject',
-          icon: 'pi pi-refresh',
-          command: () => {
-            console.log(lp);
-          },
-        },
-        {
-          label: 'Set Customer Selection',
-          icon: 'pi pi-refresh',
-          command: () => {
-            console.log(lp);
-          },
-        },
-         */
-        {
-          label: 'Delete',
-          icon: 'pi pi-trash',
-          command: (x) => {
-            console.log(x, lp);
-          },
-        },
-      ];
+  public edit(p: LoanProductModels.NonCreditProduct) {
+    this.modalOpen.emit({
+      type: this.subProductType.Noncredit,
+      parentId: p.parentId,
+      product: p,
     });
   }
 }

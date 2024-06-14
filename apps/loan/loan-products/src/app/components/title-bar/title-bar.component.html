@@ -1,6 +1,19 @@
 <div class="title-bar">
-  <div class="title">{{ title$ | async }}</div>
-  <div class="align">
-    Is Central: <p-inputSwitch (onChange)="isCentral($event)" class="ms-2" />
+  <div class="d-flex">
+    <div class="title">{{ title$ | async }}</div>
+    <div class="align ms-3">
+      Is Central: <p-inputSwitch (onChange)="isCentral($event)" class="ms-2" />
+    </div>
+    <div class="align ms-3">
+      Is Locked: <p-inputSwitch (onChange)="isLocked($event)" class="ms-2" />
+    </div>
+  </div>
+
+  <div class="align" *ngIf="loanIsBeingWorkedOn$ | async">
+    <lib-icons icon="exclamation-triangle" class="red title-icon"></lib-icons>
+    <div class="title-workedon">
+      <div class="title-sub">Being worked on by:</div>
+      <div><a href="tel:+1234567890">Adrianne Williams</a></div>
+    </div>
   </div>
 </div>

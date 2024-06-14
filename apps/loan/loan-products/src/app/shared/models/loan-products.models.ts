@@ -22,7 +22,8 @@ export module LoanProductModels {
     status?: LoanProductStatus;
     vehicles?: any[];
     creditors?: Creditor[];
-    subProducts?: SubProduct[];
+    creditProducts?: CreditProduct[];
+    nonCreditProducts?: NonCreditProduct[];
     // Stub properties for form
     payoffs?: number;
     baseCashAdvance?: number;
@@ -56,6 +57,7 @@ export module LoanProductModels {
     fee?: number;
     benefitAmount?: number;
     dateEffective?: string | Date;
+    selected?: boolean;
   }
 
   export interface CreditProduct extends SubProductSrc {

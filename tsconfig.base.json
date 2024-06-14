@@ -28,7 +28,8 @@
       "@quoting/*": ["apps/quoting/src/*"],
       "@sandbox/*": ["apps/sandbox/src/*"],
       "@team-member/*": ["apps/team-member/src/*"],
-      "@users/*": ["apps/users/src/*"]
+      "@users/*": ["apps/users/src/*"],
+      "clickstream": ["libs/clickstream/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

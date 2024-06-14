@@ -2,21 +2,26 @@
   id="sidebar"
   *ngIf="{
     loanId: loanId$ | async,
-    applications: applications$ | async,
     routeCurrent: routeCurrent$ | async,
   } as comp"
 >
-  <p class="sidebar-title">Applications</p>
+  <p class="sidebar-title">Active Applications</p>
 
-  @if(comp.applications?.length) {
+  @if(applicationsActive$ | async; as applications) { @if(applications.length){
   <p-accordion
     styleClass="accordion-lt no-animation no-pad-body"
-    [activeIndex]="openTabs()"
-    [multiple]="true"
+    [activeIndex]="openTab()"
+    [multiple]="false"
   >
-    @for (app of comp.applications; track $index) {
-    <p-accordionTab transitionOptions="0ms">
-      <ng-template pTemplate="header"> #{{ app.loanID }}</ng-template>
+    @for (app of applications; track $index) {
+    <p-accordionTab transitionOptions="0ms" *ngIf="app.isActive">
+      <ng-template pTemplate="header">
+        <div class="sidebar-app-header">
+          <div>{{ app.fullName }}</div>
+          <div class="sidebar-loanid">#{{ app.loanID }}</div>
+        </div>
+        <a class="sidebar-remove" (click)="remove(app.loanID)">X</a>
+      </ng-template>
       @for (item of navItems; track $index) {
       <div>
         <a
@@ -33,5 +38,36 @@
     </p-accordionTab>
     }
   </p-accordion>
-  }
+  <hr />
+  } @else {
+  <p><em>No active applications</em></p>
+  <hr />
+  } }
+  <p class="sidebar-title">Search Applications</p>
+  <form [formGroup]="searchForm">
+    <div>
+      <input
+        pInputText
+        formControlName="searchTerm"
+        placeholder="Search applications..."
+      />
+    </div>
+    @if(searchResults$ | async; as searchResults) { @if(searchResults.length) {
+    <div class="pt-3">
+      @for (result of searchResults; track $index) {
+      <a class="sidebar-add" (click)="add(result.loanID)">
+        <div class="sidebar-app-header">
+          <div>{{ result.fullName }}</div>
+          <div class="sidebar-loanid">#{{ result.loanID }}</div>
+        </div>
+      </a>
+      }
+    </div>
+    } @else { @if((this.searchForm.controls['searchTerm'].value?.length ?? 0) >=
+    2) {
+    <div class="pt-3">
+      <p>No applications found</p>
+    </div>
+    } } }
+  </form>
 </div>

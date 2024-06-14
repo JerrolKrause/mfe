@@ -1,5 +1,5 @@
-@if(products?.length) {
-<p-table [value]="products ?? []" dataKey="id" styleClass="mb-3">
+@if(products().length) {
+<p-table [value]="products()" dataKey="id" styleClass="mb-3">
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="type">Product</th>
@@ -19,10 +19,27 @@
       <td>{{ product.insured }}</td>
       <td>{{ product.term }} mo</td>
       <td>{{ product.benefitAmount | currency : 'USD' }}</td>
-
       <td>{{ product.fee | currency : 'USD' }}</td>
       <td>{{ product.dateEffective | date : 'M/dd/yy' }}</td>
       <td class="text-end">
+        @if(product.type === subProductType.Credit) {
+        <div class="toggle">
+          <!--
+          <span class="me-1" *ngIf="product.selected">Included:</span>
+          <span class="me-1" *ngIf="!product.selected"></span>
+          -->
+          <p-inputSwitch [(ngModel)]="product.selected"></p-inputSwitch>
+        </div>
+        } @else {
+        <a class="me-2" title="Edit this product" (click)="edit(product)"
+          ><lib-icons icon="cog" class="me-1"></lib-icons> Edit</a
+        >
+        <a
+          title="Delete this product"
+          (click)="lpSvc.nonCreditProductDelete(product)"
+          ><lib-icons icon="trash" class="me-1"></lib-icons> Delete</a
+        >
+        <!--
         <p-splitButton
           label="Edit"
           icon="pi pi-pencil"
@@ -30,6 +47,8 @@
           [model]="actions[rowIndex]"
           (onClick)="edit(rowIndex)"
         ></p-splitButton>
+        -->
+        }
       </td>
     </tr>
   </ng-template>

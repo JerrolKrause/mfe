@@ -10,6 +10,10 @@ $smallText: 80%;
     opacity: 0.6 !important;
   }
 
+  &.form-field-is-disabled label {
+    opacity: 0.5;
+  }
+
   input:hover,
   .p-dropdown:hover,
   textarea:hover,

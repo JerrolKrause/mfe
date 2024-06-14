@@ -5,17 +5,16 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private querySubscription!: Subscription;
+  private querySubscription: Subscription | undefined;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.querySubscription = this.route.queryParams.subscribe((params) => {
-      const src_pid = params['src_pid'];
-      const src_sid = params['src_sid'];
+      const { src_pid, src_sid } = params;
 
       if (src_pid !== undefined) {
         sessionStorage.setItem('src_pid', src_pid);

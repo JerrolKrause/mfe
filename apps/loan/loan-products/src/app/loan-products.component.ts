@@ -80,8 +80,8 @@ export class LoanProductsComponent {
         closable: true,
         dismissableMask: true,
       })
-      .onClose.subscribe((p: LoanProductModels.SubProduct) =>
-        this.lpSvc.subProductUpsert(p)
+      .onClose.subscribe((p: LoanProductModels.NonCreditProduct) =>
+        this.lpSvc.nonCreditProductUpsert(p)
       );
   }
 
