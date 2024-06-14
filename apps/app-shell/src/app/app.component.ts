@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private querySubscription: Subscription | undefined;
+  private querySubscription?: Subscription;
 
   constructor(private route: ActivatedRoute) {}
 
