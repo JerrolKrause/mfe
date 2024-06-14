@@ -102,10 +102,7 @@ export class LoanProductsGridComponent {
     loanProducts?: LoanProductModels.LoanProduct[] | null,
     isLocked?: null | boolean
   ): MenuItem[][] {
-    if (!loanProducts?.length) {
-      return [];
-    }
-    return loanProducts.map((lp) => {
+    return (loanProducts ?? []).map((lp) => {
       return [
         {
           label: 'Edit',
