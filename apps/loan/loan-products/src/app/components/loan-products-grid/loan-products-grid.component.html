@@ -1,9 +1,9 @@
 <div id="loan-products-grid">
   <p-table
     dataKey="id"
-    [value]="loanProducts ?? []"
+    [value]="loanProducts() ?? []"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [expandedRowKeys]="expandedRows"
+    [expandedRowKeys]="expandedRows()"
     (onRowExpand)="onRowExpand($event)"
     (onRowCollapse)="onRowCollapse($event)"
   >
@@ -146,7 +146,7 @@
             label="Info"
             appendTo="body"
             icon="pi pi-info-circle"
-            [model]="actions[rowIndex]"
+            [model]="actions()[rowIndex]"
             (onClick)="op.toggle($event)"
           ></p-splitButton>
           <p-overlayPanel #op>

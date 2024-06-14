@@ -2,17 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
-  OnChanges,
   Output,
-  SimpleChanges,
   ViewEncapsulation,
+  computed,
+  input,
   signal,
 } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsService } from '../../shared/services/loan-products.service';
+
 @Component({
   selector: 'app-loan-products-grid',
   templateUrl: './loan-products-grid.component.html',
@@ -20,9 +20,11 @@ import { LoanProductsService } from '../../shared/services/loan-products.service
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanProductsGridComponent implements OnChanges {
-  @Input() loanProducts?: LoanProductModels.LoanProduct[] | null = null;
-  @Input() isLocked?: boolean | null = false;
+export class LoanProductsGridComponent {
+  public loanProducts = input<
+    LoanProductModels.LoanProduct[] | null | undefined
+  >(null);
+  public isLocked = input<boolean | null | undefined>(null);
 
   public columns = [
     { label: '', prop: 'droprow' },
@@ -42,12 +44,17 @@ export class LoanProductsGridComponent implements OnChanges {
   public SubProductType = LoanProductModels.SubProductType;
 
   /** Split button menu actions for loan products */
-  public actions: MenuItem[][] = this.actionsGenerate(
-    this.loanProducts,
-    this.isLocked
+  public actions = computed(() =>
+    this.actionsGenerate(this.loanProducts(), this.isLocked())
   );
 
-  public monthlyPaymentRange = signal<number[]>([]);
+  /** Generate the monthly payment range for each loan product using it's subproducts */
+  public monthlyPaymentRange = computed(() =>
+    this.generateMonthlyRange(this.loanProducts())
+  );
+
+  /** Keep track of all expanded rows */
+  public expandedRows = signal<Record<string, boolean>>({});
 
   @Output() modalOpen = new EventEmitter<{
     parentId: string;
@@ -59,43 +66,30 @@ export class LoanProductsGridComponent implements OnChanges {
   @Output() loanProductStatusChange =
     new EventEmitter<LoanProductModels.LoanProduct>();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // When loan products change, generate action menus
-    if (this.loanProducts && changes['loanProducts']) {
-      this.actions = this.actionsGenerate(this.loanProducts, this.isLocked);
-      this.monthlyPaymentRange.set(
-        this.generateMonthlyRange(this.loanProducts)
-      );
-    }
-    // When the lock status changes
-    if (changes['isLocked']) {
-      this.actions = this.actionsGenerate(this.loanProducts, this.isLocked);
-    }
-  }
-
-  generateMonthlyRange(loanProducts?: LoanProductModels.LoanProduct[] | null) {
-    if (!loanProducts) {
-      return [];
-    }
-    return loanProducts.map((lp) => {
-      return (lp.creditProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0);
-    });
-  }
-
-  expandedRows: Record<string, boolean> = {};
-
   /**
    * Expand all rows
    * @returns
    */
-  expandAll() {
-    if (!this.loanProducts) {
-      return;
-    }
-    this.expandedRows = this.loanProducts.reduce(
-      (acc, p) => (acc[p.id ?? ''] = true) && acc,
-      {} as any
-    ); // TODO
+  public expandAll() {
+    this.expandedRows.set(
+      (this.loanProducts() ?? []).reduce(
+        (acc, p) => (acc[p.id ?? ''] = true) && acc,
+        {} as Record<string, boolean>
+      )
+    );
+  }
+
+  /**
+   * Generate the monthly payment range including values from the subproducts
+   * @param loanProducts
+   * @returns
+   */
+  private generateMonthlyRange(
+    loanProducts?: LoanProductModels.LoanProduct[] | null
+  ) {
+    return (loanProducts ?? []).map((lp) =>
+      (lp.creditProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0)
+    );
   }
 
   /**
@@ -188,7 +182,7 @@ export class LoanProductsGridComponent implements OnChanges {
   constructor(private lpSvc: LoanProductsService) {}
 
   public collapseAll() {
-    this.expandedRows = {};
+    this.expandedRows.set({});
   }
 
   public onRowExpand(event: TableRowExpandEvent) {
