@@ -8,7 +8,6 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsService } from '../../shared/services/loan-products.service';
@@ -45,70 +44,13 @@ export class LoanProductsGridComponent {
 
   /** Split button menu actions for loan products */
   public actions = computed(() =>
-    this.actionsGenerate(this.loanProducts(), this.isLocked())
-  );
-
-  /** Generate the monthly payment range for each loan product using it's subproducts */
-  public monthlyPaymentRange = computed(() =>
-    this.generateMonthlyRange(this.loanProducts())
-  );
-
-  /** Keep track of all expanded rows */
-  public expandedRows = signal<Record<string, boolean>>({});
-
-  @Output() modalOpen = new EventEmitter<{
-    parentId: string;
-    type: LoanProductModels.SubProductType;
-    product?: LoanProductModels.SubProduct | null;
-  }>();
-  @Output() loanProductEdit = new EventEmitter<LoanProductModels.LoanProduct>();
-  @Output() loanProductDelete = new EventEmitter<string>();
-  @Output() loanProductStatusChange =
-    new EventEmitter<LoanProductModels.LoanProduct>();
-
-  /**
-   * Expand all rows
-   * @returns
-   */
-  public expandAll() {
-    this.expandedRows.set(
-      (this.loanProducts() ?? []).reduce(
-        (acc, p) => (acc[p.id ?? ''] = true) && acc,
-        {} as Record<string, boolean>
-      )
-    );
-  }
-
-  /**
-   * Generate the monthly payment range including values from the subproducts
-   * @param loanProducts
-   * @returns
-   */
-  private generateMonthlyRange(
-    loanProducts?: LoanProductModels.LoanProduct[] | null
-  ) {
-    return (loanProducts ?? []).map((lp) =>
-      (lp.creditProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0)
-    );
-  }
-
-  /**
-   * Generate action menus for each loan product
-   * @param loanProducts
-   * @param isLocked
-   * @returns
-   */
-  private actionsGenerate(
-    loanProducts?: LoanProductModels.LoanProduct[] | null,
-    isLocked?: null | boolean
-  ): MenuItem[][] {
-    return (loanProducts ?? []).map((lp) => {
+    (this.loanProducts() ?? []).map((lp) => {
       return [
         {
           label: 'Edit',
           icon: 'pi pi-pencil',
           command: () => this.loanProductEdit.emit(lp),
-          disabled: isLocked ?? false,
+          disabled: this.isLocked() ?? false,
         },
         {
           label: 'Escalate',
@@ -164,7 +106,7 @@ export class LoanProductsGridComponent {
         {
           label: 'Delete',
           icon: 'pi pi-trash',
-          disabled: isLocked ?? false,
+          disabled: this.isLocked() ?? false,
           command: () => {
             if (!lp.id) {
               return;
@@ -173,7 +115,40 @@ export class LoanProductsGridComponent {
           },
         },
       ];
-    });
+    })
+  );
+
+  /** Generate the monthly payment range for each loan product using it's subproducts */
+  public monthlyPaymentRange = computed(() =>
+    (this.loanProducts() ?? []).map((lp) =>
+      (lp.creditProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0)
+    )
+  );
+
+  /** Keep track of all expanded rows */
+  public expandedRows = signal<Record<string, boolean>>({});
+
+  @Output() modalOpen = new EventEmitter<{
+    parentId: string;
+    type: LoanProductModels.SubProductType;
+    product?: LoanProductModels.SubProduct | null;
+  }>();
+  @Output() loanProductEdit = new EventEmitter<LoanProductModels.LoanProduct>();
+  @Output() loanProductDelete = new EventEmitter<string>();
+  @Output() loanProductStatusChange =
+    new EventEmitter<LoanProductModels.LoanProduct>();
+
+  /**
+   * Expand all rows
+   * @returns
+   */
+  public expandAll() {
+    this.expandedRows.set(
+      (this.loanProducts() ?? []).reduce(
+        (acc, p) => (acc[p.id ?? ''] = true) && acc,
+        {} as Record<string, boolean>
+      )
+    );
   }
 
   constructor(private lpSvc: LoanProductsService) {}
