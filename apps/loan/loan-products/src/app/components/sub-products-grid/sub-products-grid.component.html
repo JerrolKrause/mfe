@@ -1,5 +1,5 @@
-@if(products.length) {
-<p-table [value]="products" dataKey="id" styleClass="mb-3">
+@if(products().length) {
+<p-table [value]="products()" dataKey="id" styleClass="mb-3">
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="type">Product</th>
