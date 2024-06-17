@@ -6,6 +6,7 @@ import {
   OnInit,
   SimpleChanges,
   ViewEncapsulation,
+  computed,
 } from '@angular/core';
 import { ControlContainer, FormGroup } from '@angular/forms';
 import {
@@ -15,16 +16,17 @@ import {
   debounceTime,
   distinctUntilChanged,
   map,
+  mergeMap,
   of,
   startWith,
   tap,
 } from 'rxjs';
 
+import { toObservable } from '@angular/core/rxjs-interop';
 import { isRequired } from '../../../utils';
 import { expressionReplacer$ } from '../../../utils/expression-replacer.util';
 import { validatorsAdd } from '../../../validators';
 import { BaseFormFieldComponent } from '../form-field.base';
-
 interface InputState {
   hasData: boolean;
   showErrors: boolean;
@@ -56,9 +58,17 @@ export class InputComponent<t>
   public suffix$: Observable<string | null> = new BehaviorSubject<
     string | null
   >(null);
+  /**
   public hint$: Observable<string | null> = new BehaviorSubject<string | null>(
     null
+  ); */
+
+  public hint$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, hint: this.hint }))
+  ).pipe(
+    mergeMap(({ formGroup, hint }) => expressionReplacer$(formGroup, hint()))
   );
+
   // Main state entity
   public inputState$: Observable<InputState | null> =
     new BehaviorSubject<InputState | null>(null);
@@ -87,10 +97,11 @@ export class InputComponent<t>
     if (changes['control'] || changes['suffix']) {
       this.suffix$ = expressionReplacer$(this.formGroup, this.suffix);
     }
+    /**
     if (changes['control'] || changes['hint']) {
       this.hint$ = expressionReplacer$(this.formGroup, this.hint);
     }
-
+ */
     // Adding validators needs to defer execution, otherwise triggers ExpressionChangedAfterItHasBeenCheckedError error
     // Promise.resolve().then(() => {// });
     if ((changes['control'] || changes['validators']) && this.validators) {

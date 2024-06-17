@@ -6,6 +6,7 @@ import {
   OnDestroy,
   Output,
   forwardRef,
+  input,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -45,7 +46,8 @@ export class BaseFormFieldComponent<t>
   /** An icon of text that will appear AFTER the input */
   @Input() suffix?: string | null = null;
   /** Small text that appears beneath the control */
-  @Input() hint?: string | null = null;
+  public hint = input<string | null | undefined>(null);
+
   /** A unique ID to use to help facilitate automated testing. Can be different than ID if ID is fixed */
   @Input() automationId?: string | null = null;
 
@@ -158,6 +160,7 @@ export class BaseFormFieldComponent<t>
   }
 
   ngOnDestroy(): void {
+    // Automatically destroy subs. Mainly used by children
     this.subs.forEach((s) => s.unsubscribe());
     this.subs = [];
   }
