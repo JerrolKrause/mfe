@@ -12,9 +12,7 @@ export const loanProductsFormModel = (
     field: 'cashOut',
     placeholder: '$1,000',
     max: maxValues?.cashOut ?? null,
-    hint: maxValues?.cashOut
-      ? `Max cash out is $${maxValues?.cashOut} or {{cashOut}}`
-      : null,
+    hint: maxValues?.cashOut ? `Max cash out is $${maxValues?.cashOut}` : null,
     validators: {
       required: true,
     },
