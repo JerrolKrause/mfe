@@ -49,7 +49,6 @@ public formModel: FormsLib.FormGenerator = [
  * @TODO
  * - Add support for feature components
  * - Possible issue with required fields and dynamic visibility. IE required field is shown then hidden
- * - SSR support
  */
 @Component({
   selector: 'lib-form-generator',
@@ -110,21 +109,6 @@ export class FormGeneratorComponent {
           window.scrollTo({ top: y, behavior: 'smooth' });
         }
       });
-      /**
-      setTimeout(() => {
-        // Get all errors on page
-        const errors = document.getElementsByClassName(
-          'lib-form-field-has-errors'
-        );
-        if (errors?.length) {
-          // Get top of first error bounding box, scroll to the top of that box
-          const y =
-            errors[0].getBoundingClientRect().top +
-            window.pageYOffset +
-            (this.options?.errorScrollOffset ?? 0);
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }, 100); */
       return;
     }
     this.completed.emit(this.formGroup.getRawValue());

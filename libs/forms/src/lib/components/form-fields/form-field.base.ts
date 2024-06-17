@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   Output,
+  computed,
   forwardRef,
   input,
 } from '@angular/core';
@@ -38,13 +39,13 @@ export class BaseFormFieldComponent<t>
   @Input() formControlName: string | null = null;
   /** Standard html placeholder text */
   @Input() placeholder?: string | null = null;
-  /** Floating label that appears in front of the content and moves above it when focused */
-  @Input() label?: string | null = null;
 
+  /** Floating label that appears in front of the content and moves above it when focused */
+  public label = input<string | null | undefined>(null);
   /** An icon of text that will appear BEFORE the input */
-  @Input() prefix?: string | null = null;
+  public prefix = input<string | null | undefined>(null);
   /** An icon of text that will appear AFTER the input */
-  @Input() suffix?: string | null = null;
+  public suffix = input<string | null | undefined>(null);
   /** Small text that appears beneath the control */
   public hint = input<string | null | undefined>(null);
 
@@ -68,8 +69,8 @@ export class BaseFormFieldComponent<t>
    * allows a parent component to set it via an input which makes it easier to model drive
    */
   @Input() set disabled(v: boolean | null) {
-    // TODO: Not SSR compatible
-    setTimeout(() => {
+    // SSR compatibility
+    Promise.resolve().then(() => {
       // A delay is necessary for the child classes to set the formControl
       if (this.formControl) {
         !v ? this.formControl.enable() : this.formControl.disable();
@@ -81,6 +82,7 @@ export class BaseFormFieldComponent<t>
   }
 
   /** Form control  */
+  // public formControl = input(new FormControl());
   @Input() formControl = new FormControl();
 
   /**
@@ -91,6 +93,7 @@ export class BaseFormFieldComponent<t>
    */
   @Input() set control(c: AbstractControl | null | undefined) {
     if (c) {
+      // this.formControl.set();
       this.formControl = c as FormControl;
     } else {
       console.warn(
@@ -120,7 +123,7 @@ export class BaseFormFieldComponent<t>
   public focused?: boolean | null = false;
 
   /** Main form group. Named slighly different to avoid collision with the formGroup */
-  public formGroup?: FormGroup | null = null;
+  public formGroup = computed(() => this.formControl.root as FormGroup);
 
   /** Manage subs used by this class and it's children */
   protected subs: Subscription[] = [];

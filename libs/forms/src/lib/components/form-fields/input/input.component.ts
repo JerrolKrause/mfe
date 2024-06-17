@@ -7,8 +7,9 @@ import {
   SimpleChanges,
   ViewEncapsulation,
   computed,
+  effect,
 } from '@angular/core';
-import { ControlContainer, FormGroup } from '@angular/forms';
+import { ControlContainer } from '@angular/forms';
 import {
   BehaviorSubject,
   Observable,
@@ -49,24 +50,31 @@ export class InputComponent<t>
   implements OnInit, OnChanges, OnDestroy
 {
   // Dynamic content
-  public label$: Observable<string | null> = new BehaviorSubject<string | null>(
-    null
+  public label$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, label: this.label }))
+  ).pipe(
+    mergeMap(({ formGroup, label }) =>
+      expressionReplacer$(formGroup(), label())
+    )
   );
-  public prefix$: Observable<string | null> = new BehaviorSubject<
-    string | null
-  >(null);
-  public suffix$: Observable<string | null> = new BehaviorSubject<
-    string | null
-  >(null);
-  /**
-  public hint$: Observable<string | null> = new BehaviorSubject<string | null>(
-    null
-  ); */
-
+  public prefix$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, prefix: this.prefix }))
+  ).pipe(
+    mergeMap(({ formGroup, prefix }) =>
+      expressionReplacer$(formGroup(), prefix())
+    )
+  );
+  public suffix$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, suffix: this.suffix }))
+  ).pipe(
+    mergeMap(({ formGroup, suffix }) =>
+      expressionReplacer$(formGroup(), suffix())
+    )
+  );
   public hint$ = toObservable(
     computed(() => ({ formGroup: this.formGroup, hint: this.hint }))
   ).pipe(
-    mergeMap(({ formGroup, hint }) => expressionReplacer$(formGroup, hint()))
+    mergeMap(({ formGroup, hint }) => expressionReplacer$(formGroup(), hint()))
   );
 
   // Main state entity
@@ -78,36 +86,14 @@ export class InputComponent<t>
 
   constructor(controlContainer: ControlContainer) {
     super(controlContainer);
+    // Add validators from form model
+    // May need to defer execution if triggers ExpressionChangedAfterItHasBeenCheckedError error
+    effect(() => validatorsAdd(this.formControl, this.validators));
   }
 
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    // If input control, formgroup or value changes, update state
-    if (changes['control']) {
-      this.formGroup = this.formControl.root as FormGroup;
-    }
-    // If input control, formgroup or value changes, update state
-    if (changes['control'] || changes['label']) {
-      this.label$ = expressionReplacer$(this.formGroup, this.label);
-    }
-    if (changes['control'] || changes['prefix']) {
-      this.prefix$ = expressionReplacer$(this.formGroup, this.prefix);
-    }
-    if (changes['control'] || changes['suffix']) {
-      this.suffix$ = expressionReplacer$(this.formGroup, this.suffix);
-    }
-    /**
-    if (changes['control'] || changes['hint']) {
-      this.hint$ = expressionReplacer$(this.formGroup, this.hint);
-    }
- */
-    // Adding validators needs to defer execution, otherwise triggers ExpressionChangedAfterItHasBeenCheckedError error
-    // Promise.resolve().then(() => {// });
-    if ((changes['control'] || changes['validators']) && this.validators) {
-      validatorsAdd(this.formControl, this.validators);
-    }
-
     if (changes['formGroup'] || changes['control']) {
       this.inputState$ = combineLatest({
         hasData: this.formControl.valueChanges.pipe(
