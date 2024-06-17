@@ -2,15 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
+  computed,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { mergeMap } from 'rxjs';
 import { FormsLib } from '../../../forms.model';
 import { is } from '../../../utils';
 import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-evaluation.util';
+import { FormGeneratorBaseComponent } from '../form-generator.base';
 
 @Component({
   selector: 'lib-button',
@@ -18,20 +17,23 @@ import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-eval
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ButtonComponent implements OnInit, OnChanges {
+export class ButtonComponent extends FormGeneratorBaseComponent {
   @Input() button?: FormsLib.Button | null = null;
-  @Input() formGroup = new FormGroup({});
 
-  /** Datafields for dynamic data */
-  @Input() datafields?: FormsLib.Datafields | null = {};
-
-  public visible$: Observable<boolean> = new BehaviorSubject(true);
+  /** Dynamically determine visibility */
+  public visible$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, button: this.button }))
+  ).pipe(
+    mergeMap(({ formGroup, button }) =>
+      dynamicPropertyEvaluation$(button?.visible, formGroup)
+    )
+  );
 
   public is = is;
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor() {
+    super();
+  }
 
   /**
    * Execute the onclick event
@@ -39,20 +41,6 @@ export class ButtonComponent implements OnInit, OnChanges {
   public command() {
     if (this.button?.cmd) {
       this.button.cmd(this.button);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // Only update observable if visible is present
-    if (
-      changes['formGroup'] &&
-      this.formGroup &&
-      is.notNill(this.button?.visible)
-    ) {
-      this.visible$ = dynamicPropertyEvaluation$(
-        this.button?.visible,
-        this.formGroup
-      );
     }
   }
 }

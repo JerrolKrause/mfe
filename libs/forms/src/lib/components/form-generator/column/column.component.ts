@@ -4,9 +4,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { FormsLib } from '../../../forms.model';
 import { is } from '../../../utils';
+import { FormGeneratorBaseComponent } from '../form-generator.base';
 
 @Component({
   selector: 'lib-column',
@@ -14,16 +14,17 @@ import { is } from '../../../utils';
   styleUrls: ['./column.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColumnComponent implements OnInit {
+export class ColumnComponent
+  extends FormGeneratorBaseComponent
+  implements OnInit
+{
   @Input() column?: FormsLib.Column | null = null;
-  @Input() formGroup = new FormGroup({});
-  @Input() options?: FormsLib.FormOptions | null = null;
-  /** Datafields for dynamic data */
-  @Input() datafields?: FormsLib.Datafields | null = {};
 
   public is = is;
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {}
 }
