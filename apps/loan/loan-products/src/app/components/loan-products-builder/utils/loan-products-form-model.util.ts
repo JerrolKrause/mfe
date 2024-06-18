@@ -17,16 +17,7 @@ export const loanProductsFormModel = (
       required: true,
     },
   },
-  {
-    label: 'Side Loan Override',
-    type: 'formField',
-    formFieldType: 'radio',
-    field: 'sideLoan',
-    options: [
-      { label: 'Yes', value: true },
-      { label: 'No', value: false },
-    ],
-  },
+
   /**
   {
     label: 'Payoffs',
@@ -41,7 +32,7 @@ export const loanProductsFormModel = (
       required: true,
     },
   },
-   */
+
   {
     label: 'Base Cash Advance',
     type: 'formField',
@@ -57,6 +48,7 @@ export const loanProductsFormModel = (
       required: true,
     },
   },
+   */
   {
     type: 'html',
     html: '<hr/>',
@@ -70,6 +62,16 @@ export const loanProductsFormModel = (
     validators: {
       required: true,
     },
+  },
+  {
+    label: 'Side Loan Override',
+    type: 'formField',
+    formFieldType: 'radio',
+    field: 'sideLoan',
+    options: [
+      { label: 'Yes', value: true },
+      { label: 'No', value: false },
+    ],
   },
   {
     type: 'row',

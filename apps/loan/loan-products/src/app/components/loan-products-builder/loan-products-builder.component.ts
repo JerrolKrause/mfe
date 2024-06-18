@@ -9,7 +9,7 @@ import {
   input,
 } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
-import { debounceTime, map, startWith } from 'rxjs';
+import { combineLatest, debounceTime, map, startWith } from 'rxjs';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsState } from '../../shared/services/loan-products.service';
 import { loanProductsFormModel } from './utils/loan-products-form-model.util';
@@ -79,9 +79,15 @@ export class LoanProductsBuilderComponent {
     )
   );
 
+  public baseCashAdvance$ = combineLatest([
+    this.payoffsTotal$,
+    this.loanProductsForm.controls['cashOut'].valueChanges.pipe(
+      startWith(this.loanProductsForm.controls['cashOut'].value)
+    ),
+  ]).pipe(map(([payoffs, cash]) => payoffs + (cash ?? 0)));
+
   public isEditing$ = this.loanProductsForm.valueChanges.pipe(
     startWith(this.loanProductsForm.value),
-    debounceTime(1),
     map((lp) => !!lp.id)
   );
 

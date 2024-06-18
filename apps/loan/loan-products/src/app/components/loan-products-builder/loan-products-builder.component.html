@@ -95,6 +95,15 @@
               }}
             </h2>
           </div>
+          <hr />
+          <div class="d-flex justify-content-between">
+            <h2>Base Cash Advance:</h2>
+            <h2>
+              {{
+                baseCashAdvance$ | async | currency : 'USD' : 'symbol' : '1.0-0'
+              }}
+            </h2>
+          </div>
         </div>
         @if(state()?.isCentral) {
         <div class="additional-info">
