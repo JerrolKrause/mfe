@@ -2,15 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
+  computed,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { mergeMap } from 'rxjs';
 import { FormsLib } from '../../../forms.model';
-import { is } from '../../../utils';
 import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-evaluation.util';
+import { FormGeneratorBaseComponent } from '../form-generator.base';
 
 @Component({
   selector: 'lib-container',
@@ -18,28 +16,19 @@ import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-eval
   styleUrls: ['./container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContainerComponent implements OnInit, OnChanges {
+export class ContainerComponent extends FormGeneratorBaseComponent {
   @Input() container?: FormsLib.Container | null = null;
-  @Input() formGroup = new FormGroup({});
-  @Input() options?: FormsLib.FormOptions | null = null;
-  /** Datafields for dynamic data */
-  @Input() datafields?: FormsLib.Datafields | null = {};
 
-  public visible$: Observable<boolean> = new BehaviorSubject(true);
-  constructor() {}
+  /** Dynamically determine visibility */
+  public visible$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, container: this.container }))
+  ).pipe(
+    mergeMap(({ formGroup, container }) =>
+      dynamicPropertyEvaluation$(container?.visible, formGroup)
+    )
+  );
 
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['formGroup'] &&
-      this.formGroup &&
-      is.notNill(this.container?.visible)
-    ) {
-      this.visible$ = dynamicPropertyEvaluation$(
-        this.container?.visible,
-        this.formGroup
-      );
-    }
+  constructor() {
+    super();
   }
 }

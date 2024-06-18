@@ -2,16 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
+  computed,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { mergeMap } from 'rxjs';
 import { FormsLib } from '../../../forms.model';
-import { is } from '../../../utils';
 import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-evaluation.util';
 import { expressionReplacer$ } from '../../../utils/expression-replacer.util';
+import { FormGeneratorBaseComponent } from '../form-generator.base';
 
 @Component({
   selector: 'lib-html',
@@ -19,32 +17,28 @@ import { expressionReplacer$ } from '../../../utils/expression-replacer.util';
   styleUrls: ['./html.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HtmlComponent implements OnInit, OnChanges {
+export class HtmlComponent extends FormGeneratorBaseComponent {
   @Input() content?: FormsLib.Html | null = null;
-  @Input() options?: FormsLib.FormOptions | null = null;
-  @Input() formGroup = new FormGroup({});
 
-  public visible$: Observable<boolean> = new BehaviorSubject(true);
-  public html$: Observable<string | null> = new BehaviorSubject(null);
+  /** Dynamically determine visibility */
+  public visible$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, content: this.content }))
+  ).pipe(
+    mergeMap(({ formGroup, content }) =>
+      dynamicPropertyEvaluation$(content?.visible, formGroup)
+    )
+  );
 
-  constructor() {}
+  /** HTML content with support for dynamic properties */
+  public html$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, content: this.content }))
+  ).pipe(
+    mergeMap(({ formGroup, content }) =>
+      expressionReplacer$(formGroup, content?.html)
+    )
+  );
 
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // Only update observable if visible is present
-    if (
-      changes['formGroup'] &&
-      this.formGroup &&
-      is.notNill(this.content?.visible)
-    ) {
-      this.visible$ = dynamicPropertyEvaluation$(
-        this.content?.visible,
-        this.formGroup
-      );
-    }
-    if (changes['formGroup'] && this.formGroup) {
-      this.html$ = expressionReplacer$(this.formGroup, this.content?.html);
-    }
+  constructor() {
+    super();
   }
 }

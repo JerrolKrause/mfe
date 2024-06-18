@@ -131,11 +131,11 @@ export class LoanProductsService {
   }
 
   /**
-   * Upserts a non-credit product into the loan products array. If the product already exists, it updates it; otherwise, it adds it to the array.
-   * @param {LoanProductModels.NonCreditProduct} product - The non-credit product to be upserted.
+   * Saves a non-credit product into the loan products array. If the product already exists, it updates it; otherwise, it adds it to the array.
+   * @param {LoanProductModels.NonCreditProduct} product - The non-credit product to be saved.
    * @returns {void}
    */
-  public nonCreditProductUpsert(product: LoanProductModels.NonCreditProduct) {
+  public nonCreditProductSave(product: LoanProductModels.NonCreditProduct) {
     if (!product?.parentId) {
       return;
     }

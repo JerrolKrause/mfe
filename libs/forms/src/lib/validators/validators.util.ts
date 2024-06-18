@@ -8,8 +8,8 @@ import { emailValidator, requiredValidator } from './src/misc.validators';
  * @param validators
  */
 export const validatorsAdd = (
-  formControl?: FormControl,
-  validators?: FormsLib.Validators
+  formControl?: FormControl | null,
+  validators?: FormsLib.Validators | null
 ) => {
   if (!formControl || !validators) {
     return;

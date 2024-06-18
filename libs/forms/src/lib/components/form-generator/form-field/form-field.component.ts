@@ -2,15 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
+  computed,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { mergeMap } from 'rxjs';
 import { FormsLib } from '../../../forms.model';
-import { is } from '../../../utils';
 import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-evaluation.util';
+import { FormGeneratorBaseComponent } from '../form-generator.base';
 
 @Component({
   selector: 'lib-form-field',
@@ -18,47 +16,31 @@ import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-eval
   styleUrls: ['./form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormFieldComponent implements OnInit, OnChanges {
+export class FormFieldComponent extends FormGeneratorBaseComponent {
   @Input() formField?: FormsLib.FormField | null = null;
-  @Input() formGroup = new FormGroup({});
-  @Input() options?: FormsLib.FormOptions | null = null;
-  /** Datafields for dynamic data */
-  @Input() datafields?: FormsLib.Datafields | null = {};
 
-  public visible$: Observable<boolean> = new BehaviorSubject(true);
-  public disabled$: Observable<boolean> = new BehaviorSubject(false);
-  constructor() {}
+  /** Dynamically determine visibility */
+  public visible$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, formField: this.formField }))
+  ).pipe(
+    mergeMap(({ formGroup, formField }) =>
+      dynamicPropertyEvaluation$(formField?.visible, formGroup)
+    )
+  );
 
-  ngOnInit(): void {}
+  /** Dynamically determine enabled/disabled */
+  public disabled$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, formField: this.formField }))
+  ).pipe(
+    mergeMap(({ formGroup, formField }) =>
+      dynamicPropertyEvaluation$(formField?.disabled, formGroup, {
+        // Check if the control is currently disabled and set that to the default setting
+        defaultValue: formGroup?.get(formField?.field ?? '')?.disabled ?? false,
+      })
+    )
+  );
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // Only update observable if visible is present
-    if (
-      changes['formGroup'] &&
-      this.formGroup &&
-      is.notNill(this.formField?.visible)
-    ) {
-      this.visible$ = dynamicPropertyEvaluation$(
-        this.formField?.visible,
-        this.formGroup
-      );
-    }
-
-    // Only update observable if disabled is present
-    if (
-      changes['formGroup'] &&
-      this.formGroup &&
-      is.notNill(this.formField?.disabled)
-    ) {
-      this.disabled$ = dynamicPropertyEvaluation$(
-        this.formField?.disabled,
-        this.formGroup,
-        {
-          // Check if the control is currently disabled and set that to the default setting
-          defaultValue:
-            this.formGroup?.get(this.formField?.field ?? '')?.disabled ?? false,
-        }
-      );
-    }
+  constructor() {
+    super();
   }
 }

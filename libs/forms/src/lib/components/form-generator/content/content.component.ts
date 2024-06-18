@@ -1,12 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormsLib } from '../../../forms.model';
 import { is } from '../../../utils';
+import { FormGeneratorBaseComponent } from '../form-generator.base';
 
 @Component({
   selector: 'lib-content',
@@ -14,15 +9,11 @@ import { is } from '../../../utils';
   styleUrls: ['./content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentComponent implements OnInit {
+export class ContentComponent extends FormGeneratorBaseComponent {
   @Input() content?: FormsLib.Content | null = null;
-  @Input() formGroup = new FormGroup({});
-  @Input() options?: FormsLib.FormOptions | null = null;
-  /** Datafields for dynamic data */
-  @Input() datafields?: FormsLib.Datafields | null = {};
 
   public is = is;
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor() {
+    super();
+  }
 }

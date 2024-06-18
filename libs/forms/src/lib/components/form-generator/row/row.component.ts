@@ -2,15 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
+  computed,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, mergeMap } from 'rxjs';
 import { FormsLib } from '../../../forms.model';
 import { is } from '../../../utils';
 import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-evaluation.util';
+import { FormGeneratorBaseComponent } from '../form-generator.base';
 
 @Component({
   selector: 'lib-row',
@@ -18,39 +17,30 @@ import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-eval
   styleUrls: ['./row.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RowComponent implements OnInit, OnChanges {
+export class RowComponent extends FormGeneratorBaseComponent {
   @Input() row?: FormsLib.Row | null = null;
-  @Input() formGroup = new FormGroup({});
-  @Input() options?: FormsLib.FormOptions | null = null;
-  /** Datafields for dynamic data */
-  @Input() datafields?: FormsLib.Datafields | null = {};
 
-  public visible$: Observable<boolean> = new BehaviorSubject(true);
-  public visibleColumns: Observable<boolean>[] = [];
-  constructor() {}
+  /** Dynamically determine visibility */
+  public visible$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, row: this.row }))
+  ).pipe(
+    mergeMap(({ formGroup, row }) =>
+      dynamicPropertyEvaluation$(row?.visible, formGroup)
+    )
+  );
 
-  ngOnInit(): void {}
+  /** Determine visibility of columns. Controlled here to avoid adding content to the dom in the columns component */
+  public visibleColumns = computed(() => {
+    return this.row
+      ? this.row?.columns.map((c) =>
+          is.notNill(c.visible)
+            ? dynamicPropertyEvaluation$(c.visible, this.formGroup)
+            : new BehaviorSubject(true)
+        )
+      : [];
+  });
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // Only update observable if visible is present
-    if (
-      changes['formGroup'] &&
-      this.formGroup &&
-      is.notNill(this.row?.visible)
-    ) {
-      this.visible$ = dynamicPropertyEvaluation$(
-        this.row?.visible,
-        this.formGroup
-      );
-    }
-    if (changes['formGroup'] && this.formGroup) {
-      this.visibleColumns = this.row
-        ? this.row.columns.map((c) =>
-            is.notNill(c.visible)
-              ? dynamicPropertyEvaluation$(c.visible, this.formGroup)
-              : new BehaviorSubject(true)
-          )
-        : [];
-    }
+  constructor() {
+    super();
   }
 }

@@ -1,30 +1,28 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnChanges,
   OnDestroy,
-  OnInit,
-  SimpleChanges,
   ViewEncapsulation,
+  computed,
+  effect,
 } from '@angular/core';
-import { ControlContainer, FormGroup } from '@angular/forms';
+import { ControlContainer } from '@angular/forms';
 import {
-  BehaviorSubject,
-  Observable,
   combineLatest,
   debounceTime,
   distinctUntilChanged,
   map,
+  mergeMap,
   of,
   startWith,
   tap,
 } from 'rxjs';
 
+import { toObservable } from '@angular/core/rxjs-interop';
 import { isRequired } from '../../../utils';
 import { expressionReplacer$ } from '../../../utils/expression-replacer.util';
 import { validatorsAdd } from '../../../validators';
 import { BaseFormFieldComponent } from '../form-field.base';
-
 interface InputState {
   hasData: boolean;
   showErrors: boolean;
@@ -44,110 +42,97 @@ interface InputState {
 })
 export class InputComponent<t>
   extends BaseFormFieldComponent<t>
-  implements OnInit, OnChanges, OnDestroy
+  implements OnDestroy
 {
   // Dynamic content
-  public label$: Observable<string | null> = new BehaviorSubject<string | null>(
-    null
+  public label$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, label: this.label }))
+  ).pipe(
+    mergeMap(({ formGroup, label }) =>
+      expressionReplacer$(formGroup(), label())
+    )
   );
-  public prefix$: Observable<string | null> = new BehaviorSubject<
-    string | null
-  >(null);
-  public suffix$: Observable<string | null> = new BehaviorSubject<
-    string | null
-  >(null);
-  public hint$: Observable<string | null> = new BehaviorSubject<string | null>(
-    null
+  public prefix$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, prefix: this.prefix }))
+  ).pipe(
+    mergeMap(({ formGroup, prefix }) =>
+      expressionReplacer$(formGroup(), prefix())
+    )
   );
-  // Main state entity
-  public inputState$: Observable<InputState | null> =
-    new BehaviorSubject<InputState | null>(null);
+  public suffix$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, suffix: this.suffix }))
+  ).pipe(
+    mergeMap(({ formGroup, suffix }) =>
+      expressionReplacer$(formGroup(), suffix())
+    )
+  );
+  public hint$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, hint: this.hint }))
+  ).pipe(
+    mergeMap(({ formGroup, hint }) => expressionReplacer$(formGroup(), hint()))
+  );
+
+  public inputState$ = toObservable(computed(() => this.formControl)).pipe(
+    mergeMap((formControl) =>
+      combineLatest({
+        hasData: formControl.valueChanges.pipe(
+          tap((value) => this.onChange.emit(value)), // Emit changed value to parent through template
+          startWith(formControl.value),
+          debounceTime(1),
+          map((val) => val !== null && val !== undefined && val !== ''),
+          distinctUntilChanged()
+        ),
+        showErrors: formControl.statusChanges.pipe(
+          startWith(formControl?.status),
+          debounceTime(1),
+          map((x) => x === 'INVALID' && !!formControl?.touched),
+          distinctUntilChanged()
+        ),
+        isValid: formControl.statusChanges.pipe(
+          startWith(formControl?.status),
+          debounceTime(1),
+          map((x) => x === 'VALID'),
+          distinctUntilChanged()
+        ),
+        isDisabled: formControl.statusChanges.pipe(
+          startWith(formControl?.status),
+          debounceTime(1),
+          map((x) => x === 'DISABLED'),
+          distinctUntilChanged()
+        ),
+        isInvalid: formControl.statusChanges.pipe(
+          startWith(formControl?.status),
+          debounceTime(1),
+          map((x) => x === 'INVALID'),
+          distinctUntilChanged()
+        ),
+        errors: formControl.statusChanges.pipe(
+          startWith(formControl?.errors),
+          debounceTime(1),
+          map(() => {
+            if (!formControl?.errors) {
+              return null;
+            }
+            return Object.keys(formControl.errors).reduce(
+              (a, b) =>
+                formControl?.errors ? [...a, formControl?.errors[b]] : [...a],
+              [] as string[]
+            );
+          })
+        ),
+        required: of(isRequired(formControl)),
+      })
+    ),
+    debounceTime(1)
+  );
 
   /** DOM element for showing required status */
   public requiredTag = `<sup class="required">*</sup>`;
 
   constructor(controlContainer: ControlContainer) {
     super(controlContainer);
-  }
-
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // If input control, formgroup or value changes, update state
-    if (changes['control']) {
-      this.formGroup = this.formControl.root as FormGroup;
-    }
-    // If input control, formgroup or value changes, update state
-    if (changes['control'] || changes['label']) {
-      this.label$ = expressionReplacer$(this.formGroup, this.label);
-    }
-    if (changes['control'] || changes['prefix']) {
-      this.prefix$ = expressionReplacer$(this.formGroup, this.prefix);
-    }
-    if (changes['control'] || changes['suffix']) {
-      this.suffix$ = expressionReplacer$(this.formGroup, this.suffix);
-    }
-    if (changes['control'] || changes['hint']) {
-      this.hint$ = expressionReplacer$(this.formGroup, this.hint);
-    }
-
-    // Adding validators needs to defer execution, otherwise triggers ExpressionChangedAfterItHasBeenCheckedError error
-    // Promise.resolve().then(() => {// });
-    if ((changes['control'] || changes['validators']) && this.validators) {
-      validatorsAdd(this.formControl, this.validators);
-    }
-
-    if (changes['formGroup'] || changes['control']) {
-      this.inputState$ = combineLatest({
-        hasData: this.formControl.valueChanges.pipe(
-          tap((value) => this.onChange.emit(value)), // Emit changed value to parent through template
-          startWith(this.formControl.value),
-          debounceTime(1),
-          map((val) => val !== null && val !== undefined && val !== ''),
-          distinctUntilChanged()
-        ),
-        showErrors: this.formControl.statusChanges.pipe(
-          startWith(this.formControl?.status),
-          debounceTime(1),
-          map((x) => x === 'INVALID' && !!this.formControl?.touched),
-          distinctUntilChanged()
-        ),
-        isValid: this.formControl.statusChanges.pipe(
-          startWith(this.formControl?.status),
-          debounceTime(1),
-          map((x) => x === 'VALID'),
-          distinctUntilChanged()
-        ),
-        isDisabled: this.formControl.statusChanges.pipe(
-          startWith(this.formControl?.status),
-          debounceTime(1),
-          map((x) => x === 'DISABLED'),
-          distinctUntilChanged()
-        ),
-        isInvalid: this.formControl.statusChanges.pipe(
-          startWith(this.formControl?.status),
-          debounceTime(1),
-          map((x) => x === 'INVALID'),
-          distinctUntilChanged()
-        ),
-        errors: this.formControl.statusChanges.pipe(
-          startWith(this.formControl?.errors),
-          debounceTime(1),
-          map(() => {
-            if (!this.formControl?.errors) {
-              return null;
-            }
-            return Object.keys(this.formControl.errors).reduce(
-              (a, b) =>
-                this.formControl?.errors
-                  ? [...a, this.formControl?.errors[b]]
-                  : [...a],
-              [] as string[]
-            );
-          })
-        ),
-        required: of(isRequired(this.formControl)),
-      }).pipe(debounceTime(1));
-    }
+    // Add validators from form model
+    // May need to defer execution if triggers ExpressionChangedAfterItHasBeenCheckedError error
+    effect(() => validatorsAdd(this.formControl, this.validators));
   }
 }

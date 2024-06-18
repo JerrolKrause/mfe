@@ -3,10 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnInit,
   Output,
-  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -52,7 +49,6 @@ public formModel: FormsLib.FormGenerator = [
  * @TODO
  * - Add support for feature components
  * - Possible issue with required fields and dynamic visibility. IE required field is shown then hidden
- * - SSR support
  */
 @Component({
   selector: 'lib-form-generator',
@@ -61,7 +57,7 @@ public formModel: FormsLib.FormGenerator = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class FormGeneratorComponent implements OnInit, OnChanges {
+export class FormGeneratorComponent {
   /** Model to generate the form */
   @Input() formModel?: FormsLib.FormGenerator | null = [];
   /** Main form group */
@@ -72,25 +68,19 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
   @Input() datafields?: FormsLib.Datafields | null = {};
   /** Disable submit button. Otherwise will rely on the form validators to allow submission */
   @Input() disableSubmit: null | boolean = false;
-  /** Enable/disable the form  */
-  @Input() disabled?: null | boolean = false;
+  /** Enable/disable the form */
+  @Input() set disabled(disabled: boolean | null) {
+    if (is.node) return; // SSR check
+    // Current setTimeout is the only method that works to disable the form onload
+    setTimeout(() => {
+      disabled ? this.formGroup?.disable() : this.formGroup?.enable();
+      this.formGroup?.markAsUntouched(); // Reset validation state on disable changes
+    }, 1);
+  }
   /** When the user submits the form */
   @Output() completed = new EventEmitter<unknown>();
 
   constructor() {}
-
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // Disable/enable the form when the input changes
-    if (changes['disabled'] && this.formGroup && is.browser) {
-      // setTimeout is required to set it onload, otherwise it does not disable the form
-      setTimeout(() => {
-        this.disabled ? this.formGroup?.disable() : this.formGroup?.enable();
-        this.formGroup?.markAsUntouched(); // Reset validation state on disable changes
-      }, 1);
-    }
-  }
 
   /**
    * On form submit, run validation
@@ -119,21 +109,6 @@ export class FormGeneratorComponent implements OnInit, OnChanges {
           window.scrollTo({ top: y, behavior: 'smooth' });
         }
       });
-      /**
-      setTimeout(() => {
-        // Get all errors on page
-        const errors = document.getElementsByClassName(
-          'lib-form-field-has-errors'
-        );
-        if (errors?.length) {
-          // Get top of first error bounding box, scroll to the top of that box
-          const y =
-            errors[0].getBoundingClientRect().top +
-            window.pageYOffset +
-            (this.options?.errorScrollOffset ?? 0);
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }, 100); */
       return;
     }
     this.completed.emit(this.formGroup.getRawValue());

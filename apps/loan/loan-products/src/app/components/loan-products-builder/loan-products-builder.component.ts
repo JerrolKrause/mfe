@@ -164,10 +164,14 @@ export class LoanProductsBuilderComponent {
   }
 
   onSubmit() {
+    // On submit, toggle validation states
+    this.loanProductsForm.patchValue(this.loanProductsForm.value);
+    this.loanProductsForm.markAllAsTouched();
     if (this.loanProductsForm.invalid) {
       return;
     }
-    this.formSubmit.emit(this.loanProductsForm.value as any);
+
+    this.formSubmit.emit(this.loanProductsForm.value as any); // @todo - Remove Any
     this.reset();
   }
 }

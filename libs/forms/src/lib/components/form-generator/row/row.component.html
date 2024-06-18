@@ -8,7 +8,7 @@
   <ng-container *ngIf="row?.columns?.length; else noColumns">
     <ng-container *ngFor="let column of row?.columns; let i = index">
       <div
-        *ngIf="visibleColumns[i] | async"
+        *ngIf="visibleColumns()[i] | async"
         class="form-generator-column col col-12 col-md-{{ column.width }}"
         [attr.id]="column?.id || null"
         [ngClass]="column?.cssClasses ?? ''"

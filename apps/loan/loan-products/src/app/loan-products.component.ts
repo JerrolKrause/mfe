@@ -81,7 +81,7 @@ export class LoanProductsComponent {
         dismissableMask: true,
       })
       .onClose.subscribe((p: LoanProductModels.NonCreditProduct) =>
-        this.lpSvc.nonCreditProductUpsert(p)
+        this.lpSvc.nonCreditProductSave(p)
       );
   }
 
