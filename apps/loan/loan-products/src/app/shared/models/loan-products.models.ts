@@ -21,6 +21,7 @@ export module LoanProductModels {
     ndi?: number;
     status?: LoanProductStatus;
     vehicles?: any[];
+    assets?: Asset[];
     creditors?: Creditor[];
     creditProducts?: CreditProduct[];
     nonCreditProducts?: NonCreditProduct[];

@@ -214,6 +214,11 @@
     >
     </lib-zipcode>
 
+    <lib-checkbox
+      *ngIf="formField.formFieldType === 'checkbox'"
+      [id]="formField.id"
+    ></lib-checkbox>
+
     <div style="color: red" *ngIf="!formGroup.get(formField.field)">
       Unable to find a form control at <strong>{{ formField.field }}</strong>
     </div>

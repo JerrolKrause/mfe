@@ -103,6 +103,7 @@ export module FormsLib {
     | TextField
     | PasswordField
     | DateField
+    | CheckboxField
     | SelectButtonField
     | DropdownField
     | PhoneNumberField
@@ -115,6 +116,7 @@ export module FormsLib {
   /** Enum for form field types */
   export type FormFieldType =
     | 'text'
+    | 'checkbox'
     | 'password'
     | 'date'
     | 'selectButton'
@@ -231,6 +233,10 @@ export module FormsLib {
 
   export interface PhoneNumberField extends FieldInputSrc {
     formFieldType: 'phoneNumber';
+  }
+
+  export interface CheckboxField extends FieldInputSrc {
+    formFieldType: 'checkbox';
   }
 
   export interface ZipCodeField extends FieldInputSrc {

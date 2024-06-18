@@ -61,9 +61,23 @@ export class LoanProductsBuilderComponent {
     payoffs: 0,
     baseCashAdvance: 0,
     fees: 0,
-    assets: this.fb.array([]),
-    creditors: this.fb.array([]),
+    sideLoan: false,
+    assets: this.fb.array<LoanProductModels.Asset[]>([]),
+    creditors: this.fb.array<LoanProductModels.Creditor[]>([]),
   });
+
+  /** Calculate the payoffs by summing all the selected creditors */
+  public payoffsTotal$ = this.loanProductsForm.controls[
+    'creditors'
+  ].valueChanges.pipe(
+    startWith(this.loanProductsForm.controls['creditors'].value),
+    debounceTime(250),
+    map((creditors) =>
+      creditors
+        .filter((c) => c?.selected)
+        .reduce((prev, acc) => prev + (acc?.totalOwed ?? 0), 0)
+    )
+  );
 
   public isEditing$ = this.loanProductsForm.valueChanges.pipe(
     startWith(this.loanProductsForm.value),
