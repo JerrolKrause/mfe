@@ -42,7 +42,9 @@ export class LoanProductsComponent {
     public dialogService: DialogService,
     public storage: AppStorageService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.lpSvc.testStore.state$.subscribe(console.warn);
+  }
 
   /**
    * Open a subproduct modal

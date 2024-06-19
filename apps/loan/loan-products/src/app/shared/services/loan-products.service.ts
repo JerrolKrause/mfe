@@ -1,4 +1,6 @@
+import { GraphQLStoreCreatorService } from '$state-management';
 import { Injectable } from '@angular/core';
+import { gql } from '@apollo/client';
 import { BehaviorSubject, take } from 'rxjs';
 import {
   assets,
@@ -18,7 +20,7 @@ export interface LoanProductsState {
   isLocked: boolean;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: 'platform' })
 export class LoanProductsService {
   public state$ = new BehaviorSubject<LoanProductsState>({
     isCentral: false,
@@ -37,7 +39,25 @@ export class LoanProductsService {
     creditors
   );
 
-  constructor() {}
+  public testStore = this.graphSvc.createEntityStore<any>({
+    primaryKey: 'id',
+    getQuery: gql`
+      query PingQuery {
+        ping
+        healthQueries {
+          awsSecrets {
+            details
+          }
+          s3 {
+            details
+          }
+        }
+      }
+    `,
+    getResultKey: 'users',
+  });
+
+  constructor(private graphSvc: GraphQLStoreCreatorService) {}
 
   /**
    * Change state of the app

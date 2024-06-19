@@ -30,9 +30,11 @@ import { NoContentComponent } from './routes/no-content/no-content.component';
 import { SelectLoanIdComponent } from './routes/select-loan-id/select-loan-id.component';
 import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-task.component';
 
+import { StateManagementModule } from '$state-management';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
+import { LoanProductsService } from './shared/services/loan-products.service';
 
 const uri =
   'https://income-verification-subgraph-dev-egg.cherrypie.alt.meanion.com/';
@@ -75,11 +77,12 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     ReactiveFormsModule,
     ButtonModule,
     TableModule,
-    ApolloModule,
     DynamicDialogModule,
+    StateManagementModule, // Needed for Apollo
   ],
   providers: [
     DialogService,
+    LoanProductsService, // Needed for Apollo
     provideClientHydration(),
     {
       provide: APOLLO_OPTIONS,

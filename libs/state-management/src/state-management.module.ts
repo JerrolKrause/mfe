@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ApolloModule } from 'apollo-angular';
 import { AccordionModule } from 'primeng/accordion';
 import { MessageModule } from 'primeng/message';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -21,9 +22,10 @@ const Components = [DomainStateComponent, ErrorComponent];
     ProgressBarModule,
     MessageModule,
     AccordionModule,
+    ApolloModule,
     HttpClientModule,
   ],
   providers: [StateManagementService, GraphQLStoreCreatorService],
-  exports: [Components],
+  exports: [Components, ApolloModule],
 })
 export class StateManagementModule {}
