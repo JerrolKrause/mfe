@@ -39,25 +39,42 @@ export class LoanProductsService {
     creditors
   );
 
-  public testStore = this.graphSvc.createEntityStore<any>({
-    primaryKey: 'id',
+  public pingStore = this.graphSvc.createEntityStore<any>({
+    autoLoad: false,
     getQuery: gql`
       query PingQuery {
         ping
-        healthQueries {
-          awsSecrets {
-            details
-          }
-          s3 {
-            details
+      }
+    `,
+  });
+
+  public plaidStore = this.graphSvc.createEntityStore<any>({
+    autoLoad: false,
+    getQuery: gql`
+      query Link($input: LinkInput!) {
+        plaid {
+          link(input: $input) {
+            expiration
+            reason
+            status
+            token
           }
         }
       }
     `,
-    getResultKey: 'users',
   });
 
-  constructor(private graphSvc: GraphQLStoreCreatorService) {}
+  constructor(private graphSvc: GraphQLStoreCreatorService) {
+    // this.pingStore.getData().subscribe();
+    this.plaidStore
+      .getData({
+        input: {
+          customerId: '12345',
+          uniqueTrackingCode: '123123',
+        },
+      })
+      .subscribe();
+  }
 
   /**
    * Change state of the app

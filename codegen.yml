@@ -1,8 +1,0 @@
-overwrite: true
-schema: 'https://income-verification-subgraph-dev-egg.cherrypie.alt.meanion.com/' # GraphQL endpoint or schema file
-generates:
-  apps/loan/loan-products/src/app/shared/models/loan-products.graphql.ts:
-    plugins:
-      - typescript
-      - typescript-operations
-      - typescript-apollo-angular

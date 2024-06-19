@@ -38,6 +38,8 @@ export interface GraphQLStoreConfig<T> {
   updateResultKey?: string;
   deleteResultKey?: string;
   primaryKey?: keyof T;
+  /** If the store has a subscriber but no data, should it automatically load from the API? Default true. */
+  autoLoad?: boolean;
 }
 
 /**
@@ -75,7 +77,8 @@ export class GraphQLStore<T> {
       if (
         state.loading === false &&
         state.data === null &&
-        this.initialLoad === false
+        this.initialLoad === false &&
+        this.config.autoLoad !== false
       ) {
         this.initialLoad = true; // Set to true to prevent future autoloading on the first subscription.
         this.getData().pipe(take(1)).subscribe(); // Fetches data and subscribes once, ensuring the data is loaded on initial access.
@@ -117,18 +120,24 @@ export class GraphQLStore<T> {
    * @returns {Observable<T[]>} An observable that emits the array of data fetched from the server.
    * This observable will complete after emitting once or if an error occurs.
    */
-  getData(): Observable<T[] | null> {
+  getData(variables?: Record<string, any>): Observable<T[] | null> {
     if (!this.config.getQuery) {
       console.error('getQuery was not provided to the store config');
       return of(null);
     }
+
     this.updateState({ loading: true, error: null });
     return this.apollo
       .watchQuery<{ [key: string]: any }>({
         query: this.config.getQuery,
+        variables: variables,
       })
       .valueChanges.pipe(
-        map((result) => result.data[this.config?.getResultKey ?? ''].data),
+        map((result) =>
+          this.config?.getResultKey
+            ? result.data[this.config?.getResultKey]
+            : result.data
+        ),
         catchError((error) => {
           this.updateState({ loading: false, error: error.message });
           throw error;

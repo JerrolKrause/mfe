@@ -43,7 +43,7 @@ export class LoanProductsComponent {
     public storage: AppStorageService,
     private route: ActivatedRoute
   ) {
-    this.lpSvc.testStore.state$.subscribe(console.warn);
+    this.lpSvc.pingStore.state$.subscribe(console.warn);
   }
 
   /**

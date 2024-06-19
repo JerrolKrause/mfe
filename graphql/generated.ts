@@ -1,4 +1,6 @@
 import { gql } from 'apollo-angular';
+import { Injectable } from '@angular/core';
+import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -102,6 +104,24 @@ export type EvaluateFinicityReportResponse = {
   status?: Maybe<ResponseStatus>;
 };
 
+export type ExchangePublicTokenInput = {
+  customerId: Scalars['ID']['input'];
+  publicToken: Scalars['String']['input'];
+  uniqueTrackingCode: Scalars['String']['input'];
+};
+
+export type ExchangePublicTokenResponse = {
+  __typename?: 'ExchangePublicTokenResponse';
+  reason?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<ResponseStatus>;
+};
+
+export type FdcOfframp = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** Finicity report data */
 export type FinicityData = {
   __typename?: 'FinicityData';
@@ -151,6 +171,7 @@ export type IvWaterfallInput = {
   branchId: Scalars['String']['input'];
   cbReferenceId: Scalars['String']['input'];
   costCenter?: InputMaybe<Scalars['String']['input']>;
+  customerId?: InputMaybe<Scalars['String']['input']>;
   disclosedIncome?: InputMaybe<Scalars['Float']['input']>;
   dispositionCode?: InputMaybe<Scalars['String']['input']>;
   employerName?: InputMaybe<Scalars['String']['input']>;
@@ -158,7 +179,9 @@ export type IvWaterfallInput = {
   employmentStartDate?: InputMaybe<Scalars['Int']['input']>;
   employmentStatus?: InputMaybe<EmploymentStatusV2>;
   employmentStatusIndicator?: InputMaybe<Scalars['String']['input']>;
+  fdcOfframp?: InputMaybe<FdcOfframp>;
   firstName?: InputMaybe<Scalars['String']['input']>;
+  isFdcEligible?: InputMaybe<Scalars['Boolean']['input']>;
   ivWaterfallType: IvWaterfallType;
   jobType?: InputMaybe<JobType>;
   lastName?: InputMaybe<Scalars['String']['input']>;
@@ -208,6 +231,7 @@ export type IvWaterfallWorkflow = {
   cbReferenceId?: Maybe<Scalars['String']['output']>;
   costCenter?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  customerId?: Maybe<Scalars['String']['output']>;
   disclosedIncome?: Maybe<Scalars['Float']['output']>;
   dispositionCode?: Maybe<Scalars['String']['output']>;
   employerName?: Maybe<Scalars['String']['output']>;
@@ -215,8 +239,12 @@ export type IvWaterfallWorkflow = {
   employmentStartDate?: Maybe<Scalars['Int']['output']>;
   employmentStatus?: Maybe<Scalars['String']['output']>;
   employmentStatusIndicator?: Maybe<Scalars['String']['output']>;
+  fdcOfframpCode?: Maybe<Scalars['String']['output']>;
+  fdcOfframpDescription?: Maybe<Scalars['String']['output']>;
+  fdcOfframpKey?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
+  isFdcEligible?: Maybe<Scalars['Boolean']['output']>;
   ivWaterfallType?: Maybe<Scalars['String']['output']>;
   jobType?: Maybe<Scalars['String']['output']>;
   lastName?: Maybe<Scalars['String']['output']>;
@@ -236,10 +264,24 @@ export enum JobType {
   Parttime = 'PARTTIME'
 }
 
+export type LinkInput = {
+  customerId: Scalars['ID']['input'];
+  uniqueTrackingCode: Scalars['String']['input'];
+};
+
+export type LinkResponse = {
+  __typename?: 'LinkResponse';
+  expiration?: Maybe<Scalars['String']['output']>;
+  reason?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<ResponseStatus>;
+  token?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   cashflow?: Maybe<CashflowMutations>;
   ping?: Maybe<Scalars['String']['output']>;
+  plaid?: Maybe<PlaidMutations>;
   /** Verification-related mutations */
   verification?: Maybe<VerificationMutations>;
   workflow?: Maybe<WorkflowMutations>;
@@ -254,10 +296,31 @@ export enum PayFrequency {
   Weekly = 'WEEKLY'
 }
 
+export type PlaidMutations = {
+  __typename?: 'PlaidMutations';
+  exchangePublicToken?: Maybe<ExchangePublicTokenResponse>;
+};
+
+
+export type PlaidMutationsExchangePublicTokenArgs = {
+  input: ExchangePublicTokenInput;
+};
+
+export type PlaidQueries = {
+  __typename?: 'PlaidQueries';
+  link?: Maybe<LinkResponse>;
+};
+
+
+export type PlaidQueriesLinkArgs = {
+  input: LinkInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   healthQueries?: Maybe<HealthQueries>;
   ping?: Maybe<Scalars['String']['output']>;
+  plaid?: Maybe<PlaidQueries>;
   /** Verification-related queries */
   verification?: Maybe<VerificationQueries>;
   workflow?: Maybe<WorkflowQueries>;
@@ -620,3 +683,55 @@ export type WorkflowQueriesWaterfallResultArgs = {
 export type WorkflowQueriesWaterfallWorkflowArgs = {
   workflowId: Scalars['ID']['input'];
 };
+
+export type PingQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PingQueryQuery = { __typename?: 'Query', ping?: string | null };
+
+export type LinkQueryVariables = Exact<{
+  input: LinkInput;
+}>;
+
+
+export type LinkQuery = { __typename?: 'Query', plaid?: { __typename?: 'PlaidQueries', link?: { __typename?: 'LinkResponse', expiration?: string | null, reason?: string | null, status?: ResponseStatus | null, token?: string | null } | null } | null };
+
+export const PingQueryDocument = gql`
+    query PingQuery {
+  ping
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PingQueryGQL extends Apollo.Query<PingQueryQuery, PingQueryQueryVariables> {
+    document = PingQueryDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LinkDocument = gql`
+    query Link($input: LinkInput!) {
+  plaid {
+    link(input: $input) {
+      expiration
+      reason
+      status
+      token
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LinkGQL extends Apollo.Query<LinkQuery, LinkQueryVariables> {
+    document = LinkDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }

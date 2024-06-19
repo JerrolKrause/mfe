@@ -22,7 +22,9 @@ comes with a LSP for Vim users.
 
 `npx nx g @nx/angular:component step1 --directory apps/quoting/src/app/routes/step1 --module=app.module.ts` Generate a component with the name "step1" in the components directory in the quoting app
 
-`generate-models` Generate TypeScript models from graphQL definitions (\*.graphql). See codegen.yml for config options.:
+`npm run generate` Generate TypeScript models from all graphQL definitions (\*.graphql).
+
+`npm run generate:loan` Generate TypeScript models from just the loan graphql file.
 
 ## Build for production
 
