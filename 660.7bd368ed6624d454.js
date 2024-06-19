@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkapp_shell=self.webpackChunkapp_shell||[]).push([[660],{5660:(n,s,l)=>{l.r(s),l.d(s,{IconsModule:()=>u.e});var u=l(7348)}}]);
