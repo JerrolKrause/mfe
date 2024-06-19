@@ -43,7 +43,10 @@ export class LoanProductsComponent {
     public storage: AppStorageService,
     private route: ActivatedRoute
   ) {
-    this.lpSvc.pingStore.state$.subscribe(console.warn);
+    /***/
+    this.lpSvc.plaidStore.state$.subscribe((state) =>
+      console.warn(state.data?.plaid?.link)
+    );
   }
 
   /**
@@ -103,6 +106,6 @@ export class LoanProductsComponent {
   }
 
   public quoteFormChanged(form: LoanCalculator.Quote) {
-    console.log(form);
+    // console.log(form);
   }
 }

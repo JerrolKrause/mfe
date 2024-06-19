@@ -1,31 +1,44 @@
-import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
+import { gql } from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
-  Datetime: { input: any; output: any; }
-  JsonObject: { input: any; output: any; }
-  reportDate_String_NotNull_format_date: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
+  Datetime: { input: any; output: any };
+  JsonObject: { input: any; output: any };
+  reportDate_String_NotNull_format_date: { input: any; output: any };
 };
 
 export enum ApplicantType {
   /** The name of the Applicant */
   Applicant = 'APPLICANT',
   /** The name of the Co-Applicant */
-  CoApplicant = 'CO_APPLICANT'
+  CoApplicant = 'CO_APPLICANT',
 }
 
 export type BankAccount = {
@@ -55,16 +68,13 @@ export type CashflowMutations = {
   runFinicityCalculatorByWorkflow?: Maybe<RunFinicityCalculatorResponse>;
 };
 
-
 export type CashflowMutationsEvaluateFinicityReportArgs = {
   input: EvaluateFinicityReportInput;
 };
 
-
 export type CashflowMutationsRunFinicityCalculatorArgs = {
   input: RunFinicityCalculatorInput;
 };
-
 
 export type CashflowMutationsRunFinicityCalculatorByWorkflowArgs = {
   input: RunFinicityCalculatorByWorkflowInput;
@@ -90,7 +100,7 @@ export enum EmploymentStatusV2 {
   Employed = 'EMPLOYED',
   Other = 'OTHER',
   Retired = 'RETIRED',
-  SelfEmployed = 'SELF_EMPLOYED'
+  SelfEmployed = 'SELF_EMPLOYED',
 }
 
 export type EvaluateFinicityReportInput = {
@@ -150,7 +160,7 @@ export type HealthQueries = {
 export enum HealthStatus {
   Healthy = 'HEALTHY',
   Unhealthy = 'UNHEALTHY',
-  Unknown = 'UNKNOWN'
+  Unknown = 'UNKNOWN',
 }
 
 export enum IvWaterfallType {
@@ -161,7 +171,7 @@ export enum IvWaterfallType {
   P = 'P',
   Space = 'SPACE',
   X = 'X',
-  Y = 'Y'
+  Y = 'Y',
 }
 
 export type IvWaterfallInput = {
@@ -261,7 +271,7 @@ export type IvWaterfallWorkflow = {
 
 export enum JobType {
   Fulltime = 'FULLTIME',
-  Parttime = 'PARTTIME'
+  Parttime = 'PARTTIME',
 }
 
 export type LinkInput = {
@@ -293,14 +303,13 @@ export enum PayFrequency {
   Hourly = 'HOURLY',
   Monthly = 'MONTHLY',
   Semimonthly = 'SEMIMONTHLY',
-  Weekly = 'WEEKLY'
+  Weekly = 'WEEKLY',
 }
 
 export type PlaidMutations = {
   __typename?: 'PlaidMutations';
   exchangePublicToken?: Maybe<ExchangePublicTokenResponse>;
 };
-
 
 export type PlaidMutationsExchangePublicTokenArgs = {
   input: ExchangePublicTokenInput;
@@ -310,7 +319,6 @@ export type PlaidQueries = {
   __typename?: 'PlaidQueries';
   link?: Maybe<LinkResponse>;
 };
-
 
 export type PlaidQueriesLinkArgs = {
   input: LinkInput;
@@ -329,7 +337,7 @@ export type Query = {
 export enum ResponseStatus {
   Error = 'ERROR',
   Success = 'SUCCESS',
-  Unknown = 'UNKNOWN'
+  Unknown = 'UNKNOWN',
 }
 
 export type RunFinicityCalculatorByWorkflowInput = {
@@ -429,7 +437,7 @@ export enum TheWorkNumberEmployeeStatusCode {
   /** Active employment records */
   A = 'A',
   /** Inactive employment records */
-  I = 'I'
+  I = 'I',
 }
 
 /** Additional TWN-specific parameters to be supplied to `runIncomeVerification`. */
@@ -490,7 +498,7 @@ export enum UsState {
   Washington = 'Washington',
   WestVirginia = 'WestVirginia',
   Wisconsin = 'Wisconsin',
-  Wyoming = 'Wyoming'
+  Wyoming = 'Wyoming',
 }
 
 /** The state of a request verification */
@@ -525,12 +533,10 @@ export type VerificationMutations = {
   runIncomeVerificationAsync?: Maybe<Verification>;
 };
 
-
 export type VerificationMutationsRunIncomeVerificationArgs = {
   input: RunIncomeVerificationInput;
   options?: InputMaybe<RunIncomeVerificationOptionsInput>;
 };
-
 
 export type VerificationMutationsRunIncomeVerificationAsyncArgs = {
   input: RunIncomeVerificationInput;
@@ -542,7 +548,7 @@ export enum VerificationProvider {
   Finicity = 'FINICITY',
   Powerlytics = 'POWERLYTICS',
   /** The Work Number */
-  Twn = 'TWN'
+  Twn = 'TWN',
 }
 
 export type VerificationQueries = {
@@ -550,7 +556,6 @@ export type VerificationQueries = {
   /** Checks the status of a verification request. */
   incomeVerification?: Maybe<Verification>;
 };
-
 
 export type VerificationQueriesIncomeVerificationArgs = {
   verificationId: Scalars['ID']['input'];
@@ -565,13 +570,13 @@ export enum VerificationStatus {
   /** The state when a verification request is waiting for a response from the provider. */
   Pending = 'PENDING',
   /** The state when a verification request has been received but not yet initiated with the provider. */
-  Started = 'STARTED'
+  Started = 'STARTED',
 }
 
 export enum WaterfallMode {
   Class = 'CLASS',
   Ivaas = 'IVAAS',
-  Shadow = 'SHADOW'
+  Shadow = 'SHADOW',
 }
 
 export type WaterfallProviderResult = {
@@ -603,42 +608,34 @@ export type WorkflowMutations = {
   updateWaterfallResult?: Maybe<IvWaterfallResult>;
 };
 
-
 export type WorkflowMutationsCreateProviderResultArgs = {
   input: CreateProviderResultInput;
 };
-
 
 export type WorkflowMutationsCreateWaterfallResultArgs = {
   input: IvWaterfallResultInput;
 };
 
-
 export type WorkflowMutationsDeleteWaterfallResultArgs = {
   workflowId: Scalars['ID']['input'];
 };
-
 
 export type WorkflowMutationsRunIncomeVerificationArgs = {
   input: RunWorkflowIncomeVerificationInput;
   options?: InputMaybe<RunIncomeVerificationOptionsInput>;
 };
 
-
 export type WorkflowMutationsRunIvWaterfallArgs = {
   input: IvWaterfallInput;
 };
-
 
 export type WorkflowMutationsSubmitFinicityReportArgs = {
   input?: InputMaybe<SubmitFinicityReportInput>;
 };
 
-
 export type WorkflowMutationsTerminateIvWaterfallArgs = {
   input?: InputMaybe<TerminateIvWaterfallInput>;
 };
-
 
 export type WorkflowMutationsUpdateWaterfallResultArgs = {
   input: IvWaterfallResultUpdateInput;
@@ -658,80 +655,88 @@ export type WorkflowQueries = {
   waterfallWorkflow?: Maybe<IvWaterfallWorkflow>;
 };
 
-
 export type WorkflowQueriesIncomeVerificationArgs = {
   provider?: InputMaybe<VerificationProvider>;
   workflowId: Scalars['ID']['input'];
 };
 
-
 export type WorkflowQueriesIncomeVerificationsArgs = {
   workflowId: Scalars['ID']['input'];
 };
-
 
 export type WorkflowQueriesWaterfallProviderResultsArgs = {
   workflowId: Scalars['ID']['input'];
 };
 
-
 export type WorkflowQueriesWaterfallResultArgs = {
   workflowId: Scalars['ID']['input'];
 };
-
 
 export type WorkflowQueriesWaterfallWorkflowArgs = {
   workflowId: Scalars['ID']['input'];
 };
 
-export type PingQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type PingQueryQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type PingQueryQuery = { __typename?: 'Query', ping?: string | null };
+export type PingQueryQuery = { __typename?: 'Query'; ping?: string | null };
 
 export type LinkQueryVariables = Exact<{
   input: LinkInput;
 }>;
 
-
-export type LinkQuery = { __typename?: 'Query', plaid?: { __typename?: 'PlaidQueries', link?: { __typename?: 'LinkResponse', expiration?: string | null, reason?: string | null, status?: ResponseStatus | null, token?: string | null } | null } | null };
+export type LinkQuery = {
+  __typename?: 'Query';
+  plaid?: {
+    __typename?: 'PlaidQueries';
+    link?: {
+      __typename?: 'LinkResponse';
+      expiration?: string | null;
+      reason?: string | null;
+      status?: ResponseStatus | null;
+      token?: string | null;
+    } | null;
+  } | null;
+};
 
 export const PingQueryDocument = gql`
-    query PingQuery {
-  ping
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PingQueryGQL extends Apollo.Query<PingQueryQuery, PingQueryQueryVariables> {
-    document = PingQueryDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
+  query PingQuery {
+    ping
   }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PingQueryGQL extends Apollo.Query<
+  PingQueryQuery,
+  PingQueryQueryVariables
+> {
+  override document = PingQueryDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
 export const LinkDocument = gql`
-    query Link($input: LinkInput!) {
-  plaid {
-    link(input: $input) {
-      expiration
-      reason
-      status
-      token
+  query Link($input: LinkInput!) {
+    plaid {
+      link(input: $input) {
+        expiration
+        reason
+        status
+        token
+      }
     }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LinkGQL extends Apollo.Query<LinkQuery, LinkQueryVariables> {
+  override document = LinkDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
   }
 }
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LinkGQL extends Apollo.Query<LinkQuery, LinkQueryVariables> {
-    document = LinkDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }

@@ -1,12 +1,16 @@
 import { GraphQLStoreCreatorService } from '$state-management';
 import { Injectable } from '@angular/core';
-import { gql } from '@apollo/client';
 import { BehaviorSubject, take } from 'rxjs';
 import {
   assets,
   creditors,
   loanProducts,
 } from '../mock-data/loan-products.data';
+import {
+  LinkDocument,
+  LinkQuery,
+  PingQueryDocument,
+} from '../models/loan-products.graphql.models';
 import { LoanProductModels } from '../models/loan-products.models';
 
 export interface LoanProductsState {
@@ -41,31 +45,17 @@ export class LoanProductsService {
 
   public pingStore = this.graphSvc.createEntityStore<any>({
     autoLoad: false,
-    getQuery: gql`
-      query PingQuery {
-        ping
-      }
-    `,
+    getQuery: PingQueryDocument,
   });
 
-  public plaidStore = this.graphSvc.createEntityStore<any>({
+  public plaidStore = this.graphSvc.createEntityStore<LinkQuery>({
     autoLoad: false,
-    getQuery: gql`
-      query Link($input: LinkInput!) {
-        plaid {
-          link(input: $input) {
-            expiration
-            reason
-            status
-            token
-          }
-        }
-      }
-    `,
+    getQuery: LinkDocument,
   });
 
   constructor(private graphSvc: GraphQLStoreCreatorService) {
-    // this.pingStore.getData().subscribe();
+    /** */
+    this.pingStore.getData().subscribe();
     this.plaidStore
       .getData({
         input: {
