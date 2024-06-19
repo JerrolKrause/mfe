@@ -20,7 +20,7 @@ import {
 
 export interface GraphQLStoreState<T> {
   loading: boolean;
-  data: T[] | null;
+  data: T | null;
   error: string | null;
   operationLoading: boolean;
   operationError: string | null;
@@ -38,7 +38,7 @@ export interface GraphQLStoreConfig<T> {
   updateResultKey?: string;
   deleteResultKey?: string;
   primaryKey?: keyof T;
-  /** If the store has a subscriber but no data, should it automatically load from the API? Default true. */
+  /** If the store has a subscriber but no data, should it automatically request from the API? Default true. */
   autoLoad?: boolean;
 }
 
@@ -117,10 +117,10 @@ export class GraphQLStore<T> {
    * // contains the desired data array.
    * ```
    *
-   * @returns {Observable<T[]>} An observable that emits the array of data fetched from the server.
+   * @returns {Observable<T>} An observable that emits the array of data fetched from the server.
    * This observable will complete after emitting once or if an error occurs.
    */
-  getData(variables?: Record<string, any>): Observable<T[] | null> {
+  getData(variables?: Record<string, any>): Observable<T | null> {
     if (!this.config.getQuery) {
       console.error('getQuery was not provided to the store config');
       return of(null);
@@ -209,9 +209,14 @@ export class GraphQLStore<T> {
             return null;
           }
           // Update state only if there was previously existing data
-          if (state.data) {
+          if (state.data && Array.isArray(state.data)) {
             this.updateState({
-              data: [...state.data, newData],
+              data: [...state.data, newData] as unknown as T,
+              operationLoading: false,
+            });
+          } else {
+            this.updateState({
+              data: newData as unknown as T,
               operationLoading: false,
             });
           }
@@ -290,11 +295,14 @@ export class GraphQLStore<T> {
             });
             return null;
           }
-          const updatedItems = state.data.map((item) =>
-            this.config.primaryKey && item[this.config.primaryKey] === id
-              ? { ...item, ...input }
-              : item
-          );
+
+          const updatedItems = Array.isArray(state.data)
+            ? (state.data.map((item) =>
+                this.config.primaryKey && item[this.config.primaryKey] === id
+                  ? { ...item, ...input }
+                  : item
+              ) as unknown as T)
+            : updatedData;
           this.updateState({ data: updatedItems, operationLoading: false });
           return updatedData;
         }),
@@ -359,10 +367,12 @@ export class GraphQLStore<T> {
             });
             return null;
           }
-          const filteredData = state.data.filter(
-            (item) =>
-              this.config.primaryKey && item[this.config.primaryKey] !== id
-          );
+          const filteredData = Array.isArray(state.data)
+            ? (state.data.filter(
+                (item) =>
+                  this.config.primaryKey && item[this.config.primaryKey] !== id
+              ) as unknown as T)
+            : null;
           this.updateState({ data: filteredData, operationLoading: false });
           return {};
         }),
