@@ -1,5 +1,7 @@
 import { GraphQLStoreCreatorService } from '$state-management';
 import { Injectable } from '@angular/core';
+import { LoanDetailsComponent } from '@loan-products/app/components/loan-details/loan-details.component';
+import { DialogService } from 'primeng/dynamicdialog';
 import { BehaviorSubject, take } from 'rxjs';
 import {
   assets,
@@ -53,7 +55,10 @@ export class LoanProductsService {
     getQuery: LinkDocument,
   });
 
-  constructor(private graphSvc: GraphQLStoreCreatorService) {
+  constructor(
+    private graphSvc: GraphQLStoreCreatorService,
+    public dialogService: DialogService
+  ) {
     /** */
     this.pingStore.getData().subscribe();
     this.plaidStore
@@ -232,6 +237,10 @@ export class LoanProductsService {
     );
   }
 
+  /**
+   * Change the loan amount
+   * @param loanAmount
+   */
   public modifyLoanAmount(loanAmount: number) {
     this.loanProducts$.pipe(take(1)).subscribe((lps) =>
       this.loanProducts$.next(
@@ -295,6 +304,41 @@ export class LoanProductsService {
     };
   }
 
+  /**
+   * Open a loan products modal
+   * @param modal
+   * @returns
+   */
+  public modalOpen(modal: {
+    component: 'details';
+    header: string;
+    data: unknown;
+  }) {
+    // Get component reference for dynamic dialogue
+    let comp = null;
+    switch (modal.component) {
+      case 'details':
+        comp = LoanDetailsComponent;
+    }
+    if (!comp) {
+      return;
+    }
+
+    this.dialogService.open(comp, {
+      header: modal.header,
+      modal: true,
+      closable: true,
+      data: modal.data ?? null,
+      dismissableMask: true,
+    });
+  }
+
+  /**
+   * Get a random number between the min and max numbers
+   * @param min
+   * @param max
+   * @returns
+   */
   private getRandomNumberInRange(min: number, max: number) {
     const randomNum = Math.random() * (max - min) + min;
     return parseFloat(randomNum.toFixed(2));

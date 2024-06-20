@@ -35,6 +35,7 @@ import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { LoanProductsService } from './shared/services/loan-products.service';
+import { LoanDetailsComponent } from './components/loan-details/loan-details.component';
 
 const uri =
   'https://income-verification-subgraph-dev-egg.cherrypie.alt.meanion.com/';
@@ -58,6 +59,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     SelectLoanIdComponent,
     SelectLoanTaskComponent,
     ModifyLoanProductsComponent,
+    LoanDetailsComponent,
   ],
   imports: [
     CommonModule,
