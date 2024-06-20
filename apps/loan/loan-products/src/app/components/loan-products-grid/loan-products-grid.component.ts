@@ -8,9 +8,11 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
 import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsService } from '../../shared/services/loan-products.service';
+import { LoanDetailsComponent } from '../loan-details/loan-details.component';
 
 @Component({
   selector: 'app-loan-products-grid',
@@ -46,6 +48,17 @@ export class LoanProductsGridComponent {
   public actions = computed(() =>
     (this.loanProducts() ?? []).map((lp) => {
       return [
+        {
+          label: 'Loan Details',
+          icon: 'pi pi-search',
+          command: () =>
+            this.lpSvc.modalOpen({
+              component: LoanDetailsComponent,
+              header: 'Loan Details',
+              data: lp,
+            }),
+          disabled: this.isLocked() ?? false,
+        },
         {
           label: 'Edit',
           icon: 'pi pi-pencil',
@@ -127,6 +140,7 @@ export class LoanProductsGridComponent {
 
   /** Keep track of all expanded rows */
   public expandedRows = signal<Record<string, boolean>>({});
+  public quoteSelected = signal<null | number>(null);
 
   @Output() modalOpen = new EventEmitter<{
     parentId: string;
@@ -151,7 +165,24 @@ export class LoanProductsGridComponent {
     );
   }
 
-  constructor(private lpSvc: LoanProductsService) {}
+  constructor(
+    private lpSvc: LoanProductsService,
+    public dialogService: DialogService
+  ) {}
+
+  public quoteSelect(rowIndex: number) {
+    this.quoteSelected.set(rowIndex === this.quoteSelected() ? null : rowIndex);
+  }
+
+  public openModal(modal: { component: any; header: string; data: unknown }) {
+    this.dialogService.open(modal.component, {
+      header: modal.header,
+      modal: true,
+      closable: true,
+      data: modal.data,
+      dismissableMask: true,
+    });
+  }
 
   public collapseAll() {
     this.expandedRows.set({});

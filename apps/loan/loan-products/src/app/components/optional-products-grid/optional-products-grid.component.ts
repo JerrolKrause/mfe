@@ -8,13 +8,14 @@ import {
 } from '@angular/core';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsService } from '../../shared/services/loan-products.service';
+
 @Component({
-  selector: 'app-sub-products-grid',
-  templateUrl: './sub-products-grid.component.html',
-  styleUrl: './sub-products-grid.component.scss',
+  selector: 'app-optional-products-grid',
+  templateUrl: './optional-products-grid.component.html',
+  styleUrl: './optional-products-grid.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SubProductsGridComponent {
+export class OptionalProductsGridComponent {
   public creditProducts = input<LoanProductModels.CreditProduct[] | null>(null);
   public nonCreditProducts = input<LoanProductModels.NonCreditProduct[] | null>(
     null

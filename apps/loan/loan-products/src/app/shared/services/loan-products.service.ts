@@ -1,6 +1,5 @@
 import { GraphQLStoreCreatorService } from '$state-management';
-import { Injectable } from '@angular/core';
-import { LoanDetailsComponent } from '@loan-products/app/components/loan-details/loan-details.component';
+import { Injectable, Type } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { BehaviorSubject, take } from 'rxjs';
 import {
@@ -305,32 +304,24 @@ export class LoanProductsService {
   }
 
   /**
-   * Open a loan products modal
+   * Open a modal
    * @param modal
-   * @returns
    */
   public modalOpen(modal: {
-    component: 'details';
+    component: Type<unknown>;
     header: string;
     data: unknown;
+    callback?: (data: unknown) => void;
   }) {
-    // Get component reference for dynamic dialogue
-    let comp = null;
-    switch (modal.component) {
-      case 'details':
-        comp = LoanDetailsComponent;
-    }
-    if (!comp) {
-      return;
-    }
-
-    this.dialogService.open(comp, {
-      header: modal.header,
-      modal: true,
-      closable: true,
-      data: modal.data ?? null,
-      dismissableMask: true,
-    });
+    this.dialogService
+      .open(modal.component, {
+        header: modal.header,
+        modal: true,
+        closable: true,
+        data: modal.data ?? null,
+        dismissableMask: true,
+      })
+      .onClose.subscribe((data) => modal?.callback && modal?.callback(data));
   }
 
   /**

@@ -1,4 +1,8 @@
 #loan-products-grid {
+  .row-selected,
+  .row-selected td {
+    background: #c6d0f3;
+  }
   .p-splitbutton {
     padding: 0;
     .p-splitbutton-defaultbutton {
