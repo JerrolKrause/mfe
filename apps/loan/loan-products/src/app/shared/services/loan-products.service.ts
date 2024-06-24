@@ -1,3 +1,5 @@
+import { LoanCalculator } from '$quote-calculator';
+import { AppStorageService } from '$shared';
 import { GraphQLStoreCreatorService } from '$state-management';
 import { Injectable, Type } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -56,7 +58,8 @@ export class LoanProductsService {
 
   constructor(
     private graphSvc: GraphQLStoreCreatorService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    public storage: AppStorageService
   ) {
     /** */
     this.pingStore.getData().subscribe();
@@ -322,6 +325,11 @@ export class LoanProductsService {
         dismissableMask: true,
       })
       .onClose.subscribe((data) => modal?.callback && modal?.callback(data));
+  }
+
+  public quoteSetActive(quote: LoanCalculator.Quote | null) {
+    console.log('quoteSetActive', quote);
+    this.storage.quoteActive = quote;
   }
 
   /**

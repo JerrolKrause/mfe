@@ -172,6 +172,7 @@ export class LoanProductsGridComponent {
 
   public quoteSelect(rowIndex: number) {
     this.quoteSelected.set(rowIndex === this.quoteSelected() ? null : rowIndex);
+    this.lpSvc.quoteSetActive(this.loanProducts()?.[rowIndex] ?? null);
   }
 
   public openModal(modal: { component: any; header: string; data: unknown }) {

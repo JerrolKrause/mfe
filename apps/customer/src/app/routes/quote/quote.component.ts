@@ -1,9 +1,8 @@
 import { LoanCalculator } from '$quote-calculator';
-import { AppStorageService, QUOTE_FORM_ACTIONS } from '$shared';
-import { SocketService } from '$state-management';
-import { Component, OnInit } from '@angular/core';
+import { AppStorageService } from '$shared';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, Subscription, filter, take } from 'rxjs';
 import { QuotingService } from '../../shared/services/quoting.service';
 
 @Component({
@@ -12,7 +11,7 @@ import { QuotingService } from '../../shared/services/quoting.service';
   styleUrl: './quote.component.scss',
   providers: [ConfirmationService],
 })
-export class QuoteComponent implements OnInit {
+export class QuoteComponent implements OnInit, OnDestroy {
   public isDisabled = true;
 
   public quoteFormDefaults$ =
@@ -38,13 +37,32 @@ export class QuoteComponent implements OnInit {
 
   public isUpdating = false;
 
+  private sub: Subscription | null = null;
+
   constructor(
-    private socket: SocketService,
     private quoteSvc: QuotingService,
     private storage: AppStorageService
   ) {}
 
   ngOnInit(): void {
+    this.sub = this.storage.quoteActive$
+      .pipe(filter((x) => !!x))
+      .subscribe((quoteActive) => {
+        console.log(quoteActive);
+        this.product$.next({
+          isSecured: true,
+          cashOut: quoteActive?.cashOut ?? 0,
+          loanAmount: 22100,
+          monthlyPayment: 432,
+          term: 66,
+          apr: 16.16,
+          vehicle: ['2020 RAV4'],
+          paymentImpact: 250,
+          ndi: 0,
+        });
+      });
+
+    /**
     this.socket.onMessageReceived((msg) => {
       const data = JSON.parse(msg);
       if (QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(data)) {
@@ -79,7 +97,7 @@ export class QuoteComponent implements OnInit {
       if (QUOTE_FORM_ACTIONS.PRODUCTS_UPDATE(data)) {
         this.quoteSvc.loanProducts$.next(data.payload);
       }
-    });
+    }); **/
   }
 
   public prev() {
@@ -127,5 +145,9 @@ export class QuoteComponent implements OnInit {
    */
   public quoteFormChanged(quote?: LoanCalculator.Quote | null) {
     this.storage.quote = quote ?? null;
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }
