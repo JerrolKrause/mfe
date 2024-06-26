@@ -77,7 +77,7 @@
           @if(monthlyPaymentRange()[rowIndex]) { -
           {{
             product.monthlyPayment + monthlyPaymentRange()[rowIndex]
-              | currency : 'USD' : 'symbol' : '1.0-2'
+              | currency : 'USD' : 'symbol' : '1.2-2'
           }}
           }
         </td>
@@ -163,6 +163,7 @@
         <td [attr.colspan]="columns.length + 1">
           <div class="p-3">
             <app-optional-products-grid
+              [parentId]="product.id"
               [creditProducts]="product.creditProducts"
               [nonCreditProducts]="product.nonCreditProducts"
               [colLength]="columns.length + 1"

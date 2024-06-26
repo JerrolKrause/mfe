@@ -22,7 +22,12 @@
       <td>{{ product.benefitAmount | currency : 'USD' }}</td>
       <td>{{ product.fee | currency : 'USD' }}</td>
       <td>{{ product.dateEffective | date : 'M/dd/yy' }}</td>
-      <td><p-inputSwitch [(ngModel)]="product.selected"></p-inputSwitch></td>
+      <td>
+        <p-inputSwitch
+          [(ngModel)]="product.selected"
+          (onChange)="lpSvc.toggleOptionalProduct($event, parentId(), product)"
+        ></p-inputSwitch>
+      </td>
       <td class="text-end">
         @if(product.type !== subProductType.Credit) {
         <a class="me-2" title="Edit this product" (click)="edit(product)"

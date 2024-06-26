@@ -134,7 +134,11 @@ export class LoanProductsGridComponent {
   /** Generate the monthly payment range for each loan product using it's subproducts */
   public monthlyPaymentRange = computed(() =>
     (this.loanProducts() ?? []).map((lp) =>
-      (lp.creditProducts ?? []).reduce((a, b) => a + (b.fee ?? 0), 0)
+      [...(lp.creditProducts ?? []), ...(lp.nonCreditProducts ?? [])]
+        // Only get selected products
+        .filter((p) => p.selected)
+        // Turn all the results into a single number
+        .reduce((a, b) => a + (b.fee ?? 0), 0)
     )
   );
 

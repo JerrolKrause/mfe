@@ -16,6 +16,8 @@ import { LoanProductsService } from '../../shared/services/loan-products.service
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionalProductsGridComponent {
+  /** Keep track of parent ID for modifying it's optional products */
+  public parentId = input<string | null>(null);
   public creditProducts = input<LoanProductModels.CreditProduct[] | null>(null);
   public nonCreditProducts = input<LoanProductModels.NonCreditProduct[] | null>(
     null

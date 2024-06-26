@@ -49,17 +49,7 @@ export class QuoteComponent implements OnInit, OnDestroy {
       .pipe(filter((x) => !!x))
       .subscribe((quoteActive) => {
         console.log(quoteActive);
-        this.product$.next({
-          isSecured: true,
-          cashOut: quoteActive?.cashOut ?? 0,
-          loanAmount: 22100,
-          monthlyPayment: 432,
-          term: 66,
-          apr: 16.16,
-          vehicle: ['2020 RAV4'],
-          paymentImpact: 250,
-          ndi: 0,
-        });
+        this.product$.next(quoteActive as any);
       });
 
     /**

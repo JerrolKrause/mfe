@@ -3,6 +3,7 @@ import { AppStorageService } from '$shared';
 import { GraphQLStoreCreatorService } from '$state-management';
 import { Injectable, Type } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
+import { InputSwitchChangeEvent } from 'primeng/inputswitch';
 import { BehaviorSubject, take } from 'rxjs';
 import {
   assets,
@@ -61,8 +62,8 @@ export class LoanProductsService {
     public dialogService: DialogService,
     public storage: AppStorageService
   ) {
-    /** */
     this.pingStore.getData().subscribe();
+    /**
     this.plaidStore
       .getData({
         input: {
@@ -71,6 +72,7 @@ export class LoanProductsService {
         },
       })
       .subscribe();
+       */
   }
 
   /**
@@ -327,8 +329,55 @@ export class LoanProductsService {
       .onClose.subscribe((data) => modal?.callback && modal?.callback(data));
   }
 
+  /**
+   * Toggle whether or not the optional product is selected which counts towards the monthly payment range
+   * @param e
+   * @param id
+   */
+  public toggleOptionalProduct(
+    e: InputSwitchChangeEvent,
+    loanProductId?: string | null,
+    optionalProduct?: LoanProductModels.SubProduct
+  ) {
+    if (!loanProductId || !optionalProduct) {
+      return;
+    }
+
+    this.loanProducts$.next(
+      this.loanProducts$.value.map((lp) => {
+        if (lp.id === loanProductId) {
+          // If credit, update credit products
+          const creditProducts =
+            optionalProduct.type === LoanProductModels.SubProductType.Credit
+              ? (lp.creditProducts ?? [])?.map((ocp) =>
+                  ocp.id === optionalProduct.id ? optionalProduct : ocp
+                )
+              : lp.creditProducts;
+          // If non-credit, update non-credit products
+          const nonCreditProducts =
+            optionalProduct.type === LoanProductModels.SubProductType.Noncredit
+              ? (lp.nonCreditProducts ?? [])?.map((ocp) =>
+                  ocp.id === optionalProduct.id ? optionalProduct : ocp
+                )
+              : lp.nonCreditProducts;
+
+          return {
+            ...lp,
+            creditProducts,
+            nonCreditProducts,
+          };
+        }
+        // Not same product, return same reference
+        return lp;
+      })
+    );
+  }
+
+  /**
+   * Set the active quote for purposes of displaying to the customer
+   * @param quote
+   */
   public quoteSetActive(quote: LoanCalculator.Quote | null) {
-    console.log('quoteSetActive', quote);
     this.storage.quoteActive = quote;
   }
 
