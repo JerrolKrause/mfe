@@ -137,6 +137,6 @@ export class QuoteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub?.unsubscribe();
+    this.subscriptions?.unsubscribe();
   }
 }
