@@ -13,6 +13,14 @@
     <div class="row">
       <div class="col col-12 col-md-7 mb-3">
         <div class="section">
+          <a
+            class="float-end"
+            title="Add/Edit/Delete assets for this loan"
+            [routerLink]="['/loan/' + (loanID$ | async) + '/assets']"
+          >
+            <lib-icons icon="cog" class="me-1"></lib-icons>
+            Modify Assets</a
+          >
           <h2>Assets <span class="sub-title">Select for collateral</span></h2>
           @if(assetsFormArray.controls.length) {
           <div formArrayName="assets">
@@ -35,10 +43,10 @@
                       | currency : 'USD' : 'symbol' : '1.0-0'
                   }}
                 </div>
-                <div *ngIf="asset.value.totalOwed">
-                  <strong>Owed:</strong>
+                <div>
+                  <strong>Equity:</strong>
                   {{
-                    asset.value.totalOwed
+                    asset.value.assetValue / 2
                       | currency : 'USD' : 'symbol' : '1.0-0'
                   }}
                 </div>
@@ -67,20 +75,22 @@
             ></p-checkbox>
             <div class="sub-text">
               <div>
-                <strong>Owed:</strong>
+                <strong>Balance:</strong>
                 {{
                   creditor.value.totalOwed
                     | currency : 'USD' : 'symbol' : '1.0-0'
                 }}
               </div>
               <div>
-                <strong>Monthly:</strong>
+                <strong>Payment:</strong>
                 {{
                   creditor.value.monthlyPayment
                     | currency : 'USD' : 'symbol' : '1.0-0'
                 }}
               </div>
+              <!--
               <div><strong>APR:</strong> {{ creditor.value.apr }}%</div>
+              -->
             </div>
           </div>
           } @else {

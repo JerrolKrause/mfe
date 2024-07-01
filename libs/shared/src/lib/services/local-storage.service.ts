@@ -1,7 +1,7 @@
 import { LoanCalculator } from '$quote-calculator';
 import { StorageService } from '$state-management';
 import { Injectable } from '@angular/core';
-type LocalStorageKeys = 'token' | 'quote';
+type LocalStorageKeys = 'token' | 'quote' | 'quoteActive';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,22 @@ export class AppStorageService extends StorageService<LocalStorageKeys> {
   }
   public get token() {
     return this.localStorage.getItem('token');
+  }
+
+  // Token
+  public quoteActive$ = this.localStorage.getItem$<LoanCalculator.Quote>(
+    'quoteActive',
+    {
+      isJson: true,
+    }
+  );
+  public set quoteActive(quoteActive: LoanCalculator.Quote | null) {
+    this.localStorage.setItem('quoteActive', quoteActive);
+  }
+  public get quoteActive() {
+    return this.localStorage.getItem<LoanCalculator.Quote>('quoteActive', {
+      isJson: true,
+    });
   }
 
   // Quote Updates

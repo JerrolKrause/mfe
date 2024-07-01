@@ -42,7 +42,12 @@ export class LoanProductsComponent {
     public dialogService: DialogService,
     public storage: AppStorageService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    /***/
+    this.lpSvc.plaidStore.state$.subscribe((state) =>
+      console.warn(state.data?.plaid?.link)
+    );
+  }
 
   /**
    * Open a subproduct modal
@@ -101,6 +106,6 @@ export class LoanProductsComponent {
   }
 
   public quoteFormChanged(form: LoanCalculator.Quote) {
-    console.log(form);
+    // console.log(form);
   }
 }

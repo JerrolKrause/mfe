@@ -9,6 +9,7 @@
       <th pSortableColumn="fee">Benefit</th>
       <th pSortableColumn="fee">Premium/Fee</th>
       <th pSortableColumn="dateEffective">Effective Date</th>
+      <th pSortableColumn="dateEffective">Included</th>
       <th pSortableColumn="" class="text-end">Actions</th>
     </tr>
   </ng-template>
@@ -21,33 +22,22 @@
       <td>{{ product.benefitAmount | currency : 'USD' }}</td>
       <td>{{ product.fee | currency : 'USD' }}</td>
       <td>{{ product.dateEffective | date : 'M/dd/yy' }}</td>
+      <td>
+        <p-inputSwitch
+          [(ngModel)]="product.selected"
+          (onChange)="lpSvc.toggleOptionalProduct($event, parentId(), product)"
+        ></p-inputSwitch>
+      </td>
       <td class="text-end">
-        @if(product.type === subProductType.Credit) {
-        <div class="toggle">
-          <!--
-          <span class="me-1" *ngIf="product.selected">Included:</span>
-          <span class="me-1" *ngIf="!product.selected"></span>
-          -->
-          <p-inputSwitch [(ngModel)]="product.selected"></p-inputSwitch>
-        </div>
-        } @else {
+        @if(product.type !== subProductType.Credit) {
         <a class="me-2" title="Edit this product" (click)="edit(product)"
-          ><lib-icons icon="cog" class="me-1"></lib-icons> Edit</a
-        >
+          ><lib-icons icon="cog" class="me-1"></lib-icons
+        ></a>
         <a
           title="Delete this product"
           (click)="lpSvc.nonCreditProductDelete(product)"
-          ><lib-icons icon="trash" class="me-1"></lib-icons> Delete</a
-        >
-        <!--
-        <p-splitButton
-          label="Edit"
-          icon="pi pi-pencil"
-          appendTo="body"
-          [model]="actions[rowIndex]"
-          (onClick)="edit(rowIndex)"
-        ></p-splitButton>
-        -->
+          ><lib-icons icon="trash" class="me-1"></lib-icons
+        ></a>
         }
       </td>
     </tr>

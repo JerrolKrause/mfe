@@ -22,7 +22,7 @@ import { LoanProductsBuilderComponent } from './components/loan-products-builder
 import { LoanProductsGridComponent } from './components/loan-products-grid/loan-products-grid.component';
 import { ModifyLoanProductsComponent } from './components/modify-loan-products/modify-loan-products.component';
 import { NonCreditProductsBuilderComponent } from './components/non-credit-products-builder/non-credit-products-builder.component';
-import { SubProductsGridComponent } from './components/sub-products-grid/sub-products-grid.component';
+import { OptionalProductsGridComponent } from './components/optional-products-grid/optional-products-grid.component';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
 import { LoanProductsComponent } from './loan-products.component';
 import { appRoutes } from './loan-products.routes';
@@ -30,9 +30,12 @@ import { NoContentComponent } from './routes/no-content/no-content.component';
 import { SelectLoanIdComponent } from './routes/select-loan-id/select-loan-id.component';
 import { SelectLoanTaskComponent } from './routes/select-loan-task/select-loan-task.component';
 
+import { StateManagementModule } from '$state-management';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
+import { LoanDetailsComponent } from './components/loan-details/loan-details.component';
+import { LoanProductsService } from './shared/services/loan-products.service';
 
 const uri =
   'https://income-verification-subgraph-dev-egg.cherrypie.alt.meanion.com/';
@@ -51,11 +54,12 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     LoanProductsBuilderComponent,
     CreditProductsBuilderComponent,
     NonCreditProductsBuilderComponent,
-    SubProductsGridComponent,
+    OptionalProductsGridComponent,
     NoContentComponent,
     SelectLoanIdComponent,
     SelectLoanTaskComponent,
     ModifyLoanProductsComponent,
+    LoanDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -75,11 +79,12 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     ReactiveFormsModule,
     ButtonModule,
     TableModule,
-    ApolloModule,
     DynamicDialogModule,
+    StateManagementModule, // Needed for Apollo
   ],
   providers: [
     DialogService,
+    LoanProductsService, // Needed for Apollo
     provideClientHydration(),
     {
       provide: APOLLO_OPTIONS,

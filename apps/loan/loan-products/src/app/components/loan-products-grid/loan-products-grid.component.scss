@@ -1,4 +1,8 @@
 #loan-products-grid {
+  .row-selected,
+  .row-selected td {
+    background: #c6d0f3;
+  }
   .p-splitbutton {
     padding: 0;
     .p-splitbutton-defaultbutton {
@@ -16,5 +20,11 @@
     .p-button-label {
       padding: 0 0.5rem;
     }
+  }
+  // Disable input switch animation to prevent a FOUC when the data is changed
+  .p-inputswitch-slider,
+  .p-inputswitch .p-inputswitch-slider,
+  .p-inputswitch .p-inputswitch-slider::before {
+    transition: none !important;
   }
 }

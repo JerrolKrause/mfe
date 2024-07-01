@@ -1,10 +1,20 @@
-import { Injectable } from '@angular/core';
+import { LoanCalculator } from '$quote-calculator';
+import { AppStorageService } from '$shared';
+import { GraphQLStoreCreatorService } from '$state-management';
+import { Injectable, Type } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
+import { InputSwitchChangeEvent } from 'primeng/inputswitch';
 import { BehaviorSubject, take } from 'rxjs';
 import {
   assets,
   creditors,
   loanProducts,
 } from '../mock-data/loan-products.data';
+import {
+  LinkDocument,
+  LinkQuery,
+  PingQueryDocument,
+} from '../models/loan-products.graphql.models';
 import { LoanProductModels } from '../models/loan-products.models';
 
 export interface LoanProductsState {
@@ -18,7 +28,7 @@ export interface LoanProductsState {
   isLocked: boolean;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: 'platform' })
 export class LoanProductsService {
   public state$ = new BehaviorSubject<LoanProductsState>({
     isCentral: false,
@@ -37,7 +47,33 @@ export class LoanProductsService {
     creditors
   );
 
-  constructor() {}
+  public pingStore = this.graphSvc.createEntityStore<any>({
+    autoLoad: false,
+    getQuery: PingQueryDocument,
+  });
+
+  public plaidStore = this.graphSvc.createEntityStore<LinkQuery>({
+    autoLoad: false,
+    getQuery: LinkDocument,
+  });
+
+  constructor(
+    private graphSvc: GraphQLStoreCreatorService,
+    public dialogService: DialogService,
+    public storage: AppStorageService
+  ) {
+    this.pingStore.getData().subscribe();
+    /**
+    this.plaidStore
+      .getData({
+        input: {
+          customerId: '12345',
+          uniqueTrackingCode: '123123',
+        },
+      })
+      .subscribe();
+       */
+  }
 
   /**
    * Change state of the app
@@ -205,6 +241,10 @@ export class LoanProductsService {
     );
   }
 
+  /**
+   * Change the loan amount
+   * @param loanAmount
+   */
   public modifyLoanAmount(loanAmount: number) {
     this.loanProducts$.pipe(take(1)).subscribe((lps) =>
       this.loanProducts$.next(
@@ -268,6 +308,85 @@ export class LoanProductsService {
     };
   }
 
+  /**
+   * Open a modal
+   * @param modal
+   */
+  public modalOpen(modal: {
+    component: Type<unknown>;
+    header: string;
+    data: unknown;
+    callback?: (data: unknown) => void;
+  }) {
+    this.dialogService
+      .open(modal.component, {
+        header: modal.header,
+        modal: true,
+        closable: true,
+        data: modal.data ?? null,
+        dismissableMask: true,
+      })
+      .onClose.subscribe((data) => modal?.callback && modal?.callback(data));
+  }
+
+  /**
+   * Toggle whether or not the optional product is selected which counts towards the monthly payment range
+   * @param e
+   * @param id
+   */
+  public toggleOptionalProduct(
+    e: InputSwitchChangeEvent,
+    loanProductId?: string | null,
+    optionalProduct?: LoanProductModels.SubProduct
+  ) {
+    if (!loanProductId || !optionalProduct) {
+      return;
+    }
+
+    this.loanProducts$.next(
+      this.loanProducts$.value.map((lp) => {
+        if (lp.id === loanProductId) {
+          // If credit, update credit products
+          const creditProducts =
+            optionalProduct.type === LoanProductModels.SubProductType.Credit
+              ? (lp.creditProducts ?? [])?.map((ocp) =>
+                  ocp.id === optionalProduct.id ? optionalProduct : ocp
+                )
+              : lp.creditProducts;
+          // If non-credit, update non-credit products
+          const nonCreditProducts =
+            optionalProduct.type === LoanProductModels.SubProductType.Noncredit
+              ? (lp.nonCreditProducts ?? [])?.map((ocp) =>
+                  ocp.id === optionalProduct.id ? optionalProduct : ocp
+                )
+              : lp.nonCreditProducts;
+
+          return {
+            ...lp,
+            creditProducts,
+            nonCreditProducts,
+          };
+        }
+        // Not same product, return same reference
+        return lp;
+      })
+    );
+  }
+
+  /**
+   * Set the active quote for purposes of displaying to the customer
+   * @param quote
+   */
+  public quoteSetActive(quote: LoanCalculator.Quote | null) {
+    this.storage.quoteActive = quote;
+  }
+
+  /**
+   * Get a random number between the min and max numbers
+   * @param min
+   * @param max
+   * @returns
+   */
   private getRandomNumberInRange(min: number, max: number) {
     const randomNum = Math.random() * (max - min) + min;
     return parseFloat(randomNum.toFixed(2));

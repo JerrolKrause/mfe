@@ -1,6 +1,6 @@
 import { Apollo } from 'apollo-angular';
 import { DocumentNode } from 'graphql';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -20,7 +20,7 @@ import {
 
 export interface GraphQLStoreState<T> {
   loading: boolean;
-  data: T[] | null;
+  data: T | null;
   error: string | null;
   operationLoading: boolean;
   operationError: string | null;
@@ -28,16 +28,18 @@ export interface GraphQLStoreState<T> {
 
 export interface GraphQLStoreConfig<T> {
   // Queries
-  getQuery: DocumentNode;
-  createQuery: DocumentNode;
-  updateQuery: DocumentNode;
-  deleteQuery: DocumentNode;
+  getQuery?: DocumentNode;
+  createQuery?: DocumentNode;
+  updateQuery?: DocumentNode;
+  deleteQuery?: DocumentNode;
   // Keys
-  getResultKey: string;
-  createResultKey: string;
-  updateResultKey: string;
-  deleteResultKey: string;
-  primaryKey: keyof T;
+  getResultKey?: string;
+  createResultKey?: string;
+  updateResultKey?: string;
+  deleteResultKey?: string;
+  primaryKey?: keyof T;
+  /** If the store has a subscriber but no data, should it automatically request from the API? Default true. */
+  autoLoad?: boolean;
 }
 
 /**
@@ -75,7 +77,8 @@ export class GraphQLStore<T> {
       if (
         state.loading === false &&
         state.data === null &&
-        this.initialLoad === false
+        this.initialLoad === false &&
+        this.config.autoLoad !== false
       ) {
         this.initialLoad = true; // Set to true to prevent future autoloading on the first subscription.
         this.getData().pipe(take(1)).subscribe(); // Fetches data and subscribes once, ensuring the data is loaded on initial access.
@@ -114,17 +117,27 @@ export class GraphQLStore<T> {
    * // contains the desired data array.
    * ```
    *
-   * @returns {Observable<T[]>} An observable that emits the array of data fetched from the server.
+   * @returns {Observable<T>} An observable that emits the array of data fetched from the server.
    * This observable will complete after emitting once or if an error occurs.
    */
-  getData(): Observable<T[]> {
+  getData(variables?: Record<string, any>): Observable<T | null> {
+    if (!this.config.getQuery) {
+      console.error('getQuery was not provided to the store config');
+      return of(null);
+    }
+
     this.updateState({ loading: true, error: null });
     return this.apollo
       .watchQuery<{ [key: string]: any }>({
         query: this.config.getQuery,
+        variables: variables,
       })
       .valueChanges.pipe(
-        map((result) => result.data[this.config.getResultKey].data),
+        map((result) =>
+          this.config?.getResultKey
+            ? result.data[this.config?.getResultKey]
+            : result.data
+        ),
         catchError((error) => {
           this.updateState({ loading: false, error: error.message });
           throw error;
@@ -174,6 +187,10 @@ export class GraphQLStore<T> {
    * This observable will complete after emitting once or if an error occurs.
    */
   createData(input: T): Observable<T | null> {
+    if (!this.config.createQuery) {
+      console.error('createQuery was not provided to the store config');
+      return of(null);
+    }
     this.updateState({ operationLoading: true, operationError: null });
     return this.apollo
       .mutate<{ [key: string]: T }>({
@@ -183,7 +200,7 @@ export class GraphQLStore<T> {
       .pipe(
         withLatestFrom(this.stateSubject$),
         map(([response, state]) => {
-          const newData = response.data?.[this.config.createResultKey];
+          const newData = response.data?.[this.config.createResultKey ?? ''];
           if (!newData) {
             this.updateState({
               operationLoading: false,
@@ -192,9 +209,14 @@ export class GraphQLStore<T> {
             return null;
           }
           // Update state only if there was previously existing data
-          if (state.data) {
+          if (state.data && Array.isArray(state.data)) {
             this.updateState({
-              data: [...state.data, newData],
+              data: [...state.data, newData] as unknown as T,
+              operationLoading: false,
+            });
+          } else {
+            this.updateState({
+              data: newData as unknown as T,
               operationLoading: false,
             });
           }
@@ -250,6 +272,10 @@ export class GraphQLStore<T> {
    * This observable will complete after emitting once or if an error occurs.
    */
   updateData(id: string, input: Partial<T>): Observable<T | null> {
+    if (!this.config.updateQuery) {
+      console.error('updateQuery was not provided to the store config');
+      return of(null);
+    }
     this.updateState({ operationLoading: true, operationError: null });
 
     return this.apollo
@@ -260,7 +286,8 @@ export class GraphQLStore<T> {
       .pipe(
         withLatestFrom(this.stateSubject$),
         map(([response, state]) => {
-          const updatedData = response.data?.[this.config.updateResultKey];
+          const updatedData =
+            response.data?.[this.config.updateResultKey ?? ''];
           if (!updatedData || !state.data) {
             this.updateState({
               operationLoading: false,
@@ -268,9 +295,14 @@ export class GraphQLStore<T> {
             });
             return null;
           }
-          const updatedItems = state.data.map((item) =>
-            item[this.config.primaryKey] === id ? { ...item, ...input } : item
-          );
+
+          const updatedItems = Array.isArray(state.data)
+            ? (state.data.map((item) =>
+                this.config.primaryKey && item[this.config.primaryKey] === id
+                  ? { ...item, ...input }
+                  : item
+              ) as unknown as T)
+            : updatedData;
           this.updateState({ data: updatedItems, operationLoading: false });
           return updatedData;
         }),
@@ -314,6 +346,10 @@ export class GraphQLStore<T> {
    * if the deletion was unsuccessful, potentially indicating a misconfiguration or an issue with the server.
    */
   deleteData(id: string): Observable<object | null> {
+    if (!this.config.deleteQuery) {
+      console.error('deleteQuery was not provided to the store config');
+      return of(null);
+    }
     this.updateState({ operationLoading: true, operationError: null });
 
     return this.apollo
@@ -331,9 +367,12 @@ export class GraphQLStore<T> {
             });
             return null;
           }
-          const filteredData = state.data.filter(
-            (item) => item[this.config.primaryKey] !== id
-          );
+          const filteredData = Array.isArray(state.data)
+            ? (state.data.filter(
+                (item) =>
+                  this.config.primaryKey && item[this.config.primaryKey] !== id
+              ) as unknown as T)
+            : null;
           this.updateState({ data: filteredData, operationLoading: false });
           return {};
         }),
