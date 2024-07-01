@@ -37,7 +37,7 @@ export class QuoteComponent implements OnInit, OnDestroy {
 
   public isUpdating = false;
 
-  private sub: Subscription | null = null;
+  private subscriptions = new Subscription();
 
   constructor(
     private quoteSvc: QuotingService,
@@ -45,12 +45,11 @@ export class QuoteComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = this.storage.quoteActive$
-      .pipe(filter((x) => !!x))
-      .subscribe((quoteActive) => {
-        console.log(quoteActive);
-        this.product$.next(quoteActive as any);
-      });
+    this.subscriptions.add(
+      this.storage.quoteActive$
+        .pipe(filter((x) => !!x))
+        .subscribe((quoteActive) => this.product$.next(quoteActive as any))
+    );
 
     /**
     this.socket.onMessageReceived((msg) => {
