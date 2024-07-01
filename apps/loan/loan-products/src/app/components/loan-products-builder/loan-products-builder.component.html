@@ -13,6 +13,14 @@
     <div class="row">
       <div class="col col-12 col-md-7 mb-3">
         <div class="section">
+          <a
+            class="float-end"
+            title="Add/Edit/Delete assets for this loan"
+            [routerLink]="['/loan/' + (loanID$ | async) + '/assets']"
+          >
+            <lib-icons icon="cog" class="me-1"></lib-icons>
+            Modify Assets</a
+          >
           <h2>Assets <span class="sub-title">Select for collateral</span></h2>
           @if(assetsFormArray.controls.length) {
           <div formArrayName="assets">

@@ -9,6 +9,7 @@ import {
   input,
 } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { combineLatest, debounceTime, map, startWith } from 'rxjs';
 import { LoanProductModels } from '../../shared/models/loan-products.models';
 import { LoanProductsState } from '../../shared/services/loan-products.service';
@@ -86,6 +87,10 @@ export class LoanProductsBuilderComponent {
     ),
   ]).pipe(map(([payoffs, cash]) => payoffs + (cash ?? 0)));
 
+  public loanID$ = this.route.paramMap.pipe(
+    map((params) => params.get('loanId') ?? null)
+  );
+
   public isEditing$ = this.loanProductsForm.valueChanges.pipe(
     startWith(this.loanProductsForm.value),
     map((lp) => !!lp.id)
@@ -104,7 +109,7 @@ export class LoanProductsBuilderComponent {
 
   @Output() formSubmit = new EventEmitter<LoanProductModels.LoanProductForm>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute) {
     this.reset();
     // When inputs change, regenerate assets/creditors/form defaults in the form
     effect(() => this.populateAssets(this.assets()));

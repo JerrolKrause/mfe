@@ -3,10 +3,11 @@ export const applicationRoutes = [
   { label: 'Assets', path: 'assets' },
   { label: 'Income', path: 'income' },
   { label: 'Expenses', path: 'expenses' },
+  /**
   {
     label: 'Non-Credit Products',
     path: 'non-credit-products',
-  },
+  }, */
   { label: 'Loan Products', path: 'loan-products' },
   { label: 'Notes Review', path: 'notes-review' },
   { label: 'Verifications', path: 'verifications' },
