@@ -64,9 +64,9 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   imports: [
     CommonModule,
     IconsModule,
+    MasterpageModule,
     RouterModule.forChild(appRoutes),
     QuoteCalculatorModule,
-    MasterpageModule,
     InputSwitchModule,
     FormsLibModule,
     FormsModule,

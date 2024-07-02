@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { Route } from '@angular/router';
 import { applicationRoutes } from '../../libs/shared/src';
 import { NoContentComponent } from './loan-products/src/app/routes/no-content/no-content.component';
@@ -47,9 +46,7 @@ export const appRoutesGenerator = (
 
   // Loop through available loan routes, create Route entity
   routes.forEach((route) => {
-    // Default to nocontent component for apps that have not been created yet
-    let comp: Type<unknown> = NoContentComponent;
-
+    // Apps that are build out
     if (route.path === 'loan-products') {
       appRoutes.unshift({
         path: `:loanId/${route.path}`,
@@ -58,10 +55,17 @@ export const appRoutesGenerator = (
             (m) => m.LoanProductsModule
           ),
       });
-    } else {
+    } else if (route.path === 'assets') {
       appRoutes.unshift({
         path: `:loanId/${route.path}`,
-        component: comp,
+        loadChildren: () =>
+          import('@assets/app/assets.module').then((m) => m.AssetsModule),
+      });
+    } else {
+      // Default to no content component
+      appRoutes.unshift({
+        path: `:loanId/${route.path}`,
+        component: NoContentComponent,
         data: { title: route.label },
         children: [],
       });

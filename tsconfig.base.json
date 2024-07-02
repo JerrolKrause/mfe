@@ -25,6 +25,7 @@
       "@customer/*": ["apps/customer/src/*"],
       "@dashboard/*": ["apps/dashboard/src/*"],
       "@loan-products/*": ["apps/loan/loan-products/src/*"],
+      "@assets/*": ["apps/loan/assets/src/*"],
       "@quoting/*": ["apps/quoting/src/*"],
       "@sandbox/*": ["apps/sandbox/src/*"],
       "@team-member/*": ["apps/team-member/src/*"],
