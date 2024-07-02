@@ -1,0 +1,14 @@
+import { IconsModule } from '$icons';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AssetsComponent } from './assets.component';
+import { appRoutes } from './assets.routes';
+
+@NgModule({
+  declarations: [AssetsComponent],
+  imports: [CommonModule, IconsModule, RouterModule.forChild(appRoutes)],
+  providers: [],
+  bootstrap: [AssetsComponent],
+})
+export class AssetsModule {}
