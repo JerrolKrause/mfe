@@ -1,13 +1,13 @@
 <div id="loan-products" *ngIf="{ state: lpSvc.state$ | async } as comp">
   <lib-masterpage [fullWidth]="true">
+    <app-title-bar title> </app-title-bar>
     <div>
-      <app-title-bar></app-title-bar>
       <div class="row">
         <div class="col col-12 col-md-8 mb-3">
           <p-card styleClass="p-2 mb-3">
             <h1>
               <lib-icons icon="money-check-alt"></lib-icons>
-              Loan Products
+              Loan Products ({{ (loanProducts$ | async)?.length }})
             </h1>
             <app-loan-products-grid
               [loanProducts]="loanProducts$ | async"

@@ -22,5 +22,12 @@
   <!--
     Main Column
   -->
-  <div class="main-col"><ng-content></ng-content></div>
+  <div class="main-col">
+    @if(showTitle){
+    <lib-title>
+      <ng-content select="[title]"></ng-content>
+    </lib-title>
+    }
+    <ng-content></ng-content>
+  </div>
 </div>
