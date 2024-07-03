@@ -1,152 +1,203 @@
-<div class="assets-form-container">
-  <form [formGroup]="assetsForm" (ngSubmit)="onSubmit()">
-    <div class="field">
+<form [formGroup]="assetsForm" (ngSubmit)="onSubmit()" class="assets-form">
+  <div class="form-section">
+    <h3>Vehicle Information</h3>
+    <div class="form-row">
+      <label for="anyVehicles">Any Vehicles?</label>
       <p-checkbox
+        id="anyVehicles"
         formControlName="anyVehicles"
         [binary]="true"
-        label="Any Vehicles?"
       ></p-checkbox>
     </div>
-
-    <div class="field">
+    <div class="form-row">
       <label for="vehiclesOnCreditBureau">Vehicles on Credit Bureau</label>
-      <p-inputNumber formControlName="vehiclesOnCreditBureau"></p-inputNumber>
+      <input
+        type="number"
+        id="vehiclesOnCreditBureau"
+        pInputText
+        formControlName="vehiclesOnCreditBureau"
+      />
     </div>
-
-    <div class="field">
+    <div class="form-row">
       <label for="collateralVehicles">Collateral Vehicles</label>
-      <p-inputNumber formControlName="collateralVehicles"></p-inputNumber>
+      <input
+        type="number"
+        id="collateralVehicles"
+        pInputText
+        formControlName="collateralVehicles"
+      />
     </div>
+  </div>
 
-    <div class="vehicles-section">
-      <h3>Vehicle Information</h3>
-      <div formArrayName="vehicles">
-        <div
-          *ngFor="
-            let vehicle of assetsForm['controls']['vehicles']['controls'];
-            let i = index
-          "
-        >
-          <div [formGroupName]="i" class="vehicle-group">
-            <p-dropdown
-              formControlName="who"
-              [options]="[{ label: 'Applicant', value: 'Applicant' }]"
-              placeholder="Select Who"
-            ></p-dropdown>
-            <p-dropdown
-              formControlName="category"
-              [options]="[{ label: 'Auto or Truck', value: 'Auto or Truck' }]"
-              placeholder="Select Category"
-            ></p-dropdown>
-            <p-checkbox
-              formControlName="collateral"
-              [binary]="true"
-              label="Collateral?"
-            ></p-checkbox>
-            <div class="field">
-              <label for="reasonNotCollateral">Reason Not Collateral</label>
-              <input
-                id="reasonNotCollateral"
-                pInputText
-                formControlName="reasonNotCollateral"
-              />
-            </div>
-            <div class="field">
-              <label for="year">Year</label>
-              <p-inputNumber formControlName="year"></p-inputNumber>
-            </div>
-            <div class="field">
-              <label for="make">Make</label>
-              <input id="make" pInputText formControlName="make" />
-            </div>
-            <div class="field">
-              <label for="model">Model</label>
-              <input id="model" pInputText formControlName="model" />
-            </div>
-            <div class="field">
-              <label for="vin">VIN</label>
-              <input id="vin" pInputText formControlName="vin" />
-            </div>
-            <div class="field">
-              <label for="mileage">Mileage</label>
-              <p-inputNumber formControlName="mileage"></p-inputNumber>
-            </div>
-            <div class="field">
-              <label for="value">Value</label>
-              <p-inputNumber formControlName="value"></p-inputNumber>
-            </div>
-            <div class="field">
-              <label for="ownedFreeAndClear">Owned Free & Clear?</label>
-              <p-checkbox
-                formControlName="ownedFreeAndClear"
-                [binary]="true"
-              ></p-checkbox>
-            </div>
-            <div class="field">
-              <label for="autoCheckComplete">Auto check complete?</label>
-              <p-checkbox
-                formControlName="autoCheckComplete"
-                [binary]="true"
-              ></p-checkbox>
-            </div>
-            <div class="field">
-              <label for="vehicleInspection">Vehicle Inspection?</label>
-              <p-checkbox
-                formControlName="vehicleInspection"
-                [binary]="true"
-              ></p-checkbox>
-            </div>
-            <div class="field">
-              <label for="qualifiedForDirectAuto"
-                >Qualified for Direct Auto?</label
-              >
-              <p-checkbox
-                formControlName="qualifiedForDirectAuto"
-                [binary]="true"
-              ></p-checkbox>
-            </div>
-          </div>
-        </div>
+  <div class="form-section">
+    <div class="form-row">
+      <label for="who">Who</label>
+      <p-dropdown
+        id="who"
+        formControlName="who"
+        [options]="[
+          { label: 'Applicant', value: 'Applicant' },
+          { label: 'Co-Applicant', value: 'Co-Applicant' }
+        ]"
+      ></p-dropdown>
+    </div>
+    <div class="form-row">
+      <label for="category">Category</label>
+      <p-dropdown
+        id="category"
+        formControlName="category"
+        [options]="[{ label: 'Auto or Truck', value: 'Auto or Truck' }]"
+      ></p-dropdown>
+    </div>
+    <div class="form-row">
+      <label for="collateral">Collateral?</label>
+      <p-checkbox
+        id="collateral"
+        formControlName="collateral"
+        [binary]="true"
+      ></p-checkbox>
+    </div>
+    <div class="form-row">
+      <label for="reasonNotCollateral">Reason Not Collateral</label>
+      <input
+        type="text"
+        id="reasonNotCollateral"
+        pInputText
+        formControlName="reasonNotCollateral"
+      />
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Valuation / Vehicle Details</h3>
+    <div formGroupName="valuation">
+      <div class="form-row">
+        <label for="year">Year</label>
+        <input type="text" id="year" pInputText formControlName="year" />
+      </div>
+      <div class="form-row">
+        <label for="make">Make</label>
+        <input type="text" id="make" pInputText formControlName="make" />
+      </div>
+      <div class="form-row">
+        <label for="model">Model</label>
+        <input type="text" id="model" pInputText formControlName="model" />
+      </div>
+      <div class="form-row">
+        <label for="vin">VIN</label>
+        <input type="text" id="vin" pInputText formControlName="vin" />
+      </div>
+      <div class="form-row">
+        <label for="mileage">Mileage</label>
+        <input type="text" id="mileage" pInputText formControlName="mileage" />
+      </div>
+      <div class="form-row">
+        <label for="mileageUpdated">Mileage Updated</label>
+        <input
+          type="text"
+          id="mileageUpdated"
+          pInputText
+          formControlName="mileageUpdated"
+        />
+      </div>
+      <div class="form-row">
+        <label for="value">Value</label>
+        <input type="text" id="value" pInputText formControlName="value" />
+      </div>
+      <div class="form-row">
+        <label for="by">By</label>
+        <input type="text" id="by" pInputText formControlName="by" />
+      </div>
+      <div class="form-row">
+        <label for="ownedFreeAndClear">Owned Free & Clear?</label>
+        <p-checkbox
+          id="ownedFreeAndClear"
+          formControlName="ownedFreeAndClear"
+          [binary]="true"
+        ></p-checkbox>
+      </div>
+      <div class="form-row">
+        <label for="firstLienHolder">1st Lien Holder</label>
+        <input
+          type="text"
+          id="firstLienHolder"
+          pInputText
+          formControlName="firstLienHolder"
+        />
+      </div>
+      <div class="form-row">
+        <label for="balance">Balance</label>
+        <input type="text" id="balance" pInputText formControlName="balance" />
+      </div>
+      <div class="form-row">
+        <label for="secondLienHolder">2nd Lien Holder</label>
+        <input
+          type="text"
+          id="secondLienHolder"
+          pInputText
+          formControlName="secondLienHolder"
+        />
+      </div>
+      <div class="form-row">
+        <label for="autoCheckComplete">Auto check complete?</label>
+        <p-checkbox
+          id="autoCheckComplete"
+          formControlName="autoCheckComplete"
+          [binary]="true"
+        ></p-checkbox>
+      </div>
+      <div class="form-row">
+        <label for="vehicleInspection">Vehicle Inspection?</label>
+        <p-checkbox
+          id="vehicleInspection"
+          formControlName="vehicleInspection"
+          [binary]="true"
+        ></p-checkbox>
+      </div>
+      <div class="form-row">
+        <label for="exceptionApproved">Exception Approved?</label>
+        <p-checkbox
+          id="exceptionApproved"
+          formControlName="exceptionApproved"
+          [binary]="true"
+        ></p-checkbox>
+      </div>
+      <div class="form-row">
+        <label for="qualifiedForDirectAuto">Qualified for Direct Auto?</label>
+        <p-checkbox
+          id="qualifiedForDirectAuto"
+          formControlName="qualifiedForDirectAuto"
+          [binary]="true"
+        ></p-checkbox>
       </div>
     </div>
+  </div>
 
-    <div class="field">
+  <div class="form-section">
+    <div class="form-row">
       <label for="salvageTitle">Salvage Title?</label>
-      <p-radioButton
+      <p-checkbox
+        id="salvageTitle"
         formControlName="salvageTitle"
-        name="salvageTitle"
-        value="Yes"
-        label="Yes"
-      ></p-radioButton>
-      <p-radioButton
-        formControlName="salvageTitle"
-        name="salvageTitle"
-        value="No"
-        label="No"
-      ></p-radioButton>
+        [binary]="true"
+      ></p-checkbox>
     </div>
-
-    <div class="field">
+    <div class="form-row">
       <label for="purchaseMoney">Purchase Money?</label>
-      <p-radioButton
+      <p-checkbox
+        id="purchaseMoney"
         formControlName="purchaseMoney"
-        name="purchaseMoney"
-        value="Yes"
-        label="Yes"
-      ></p-radioButton>
-      <p-radioButton
-        formControlName="purchaseMoney"
-        name="purchaseMoney"
-        value="No"
-        label="No"
-      ></p-radioButton>
+        [binary]="true"
+      ></p-checkbox>
     </div>
+  </div>
 
+  <div class="form-row">
     <button
-      type="submit"
       pButton
+      type="submit"
       label="Submit"
       [disabled]="!assetsForm.valid"
     ></button>
-  </form>
-</div>
+  </div>
+</form>

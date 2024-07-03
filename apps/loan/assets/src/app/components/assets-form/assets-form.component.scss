@@ -1,24 +1,62 @@
-.assets-form-container {
-  .field {
-    margin-bottom: 1rem;
-  }
+.assets-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 
-  .vehicles-section {
-    margin-top: 2rem;
+  .form-section {
     padding: 1rem;
-    background: #f9f9f9;
-    border-radius: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 
-    .vehicle-group {
-      padding: 1rem;
-      background: #fff;
+    h3 {
+      margin-top: 0;
       margin-bottom: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      label {
+        width: 200px;
+        font-weight: bold;
+        margin-right: 1rem;
+        color: #555;
+      }
+
+      input[type='text'],
+      input[type='number'],
+      p-dropdown,
+      p-checkbox {
+        flex: 1;
+      }
+
+      p-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        label {
+          margin-right: 0;
+        }
+      }
+
+      p-button {
+        margin-left: auto;
+      }
     }
   }
 
-  button {
-    width: 100%;
+  .form-row {
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-left: auto;
+    }
   }
 }
