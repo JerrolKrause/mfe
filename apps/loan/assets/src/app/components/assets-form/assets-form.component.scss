@@ -1,0 +1,24 @@
+.assets-form-container {
+  .field {
+    margin-bottom: 1rem;
+  }
+
+  .vehicles-section {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+
+    .vehicle-group {
+      padding: 1rem;
+      background: #fff;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  button {
+    width: 100%;
+  }
+}
