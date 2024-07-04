@@ -17,9 +17,10 @@ import { AssetsComponent } from './assets.component';
 import { appRoutes } from './assets.routes';
 import { AssetsFormComponent } from './components/assets-form/assets-form.component';
 import { AssetsService } from './shared/assets.services';
+import { AssetsTableComponent } from './components/assets-table/assets-table.component';
 
 @NgModule({
-  declarations: [AssetsComponent, AssetsFormComponent],
+  declarations: [AssetsComponent, AssetsFormComponent, AssetsTableComponent],
   imports: [
     CommonModule,
     IconsModule,

@@ -1,0 +1,41 @@
+<p-table [value]="(assetsSvc.assets$ | async) ?? []" class="assets-table">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Who</th>
+      <th>Category</th>
+      <th>Type</th>
+      <th>Year</th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>VIN</th>
+      <th>Mileage</th>
+      <th>Value</th>
+      <th>Owned Free & Clear</th>
+      <th>Salvage Title</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-asset>
+    <tr>
+      <td>{{ asset.who }}</td>
+      <td>{{ asset.category }}</td>
+      <td>{{ asset.type }}</td>
+      <td>{{ asset.year }}</td>
+      <td>{{ asset.make }}</td>
+      <td>{{ asset.model }}</td>
+      <td>{{ asset.vin }}</td>
+      <td>{{ asset.mileage }}</td>
+      <td>{{ asset.value }}</td>
+      <td>{{ asset.ownedFreeAndClear ? 'Yes' : 'No' }}</td>
+      <td>{{ asset.salvageTitle ? 'Yes' : 'No' }}</td>
+      <td class="d-flex">
+        <a (click)="assetsSvc.editAsset(asset)" class="me-2">
+          <i class="pi pi-pencil"></i> Edit
+        </a>
+        <a (click)="assetsSvc.deleteAsset(asset)">
+          <i class="pi pi-trash"></i> Delete
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
