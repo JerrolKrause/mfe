@@ -20,18 +20,21 @@
       <td>{{ asset.who }}</td>
       <td>{{ asset.category }}</td>
       <td>{{ asset.type }}</td>
-      <td>{{ asset.year }}</td>
-      <td>{{ asset.make }}</td>
-      <td>{{ asset.model }}</td>
-      <td>{{ asset.vin }}</td>
-      <td>{{ asset.mileage }}</td>
-      <td>{{ asset.value }}</td>
-      <td>{{ asset.ownedFreeAndClear ? 'Yes' : 'No' }}</td>
+      <td>{{ asset.valuation.year }}</td>
+      <td>{{ asset.valuation.make }}</td>
+      <td>{{ asset.valuation.model }}</td>
+      <td>{{ asset.valuation.vin }}</td>
+      <td>{{ asset.valuation.mileage | number }}</td>
+      <td>
+        {{ asset.valuation.value | currency : 'USD' : 'symbol' : '1.0-0' }}
+      </td>
+      <td>{{ asset.valuation.ownedFreeAndClear ? 'Yes' : 'No' }}</td>
       <td>{{ asset.salvageTitle ? 'Yes' : 'No' }}</td>
       <td class="d-flex">
         <a (click)="assetsSvc.editAsset(asset)" class="me-2">
           <i class="pi pi-pencil"></i> Edit
         </a>
+
         <a (click)="assetsSvc.deleteAsset(asset)">
           <i class="pi pi-trash"></i> Delete
         </a>

@@ -8,6 +8,7 @@
   margin-left: calc(-0.5 * var(--bs-gutter-x));
   padding: 0 0.5rem;
   .form-generator-column {
-    padding-right: 0.5rem;
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
   }
 }
