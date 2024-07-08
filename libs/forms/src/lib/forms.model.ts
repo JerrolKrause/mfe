@@ -54,6 +54,8 @@ export module FormsLib {
       /** Any custom css classes */
       classes?: string | null;
     };
+    /** Scroll to the top of the page on a successful form submission. Default true. */
+    scrollToTopOnSubmit?: boolean | null;
     /** When the user clicks the submit button and an error occurs, the page will scroll to the first error. This value will modify the final position of the scroll and can be negative or positive. Useful for situactions where the error is under a sticky header or fixed element. */
     errorScrollOffset?: number | null;
   }
