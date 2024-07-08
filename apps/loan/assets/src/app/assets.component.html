@@ -2,7 +2,7 @@
   <p-card styleClass="mb-3">
     <h1>
       <lib-icons icon="car"></lib-icons>
-      Assets (3)
+      Assets ({{ assetsCount$ | async }})
     </h1>
     <app-assets-table></app-assets-table>
   </p-card>

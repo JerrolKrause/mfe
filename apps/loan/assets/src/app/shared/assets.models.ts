@@ -18,6 +18,7 @@ export interface ValuationDetails {
 }
 
 export interface AssetsFormModel {
+  id?: string | null;
   anyVehicles: boolean | null;
   vehiclesOnCreditBureau: number;
   collateralVehicles: number;

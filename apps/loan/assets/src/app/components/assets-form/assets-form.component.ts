@@ -1,45 +1,13 @@
 import { FormsLib } from '$forms';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { AssetsService } from '@assets/app/shared/assets.services';
+import { Component } from '@angular/core';
+import { AssetsService } from '../../shared/assets.services';
 
 @Component({
   selector: 'app-assets-form',
   templateUrl: './assets-form.component.html',
   styleUrl: './assets-form.component.scss',
 })
-export class AssetsFormComponent implements OnInit {
-  assetsForm = this.fb.group({
-    anyVehicles: [null],
-    vehiclesOnCreditBureau: [0],
-    collateralVehicles: [0],
-    who: ['Applicant'],
-    category: [''],
-    type: [''],
-    collateral: [null],
-    reasonNotCollateral: [''],
-    valuation: this.fb.group({
-      year: [''],
-      make: [''],
-      model: [''],
-      vin: [''],
-      mileage: [''],
-      mileageUpdated: [''],
-      value: [''],
-      by: [''],
-      ownedFreeAndClear: [null],
-      firstLienHolder: [''],
-      balance: [''],
-      secondLienHolder: [''],
-      autoCheckComplete: [null],
-      vehicleInspection: [null],
-      exceptionApproved: [null],
-      qualifiedForDirectAuto: [null],
-    }),
-    salvageTitle: [null],
-    purchaseMoney: [null],
-  });
-
+export class AssetsFormComponent {
   public formModel: FormsLib.FormGenerator = [
     {
       type: 'container',
@@ -249,15 +217,13 @@ export class AssetsFormComponent implements OnInit {
     },
   ];
 
-  constructor(private fb: FormBuilder, private assetsSvc: AssetsService) {}
-
-  ngOnInit(): void {}
+  constructor(public assetsSvc: AssetsService) {}
 
   onSubmit(): void {
-    if (this.assetsForm.valid) {
-      console.log(this.assetsForm.value);
-      this.assetsSvc.addAsset(this.assetsForm.value as any);
-      this.assetsForm.reset();
+    if (!this.assetsSvc.assetsForm.valid) {
+      return;
     }
+
+    this.assetsSvc.saveAsset(this.assetsSvc.assetsForm.value as any);
   }
 }
