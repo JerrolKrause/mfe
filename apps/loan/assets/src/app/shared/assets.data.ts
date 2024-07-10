@@ -1,6 +1,6 @@
-import { AssetsFormModel } from './assets.models';
+import { AssetsModels } from '$shared';
 
-export const assetsStub: AssetsFormModel[] = [
+export const assetsStub: AssetsModels.Asset[] = [
   {
     id: '1111',
     anyVehicles: true,

@@ -1,8 +1,8 @@
+import { AssetsModels } from '$shared';
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { assetsStub } from './assets.data';
-import { AssetsFormModel } from './assets.models';
 
 /**
  * Service to manage assets.
@@ -12,7 +12,7 @@ import { AssetsFormModel } from './assets.models';
 })
 export class AssetsService {
   /** Assets with stub data */
-  private _assets$ = new BehaviorSubject<AssetsFormModel[]>(assetsStub);
+  private _assets$ = new BehaviorSubject<AssetsModels.Asset[]>(assetsStub);
   public assets$ = this._assets$.asObservable();
 
   public assetsForm = this.fb.group({
@@ -55,7 +55,7 @@ export class AssetsService {
    * Load an existing asset into the assets form
    * @param asset - The asset to add.
    */
-  setAssetForEdit(asset: AssetsFormModel) {
+  setAssetForEdit(asset: AssetsModels.Asset) {
     this.assetsForm.reset();
     this.assetsForm.patchValue(asset as any);
   }
@@ -64,7 +64,7 @@ export class AssetsService {
    * Save an asset. Adds a new asset if the ID is not present, otherwise updates the existing asset.
    * @param asset - The asset to save.
    */
-  saveAsset(asset: AssetsFormModel): void {
+  saveAsset(asset: AssetsModels.Asset): void {
     const currentAssets = this._assets$.value;
     // If id, update action
     if (asset.id) {
@@ -94,7 +94,7 @@ export class AssetsService {
    * Deletes an asset from the list.
    * @param assetToDelete - The asset to delete.
    */
-  deleteAsset(assetToDelete: AssetsFormModel): void {
+  deleteAsset(assetToDelete: AssetsModels.Asset): void {
     const c = confirm('Are you sure you want to delete this asset?');
     if (!c) {
       return;
