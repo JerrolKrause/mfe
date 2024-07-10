@@ -25,6 +25,8 @@ export const assetsStub: AssetsFormModel[] = [
     },
     salvageTitle: false,
     purchaseMoney: false,
+    equity: 5000,
+    monthlyPayment: 300,
   },
   {
     id: '2222',
@@ -50,6 +52,8 @@ export const assetsStub: AssetsFormModel[] = [
     },
     salvageTitle: false,
     purchaseMoney: false,
+    equity: 10000,
+    monthlyPayment: 400,
   },
   {
     id: '3333',
@@ -75,5 +79,7 @@ export const assetsStub: AssetsFormModel[] = [
     },
     salvageTitle: true,
     purchaseMoney: false,
+    equity: 8000,
+    monthlyPayment: 350,
   },
 ];

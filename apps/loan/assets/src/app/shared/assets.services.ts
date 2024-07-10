@@ -45,6 +45,8 @@ export class AssetsService {
     }),
     salvageTitle: [null],
     purchaseMoney: [null],
+    equity: [null],
+    monthlyPayment: [null],
   });
 
   constructor(private fb: FormBuilder) {}

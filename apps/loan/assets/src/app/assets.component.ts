@@ -1,5 +1,6 @@
+import { AppStorageService } from '$shared';
 import { Component } from '@angular/core';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { AssetsService } from './shared/assets.services';
 
 @Component({
@@ -9,8 +10,12 @@ import { AssetsService } from './shared/assets.services';
 })
 export class AssetsComponent {
   public assetsCount$ = this.assetsSvc.assets$.pipe(
+    tap((assets) => (this.storage.assets = assets)), // Write any changes to local storage for sharing with loan products
     map((assets) => assets.length)
   );
 
-  constructor(private assetsSvc: AssetsService) {}
+  constructor(
+    private assetsSvc: AssetsService,
+    private storage: AppStorageService
+  ) {}
 }

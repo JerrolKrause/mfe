@@ -30,4 +30,6 @@ export interface AssetsFormModel {
   valuation: ValuationDetails;
   salvageTitle: boolean | null;
   purchaseMoney: boolean | null;
+  equity?: number | null;
+  monthlyPayment?: number | null;
 }
