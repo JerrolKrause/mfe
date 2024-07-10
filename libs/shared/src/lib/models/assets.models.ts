@@ -22,6 +22,7 @@ export module AssetsModels {
 
   export interface Asset {
     id?: string | null;
+    selected: boolean;
     anyVehicles: boolean | null;
     vehiclesOnCreditBureau: number;
     collateralVehicles: number;
