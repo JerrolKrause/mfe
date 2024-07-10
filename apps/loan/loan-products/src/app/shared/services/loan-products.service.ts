@@ -5,11 +5,7 @@ import { Injectable, Type } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { InputSwitchChangeEvent } from 'primeng/inputswitch';
 import { BehaviorSubject, take } from 'rxjs';
-import {
-  assets,
-  creditors,
-  loanProducts,
-} from '../mock-data/loan-products.data';
+import { creditors, loanProducts } from '../mock-data/loan-products.data';
 import {
   LinkDocument,
   LinkQuery,
@@ -41,7 +37,7 @@ export class LoanProductsService {
     loanProducts.map((lp) => this.creditProductsAdd(lp))
   );
 
-  public assets$ = new BehaviorSubject<LoanProductModels.Asset[]>(assets);
+  public assets$ = new BehaviorSubject<LoanProductModels.Asset[]>([]);
 
   public creditors$ = new BehaviorSubject<LoanProductModels.Creditor[]>(
     creditors

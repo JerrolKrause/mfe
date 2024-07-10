@@ -1,12 +1,12 @@
 <p-table [value]="(assetsSvc.assets$ | async) ?? []" class="assets-table">
   <ng-template pTemplate="header">
     <tr>
-      <th>Who</th>
-      <th>Category</th>
-      <th>Type</th>
       <th>Year</th>
       <th>Make</th>
       <th>Model</th>
+      <th>Who</th>
+      <th>Category</th>
+      <th>Type</th>
       <th>VIN</th>
       <th>Mileage</th>
       <th>Value</th>
@@ -17,12 +17,13 @@
   </ng-template>
   <ng-template pTemplate="body" let-asset>
     <tr>
-      <td>{{ asset.who }}</td>
-      <td>{{ asset.category }}</td>
-      <td>{{ asset.type }}</td>
       <td>{{ asset.valuation.year }}</td>
       <td>{{ asset.valuation.make }}</td>
       <td>{{ asset.valuation.model }}</td>
+      <td>{{ asset.who }}</td>
+      <td>{{ asset.category }}</td>
+      <td>{{ asset.type }}</td>
+
       <td>{{ asset.valuation.vin }}</td>
       <td>{{ asset.valuation.mileage | number }}</td>
       <td>

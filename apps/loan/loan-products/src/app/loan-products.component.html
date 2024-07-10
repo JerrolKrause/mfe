@@ -30,7 +30,6 @@
               </ng-template>
               <app-loan-products-builder
                 [state]="comp.state"
-                [assets]="assets$ | async"
                 [creditors]="creditors$ | async"
                 [isLocked]="comp.state?.isLocked ?? false"
                 [formDefaults]="loanProductToEdit()"

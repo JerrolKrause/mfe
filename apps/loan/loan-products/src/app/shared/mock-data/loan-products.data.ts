@@ -14,7 +14,7 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
       systemGenerated: true,
       secured: true,
     },
-    vehicles: ['2020 TOYOTA RAV4'],
+    vehicles: ['2018 Toyota Camry'],
     creditors: [],
     payoffs: 1288,
     baseCashAdvance: 16000,
@@ -60,7 +60,7 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
       systemGenerated: true,
       secured: true,
     },
-    vehicles: ['MULTI VEHICLE'],
+    vehicles: ['Multi Vehicle'],
     creditors: [],
     payoffs: 6588,
     baseCashAdvance: 12110,
@@ -78,7 +78,7 @@ export const loanProducts: LoanProductModels.LoanProduct[] = [
     status: {
       invalid: `Doesn't meet minumum NDI requirements`,
     },
-    vehicles: ['2010 CHEVROLET SILVERADO'],
+    vehicles: ['2015 Ford F-150'],
     payoffs: 674,
     baseCashAdvance: 2300,
     fees: 97,
@@ -116,27 +116,6 @@ export const creditors: LoanProductModels.Creditor[] = [
     totalOwed: 345,
     monthlyPayment: 30,
     apr: 14,
-    selected: false,
-  },
-];
-
-export const assets: LoanProductModels.Asset[] = [
-  {
-    id: '1',
-    label: '2020 TOYOTA RAV4',
-    assetValue: 36000,
-    totalOwed: 0,
-    monthlyPayment: 0,
-    apr: 0,
-    selected: false,
-  },
-  {
-    id: '2',
-    label: '2010 CHEVROLET SILVERADO',
-    assetValue: 10905,
-    totalOwed: 4000,
-    monthlyPayment: 0,
-    apr: 0,
     selected: false,
   },
 ];
