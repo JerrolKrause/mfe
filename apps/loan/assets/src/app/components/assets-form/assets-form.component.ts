@@ -13,85 +13,6 @@ export class AssetsFormComponent {
       type: 'container',
       content: [
         {
-          type: 'row',
-          columns: [
-            {
-              type: 'column',
-              width: 6,
-              content: [
-                /**
-                {
-                  label: 'Any Vehicles?',
-                  type: 'formField',
-                  formFieldType: 'checkbox',
-                  field: 'anyVehicles',
-                },
-                 */
-                {
-                  label: 'Vehicles on Credit Bureau',
-                  type: 'formField',
-                  formFieldType: 'number',
-                  field: 'vehiclesOnCreditBureau',
-                },
-                {
-                  label: 'Collateral Vehicles',
-                  type: 'formField',
-                  formFieldType: 'number',
-                  field: 'collateralVehicles',
-                },
-
-                {
-                  label: 'Reason Not Collateral',
-                  type: 'formField',
-                  formFieldType: 'text',
-                  field: 'reasonNotCollateral',
-                },
-              ],
-            },
-            {
-              type: 'column',
-              width: 6,
-              content: [
-                {
-                  label: 'Who',
-                  type: 'formField',
-                  formFieldType: 'dropdown',
-                  field: 'who',
-                  options: [
-                    { label: 'Applicant', value: 'Applicant' },
-                    { label: 'Co-Applicant', value: 'Co-Applicant' },
-                  ],
-                },
-                {
-                  label: 'Category',
-                  type: 'formField',
-                  formFieldType: 'dropdown',
-                  field: 'category',
-                  options: [{ label: 'Auto or Truck', value: 'Auto or Truck' }],
-                },
-                {
-                  label: 'Salvage Title?',
-                  type: 'formField',
-                  formFieldType: 'checkbox',
-                  field: 'salvageTitle',
-                },
-                {
-                  label: 'Purchase Money?',
-                  type: 'formField',
-                  formFieldType: 'checkbox',
-                  field: 'purchaseMoney',
-                },
-                {
-                  label: 'Collateral?',
-                  type: 'formField',
-                  formFieldType: 'checkbox',
-                  field: 'collateral',
-                },
-              ],
-            },
-          ],
-        },
-        {
           type: 'container',
           content: [
             {
@@ -208,6 +129,85 @@ export class AssetsFormComponent {
                       field: 'valuation.qualifiedForDirectAuto',
                     },
                   ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'row',
+          columns: [
+            {
+              type: 'column',
+              width: 6,
+              content: [
+                /**
+                {
+                  label: 'Any Vehicles?',
+                  type: 'formField',
+                  formFieldType: 'checkbox',
+                  field: 'anyVehicles',
+                },
+                 */
+                {
+                  label: 'Vehicles on Credit Bureau',
+                  type: 'formField',
+                  formFieldType: 'number',
+                  field: 'vehiclesOnCreditBureau',
+                },
+                {
+                  label: 'Collateral Vehicles',
+                  type: 'formField',
+                  formFieldType: 'number',
+                  field: 'collateralVehicles',
+                },
+
+                {
+                  label: 'Reason Not Collateral',
+                  type: 'formField',
+                  formFieldType: 'text',
+                  field: 'reasonNotCollateral',
+                },
+              ],
+            },
+            {
+              type: 'column',
+              width: 6,
+              content: [
+                {
+                  label: 'Who',
+                  type: 'formField',
+                  formFieldType: 'dropdown',
+                  field: 'who',
+                  options: [
+                    { label: 'Applicant', value: 'Applicant' },
+                    { label: 'Co-Applicant', value: 'Co-Applicant' },
+                  ],
+                },
+                {
+                  label: 'Category',
+                  type: 'formField',
+                  formFieldType: 'dropdown',
+                  field: 'category',
+                  options: [{ label: 'Auto or Truck', value: 'Auto or Truck' }],
+                },
+                {
+                  label: 'Salvage Title?',
+                  type: 'formField',
+                  formFieldType: 'checkbox',
+                  field: 'salvageTitle',
+                },
+                {
+                  label: 'Purchase Money?',
+                  type: 'formField',
+                  formFieldType: 'checkbox',
+                  field: 'purchaseMoney',
+                },
+                {
+                  label: 'Collateral?',
+                  type: 'formField',
+                  formFieldType: 'checkbox',
+                  field: 'collateral',
                 },
               ],
             },
