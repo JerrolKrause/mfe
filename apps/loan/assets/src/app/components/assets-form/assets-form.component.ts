@@ -13,11 +13,17 @@ export class AssetsFormComponent {
       type: 'container',
       content: [
         {
+          label: 'Asset Type',
+          type: 'formField',
+          formFieldType: 'text',
+          field: 'valuation.year',
+        },
+        {
           type: 'container',
           content: [
             {
               type: 'html',
-              html: '<h2>Valuation / Vehicle Details</h2>',
+              html: '<h2>Vehicle Information</h2>',
             },
             {
               type: 'row',

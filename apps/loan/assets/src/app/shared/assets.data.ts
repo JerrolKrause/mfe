@@ -3,7 +3,7 @@ import { AssetsModels } from '$shared';
 export const assetsStub: AssetsModels.Asset[] = [
   {
     id: '1111',
-    selected: false,
+
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
@@ -31,7 +31,7 @@ export const assetsStub: AssetsModels.Asset[] = [
   },
   {
     id: '2222',
-    selected: false,
+
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
@@ -59,7 +59,7 @@ export const assetsStub: AssetsModels.Asset[] = [
   },
   {
     id: '3333',
-    selected: false,
+
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,

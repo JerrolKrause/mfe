@@ -141,7 +141,7 @@ export class LoanProductsFormComponent {
     assets?.forEach((asset) => {
       let isSelected = false;
       if (
-        asset.selected ||
+        //  asset.selected || @todo add support for selected property
         this.formDefaults()?.vehicles?.includes('MULTI VEHICLE') ||
         this.formDefaults()?.vehicles?.includes(asset.valuation.make)
       ) {

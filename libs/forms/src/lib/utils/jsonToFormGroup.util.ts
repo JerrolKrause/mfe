@@ -1,30 +1,35 @@
-import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 
 /**
  * Automatically generate a form group complete with controls from JSON or a JS object. Will recurse through nested objects/arrays.
  * @param model - An object or JSON of the model. Can contain nested objects and arrays
  */
-export const jsonToFormGroup = (model: any): FormGroup | FormControl => {
-  const formModel: any = {};
+export function jsonToFormGroup<T extends object>(model: T): FormGroup {
+  const formModel: { [key in keyof T]?: AbstractControl } = {};
+
   // Iterate through all props in model
-  Object.keys(model).forEach(key => {
-    // Recurse if object
-    if (model[key] && typeof model[key] === 'object' && !Array.isArray(model[key])) {
-      formModel[key] = jsonToFormGroup(model[key]);
-    } else if (model[key] && typeof model[key] === 'object' && Array.isArray(model[key])) {
+  Object.keys(model).forEach((key) => {
+    const value = model[key as keyof T];
+    if (isObject(value) && !Array.isArray(value)) {
+      formModel[key as keyof T] = jsonToFormGroup(value);
+    } else if (Array.isArray(value)) {
       // Form array, recurse
-      const formArray: any[] = [];
-      model[key].forEach((e: any) => formArray.push(jsonToFormGroup(e)));
-      formModel[key] = new FormArray(formArray);
+      const formArray = value.map((item) => jsonToFormGroup(item));
+      formModel[key as keyof T] = new FormArray(formArray);
     } else {
       // Normal value
-      formModel[key] = new FormControl(null);
+      formModel[key as keyof T] = new FormControl(value);
     }
   });
 
-  // If inside an array of primitives, create form control
-  if (typeof model === 'string' || typeof model === 'number' || typeof model === 'boolean') {
-    return new FormControl(null);
-  }
-  return new FormGroup(formModel);
-};
+  return new FormGroup(formModel as any);
+}
+
+function isObject(value: any): value is object {
+  return value !== null && typeof value === 'object';
+}

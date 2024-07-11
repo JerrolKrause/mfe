@@ -21,20 +21,19 @@ export module AssetsModels {
   }
 
   export interface Asset {
-    id?: string | null;
-    selected: boolean;
+    id: string | null;
     anyVehicles: boolean | null;
     vehiclesOnCreditBureau: number;
     collateralVehicles: number;
     who: string;
     category: string;
-    type: string;
+    type: string | null;
     collateral: boolean | null;
     reasonNotCollateral?: string;
-    valuation: ValuationDetails;
     salvageTitle: boolean | null;
     purchaseMoney: boolean | null;
     equity?: number | null;
     monthlyPayment?: number | null;
+    valuation: ValuationDetails;
   }
 }

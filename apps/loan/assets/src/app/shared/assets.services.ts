@@ -1,8 +1,53 @@
+import { toFormGroup } from '$forms';
 import { AssetsModels } from '$shared';
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import {
+  AbstractControlOptions,
+  FormBuilder,
+  ValidatorFn,
+} from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { assetsStub } from './assets.data';
+
+interface AssetForm extends AssetsModels.Asset {
+  selected: boolean;
+}
+
+interface Address {
+  address: string;
+  zip: number;
+}
+
+interface User {
+  nameFirst: string;
+  nameLast: string;
+  address: Address;
+}
+
+const user: User = {
+  nameFirst: 'Jerrol',
+  nameLast: 'Smith',
+  address: {
+    address: '12345',
+    zip: 12345,
+  },
+};
+
+type NewType<T> = [
+  T | { value: T; disabled: boolean },
+  (AbstractControlOptions | ValidatorFn | ValidatorFn[])?
+];
+
+export type FormGroupConfig<T> = {
+  [P in keyof T]: T[P] extends object ? FormGroupConfig<T[P]> : NewType<T[P]>;
+};
+
+/**
+ * Utility type to make all properties of an interface nullable.
+ */
+type Nullable<T> = {
+  [P in keyof T]?: T[P] | null | undefined;
+};
 
 /**
  * Service to manage assets.
@@ -11,45 +56,113 @@ import { assetsStub } from './assets.data';
   providedIn: 'root',
 })
 export class AssetsService {
+  public userForm = this.fb.group<User>({
+    nameFirst: 'Jerrol',
+    nameLast: 'Smith',
+    address: {
+      address: '12345',
+      zip: 12345,
+    },
+  });
+
+  public user = this.userForm.value;
+  public address = this.userForm.value.address;
+
   /** Assets with stub data */
   private _assets$ = new BehaviorSubject<AssetsModels.Asset[]>(assetsStub);
   public assets$ = this._assets$.asObservable();
 
-  public assetsForm = this.fb.group({
+  public assetsForm = this.fb.group<AssetForm>({
     id: '',
-    anyVehicles: [null],
-    vehiclesOnCreditBureau: [0],
-    collateralVehicles: [0],
-    who: ['Applicant'],
-    category: [''],
-    type: [''],
-    collateral: [null],
-    reasonNotCollateral: [''],
-    valuation: this.fb.group({
-      year: [''],
-      make: [''],
-      model: [''],
-      vin: [''],
-      mileage: [''],
-      mileageUpdated: [''],
-      value: [''],
-      by: [''],
-      ownedFreeAndClear: [null],
-      firstLienHolder: [''],
-      balance: [''],
-      secondLienHolder: [''],
-      autoCheckComplete: [null],
-      vehicleInspection: [null],
-      exceptionApproved: [null],
-      qualifiedForDirectAuto: [null],
-    }),
-    salvageTitle: [null],
-    purchaseMoney: [null],
-    equity: [null],
-    monthlyPayment: [null],
+    selected: false,
+    anyVehicles: null,
+    vehiclesOnCreditBureau: 0,
+    collateralVehicles: 0,
+    who: '',
+    category: '',
+    type: '',
+    collateral: null,
+    reasonNotCollateral: '',
+    valuation: {
+      year: '2012',
+      make: '',
+      model: '',
+      vin: '',
+      mileage: '',
+      mileageUpdated: '',
+      value: '',
+      by: '',
+      ownedFreeAndClear: null,
+      firstLienHolder: '',
+      balance: '',
+      secondLienHolder: '',
+      autoCheckComplete: null,
+      vehicleInspection: null,
+      exceptionApproved: null,
+      qualifiedForDirectAuto: null,
+    },
+    salvageTitle: null,
+    purchaseMoney: null,
+    equity: null,
+    monthlyPayment: null,
   });
 
-  constructor(private fb: FormBuilder) {}
+  public valuation = this.assetsForm.value.valuation;
+
+  public assetsForm2 = toFormGroup<AssetForm>({
+    id: '',
+    selected: false,
+    anyVehicles: null,
+    vehiclesOnCreditBureau: 0,
+    collateralVehicles: 0,
+    who: '',
+    category: '',
+    type: '',
+    collateral: null,
+    reasonNotCollateral: '',
+    valuation: {
+      year: '2012',
+      make: '',
+      model: '',
+      vin: '',
+      mileage: '',
+      mileageUpdated: '',
+      value: '',
+      by: '',
+      ownedFreeAndClear: null,
+      firstLienHolder: '',
+      balance: '',
+      secondLienHolder: '',
+      autoCheckComplete: null,
+      vehicleInspection: null,
+      exceptionApproved: null,
+      qualifiedForDirectAuto: null,
+    },
+    salvageTitle: null,
+    purchaseMoney: null,
+    equity: null,
+    monthlyPayment: null,
+  });
+
+  constructor(private fb: FormBuilder) {
+    const assetsForm = this.assetsForm;
+    const asset = assetsForm.value;
+    const year = asset.valuation?.year;
+
+    const assetsForm2 = this.assetsForm2;
+    const asset2 = assetsForm2.value;
+    const year2 = asset2.valuation?.year;
+
+    console.log(year, year2);
+    /**
+    const asset = this.assetsForm.value;
+    console.log('Asset', asset.valuation?.year);
+
+    const valuation = this.assetsForm.controls['valuation'].value;
+    //  const year = valuation.controls['year'];
+    console.log('Temp', valuation);
+     */
+  }
 
   /**
    * Load an existing asset into the assets form
@@ -57,7 +170,7 @@ export class AssetsService {
    */
   setAssetForEdit(asset: AssetsModels.Asset) {
     this.assetsForm.reset();
-    this.assetsForm.patchValue(asset as any);
+    this.assetsForm.patchValue(asset);
   }
 
   /**

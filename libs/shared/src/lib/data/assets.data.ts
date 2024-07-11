@@ -4,7 +4,7 @@ import { AssetsModels } from '../models';
 export const assetsStubData: AssetsModels.Asset[] = [
   {
     id: '1111',
-    selected: false,
+
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
@@ -32,7 +32,7 @@ export const assetsStubData: AssetsModels.Asset[] = [
   },
   {
     id: '2222',
-    selected: false,
+
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
@@ -60,7 +60,7 @@ export const assetsStubData: AssetsModels.Asset[] = [
   },
   {
     id: '3333',
-    selected: false,
+
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
