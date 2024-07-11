@@ -109,51 +109,58 @@ export class AssetsService {
 
   public valuation = this.assetsForm.value.valuation;
 
-  public assetsForm2 = toFormGroup<AssetForm>({
-    id: '',
-    selected: false,
-    anyVehicles: null,
-    vehiclesOnCreditBureau: 0,
-    collateralVehicles: 0,
-    who: '',
-    category: '',
-    type: '',
-    collateral: null,
-    reasonNotCollateral: '',
-    valuation: {
-      year: '2012',
-      make: '',
-      model: '',
-      vin: '',
-      mileage: '',
-      mileageUpdated: '',
-      value: '',
-      by: '',
-      ownedFreeAndClear: null,
-      firstLienHolder: '',
-      balance: '',
-      secondLienHolder: '',
-      autoCheckComplete: null,
-      vehicleInspection: null,
-      exceptionApproved: null,
-      qualifiedForDirectAuto: null,
+  public assetsForm2 = toFormGroup<AssetForm>(
+    {
+      id: '',
+      selected: false,
+      anyVehicles: null,
+      vehiclesOnCreditBureau: 0,
+      collateralVehicles: 0,
+      who: '',
+      category: '',
+      type: '',
+      collateral: null,
+      reasonNotCollateral: '',
+      valuation: {
+        year: null,
+        make: '',
+        model: '',
+        vin: '',
+        mileage: '',
+        mileageUpdated: '',
+        value: '',
+        by: '',
+        ownedFreeAndClear: null,
+        firstLienHolder: '',
+        balance: '',
+        secondLienHolder: '',
+        autoCheckComplete: null,
+        vehicleInspection: null,
+        exceptionApproved: null,
+        qualifiedForDirectAuto: null,
+      },
+      salvageTitle: null,
+      purchaseMoney: null,
+      equity: null,
+      monthlyPayment: null,
     },
-    salvageTitle: null,
-    purchaseMoney: null,
-    equity: null,
-    monthlyPayment: null,
-  });
+    true
+  );
 
   constructor(private fb: FormBuilder) {
+    this.assetsForm.reset();
     const assetsForm = this.assetsForm;
     const asset = assetsForm.value;
     const year = asset.valuation?.year;
+    console.log(asset, year);
 
+    // Form Builder
+    // this.assetsForm2.resetDefaults();
     const assetsForm2 = this.assetsForm2;
     const asset2 = assetsForm2.value;
     const year2 = asset2.valuation?.year;
 
-    console.log(year, year2);
+    console.log(asset2, year2);
     /**
     const asset = this.assetsForm.value;
     console.log('Asset', asset.valuation?.year);
