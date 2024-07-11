@@ -18,12 +18,12 @@ import { LoanProductsState } from '../../shared/services/loan-products.service';
 import { loanProductsFormModel } from './utils/loan-products-form-model.util';
 
 @Component({
-  selector: 'app-loan-products-builder',
-  templateUrl: './loan-products-builder.component.html',
-  styleUrl: './loan-products-builder.component.scss',
+  selector: 'app-loan-products-form',
+  templateUrl: './loan-products-form.component.html',
+  styleUrl: './loan-products-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanProductsBuilderComponent {
+export class LoanProductsFormComponent {
   public state = input<LoanProductsState | null | undefined>(null);
   // public assets = input<AssetsModels.Asset[] | null | undefined>(null);
   public creditors = input<LoanProductModels.Creditor[] | null | undefined>(

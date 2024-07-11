@@ -28,13 +28,13 @@
                 <lib-icons icon="money-check-alt" class="me-2"></lib-icons>
                 Loan Products
               </ng-template>
-              <app-loan-products-builder
+              <app-loan-products-form
                 [state]="comp.state"
                 [creditors]="creditors$ | async"
                 [isLocked]="comp.state?.isLocked ?? false"
                 [formDefaults]="loanProductToEdit()"
                 (formSubmit)="lpSvc.loanProductAdd($event)"
-              ></app-loan-products-builder>
+              ></app-loan-products-form>
             </p-tabPanel>
             <p-tabPanel>
               <ng-template pTemplate="header">
