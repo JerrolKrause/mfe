@@ -18,11 +18,16 @@ type Nillable<T> = {
 
 /**
  * Converts a JSON object or a JavaScript object to a type-safe Angular reactive form.
+ * Automatically creates nested form groups and form arrays.
+ * Preserves the correct input interface for the values property.
+ * Optionally makes the input form model nullable via an input argument.
+ * Ensures data read from the values property can correctly have null as an option.
+ * Adds a resetDefaults method to restore the data used to initialize the form group.
  *
  * @template T - The type of the object to be converted to a form.
- * @param {T | Nillable<T>} data - The object to be converted to a form.
- * @param {boolean} [allowNulls=false] - If true, the data argument can be nillable.
- * @returns {FormGroupDynamic<T | Nillable<T>>} - The generated FormGroup.
+ * @param {T} data - The object to be converted to a form.
+ * @param {boolean} [allowNulls=false] - Optional flag to allow nullable properties.
+ * @returns {FormGroupDynamic<T> | FormGroupDynamic<Nillable<T>>} - The generated FormGroup.
  *
  * @example
  * interface MyForm {
@@ -35,7 +40,7 @@ type Nillable<T> = {
  *   hobbies: string[];
  * }
  *
- * const data: Nillable<MyForm> = {
+ * const data: MyForm = {
  *   name: 'John',
  *   age: 30,
  *   address: {
@@ -46,7 +51,7 @@ type Nillable<T> = {
  * };
  *
  * const form = toFormGroup<MyForm>(data, true);
- * console.log(form.value); // Logs the form's value
+ * console.log(form.value); // Logs the form's value with possible nulls
  */
 export function toFormGroup<T extends Record<string, any>>(
   data: T
@@ -61,7 +66,8 @@ export function toFormGroup<T extends Record<string, any>>(
 ): FormGroupDynamic<T>;
 export function toFormGroup<T extends Record<string, any>>(
   data: T | Nillable<T>,
-  allowNulls = false
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _allowNulls = false
 ): FormGroupDynamic<T | Nillable<T>> {
   const fb = new FormBuilder();
 
@@ -86,7 +92,7 @@ export function toFormGroup<T extends Record<string, any>>(
   }
 
   const formGroup = buildFormControl(data) as FormGroupDynamic<T>;
-  // Monkey patch a reset defaults method will restore the original values supplied by the input model
+  // Monkey patch a reset defaults method. This will restore the original values supplied by the input model
   // By default the .reset() method sets everything to null which may not be desirable
   formGroup.resetDefaults = () => {
     formGroup.reset();

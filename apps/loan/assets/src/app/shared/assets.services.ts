@@ -122,7 +122,7 @@ export class AssetsService {
       collateral: null,
       reasonNotCollateral: '',
       valuation: {
-        year: null,
+        year: '',
         make: '',
         model: '',
         vin: '',
@@ -155,7 +155,7 @@ export class AssetsService {
     console.log(asset, year);
 
     // Form Builder
-    // this.assetsForm2.resetDefaults();
+    this.assetsForm2.resetDefaults();
     const assetsForm2 = this.assetsForm2;
     const asset2 = assetsForm2.value;
     const year2 = asset2.valuation?.year;
