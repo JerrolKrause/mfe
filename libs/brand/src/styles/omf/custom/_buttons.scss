@@ -1,19 +1,38 @@
-.p-button {
-  border-radius: var(--border-radius);
-  // position: initial;
-  z-index: 1;
-  &.p-button-icon-only {
-    height: initial;
+body {
+  .p-button {
+    // position: initial;
+    z-index: 1;
+    &.p-button-icon-only {
+      height: initial;
+    }
   }
-}
-.p-splitbutton {
-  .p-splitbutton-defaultbutton {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: 1px solid rgba(255, 255, 255, 0.5);
+  .p-splitbutton {
+    .p-splitbutton-defaultbutton {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .p-splitbutton-menubutton {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
-  .p-splitbutton-menubutton {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  .p-selectbutton {
+    .p-button {
+      border-radius: 0;
+      &:first-child {
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+      }
+      &:last-child {
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+      }
+      &.p-highlight,
+      &.p-highlight:hover {
+        background-color: var(--color-interact);
+        color: #fff;
+      }
+    }
   }
 }
