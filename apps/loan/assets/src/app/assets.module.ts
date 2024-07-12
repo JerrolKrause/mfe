@@ -12,6 +12,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 // Assets Resources
 import { AssetsComponent } from './assets.component';
@@ -36,6 +37,7 @@ import { AssetsService } from './shared/assets.services';
     DropdownModule,
     RadioButtonModule,
     ButtonModule,
+    SelectButtonModule,
   ],
   providers: [AssetsService],
   bootstrap: [AssetsComponent],
