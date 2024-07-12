@@ -42,6 +42,5 @@ export class FormFieldComponent extends FormGeneratorBaseComponent {
 
   constructor() {
     super();
-    console.log(this);
   }
 }

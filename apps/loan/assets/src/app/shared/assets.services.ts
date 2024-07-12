@@ -1,53 +1,13 @@
 import { toFormGroup } from '$forms';
 import { AssetsModels } from '$shared';
 import { Injectable } from '@angular/core';
-import {
-  AbstractControlOptions,
-  FormBuilder,
-  ValidatorFn,
-} from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { assetsStub } from './assets.data';
 
 interface AssetForm extends AssetsModels.Asset {
   selected: boolean;
+  assetType: 'vehicle' | 'boat' | 'rv';
 }
-
-interface Address {
-  address: string;
-  zip: number;
-}
-
-interface User {
-  nameFirst: string;
-  nameLast: string;
-  address: Address;
-}
-
-const user: User = {
-  nameFirst: 'Jerrol',
-  nameLast: 'Smith',
-  address: {
-    address: '12345',
-    zip: 12345,
-  },
-};
-
-type NewType<T> = [
-  T | { value: T; disabled: boolean },
-  (AbstractControlOptions | ValidatorFn | ValidatorFn[])?
-];
-
-export type FormGroupConfig<T> = {
-  [P in keyof T]: T[P] extends object ? FormGroupConfig<T[P]> : NewType<T[P]>;
-};
-
-/**
- * Utility type to make all properties of an interface nullable.
- */
-type Nullable<T> = {
-  [P in keyof T]?: T[P] | null | undefined;
-};
 
 /**
  * Service to manage assets.
@@ -56,29 +16,18 @@ type Nullable<T> = {
   providedIn: 'root',
 })
 export class AssetsService {
-  public userForm = this.fb.group<User>({
-    nameFirst: 'Jerrol',
-    nameLast: 'Smith',
-    address: {
-      address: '12345',
-      zip: 12345,
-    },
-  });
-
-  public user = this.userForm.value;
-  public address = this.userForm.value.address;
-
   /** Assets with stub data */
   private _assets$ = new BehaviorSubject<AssetsModels.Asset[]>(assetsStub);
   public assets$ = this._assets$.asObservable();
 
   public assetsForm = toFormGroup<AssetForm>(
     {
+      assetType: 'vehicle',
       id: '',
       selected: false,
       anyVehicles: null,
-      vehiclesOnCreditBureau: 0,
-      collateralVehicles: 0,
+      vehiclesOnCreditBureau: null,
+      collateralVehicles: null,
       who: '',
       category: '',
       type: '',
@@ -89,13 +38,13 @@ export class AssetsService {
         make: '',
         model: '',
         vin: '',
-        mileage: '',
-        mileageUpdated: '',
-        value: '',
+        mileage: null,
+        mileageUpdated: null,
+        value: null,
         by: '',
         ownedFreeAndClear: null,
         firstLienHolder: '',
-        balance: '',
+        balance: null,
         secondLienHolder: '',
         autoCheckComplete: null,
         vehicleInspection: null,
@@ -110,30 +59,8 @@ export class AssetsService {
     true
   );
 
-  constructor(private fb: FormBuilder) {
-    /**
-    this.assetsForm.reset();
-    const assetsForm = this.assetsForm;
-    const asset = assetsForm.value;
-    const year = asset.valuation?.year;
-    console.log(asset, year);
-
-    // Form Builder
-    this.assetsForm.resetDefaults();
-    const assetsForm2 = this.assetsForm;
-    const asset2 = assetsForm2.value;
-    const year2 = asset2.valuation?.year;
-
-    console.log(asset2, year2);
-     */
-    /**
-    const asset = this.assetsForm.value;
-    console.log('Asset', asset.valuation?.year);
-
-    const valuation = this.assetsForm.controls['valuation'].value;
-    //  const year = valuation.controls['year'];
-    console.log('Temp', valuation);
-     */
+  constructor() {
+    console.log(this.assetsForm);
   }
 
   /**

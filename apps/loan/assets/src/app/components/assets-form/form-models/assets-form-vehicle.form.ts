@@ -13,114 +13,172 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
         type: 'html',
         html: '<h2>Vehicle Information</h2>',
       },
+
       {
-        type: 'row',
-        columns: [
+        type: 'container',
+        cssClasses: 'bg-highlight',
+        content: [
           {
-            type: 'column',
-            width: 6,
-            content: [
+            type: 'row',
+            columns: [
               {
-                label: 'Year',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.year',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Year',
+                    type: 'formField',
+                    formFieldType: 'text',
+                    field: 'valuation.year',
+                    placeholder: '2021',
+                  },
+                ],
               },
               {
-                label: 'Make',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.make',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Make',
+                    type: 'formField',
+                    formFieldType: 'text',
+                    field: 'valuation.make',
+                    placeholder: 'Honda',
+                  },
+                ],
               },
               {
-                label: 'Model',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.model',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Model',
+                    type: 'formField',
+                    formFieldType: 'text',
+                    field: 'valuation.model',
+                    placeholder: 'CRV',
+                  },
+                ],
               },
               {
-                label: 'VIN',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.vin',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'VIN',
+                    type: 'formField',
+                    formFieldType: 'text',
+                    field: 'valuation.vin',
+                    placeholder: '1HGBH41JXMN109186',
+                  },
+                ],
               },
               {
-                label: 'Mileage',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.mileage',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Mileage',
+                    type: 'formField',
+                    formFieldType: 'number',
+                    field: 'valuation.mileage',
+                    placeholder: '21,000',
+                  },
+                ],
               },
               {
-                label: 'Mileage Updated',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.mileageUpdated',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Mileage Updated',
+                    type: 'formField',
+                    formFieldType: 'number',
+                    field: 'valuation.mileageUpdated',
+                    placeholder: '33,000',
+                  },
+                ],
               },
             ],
           },
+
           {
-            type: 'column',
-            width: 6,
-            content: [
+            type: 'row',
+            columns: [
               {
-                label: 'Value',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.value',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Value',
+                    type: 'formField',
+                    formFieldType: 'number',
+                    mode: 'currency',
+                    field: 'valuation.value',
+                    placeholder: '$31,500',
+                  },
+                ],
               },
               {
-                label: 'By',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.by',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Balance',
+                    type: 'formField',
+                    formFieldType: 'number',
+                    mode: 'currency',
+                    field: 'valuation.balance',
+                    placeholder: '$13,250',
+                  },
+                ],
               },
               {
-                label: 'Owned Free & Clear?',
-                type: 'formField',
-                formFieldType: 'checkbox',
-                field: 'valuation.ownedFreeAndClear',
+                type: 'column',
+                width: 2,
+                content: [],
               },
               {
-                label: '1st Lien Holder',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.firstLienHolder',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Owned Free & Clear?',
+                    type: 'formField',
+                    formFieldType: 'checkbox',
+                    field: 'valuation.ownedFreeAndClear',
+                  },
+                  {
+                    label: 'Auto check complete?',
+                    type: 'formField',
+                    formFieldType: 'checkbox',
+                    field: 'valuation.autoCheckComplete',
+                  },
+                  {
+                    label: 'Vehicle Inspection?',
+                    type: 'formField',
+                    formFieldType: 'checkbox',
+                    field: 'valuation.vehicleInspection',
+                  },
+                ],
               },
               {
-                label: 'Balance',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.balance',
-              },
-              {
-                label: '2nd Lien Holder',
-                type: 'formField',
-                formFieldType: 'text',
-                field: 'valuation.secondLienHolder',
-              },
-              {
-                label: 'Auto check complete?',
-                type: 'formField',
-                formFieldType: 'checkbox',
-                field: 'valuation.autoCheckComplete',
-              },
-              {
-                label: 'Vehicle Inspection?',
-                type: 'formField',
-                formFieldType: 'checkbox',
-                field: 'valuation.vehicleInspection',
-              },
-              {
-                label: 'Exception Approved?',
-                type: 'formField',
-                formFieldType: 'checkbox',
-                field: 'valuation.exceptionApproved',
-              },
-              {
-                label: 'Qualified for Direct Auto?',
-                type: 'formField',
-                formFieldType: 'checkbox',
-                field: 'valuation.qualifiedForDirectAuto',
+                type: 'column',
+                width: 2,
+                content: [
+                  {
+                    label: 'Exception Approved?',
+                    type: 'formField',
+                    formFieldType: 'checkbox',
+                    field: 'valuation.exceptionApproved',
+                  },
+                  {
+                    label: 'Qualified for Direct Auto?',
+                    type: 'formField',
+                    formFieldType: 'checkbox',
+                    field: 'valuation.qualifiedForDirectAuto',
+                  },
+                ],
               },
             ],
           },
