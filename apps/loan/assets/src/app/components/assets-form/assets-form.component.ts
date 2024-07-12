@@ -1,6 +1,9 @@
 import { FormsLib } from '$forms';
 import { Component } from '@angular/core';
 import { AssetsService } from '../../shared/assets.services';
+import { boatAssetForm } from './form-models/assets-boat.formmodel';
+import { vehicleAssetForm } from './form-models/assets-form-vehicle.form';
+import { rvAssetForm } from './form-models/assets-rv.formmodel.ts';
 
 @Component({
   selector: 'app-assets-form',
@@ -8,137 +11,22 @@ import { AssetsService } from '../../shared/assets.services';
   styleUrl: './assets-form.component.scss',
 })
 export class AssetsFormComponent {
+  public assetTypes = [
+    { label: 'Vehicle', value: 'vehicle' },
+    { label: 'Boat', value: 'boat' },
+    { label: 'RV', value: 'rv' },
+  ];
+
   public formModel: FormsLib.FormGenerator = [
     {
       type: 'container',
       content: [
+        ...vehicleAssetForm,
+        ...boatAssetForm,
+        ...rvAssetForm,
         {
-          label: 'Asset Type',
-          type: 'formField',
-          formFieldType: 'text',
-          field: 'valuation.year',
-        },
-        {
-          type: 'container',
-          content: [
-            {
-              type: 'html',
-              html: '<h2>Vehicle Information</h2>',
-            },
-            {
-              type: 'row',
-              columns: [
-                {
-                  type: 'column',
-                  width: 6,
-                  content: [
-                    {
-                      label: 'Year',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.year',
-                    },
-                    {
-                      label: 'Make',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.make',
-                    },
-                    {
-                      label: 'Model',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.model',
-                    },
-                    {
-                      label: 'VIN',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.vin',
-                    },
-                    {
-                      label: 'Mileage',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.mileage',
-                    },
-                    {
-                      label: 'Mileage Updated',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.mileageUpdated',
-                    },
-                  ],
-                },
-                {
-                  type: 'column',
-                  width: 6,
-                  content: [
-                    {
-                      label: 'Value',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.value',
-                    },
-                    {
-                      label: 'By',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.by',
-                    },
-                    {
-                      label: 'Owned Free & Clear?',
-                      type: 'formField',
-                      formFieldType: 'checkbox',
-                      field: 'valuation.ownedFreeAndClear',
-                    },
-                    {
-                      label: '1st Lien Holder',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.firstLienHolder',
-                    },
-                    {
-                      label: 'Balance',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.balance',
-                    },
-                    {
-                      label: '2nd Lien Holder',
-                      type: 'formField',
-                      formFieldType: 'text',
-                      field: 'valuation.secondLienHolder',
-                    },
-                    {
-                      label: 'Auto check complete?',
-                      type: 'formField',
-                      formFieldType: 'checkbox',
-                      field: 'valuation.autoCheckComplete',
-                    },
-                    {
-                      label: 'Vehicle Inspection?',
-                      type: 'formField',
-                      formFieldType: 'checkbox',
-                      field: 'valuation.vehicleInspection',
-                    },
-                    {
-                      label: 'Exception Approved?',
-                      type: 'formField',
-                      formFieldType: 'checkbox',
-                      field: 'valuation.exceptionApproved',
-                    },
-                    {
-                      label: 'Qualified for Direct Auto?',
-                      type: 'formField',
-                      formFieldType: 'checkbox',
-                      field: 'valuation.qualifiedForDirectAuto',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+          type: 'html',
+          html: '<hr/><h2>All Asset Information</h2>',
         },
         {
           type: 'row',
@@ -147,14 +35,6 @@ export class AssetsFormComponent {
               type: 'column',
               width: 6,
               content: [
-                /**
-                {
-                  label: 'Any Vehicles?',
-                  type: 'formField',
-                  formFieldType: 'checkbox',
-                  field: 'anyVehicles',
-                },
-                 */
                 {
                   label: 'Vehicles on Credit Bureau',
                   type: 'formField',

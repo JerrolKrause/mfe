@@ -1,3 +1,11 @@
+::ng-deep {
+  .bg-highlight {
+    background-color: var(--color-bg-lt);
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
 .assets-form {
   display: flex;
   flex-direction: column;
