@@ -98,7 +98,7 @@ export class BaseFormFieldComponent<t>
     } else {
       console.warn(
         'Unable to find that abstract control of',
-        this.label,
+        this.label ?? this.placeholder,
         'in',
         this.constructor.name
       );

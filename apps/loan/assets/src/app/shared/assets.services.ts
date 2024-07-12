@@ -72,44 +72,7 @@ export class AssetsService {
   private _assets$ = new BehaviorSubject<AssetsModels.Asset[]>(assetsStub);
   public assets$ = this._assets$.asObservable();
 
-  public assetsForm = this.fb.group<AssetForm>({
-    id: '',
-    selected: false,
-    anyVehicles: null,
-    vehiclesOnCreditBureau: 0,
-    collateralVehicles: 0,
-    who: '',
-    category: '',
-    type: '',
-    collateral: null,
-    reasonNotCollateral: '',
-    valuation: {
-      year: '2012',
-      make: '',
-      model: '',
-      vin: '',
-      mileage: '',
-      mileageUpdated: '',
-      value: '',
-      by: '',
-      ownedFreeAndClear: null,
-      firstLienHolder: '',
-      balance: '',
-      secondLienHolder: '',
-      autoCheckComplete: null,
-      vehicleInspection: null,
-      exceptionApproved: null,
-      qualifiedForDirectAuto: null,
-    },
-    salvageTitle: null,
-    purchaseMoney: null,
-    equity: null,
-    monthlyPayment: null,
-  });
-
-  public valuation = this.assetsForm.value.valuation;
-
-  public assetsForm2 = toFormGroup<AssetForm>(
+  public assetsForm = toFormGroup<AssetForm>(
     {
       id: '',
       selected: false,
@@ -148,6 +111,7 @@ export class AssetsService {
   );
 
   constructor(private fb: FormBuilder) {
+    /**
     this.assetsForm.reset();
     const assetsForm = this.assetsForm;
     const asset = assetsForm.value;
@@ -155,12 +119,13 @@ export class AssetsService {
     console.log(asset, year);
 
     // Form Builder
-    this.assetsForm2.resetDefaults();
-    const assetsForm2 = this.assetsForm2;
+    this.assetsForm.resetDefaults();
+    const assetsForm2 = this.assetsForm;
     const asset2 = assetsForm2.value;
     const year2 = asset2.valuation?.year;
 
     console.log(asset2, year2);
+     */
     /**
     const asset = this.assetsForm.value;
     console.log('Asset', asset.valuation?.year);
