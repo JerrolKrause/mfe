@@ -1,9 +1,10 @@
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
-/** Add property interface typing to the .value property of the root formgroup */
+/** Extends formgroup interface to improve typing and add additonal functionality */
 interface FormGroupDynamic<T extends Record<string, any>> extends FormGroup {
+  /** Add property interface typing to the .value property of the root formgroup */
   value: T;
-  /** Resets the form with the default values used to initialize the original form */
+  /** Resets the form with the default values used to initialize the original form. By default the .reset() method sets everything to null which may not be desirable. */
   resetDefaults: () => void;
 }
 
@@ -67,7 +68,7 @@ export function toFormGroup<T extends Record<string, any>>(
 export function toFormGroup<T extends Record<string, any>>(
   data: T | Nillable<T>,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _allowNulls = false
+  _allowNulls = false // allowNulls not used, just used to make the input model nillable via argument
 ): FormGroupDynamic<T | Nillable<T>> {
   const fb = new FormBuilder();
 
@@ -79,14 +80,17 @@ export function toFormGroup<T extends Record<string, any>>(
    */
   function buildFormControl(value: any): AbstractControl {
     if (Array.isArray(value)) {
+      // Build form arrays
       return fb.array(value.map((v) => buildFormControl(v)));
     } else if (value !== null && typeof value === 'object') {
+      // Build form groups
       const group: { [key: string]: AbstractControl } = {};
       Object.keys(value).forEach((key) => {
         group[key] = buildFormControl(value[key]);
       });
       return fb.group(group);
     } else {
+      // Build form controls for primitives
       return fb.control(value);
     }
   }
