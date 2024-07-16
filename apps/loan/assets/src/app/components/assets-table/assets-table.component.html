@@ -31,13 +31,19 @@
       </td>
       <td>{{ asset.valuation.ownedFreeAndClear ? 'Yes' : 'No' }}</td>
       <td>{{ asset.salvageTitle ? 'Yes' : 'No' }}</td>
-      <td class="d-flex">
-        <a (click)="assetsSvc.setAssetForEdit(asset)" class="me-2" tabindex="1">
-          <i class="pi pi-pencil"></i> Edit
-        </a>
-        <a (click)="assetsSvc.deleteAsset(asset)" class="a" tabindex="1">
-          <i class="pi pi-trash"></i> Delete
-        </a>
+      <td>
+        <div class="d-flex">
+          <a
+            (click)="assetsSvc.setAssetForEdit(asset)"
+            class="me-2"
+            tabindex="1"
+          >
+            <i class="pi pi-pencil"></i> Edit
+          </a>
+          <a (click)="assetsSvc.deleteAsset(asset)" class="a" tabindex="1">
+            <i class="pi pi-trash"></i> Delete
+          </a>
+        </div>
       </td>
     </tr>
   </ng-template>

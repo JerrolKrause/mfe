@@ -1,12 +1,18 @@
 <lib-masterpage [fullWidth]="true">
-  <p-card styleClass="mb-3">
-    <h1>
-      <lib-icons icon="car"></lib-icons>
-      Assets ({{ assetsCount$ | async }})
-    </h1>
-    <app-assets-table></app-assets-table>
-  </p-card>
-  <p-card>
-    <app-assets-form></app-assets-form>
-  </p-card>
+  <div class="row">
+    <div class="col col-12 col-md-8">
+      <p-card styleClass="mb-3">
+        <h1>
+          <lib-icons icon="car"></lib-icons>
+          Assets ({{ assetsCount$ | async }})
+        </h1>
+        <app-assets-table></app-assets-table>
+      </p-card>
+    </div>
+    <div class="col col-12 col-md-4">
+      <p-card>
+        <app-assets-form></app-assets-form>
+      </p-card>
+    </div>
+  </div>
 </lib-masterpage>

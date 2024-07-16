@@ -23,20 +23,37 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
             columns: [
               {
                 type: 'column',
-                width: 2,
+                width: 8,
                 content: [
                   {
-                    label: 'Year',
+                    label: 'VIN',
                     type: 'formField',
                     formFieldType: 'text',
-                    field: 'valuation.year',
-                    placeholder: '2021',
+                    field: 'valuation.vin',
+                    placeholder: '1HGBH41JXMN109186',
                   },
                 ],
               },
               {
                 type: 'column',
-                width: 2,
+                width: 4,
+                content: [
+                  {
+                    type: 'button',
+                    label: 'No Vin?',
+                    cssClasses: 'p-button w-100 text-center',
+                    cmd: () => console.log('Toggle VIN'),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'row',
+            columns: [
+              {
+                type: 'column',
+                width: 4,
                 content: [
                   {
                     label: 'Make',
@@ -49,7 +66,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 2,
+                width: 4,
                 content: [
                   {
                     label: 'Model',
@@ -62,17 +79,48 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 2,
+                width: 4,
                 content: [
                   {
-                    label: 'VIN',
+                    label: 'Year',
                     type: 'formField',
                     formFieldType: 'text',
-                    field: 'valuation.vin',
-                    placeholder: '1HGBH41JXMN109186',
+                    field: 'valuation.year',
+                    placeholder: '2018',
                   },
                 ],
               },
+            ],
+          },
+          {
+            type: 'row',
+            columns: [
+              {
+                type: 'column',
+                width: 12,
+                content: [],
+              },
+            ],
+          },
+          {
+            type: 'row',
+            columns: [
+              {
+                type: 'column',
+                width: 2,
+                content: [],
+              },
+              {
+                type: 'column',
+                width: 2,
+                content: [],
+              },
+              {
+                type: 'column',
+                width: 2,
+                content: [],
+              },
+
               {
                 type: 'column',
                 width: 2,
