@@ -1,3 +1,8 @@
+import { FormGroup } from '@angular/forms';
+/**
+ * Add ability to supply form model to formgroup instances
+ */
+
 // eslint-disable-next-line @typescript-eslint/prefer-namespace-keyword, @typescript-eslint/no-namespace
 export module FormsLib {
   /** Main form generator model, generic type currently not supported due to infinite recusions issue. Perhaps in a later version of TS */
@@ -13,7 +18,7 @@ export module FormsLib {
     /** CSS classes to apply to the parent container of this element. Uses [ngClass] */
     cssClasses?: string | null;
     /** Inline style to apply to the parent container of this element.  Uses [ngStyle]  */
-    inlineStyles?: { [index: string]: string } | null;
+    inlineStyles?: Record<string, string> | null;
     /**
      * Is the control visible. Supports boolean, a string going to a form control with a truthy/falsy value or a Rule
      *
@@ -94,10 +99,12 @@ export module FormsLib {
     type: 'button';
     /** Label text of the button */
     label: string;
-    /** A command to execute when the button is clicked */
-    cmd: (button?: Button | null) => void;
+    /** A command to execute when the button is clicked. First value is the root formgroup, second value is this button model */
+    cmd: (response: { formGroup: FormGroup; button: Button | null }) => void;
     /** An optional property to store any meta data which will be passed to the cmd method along with the button */
     data?: any;
+    /** Add a top margin to the button which will make it inline with a form field that has a label. True will use the default option of 1.5rem, otherwise specify the offset as a valid value for margin-top. */
+    offsetTop?: boolean | Record<string, string>;
   }
 
   /** Available form field types */

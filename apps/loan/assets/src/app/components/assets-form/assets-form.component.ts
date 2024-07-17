@@ -1,9 +1,7 @@
 import { FormsLib } from '$forms';
 import { Component } from '@angular/core';
 import { AssetsService } from '../../shared/assets.services';
-import { boatAssetForm } from './form-models/assets-boat.formmodel';
 import { vehicleAssetForm } from './form-models/assets-form-vehicle.form';
-import { rvAssetForm } from './form-models/assets-rv.formmodel.ts';
 
 @Component({
   selector: 'app-assets-form',
@@ -22,8 +20,8 @@ export class AssetsFormComponent {
       type: 'container',
       content: [
         ...vehicleAssetForm,
-        ...boatAssetForm,
-        ...rvAssetForm,
+        // ...boatAssetForm,
+        // ...rvAssetForm,
         {
           type: 'html',
           html: '<hr/><h2>All Asset Information</h2>',

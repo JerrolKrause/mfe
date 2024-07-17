@@ -91,7 +91,7 @@ export class LoanProductBuilderComponent implements OnInit {
               cssClasses: 'p-button w-100 text-center mt-4',
               type: 'button',
               label: 'Select',
-              cmd: (btn) => this.openFeesModal(btn),
+              cmd: (response) => this.openFeesModal(response?.button),
             },
           ],
         },

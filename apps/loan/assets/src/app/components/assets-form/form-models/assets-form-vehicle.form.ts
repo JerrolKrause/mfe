@@ -3,11 +3,7 @@ import { FormsLib } from '$forms';
 export const vehicleAssetForm: FormsLib.FormGenerator = [
   {
     type: 'container',
-    visible: {
-      field: 'assetType',
-      operator: 'eq',
-      value: 'vehicle',
-    },
+
     content: [
       {
         type: 'html',
@@ -40,9 +36,13 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
                 content: [
                   {
                     type: 'button',
-                    label: 'No Vin?',
-                    cssClasses: 'p-button w-100 text-center',
-                    cmd: () => console.log('Toggle VIN'),
+                    label: 'No Vin',
+                    cssClasses: 'p-button w-100 text-center d-block',
+                    cmd: (r) => {
+                      const c = r.formGroup.get('$$computed.noVinToggle');
+                      if (c) c.patchValue(!c.value);
+                    },
+                    offsetTop: true,
                   },
                 ],
               },
@@ -50,6 +50,11 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
           },
           {
             type: 'row',
+            visible: {
+              field: '$$computed.noVinToggle',
+              operator: 'eq',
+              value: true,
+            },
             columns: [
               {
                 type: 'column',
@@ -92,38 +97,13 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
             ],
           },
-          {
-            type: 'row',
-            columns: [
-              {
-                type: 'column',
-                width: 12,
-                content: [],
-              },
-            ],
-          },
-          {
-            type: 'row',
-            columns: [
-              {
-                type: 'column',
-                width: 2,
-                content: [],
-              },
-              {
-                type: 'column',
-                width: 2,
-                content: [],
-              },
-              {
-                type: 'column',
-                width: 2,
-                content: [],
-              },
 
+          {
+            type: 'row',
+            columns: [
               {
                 type: 'column',
-                width: 2,
+                width: 6,
                 content: [
                   {
                     label: 'Mileage',
@@ -136,7 +116,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 2,
+                width: 6,
                 content: [
                   {
                     label: 'Mileage Updated',
@@ -155,7 +135,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
             columns: [
               {
                 type: 'column',
-                width: 2,
+                width: 3,
                 content: [
                   {
                     label: 'Value',
@@ -169,7 +149,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 2,
+                width: 3,
                 content: [
                   {
                     label: 'Balance',
@@ -183,12 +163,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 2,
-                content: [],
-              },
-              {
-                type: 'column',
-                width: 2,
+                width: 3,
                 content: [
                   {
                     label: 'Owned Free & Clear?',
@@ -212,7 +187,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 2,
+                width: 3,
                 content: [
                   {
                     label: 'Exception Approved?',

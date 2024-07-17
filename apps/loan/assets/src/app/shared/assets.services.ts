@@ -5,8 +5,10 @@ import { BehaviorSubject } from 'rxjs';
 import { assetsStub } from './assets.data';
 
 interface AssetForm extends AssetsModels.Asset {
-  selected: boolean;
-  assetType: 'vehicle' | 'boat' | 'rv';
+  $$computed: {
+    noVinToggle: boolean;
+    selected: boolean;
+  };
 }
 
 /**
@@ -22,9 +24,11 @@ export class AssetsService {
 
   public assetsForm = toFormGroup<AssetForm>(
     {
-      assetType: 'vehicle',
+      $$computed: {
+        selected: false,
+        noVinToggle: false,
+      },
       id: '',
-      selected: false,
       anyVehicles: null,
       vehiclesOnCreditBureau: null,
       collateralVehicles: null,
