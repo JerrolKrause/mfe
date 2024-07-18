@@ -68,6 +68,53 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
                       },
                     ],
                   },
+                  {
+                    label: 'Trailer Type',
+                    type: 'formField',
+                    formFieldType: 'dropdown',
+                    field: 'valuation.ownedFreeAndClear',
+                    visible: {
+                      field: 'category',
+                      operator: 'eq',
+                      value: 2,
+                    },
+                    options: [
+                      {
+                        label: 'Travel Trailer / Camper',
+                        value: 0,
+                      },
+                      {
+                        label: 'Utility Trailer',
+                        value: 1,
+                      },
+                      {
+                        label: 'Misc Camper',
+                        value: 2,
+                      },
+                    ],
+                  },
+                  {
+                    label: 'Has Boat Motor',
+                    type: 'formField',
+                    formFieldType: 'checkbox',
+                    field: 'valuation.ownedFreeAndClear',
+                    visible: {
+                      field: 'category',
+                      operator: 'eq',
+                      value: 1,
+                    },
+                  },
+                  {
+                    label: 'Has Boat Trailer',
+                    type: 'formField',
+                    formFieldType: 'checkbox',
+                    field: 'valuation.ownedFreeAndClear',
+                    visible: {
+                      field: 'category',
+                      operator: 'eq',
+                      value: 1,
+                    },
+                  },
                 ],
               },
             ],
