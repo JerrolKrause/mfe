@@ -170,7 +170,11 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
             ],
           },
-
+        ],
+      },
+      {
+        type: 'container',
+        content: [
           {
             type: 'row',
             columns: [
@@ -202,7 +206,6 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
             ],
           },
-
           {
             type: 'row',
             columns: [
@@ -236,7 +239,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 3,
+                width: 6,
                 content: [
                   {
                     label: 'Owned Free & Clear?',
@@ -256,12 +259,6 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
                     formFieldType: 'checkbox',
                     field: 'valuation.vehicleInspection',
                   },
-                ],
-              },
-              {
-                type: 'column',
-                width: 3,
-                content: [
                   {
                     label: 'Exception Approved?',
                     type: 'formField',
