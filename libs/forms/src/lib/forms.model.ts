@@ -288,7 +288,7 @@ export module FormsLib {
   // export type DropdownField = DropdownFieldSrc & FieldPropsOptions;
   export interface DropdownField extends FieldProps {
     formFieldType: 'dropdown';
-    options?: FieldOptions[];
+    options: FieldOptions[];
     datafield?: string | null;
     /** Height of the dropdown box */
     scrollHeight?: string | null;

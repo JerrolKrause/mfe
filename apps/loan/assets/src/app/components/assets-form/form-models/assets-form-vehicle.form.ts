@@ -19,6 +19,64 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
             columns: [
               {
                 type: 'column',
+                width: 6,
+                content: [
+                  {
+                    label: 'Who',
+                    type: 'formField',
+                    formFieldType: 'dropdown',
+                    field: 'who',
+                    options: [
+                      {
+                        label: 'Primary',
+                        value: 0,
+                      },
+                      {
+                        label: 'Coborrower',
+                        value: 1,
+                      },
+                      {
+                        label: 'Joint',
+                        value: 2,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: 'column',
+                width: 6,
+                content: [
+                  {
+                    label: 'Category',
+                    type: 'formField',
+                    formFieldType: 'dropdown',
+                    field: 'category',
+                    placeholder: '1AGBH41YXMN102222',
+                    options: [
+                      {
+                        label: 'Auto or Truck',
+                        value: 0,
+                      },
+                      {
+                        label: 'Boat',
+                        value: 1,
+                      },
+                      {
+                        label: 'Trailer',
+                        value: 2,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'row',
+            columns: [
+              {
+                type: 'column',
                 width: 8,
                 content: [
                   {
@@ -58,7 +116,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
             columns: [
               {
                 type: 'column',
-                width: 4,
+                width: 3,
                 content: [
                   {
                     label: 'Make',
@@ -71,7 +129,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 4,
+                width: 3,
                 content: [
                   {
                     label: 'Model',
@@ -84,7 +142,7 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
               },
               {
                 type: 'column',
-                width: 4,
+                width: 3,
                 content: [
                   {
                     label: 'Year',
@@ -92,6 +150,21 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
                     formFieldType: 'text',
                     field: 'valuation.year',
                     placeholder: '2018',
+                  },
+                ],
+              },
+              {
+                type: 'column',
+                width: 3,
+                content: [
+                  {
+                    type: 'button',
+                    label: 'Lookup',
+                    cssClasses: 'p-button w-100 text-center d-block',
+                    cmd: (r) => {
+                      console.log('Launching modal at some point');
+                    },
+                    offsetTop: true,
                   },
                 ],
               },
