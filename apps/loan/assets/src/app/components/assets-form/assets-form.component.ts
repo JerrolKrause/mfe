@@ -28,7 +28,18 @@ export class AssetsFormComponent {
     if (!this.assetsSvc.assetsForm.valid) {
       return;
     }
+    const asset = this.assetsSvc.assetsForm.value;
+    // @todo Remove when VIN lookup becomes available
+    if (asset.valuation && !asset.valuation.year) {
+      asset.valuation.year = '2018';
+    }
+    if (asset.valuation && !asset.valuation.make) {
+      asset.valuation.make = 'Honda';
+    }
+    if (asset.valuation && !asset.valuation.model) {
+      asset.valuation.model = 'CRV';
+    }
 
-    this.assetsSvc.saveAsset(this.assetsSvc.assetsForm.value as any);
+    this.assetsSvc.saveAsset(asset as any);
   }
 }
