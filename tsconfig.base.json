@@ -22,6 +22,7 @@
       "$quote-calculator": ["libs/quote-calculator/src/index.ts"],
       "$shared": ["libs/shared/src/index.ts"],
       "$state-management": ["libs/state-management/src/index.ts"],
+      "$models": ["libs/models/src/index.ts"],
       "@assets/*": ["apps/loan/assets/src/*"],
       "@customer/*": ["apps/customer/src/*"],
       "@dashboard/*": ["apps/dashboard/src/*"],
