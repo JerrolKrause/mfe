@@ -1,45 +1,41 @@
-import { Injectable } from '@angular/core';
-import * as Apollo from 'apollo-angular';
 import { gql } from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  DateTime: { input: any; output: any };
-  Datetime: { input: any; output: any };
-  JsonObject: { input: any; output: any };
-  reportDate_String_NotNull_format_date: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
+  Datetime: { input: any; output: any; }
+  JsonObject: { input: any; output: any; }
+  reportDate_String_NotNull_format_date: { input: any; output: any; }
 };
 
 export enum ApplicantType {
   /** The name of the Applicant */
   Applicant = 'APPLICANT',
   /** The name of the Co-Applicant */
-  CoApplicant = 'CO_APPLICANT',
+  CoApplicant = 'CO_APPLICANT'
 }
+
+export type ApplicationMutations = {
+  __typename?: 'ApplicationMutations';
+  /** Receive browser events */
+  receiveBrowserEvent?: Maybe<CommonStatusResponse>;
+};
+
+
+export type ApplicationMutationsReceiveBrowserEventArgs = {
+  input: ReceiveBrowserEventInput;
+};
 
 export type BankAccount = {
   __typename?: 'BankAccount';
@@ -58,6 +54,10 @@ export type BankAccountTransaction = {
   id?: Maybe<Scalars['String']['output']>;
 };
 
+export enum BrowserEventType {
+  Plaid = 'PLAID'
+}
+
 export type CashflowMutations = {
   __typename?: 'CashflowMutations';
   /** Evaluate Finicity VOIA report through the BAT score model. */
@@ -66,18 +66,41 @@ export type CashflowMutations = {
   runFinicityCalculator?: Maybe<RunFinicityCalculatorResponse>;
   /** Run Finicity calculator with workflowId */
   runFinicityCalculatorByWorkflow?: Maybe<RunFinicityCalculatorResponse>;
+  /** Run Plaid calulator with report, applicant names */
+  runPlaidCalculator?: Maybe<RunPlaidCalculatorResponse>;
+  /** Run Plaid calculator with workflowId */
+  runPlaidCalculatorByWorkflow?: Maybe<RunPlaidCalculatorResponse>;
 };
+
 
 export type CashflowMutationsEvaluateFinicityReportArgs = {
   input: EvaluateFinicityReportInput;
 };
 
+
 export type CashflowMutationsRunFinicityCalculatorArgs = {
   input: RunFinicityCalculatorInput;
 };
 
+
 export type CashflowMutationsRunFinicityCalculatorByWorkflowArgs = {
   input: RunFinicityCalculatorByWorkflowInput;
+};
+
+
+export type CashflowMutationsRunPlaidCalculatorArgs = {
+  input: RunPlaidCalculatorInput;
+};
+
+
+export type CashflowMutationsRunPlaidCalculatorByWorkflowArgs = {
+  input: RunPlaidCalculatorByWorkflowInput;
+};
+
+export type CommonStatusResponse = {
+  __typename?: 'CommonStatusResponse';
+  reason?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<ResponseStatus>;
 };
 
 export type CreateProviderResultInput = {
@@ -96,11 +119,17 @@ export type DeleteWaterfallResultResponse = {
   workflowId: Scalars['String']['output'];
 };
 
+export type DownloadAssetReportResponse = {
+  __typename?: 'DownloadAssetReportResponse';
+  jsonS3Url?: Maybe<Scalars['String']['output']>;
+  pdfS3Url?: Maybe<Scalars['String']['output']>;
+};
+
 export enum EmploymentStatusV2 {
   Employed = 'EMPLOYED',
   Other = 'OTHER',
   Retired = 'RETIRED',
-  SelfEmployed = 'SELF_EMPLOYED',
+  SelfEmployed = 'SELF_EMPLOYED'
 }
 
 export type EvaluateFinicityReportInput = {
@@ -120,12 +149,6 @@ export type ExchangePublicTokenInput = {
   uniqueTrackingCode: Scalars['String']['input'];
 };
 
-export type ExchangePublicTokenResponse = {
-  __typename?: 'ExchangePublicTokenResponse';
-  reason?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<ResponseStatus>;
-};
-
 export type FdcOfframp = {
   code?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -135,7 +158,7 @@ export type FdcOfframp = {
 /** Finicity report data */
 export type FinicityData = {
   __typename?: 'FinicityData';
-  /** Plaintext string of the JSON data. */
+  /** The path to the JSON format. */
   jsonUrl?: Maybe<Scalars['String']['output']>;
 };
 
@@ -152,6 +175,7 @@ export type HealthQueries = {
   batScore?: Maybe<HealthCheckResponse>;
   class?: Maybe<HealthCheckResponse>;
   database?: Maybe<HealthCheckResponse>;
+  plaid?: Maybe<HealthCheckResponse>;
   s3?: Maybe<HealthCheckResponse>;
   theWorkNumber?: Maybe<HealthCheckResponse>;
   zeebe?: Maybe<HealthCheckResponse>;
@@ -160,7 +184,7 @@ export type HealthQueries = {
 export enum HealthStatus {
   Healthy = 'HEALTHY',
   Unhealthy = 'UNHEALTHY',
-  Unknown = 'UNKNOWN',
+  Unknown = 'UNKNOWN'
 }
 
 export enum IvWaterfallType {
@@ -171,7 +195,70 @@ export enum IvWaterfallType {
   P = 'P',
   Space = 'SPACE',
   X = 'X',
-  Y = 'Y',
+  Y = 'Y'
+}
+
+export type IvNonPiiWorkflow = {
+  __typename?: 'IvNonPIIWorkflow';
+  applicantType?: Maybe<Scalars['String']['output']>;
+  applicationId?: Maybe<Scalars['String']['output']>;
+  bpmnProcessId: Scalars['ID']['output'];
+  branchId?: Maybe<Scalars['String']['output']>;
+  cbReferenceId?: Maybe<Scalars['String']['output']>;
+  costCenter?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  customerId?: Maybe<Scalars['String']['output']>;
+  disclosedIncome?: Maybe<Scalars['Float']['output']>;
+  dispositionCode?: Maybe<Scalars['String']['output']>;
+  employerName?: Maybe<Scalars['String']['output']>;
+  employmentEndDate?: Maybe<Scalars['Int']['output']>;
+  employmentStartDate?: Maybe<Scalars['Int']['output']>;
+  employmentStatus?: Maybe<Scalars['String']['output']>;
+  employmentStatusIndicator?: Maybe<Scalars['String']['output']>;
+  fdcOfframpCode?: Maybe<Scalars['String']['output']>;
+  fdcOfframpDescription?: Maybe<Scalars['String']['output']>;
+  fdcOfframpKey?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  isFdcEligible?: Maybe<Scalars['Boolean']['output']>;
+  ivWaterfallType?: Maybe<Scalars['String']['output']>;
+  jobType?: Maybe<Scalars['String']['output']>;
+  metadata?: Maybe<Scalars['JsonObject']['output']>;
+  modifiedAt?: Maybe<Scalars['DateTime']['output']>;
+  payFrequency?: Maybe<Scalars['String']['output']>;
+  processInstanceKey?: Maybe<Scalars['String']['output']>;
+  remainingEightDigits?: Maybe<Scalars['String']['output']>;
+  terminated?: Maybe<Scalars['Boolean']['output']>;
+  uniqueTrackingCode?: Maybe<Scalars['String']['output']>;
+  waterfallMode?: Maybe<Scalars['String']['output']>;
+};
+
+export type IvProviderStatus = {
+  __typename?: 'IvProviderStatus';
+  provider: VerificationProvider;
+  status: IvStatusType;
+  timestamp: Scalars['DateTime']['output'];
+};
+
+export type IvState = {
+  __typename?: 'IvState';
+  applicantType?: Maybe<ApplicantType>;
+  cbReferenceId?: Maybe<Scalars['String']['output']>;
+  dispositionCode?: Maybe<Scalars['String']['output']>;
+  isFdcEligible?: Maybe<Scalars['Boolean']['output']>;
+  metadata?: Maybe<Scalars['JsonObject']['output']>;
+  providerStatusCurrent?: Maybe<IvProviderStatus>;
+  providerStatuses?: Maybe<Array<Maybe<IvProviderStatus>>>;
+  terminated?: Maybe<Scalars['Boolean']['output']>;
+  waterfallMode?: Maybe<WaterfallMode>;
+  waterfallType?: Maybe<IvWaterfallType>;
+  workflowId?: Maybe<Scalars['ID']['output']>;
+};
+
+export enum IvStatusType {
+  Cp = 'CP',
+  Ip = 'IP',
+  Nd = 'ND',
+  Rq = 'RQ'
 }
 
 export type IvWaterfallInput = {
@@ -269,9 +356,22 @@ export type IvWaterfallWorkflow = {
   waterfallMode?: Maybe<Scalars['String']['output']>;
 };
 
+export type IvWorkflowSearchInput = {
+  endTime: Scalars['DateTime']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  startTime: Scalars['DateTime']['input'];
+  waterfallType?: InputMaybe<IvWaterfallType>;
+};
+
+export type IvWorkflowSearchResponse = {
+  __typename?: 'IvWorkflowSearchResponse';
+  count?: Maybe<Scalars['Int']['output']>;
+  workflows?: Maybe<Array<Maybe<IvNonPiiWorkflow>>>;
+};
+
 export enum JobType {
   Fulltime = 'FULLTIME',
-  Parttime = 'PARTTIME',
+  Parttime = 'PARTTIME'
 }
 
 export type LinkInput = {
@@ -289,6 +389,7 @@ export type LinkResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  application?: Maybe<ApplicationMutations>;
   cashflow?: Maybe<CashflowMutations>;
   ping?: Maybe<Scalars['String']['output']>;
   plaid?: Maybe<PlaidMutations>;
@@ -303,22 +404,56 @@ export enum PayFrequency {
   Hourly = 'HOURLY',
   Monthly = 'MONTHLY',
   Semimonthly = 'SEMIMONTHLY',
-  Weekly = 'WEEKLY',
+  Weekly = 'WEEKLY'
 }
+
+/** Plaid report data */
+export type PlaidData = {
+  __typename?: 'PlaidData';
+  /** The path to the JSON format. */
+  jsonUrl?: Maybe<Scalars['String']['output']>;
+  /** The path to the PDF format. */
+  pdfUrl?: Maybe<Scalars['String']['output']>;
+};
 
 export type PlaidMutations = {
   __typename?: 'PlaidMutations';
-  exchangePublicToken?: Maybe<ExchangePublicTokenResponse>;
+  /** Download asset report */
+  downloadAssetReport?: Maybe<DownloadAssetReportResponse>;
+  /** Exchange public_token for access_token */
+  exchangePublicToken?: Maybe<CommonStatusResponse>;
+  /** Asset report PRODUCT_READY webhook from Plaid */
+  receiveAssetReportWebhook?: Maybe<CommonStatusResponse>;
+  /** Request Plaid to generate the asset report */
+  runAssetReport?: Maybe<CommonStatusResponse>;
 };
+
+
+export type PlaidMutationsDownloadAssetReportArgs = {
+  workflowId: Scalars['ID']['input'];
+};
+
 
 export type PlaidMutationsExchangePublicTokenArgs = {
   input: ExchangePublicTokenInput;
 };
 
+
+export type PlaidMutationsReceiveAssetReportWebhookArgs = {
+  assetReportWebhookPayload: Scalars['String']['input'];
+};
+
+
+export type PlaidMutationsRunAssetReportArgs = {
+  input: RunAssetReportInput;
+};
+
 export type PlaidQueries = {
   __typename?: 'PlaidQueries';
+  /** Generate Plaid UI link_token */
   link?: Maybe<LinkResponse>;
 };
+
 
 export type PlaidQueriesLinkArgs = {
   input: LinkInput;
@@ -334,11 +469,24 @@ export type Query = {
   workflow?: Maybe<WorkflowQueries>;
 };
 
+export type ReceiveBrowserEventInput = {
+  customerId: Scalars['ID']['input'];
+  event: Scalars['String']['input'];
+  metadata: Scalars['JsonObject']['input'];
+  type: BrowserEventType;
+  uniqueTrackingCode: Scalars['String']['input'];
+};
+
 export enum ResponseStatus {
   Error = 'ERROR',
   Success = 'SUCCESS',
-  Unknown = 'UNKNOWN',
+  Unknown = 'UNKNOWN'
 }
+
+export type RunAssetReportInput = {
+  plaidAccessTokenId: Scalars['String']['input'];
+  workflowId: Scalars['ID']['input'];
+};
 
 export type RunFinicityCalculatorByWorkflowInput = {
   /** ID of the workflow for the report */
@@ -391,6 +539,35 @@ export type RunIncomeVerificationProviderOptionsInput = {
   TWN?: InputMaybe<TheWorkNumberOptionsInput>;
 };
 
+export type RunPlaidCalculatorByWorkflowInput = {
+  /** ID of the workflow for the report */
+  workflowId: Scalars['String']['input'];
+};
+
+export type RunPlaidCalculatorInput = {
+  /** The name of the borrower. */
+  applicantName: Scalars['String']['input'];
+  /** The name of the co-borrower. */
+  coApplicantName: Scalars['String']['input'];
+  /** The Plaid asset report. */
+  report: Scalars['JsonObject']['input'];
+  /** The date when the report was created, e.g. '2023-06-24'. */
+  reportDate: Scalars['reportDate_String_NotNull_format_date']['input'];
+};
+
+export type RunPlaidCalculatorResponse = {
+  __typename?: 'RunPlaidCalculatorResponse';
+  reason?: Maybe<Scalars['String']['output']>;
+  result?: Maybe<RunPlaidCalculatorResponseResult>;
+  status: ResponseStatus;
+};
+
+export type RunPlaidCalculatorResponseResult = {
+  __typename?: 'RunPlaidCalculatorResponseResult';
+  jsonS3Url?: Maybe<Scalars['String']['output']>;
+  validStreams?: Maybe<Scalars['Int']['output']>;
+};
+
 export type RunWorkflowIncomeVerificationInput = {
   /** The verification source. */
   provider: VerificationProvider;
@@ -425,11 +602,11 @@ export type TerminateIvWaterfallResponse = {
 /** TWN data payload */
 export type TheWorkNumberData = {
   __typename?: 'TheWorkNumberData';
-  /** Plaintext string of the JSON data. */
+  /** The path to the JSON format. */
   jsonUrl?: Maybe<Scalars['String']['output']>;
-  /** Base64 string of the PDF data. */
+  /** The path to the PDF format. */
   pdfUrl?: Maybe<Scalars['String']['output']>;
-  /** Plaintext string of the XML data. */
+  /** The path to the XML format. */
   xmlUrl?: Maybe<Scalars['String']['output']>;
 };
 
@@ -437,7 +614,7 @@ export enum TheWorkNumberEmployeeStatusCode {
   /** Active employment records */
   A = 'A',
   /** Inactive employment records */
-  I = 'I',
+  I = 'I'
 }
 
 /** Additional TWN-specific parameters to be supplied to `runIncomeVerification`. */
@@ -498,8 +675,20 @@ export enum UsState {
   Washington = 'Washington',
   WestVirginia = 'WestVirginia',
   Wisconsin = 'Wisconsin',
-  Wyoming = 'Wyoming',
+  Wyoming = 'Wyoming'
 }
+
+export type UpdateWorkflowStatusInput = {
+  provider: VerificationProvider;
+  type: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+  workflowId: Scalars['ID']['input'];
+};
+
+export type UpdateWorkflowStatusResponse = {
+  __typename?: 'UpdateWorkflowStatusResponse';
+  workflowStatusId: Scalars['ID']['output'];
+};
 
 /** The state of a request verification */
 export type Verification = {
@@ -523,7 +712,7 @@ export type Verification = {
 };
 
 /** Union type for the different verification data responses */
-export type VerificationData = FinicityData | TheWorkNumberData;
+export type VerificationData = FinicityData | PlaidData | TheWorkNumberData;
 
 export type VerificationMutations = {
   __typename?: 'VerificationMutations';
@@ -533,10 +722,12 @@ export type VerificationMutations = {
   runIncomeVerificationAsync?: Maybe<Verification>;
 };
 
+
 export type VerificationMutationsRunIncomeVerificationArgs = {
   input: RunIncomeVerificationInput;
   options?: InputMaybe<RunIncomeVerificationOptionsInput>;
 };
+
 
 export type VerificationMutationsRunIncomeVerificationAsyncArgs = {
   input: RunIncomeVerificationInput;
@@ -546,9 +737,10 @@ export type VerificationMutationsRunIncomeVerificationAsyncArgs = {
 /** The supported verification sources */
 export enum VerificationProvider {
   Finicity = 'FINICITY',
+  Plaid = 'PLAID',
   Powerlytics = 'POWERLYTICS',
   /** The Work Number */
-  Twn = 'TWN',
+  Twn = 'TWN'
 }
 
 export type VerificationQueries = {
@@ -556,6 +748,7 @@ export type VerificationQueries = {
   /** Checks the status of a verification request. */
   incomeVerification?: Maybe<Verification>;
 };
+
 
 export type VerificationQueriesIncomeVerificationArgs = {
   verificationId: Scalars['ID']['input'];
@@ -570,13 +763,13 @@ export enum VerificationStatus {
   /** The state when a verification request is waiting for a response from the provider. */
   Pending = 'PENDING',
   /** The state when a verification request has been received but not yet initiated with the provider. */
-  Started = 'STARTED',
+  Started = 'STARTED'
 }
 
 export enum WaterfallMode {
   Class = 'CLASS',
   Ivaas = 'IVAAS',
-  Shadow = 'SHADOW',
+  Shadow = 'SHADOW'
 }
 
 export type WaterfallProviderResult = {
@@ -606,39 +799,54 @@ export type WorkflowMutations = {
   terminateIvWaterfall: TerminateIvWaterfallResponse;
   /** Update a waterfall result. */
   updateWaterfallResult?: Maybe<IvWaterfallResult>;
+  /** Update a waterfall workflow status. */
+  updateWorkflowStatus: UpdateWorkflowStatusResponse;
 };
+
 
 export type WorkflowMutationsCreateProviderResultArgs = {
   input: CreateProviderResultInput;
 };
 
+
 export type WorkflowMutationsCreateWaterfallResultArgs = {
   input: IvWaterfallResultInput;
 };
 
+
 export type WorkflowMutationsDeleteWaterfallResultArgs = {
   workflowId: Scalars['ID']['input'];
 };
+
 
 export type WorkflowMutationsRunIncomeVerificationArgs = {
   input: RunWorkflowIncomeVerificationInput;
   options?: InputMaybe<RunIncomeVerificationOptionsInput>;
 };
 
+
 export type WorkflowMutationsRunIvWaterfallArgs = {
   input: IvWaterfallInput;
 };
+
 
 export type WorkflowMutationsSubmitFinicityReportArgs = {
   input?: InputMaybe<SubmitFinicityReportInput>;
 };
 
+
 export type WorkflowMutationsTerminateIvWaterfallArgs = {
   input?: InputMaybe<TerminateIvWaterfallInput>;
 };
 
+
 export type WorkflowMutationsUpdateWaterfallResultArgs = {
   input: IvWaterfallResultUpdateInput;
+};
+
+
+export type WorkflowMutationsUpdateWorkflowStatusArgs = {
+  input: UpdateWorkflowStatusInput;
 };
 
 export type WorkflowQueries = {
@@ -647,6 +855,10 @@ export type WorkflowQueries = {
   incomeVerification?: Maybe<Verification>;
   /** Gets all verification requests executed for a given workflow. */
   incomeVerifications?: Maybe<Array<Maybe<Verification>>>;
+  /** Search workflows */
+  search?: Maybe<IvWorkflowSearchResponse>;
+  /** Gets the income verification state of the workflow. */
+  state?: Maybe<IvState>;
   /** Gets the result of an IV provider in a waterfall run. */
   waterfallProviderResults?: Maybe<Array<Maybe<WaterfallProviderResult>>>;
   /** Gets the result for a IV Waterfall workflow. */
@@ -655,88 +867,38 @@ export type WorkflowQueries = {
   waterfallWorkflow?: Maybe<IvWaterfallWorkflow>;
 };
 
+
 export type WorkflowQueriesIncomeVerificationArgs = {
   provider?: InputMaybe<VerificationProvider>;
   workflowId: Scalars['ID']['input'];
 };
 
+
 export type WorkflowQueriesIncomeVerificationsArgs = {
   workflowId: Scalars['ID']['input'];
 };
+
+
+export type WorkflowQueriesSearchArgs = {
+  input?: InputMaybe<IvWorkflowSearchInput>;
+};
+
+
+export type WorkflowQueriesStateArgs = {
+  uniqueTrackingCode: Scalars['ID']['input'];
+};
+
 
 export type WorkflowQueriesWaterfallProviderResultsArgs = {
   workflowId: Scalars['ID']['input'];
 };
 
+
 export type WorkflowQueriesWaterfallResultArgs = {
   workflowId: Scalars['ID']['input'];
 };
 
+
 export type WorkflowQueriesWaterfallWorkflowArgs = {
   workflowId: Scalars['ID']['input'];
 };
-
-export type PingQueryQueryVariables = Exact<{ [key: string]: never }>;
-
-export type PingQueryQuery = { __typename?: 'Query'; ping?: string | null };
-
-export type LinkQueryVariables = Exact<{
-  input: LinkInput;
-}>;
-
-export type LinkQuery = {
-  __typename?: 'Query';
-  plaid?: {
-    __typename?: 'PlaidQueries';
-    link?: {
-      __typename?: 'LinkResponse';
-      expiration?: string | null;
-      reason?: string | null;
-      status?: ResponseStatus | null;
-      token?: string | null;
-    } | null;
-  } | null;
-};
-
-export const PingQueryDocument = gql`
-  query PingQuery {
-    ping
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class PingQueryGQL extends Apollo.Query<
-  PingQueryQuery,
-  PingQueryQueryVariables
-> {
-  override document = PingQueryDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
-export const LinkDocument = gql`
-  query Link($input: LinkInput!) {
-    plaid {
-      link(input: $input) {
-        expiration
-        reason
-        status
-        token
-      }
-    }
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class LinkGQL extends Apollo.Query<LinkQuery, LinkQueryVariables> {
-  override document = LinkDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
