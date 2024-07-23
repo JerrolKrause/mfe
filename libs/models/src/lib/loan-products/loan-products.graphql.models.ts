@@ -20,7 +20,7 @@ export type Incremental<T> =
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     };
 // eslint-disable-next-line @typescript-eslint/prefer-namespace-keyword, @typescript-eslint/no-namespace
-export module LoanProductsModels {
+export module LoanProductModels {
   /** All built-in and custom scalars, mapped to their actual values */
   export type Scalars = {
     ID: { input: string; output: string };

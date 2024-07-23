@@ -15,7 +15,7 @@ const config: CodegenConfig = {
 
       config: {
         wrapModule: {
-          name: 'LoanProductsModels',
+          name: 'LoanProductModels',
         },
       },
     },
