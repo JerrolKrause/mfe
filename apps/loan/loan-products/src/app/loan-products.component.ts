@@ -42,12 +42,7 @@ export class LoanProductsComponent {
     public dialogService: DialogService,
     public storage: AppStorageService,
     private route: ActivatedRoute
-  ) {
-    /***/
-    this.lpSvc.plaidStore.state$.subscribe((state) =>
-      console.warn(state.data?.plaid?.link)
-    );
-  }
+  ) {}
 
   /**
    * Open a subproduct modal

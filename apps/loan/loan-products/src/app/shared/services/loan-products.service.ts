@@ -1,16 +1,10 @@
 import { LoanCalculator } from '$quote-calculator';
 import { AppStorageService } from '$shared';
-import { GraphQLStoreCreatorService } from '$state-management';
 import { Injectable, Type } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { InputSwitchChangeEvent } from 'primeng/inputswitch';
 import { BehaviorSubject, take } from 'rxjs';
 import { creditors, loanProducts } from '../mock-data/loan-products.data';
-import {
-  LinkDocument,
-  LinkQuery,
-  PingQueryDocument,
-} from '../models/loan-products.graphql.models';
 import { LoanProductModels } from '../models/loan-products.models';
 
 export interface LoanProductsState {
@@ -43,33 +37,10 @@ export class LoanProductsService {
     creditors
   );
 
-  public pingStore = this.graphSvc.createEntityStore<any>({
-    autoLoad: false,
-    getQuery: PingQueryDocument,
-  });
-
-  public plaidStore = this.graphSvc.createEntityStore<LinkQuery>({
-    autoLoad: false,
-    getQuery: LinkDocument,
-  });
-
   constructor(
-    private graphSvc: GraphQLStoreCreatorService,
     public dialogService: DialogService,
     public storage: AppStorageService
-  ) {
-    this.pingStore.getData().subscribe();
-    /**
-    this.plaidStore
-      .getData({
-        input: {
-          customerId: '12345',
-          uniqueTrackingCode: '123123',
-        },
-      })
-      .subscribe();
-       */
-  }
+  ) {}
 
   /**
    * Change state of the app
