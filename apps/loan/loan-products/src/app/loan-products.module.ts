@@ -18,7 +18,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { CreditProductsBuilderComponent } from './components/credit-products-builder/credit-products-builder.component';
-import { LoanProductsBuilderComponent } from './components/loan-products-builder/loan-products-builder.component';
+import { LoanProductsFormComponent } from './components/loan-products-form/loan-products-form.component';
 import { LoanProductsGridComponent } from './components/loan-products-grid/loan-products-grid.component';
 import { ModifyLoanProductsComponent } from './components/modify-loan-products/modify-loan-products.component';
 import { NonCreditProductsBuilderComponent } from './components/non-credit-products-builder/non-credit-products-builder.component';
@@ -37,6 +37,7 @@ import { HttpLink } from 'apollo-angular/http';
 import { LoanDetailsComponent } from './components/loan-details/loan-details.component';
 import { LoanProductsService } from './shared/services/loan-products.service';
 
+// Apollo
 const uri =
   'https://income-verification-subgraph-dev-egg.cherrypie.alt.meanion.com/';
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
@@ -51,7 +52,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     LoanProductsComponent,
     TitleBarComponent,
     LoanProductsGridComponent,
-    LoanProductsBuilderComponent,
+    LoanProductsFormComponent,
     CreditProductsBuilderComponent,
     NonCreditProductsBuilderComponent,
     OptionalProductsGridComponent,
@@ -64,9 +65,9 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   imports: [
     CommonModule,
     IconsModule,
+    MasterpageModule,
     RouterModule.forChild(appRoutes),
     QuoteCalculatorModule,
-    MasterpageModule,
     InputSwitchModule,
     FormsLibModule,
     FormsModule,

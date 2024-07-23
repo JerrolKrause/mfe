@@ -31,7 +31,13 @@
             >
               <p-checkbox
                 [binary]="true"
-                [label]="asset.value.label"
+                [label]="
+                  asset.value.valuation.year +
+                  ' ' +
+                  asset.value.label +
+                  ' ' +
+                  asset.value.valuation?.model
+                "
                 formControlName="selected"
               ></p-checkbox>
 
@@ -39,19 +45,25 @@
                 <div>
                   <strong>Valued:</strong>
                   {{
-                    asset.value.assetValue
+                    asset.value?.valuation?.value
                       | currency : 'USD' : 'symbol' : '1.0-0'
                   }}
                 </div>
                 <div>
                   <strong>Equity:</strong>
                   {{
-                    asset.value.assetValue / 2
+                    asset.value?.equity | currency : 'USD' : 'symbol' : '1.0-0'
+                  }}
+                </div>
+                <div *ngIf="asset.value?.monthlyPayment">
+                  <strong>Monthly Payment:</strong>
+                  {{
+                    asset.value?.monthlyPayment
                       | currency : 'USD' : 'symbol' : '1.0-0'
                   }}
                 </div>
-                <div *ngIf="asset.value.apr">
-                  <strong>APR:</strong> {{ asset.value.apr }}%
+                <div *ngIf="asset.value?.apr">
+                  <strong>APR:</strong> {{ asset.value?.apr }}%
                 </div>
               </div>
             </div>

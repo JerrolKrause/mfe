@@ -1,4 +1,5 @@
 import { FormsLib } from '$forms';
+import { AppStorageService, AssetsModels, assetsStubData } from '$shared';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,7 @@ import {
   computed,
   effect,
   input,
+  signal,
 } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -16,14 +18,14 @@ import { LoanProductsState } from '../../shared/services/loan-products.service';
 import { loanProductsFormModel } from './utils/loan-products-form-model.util';
 
 @Component({
-  selector: 'app-loan-products-builder',
-  templateUrl: './loan-products-builder.component.html',
-  styleUrl: './loan-products-builder.component.scss',
+  selector: 'app-loan-products-form',
+  templateUrl: './loan-products-form.component.html',
+  styleUrl: './loan-products-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanProductsBuilderComponent {
+export class LoanProductsFormComponent {
   public state = input<LoanProductsState | null | undefined>(null);
-  public assets = input<LoanProductModels.Asset[] | null | undefined>(null);
+  // public assets = input<AssetsModels.Asset[] | null | undefined>(null);
   public creditors = input<LoanProductModels.Creditor[] | null | undefined>(
     null
   );
@@ -32,6 +34,10 @@ export class LoanProductsBuilderComponent {
     payoffs: 10000,
     baseCashAdvance: 20000,
   });
+
+  public assets = signal<AssetsModels.Asset[] | null | undefined>(
+    this.storage.assets ?? assetsStubData // Use data from mock localstorage, fall back to stub data
+  );
 
   public formDefaults = input<Partial<LoanProductModels.LoanProduct> | null>({
     id: '',
@@ -63,7 +69,7 @@ export class LoanProductsBuilderComponent {
     baseCashAdvance: 0,
     fees: 0,
     sideLoan: false,
-    assets: this.fb.array<LoanProductModels.Asset[]>([]),
+    assets: this.fb.array<AssetsModels.Asset[]>([]),
     creditors: this.fb.array<LoanProductModels.Creditor[]>([]),
   });
 
@@ -109,12 +115,18 @@ export class LoanProductsBuilderComponent {
 
   @Output() formSubmit = new EventEmitter<LoanProductModels.LoanProductForm>();
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private storage: AppStorageService
+  ) {
     this.reset();
     // When inputs change, regenerate assets/creditors/form defaults in the form
     effect(() => this.populateAssets(this.assets()));
     effect(() => this.populateCreditors(this.creditors()));
-    effect(() => this.loanProductsForm.patchValue(this.formDefaults() ?? {}));
+    effect(() =>
+      this.loanProductsForm.patchValue(this.formDefaults() ?? ({} as any))
+    ); // @todo
   }
 
   public reset() {
@@ -123,30 +135,44 @@ export class LoanProductsBuilderComponent {
     this.populateCreditors(this.creditors());
   }
 
-  populateAssets(assets: LoanProductModels.Asset[] | null | undefined) {
+  populateAssets(assets: AssetsModels.Asset[] | null | undefined): void {
     // Clear the form array before populating
     this.assetsFormArray.clear();
     assets?.forEach((asset) => {
       let isSelected = false;
       if (
-        asset.selected ||
+        //  asset.selected || @todo add support for selected property
         this.formDefaults()?.vehicles?.includes('MULTI VEHICLE') ||
-        this.formDefaults()?.vehicles?.includes(asset.label)
+        this.formDefaults()?.vehicles?.includes(asset.valuation.make)
       ) {
         isSelected = true;
       }
       this.assetsFormArray.push(
         this.fb.group({
           id: [asset.id],
-          label: [asset.label],
-          totalOwed: [asset.totalOwed],
-          assetValue: [asset.assetValue],
+          label: [asset.valuation.make],
+          valuation: this.fb.group({
+            value: [asset.valuation.value],
+            balance: [asset.valuation.balance],
+            year: [asset.valuation.year],
+            model: [asset.valuation.model],
+            vin: [asset.valuation.vin],
+            mileage: [asset.valuation.mileage],
+            mileageUpdated: [asset.valuation.mileageUpdated],
+            by: [asset.valuation.by],
+            ownedFreeAndClear: [asset.valuation.ownedFreeAndClear],
+            firstLienHolder: [asset.valuation.firstLienHolder],
+            secondLienHolder: [asset.valuation.secondLienHolder],
+            autoCheckComplete: [asset.valuation.autoCheckComplete],
+            vehicleInspection: [asset.valuation.vehicleInspection],
+            exceptionApproved: [asset.valuation.exceptionApproved],
+            qualifiedForDirectAuto: [asset.valuation.qualifiedForDirectAuto],
+          }),
+          equity: [asset.equity],
           monthlyPayment: [asset.monthlyPayment],
-          apr: [asset.apr],
           selected: [isSelected],
         })
       );
-      asset;
     });
   }
 

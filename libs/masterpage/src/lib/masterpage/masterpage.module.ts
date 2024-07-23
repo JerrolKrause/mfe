@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { MasterpageComponent } from './masterpage.component';
 import { NavComponent } from './nav/nav.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { TitleComponent } from './title/title.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +29,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     HeaderComponent,
     NavComponent,
     SidebarComponent,
+    TitleComponent,
   ],
   providers: [ConfirmationService],
   exports: [MasterpageComponent],

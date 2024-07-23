@@ -1,3 +1,8 @@
+import { FormGroup } from '@angular/forms';
+/**
+ * Add ability to supply form model to formgroup instances
+ */
+
 // eslint-disable-next-line @typescript-eslint/prefer-namespace-keyword, @typescript-eslint/no-namespace
 export module FormsLib {
   /** Main form generator model, generic type currently not supported due to infinite recusions issue. Perhaps in a later version of TS */
@@ -13,7 +18,7 @@ export module FormsLib {
     /** CSS classes to apply to the parent container of this element. Uses [ngClass] */
     cssClasses?: string | null;
     /** Inline style to apply to the parent container of this element.  Uses [ngStyle]  */
-    inlineStyles?: { [index: string]: string } | null;
+    inlineStyles?: Record<string, string> | null;
     /**
      * Is the control visible. Supports boolean, a string going to a form control with a truthy/falsy value or a Rule
      *
@@ -54,6 +59,8 @@ export module FormsLib {
       /** Any custom css classes */
       classes?: string | null;
     };
+    /** Scroll to the top of the page on a successful form submission. Default true. */
+    scrollToTopOnSubmit?: boolean | null;
     /** When the user clicks the submit button and an error occurs, the page will scroll to the first error. This value will modify the final position of the scroll and can be negative or positive. Useful for situactions where the error is under a sticky header or fixed element. */
     errorScrollOffset?: number | null;
   }
@@ -92,10 +99,12 @@ export module FormsLib {
     type: 'button';
     /** Label text of the button */
     label: string;
-    /** A command to execute when the button is clicked */
-    cmd: (button?: Button | null) => void;
+    /** A command to execute when the button is clicked. First value is the root formgroup, second value is this button model */
+    cmd: (response: { formGroup: FormGroup; button: Button | null }) => void;
     /** An optional property to store any meta data which will be passed to the cmd method along with the button */
     data?: any;
+    /** Add a top margin to the button which will make it inline with a form field that has a label. True will use the default option of 1.5rem, otherwise specify the offset as a valid value for margin-top. */
+    offsetTop?: boolean | Record<string, string>;
   }
 
   /** Available form field types */
@@ -279,7 +288,7 @@ export module FormsLib {
   // export type DropdownField = DropdownFieldSrc & FieldPropsOptions;
   export interface DropdownField extends FieldProps {
     formFieldType: 'dropdown';
-    options?: FieldOptions[];
+    options: FieldOptions[];
     datafield?: string | null;
     /** Height of the dropdown box */
     scrollHeight?: string | null;
@@ -330,4 +339,56 @@ export module FormsLib {
     operator: 'eq' | 'ne' | 'in' | 'nin' | 'gt' | 'lt';
     value: unknown;
   }
+
+  /** @todo Implement for the field property to enforce type safety
+   * A type that recursively generates all possible valid paths for a given nested object type.
+   * The paths are represented as strings and include support for arrays and nested objects.
+   *
+   * @template T - The type of the nested object.
+   * @template Prev - The accumulated path string (used internally for recursion).
+   *
+   * @example
+   * interface NestedObject {
+   *   level1: {
+   *     level2: Array<{
+   *       level3: {
+   *         prop1: string;
+   *         prop2: number;
+   *       };
+   *     }>;
+   *   };
+   * }
+   *
+   * // Generates valid paths such as:
+   * // 'level1', 'level1.level2', 'level1.level2[0]', 'level1.level2[0].level3', 'level1.level2[0].level3.prop1', etc.
+   * type ValidPaths = NestedPaths<NestedObject>;
+   *
+   * const path1: ValidPaths = 'level1'; // Valid
+   * const path2: ValidPaths = 'level1.level2'; // Valid
+   * const path3: ValidPaths = 'level1.level2[0]'; // Valid
+   * const path4: ValidPaths = 'level1.level2[0].level3'; // Valid
+   * const path5: ValidPaths = 'level1.level2[0].level3.prop1'; // Valid
+   * const path6: ValidPaths = 'level1.level2[1].level3.prop2'; // Valid
+   * const invalidPath: ValidPaths = 'level1.invalidLevel2[0].level3.prop1'; // Type error
+   */
+  type NestedPaths<T, Prev extends string = ''> =
+    | Prev
+    | {
+        [K in keyof T]: T[K] extends Array<infer U>
+          ?
+              | `${Prev}${Prev extends '' ? '' : '.'}${string & K}`
+              | `${Prev}${Prev extends '' ? '' : '.'}${string & K}[${number}]`
+              | NestedPaths<
+                  U,
+                  `${Prev}${Prev extends '' ? '' : '.'}${string & K}[${number}]`
+                >
+          : T[K] extends object
+          ?
+              | `${Prev}${Prev extends '' ? '' : '.'}${string & K}`
+              | NestedPaths<
+                  T[K],
+                  `${Prev}${Prev extends '' ? '' : '.'}${string & K}`
+                >
+          : `${Prev}${Prev extends '' ? '' : '.'}${string & K}`;
+      }[keyof T];
 }

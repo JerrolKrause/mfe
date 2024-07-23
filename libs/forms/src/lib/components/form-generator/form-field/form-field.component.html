@@ -217,6 +217,7 @@
     <lib-checkbox
       *ngIf="formField.formFieldType === 'checkbox'"
       [id]="formField.id"
+      [label]="formField.label ?? ''"
     ></lib-checkbox>
 
     <div style="color: red" *ngIf="!formGroup.get(formField.field)">

@@ -87,9 +87,9 @@ export class FormGeneratorComponent {
    * @returns
    */
   public submit() {
-    if (is.node || !this.formGroup) {
-      return;
-    }
+    // SSR check
+    if (is.node || !this.formGroup) return;
+    // Triggers update flag, needed in conjunction with markallastouched
     this.formGroup.patchValue(this.formGroup.value);
     this.formGroup.markAllAsTouched();
 
@@ -111,6 +111,12 @@ export class FormGeneratorComponent {
       });
       return;
     }
+
+    // If set, scroll to top of page on successful submit. Default true
+    if (this.options?.scrollToTopOnSubmit !== false) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    // Emit updated form to parent. Parent can also get raw data from form group
     this.completed.emit(this.formGroup.getRawValue());
   }
 }

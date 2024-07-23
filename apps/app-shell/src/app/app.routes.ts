@@ -21,9 +21,7 @@ export const appRoutes: Route[] = [
   {
     path: 'loan',
     loadChildren: () =>
-      import('@loan-products/app/loan-products.module').then(
-        (m) => m.LoanProductsModule
-      ),
+      import('../../../loan/loan.module').then((m) => m.LoanModule),
   },
   {
     path: 'quoting',

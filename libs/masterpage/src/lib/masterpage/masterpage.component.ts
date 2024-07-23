@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 export class MasterpageComponent {
   @Input() fullWidth = false;
   @Input() showNav = true;
+  @Input() showTitle = true;
   @Input() showLeftCol = true;
 
   public leftColOpen = true;

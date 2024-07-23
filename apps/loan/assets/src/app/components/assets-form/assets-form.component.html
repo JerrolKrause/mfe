@@ -1,0 +1,22 @@
+<div class="mb-3 d-flex align-items-center">
+  <h2 class="mb-0">Assets Builder</h2>
+  <!--
+  <div class="ms-3">
+    <form [formGroup]="assetsSvc.assetsForm">
+      <p-selectButton
+        [options]="assetTypes"
+        formControlName="assetType"
+        optionLabel="label"
+        optionValue="value"
+      />
+    </form>
+  </div>
+  -->
+</div>
+
+<lib-form-generator
+  [formModel]="formModel"
+  [formGroup]="assetsSvc.assetsForm"
+  [options]="{ submitButton: { hide: false, label: 'Submit' } }"
+  (completed)="onSubmit()"
+></lib-form-generator>
