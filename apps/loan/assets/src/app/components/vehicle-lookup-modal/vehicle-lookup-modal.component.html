@@ -1,0 +1,70 @@
+<form [formGroup]="searchForm">
+  <div class="d-flex mb-3">
+    <div class="p-field p-col-6 me-3">
+      <label for="make" class="me-1">Make</label>
+      <input id="make" type="text" pInputText formControlName="make" />
+    </div>
+    <div class="p-field p-col-6 me-3">
+      <label for="model" class="me-1">Model</label>
+      <input id="model" type="text" pInputText formControlName="model" />
+    </div>
+    <div class="p-field p-col-12">
+      <button pButton type="button" label="Search" (click)="search()"></button>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <p-table
+      [value]="vehicles"
+      selectionMode="single"
+      [(selection)]="selectedVehicle"
+      (onRowSelect)="selectVehicle($event.data)"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Make, Model & Series</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-vehicle>
+        <tr>
+          <td>{{ vehicle.label }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="d-flex p-mt-4">
+    <div>
+      <button
+        pButton
+        type="button"
+        label="Select"
+        [disabled]="!selectedVehicle"
+        class="me-1"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Refresh"
+        class="me-1"
+        (click)="refresh()"
+      ></button>
+    </div>
+    <div>
+      <button
+        pButton
+        type="button"
+        label="Save"
+        class="me-1"
+        (click)="save()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Close"
+        class="p-button-secondary me-1"
+        (click)="close()"
+      ></button>
+    </div>
+  </div>
+</form>

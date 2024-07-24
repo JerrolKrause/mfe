@@ -15,14 +15,22 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 // Assets Resources
+import { DialogService } from 'primeng/dynamicdialog';
+import { InputTextModule } from 'primeng/inputtext';
 import { AssetsComponent } from './assets.component';
 import { appRoutes } from './assets.routes';
 import { AssetsFormComponent } from './components/assets-form/assets-form.component';
 import { AssetsTableComponent } from './components/assets-table/assets-table.component';
+import { VehicleLookupModalComponent } from './components/vehicle-lookup-modal/vehicle-lookup-modal.component';
 import { AssetsService } from './shared/assets.services';
 
 @NgModule({
-  declarations: [AssetsComponent, AssetsFormComponent, AssetsTableComponent],
+  declarations: [
+    AssetsComponent,
+    AssetsFormComponent,
+    AssetsTableComponent,
+    VehicleLookupModalComponent,
+  ],
   imports: [
     CommonModule,
     IconsModule,
@@ -38,8 +46,9 @@ import { AssetsService } from './shared/assets.services';
     RadioButtonModule,
     ButtonModule,
     SelectButtonModule,
+    InputTextModule,
   ],
-  providers: [AssetsService],
+  providers: [AssetsService, DialogService],
   bootstrap: [AssetsComponent],
 })
 export class AssetsModule {}
