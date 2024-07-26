@@ -2,35 +2,56 @@ const fs = require('fs');
 const introspectionSchema = require('../../introspection-result.json');
 
 /**
- * Generates GraphQL queries and mutations based on the introspection schema and writes them to .graphql files.
+ * Generates TypeScript files with GraphQL queries and mutations based on the introspection schema.
  *
  * @param {object} schema - The introspection schema object.
- * @param {string} schemaPath - The path where the generated .graphql files should be saved.
+ * @param {string} outputPath - The path where the generated TypeScript files should be saved.
  *
  * @example
- * const schema = require('../../introspection-result.json');
- * generateQueriesAndMutations(schema, 'libs/models/src/lib/queries.graphql');
+ * const schema = require('./libs/models/src/introspection-result.json');
+ * generateQueriesAndMutations(schema, 'src/graphql');
  */
-const generateQueriesAndMutations = (schema) => {
-  const queries = schema.__schema.types.find(
-    (type) => type.name === 'Query'
-  ).fields;
-  const mutations = schema.__schema.types.find(
+const generateQueriesAndMutations = (schema, outputPath) => {
+  const queryType = schema.__schema.types.find((type) => type.name === 'Query');
+  const mutationType = schema.__schema.types.find(
     (type) => type.name === 'Mutation'
-  ).fields;
+  );
 
-  let queriesContent = '';
+  const queries = queryType ? queryType.fields : [];
+  const mutations = mutationType ? mutationType.fields : [];
+
+  let queriesContent = "import { gql } from 'apollo-angular';\n\n";
   queries.forEach((query) => {
-    queriesContent += `query ${query.name} {\n  ${query.name} {\n    # Add fields here\n  }\n}\n\n`;
+    queriesContent += `export const ${query.name}Query = gql\`
+      query ${query.name} {
+        ${query.name} {
+          # Add fields here
+        }
+      }
+    \`;\n\n`;
   });
 
-  let mutationsContent = '';
+  let mutationsContent = "import { gql } from 'apollo-angular';\n\n";
   mutations.forEach((mutation) => {
-    mutationsContent += `mutation ${mutation.name} {\n  ${mutation.name} {\n    # Add fields here\n  }\n}\n\n`;
+    mutationsContent += `export const ${mutation.name}Mutation = gql\`
+      mutation ${mutation.name} {
+        ${mutation.name} {
+          # Add fields here
+        }
+      }
+    \`;\n\n`;
   });
 
-  fs.writeFileSync('libs/models/src/lib/queries.graphql', queriesContent);
-  fs.writeFileSync('libs/models/src/lib/mutations.graphql', mutationsContent);
+  fs.mkdirSync(outputPath, { recursive: true });
+  fs.writeFileSync(`${outputPath}/queries.ts`, queriesContent);
+  fs.writeFileSync(`${outputPath}/mutations.ts`, mutationsContent);
 };
 
-generateQueriesAndMutations(introspectionSchema);
+/**
+ * Main function to generate TypeScript files for GraphQL queries and mutations.
+ */
+const main = () => {
+  generateQueriesAndMutations(introspectionSchema, 'libs/models/src/lib/');
+};
+
+main();
