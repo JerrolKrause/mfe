@@ -1,0 +1,78 @@
+query _ {
+  _ {
+    # Add fields here
+  }
+}
+
+query album {
+  album {
+    # Add fields here
+  }
+}
+
+query albums {
+  albums {
+    # Add fields here
+  }
+}
+
+query comment {
+  comment {
+    # Add fields here
+  }
+}
+
+query comments {
+  comments {
+    # Add fields here
+  }
+}
+
+query photo {
+  photo {
+    # Add fields here
+  }
+}
+
+query photos {
+  photos {
+    # Add fields here
+  }
+}
+
+query post {
+  post {
+    # Add fields here
+  }
+}
+
+query posts {
+  posts {
+    # Add fields here
+  }
+}
+
+query todo {
+  todo {
+    # Add fields here
+  }
+}
+
+query todos {
+  todos {
+    # Add fields here
+  }
+}
+
+query user {
+  user {
+    # Add fields here
+  }
+}
+
+query users {
+  users {
+    # Add fields here
+  }
+}
+

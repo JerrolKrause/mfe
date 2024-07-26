@@ -17,6 +17,23 @@ const config: CodegenConfig = {
         },
       },
     },
+    'libs/models/src/lib/queries.ts': {
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-apollo-angular',
+      ],
+    },
+    'libs/models/src/lib/mutations.ts': {
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-apollo-angular',
+      ],
+    },
+    'libs/models/src/introspection-result.json': {
+      plugins: ['introspection'],
+    },
   },
 };
 
