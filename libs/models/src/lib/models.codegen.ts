@@ -1,21 +1,19 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema:
-    'https://income-verification-subgraph-dev-egg.cherrypie.alt.meanion.com/',
+  schema: 'https://graphqlzero.almansi.me/api',
   generates: {
-    'libs/models/src/lib/loan-products/loan-products.graphql.models.ts': {
+    'libs/models/src/lib/global.models.ts': {
       plugins: [
-        'libs/models/src/lib/pre.plugin.js',
+        'libs/models/src/lib/plugins/pre.plugin.js',
         'typescript',
         'typescript-operations',
         'typescript-apollo-angular',
-        'libs/models/src/lib/post.plugin.js',
+        'libs/models/src/lib/plugins/post.plugin.js',
       ],
-
       config: {
         wrapModule: {
-          name: 'LoanProductModels',
+          name: 'Models',
         },
       },
     },

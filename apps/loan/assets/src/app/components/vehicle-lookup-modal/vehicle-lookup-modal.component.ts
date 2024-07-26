@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-vehicle-lookup-modal',
@@ -39,13 +39,7 @@ export class VehicleLookupModalComponent {
   ];
   selectedVehicle: any;
 
-  constructor(
-    private fb: FormBuilder,
-    private dialogService: DialogService,
-    private ref: DynamicDialogRef
-  ) {}
-
-  ngOnInit(): void {}
+  constructor(private fb: FormBuilder, private ref: DynamicDialogRef) {}
 
   search(): void {
     // Implement search logic here
