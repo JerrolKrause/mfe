@@ -10,6 +10,7 @@ const config: CodegenConfig = {
         'typescript-operations',
         'typescript-apollo-angular',
         'libs/models/src/lib/plugins/post.plugin.js',
+        'libs/models/src/lib/plugins/generate-queries-and-mutations.js',
       ],
       config: {
         wrapModule: {
@@ -17,20 +18,7 @@ const config: CodegenConfig = {
         },
       },
     },
-    'libs/models/src/lib/queries.ts': {
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-apollo-angular',
-      ],
-    },
-    'libs/models/src/lib/mutations.ts': {
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-apollo-angular',
-      ],
-    },
+    // Generate default queries and mutations from the schema
     'libs/models/src/introspection-result.json': {
       plugins: ['introspection'],
     },

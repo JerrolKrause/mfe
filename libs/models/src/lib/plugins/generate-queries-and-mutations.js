@@ -2,6 +2,20 @@ const fs = require('fs');
 const introspectionSchema = require('../../introspection-result.json');
 
 /**
+ * Retrieves the default fields for a given type from the schema.
+ *
+ * @param {object} schema - The introspection schema object.
+ * @param {string} typeName - The name of the type to retrieve fields for.
+ * @returns {string} - A string containing the fields for the specified type.
+ */
+const getTypeFields = (schema, typeName) => {
+  const type = schema.__schema.types.find((type) => type.name === typeName);
+  if (!type || !type.fields) return '';
+
+  return type.fields.map((field) => field.name).join('\n          ');
+};
+
+/**
  * Generates TypeScript files with GraphQL queries and mutations based on the introspection schema.
  *
  * @param {object} schema - The introspection schema object.
@@ -22,10 +36,11 @@ const generateQueriesAndMutations = (schema, outputPath) => {
 
   let queriesContent = "import { gql } from 'apollo-angular';\n\n";
   queries.forEach((query) => {
+    const fields = getTypeFields(schema, query.type.name);
     queriesContent += `export const ${query.name}Query = gql\`
       query ${query.name} {
         ${query.name} {
-          # Add fields here
+          ${fields}
         }
       }
     \`;\n\n`;
@@ -33,10 +48,11 @@ const generateQueriesAndMutations = (schema, outputPath) => {
 
   let mutationsContent = "import { gql } from 'apollo-angular';\n\n";
   mutations.forEach((mutation) => {
+    const fields = getTypeFields(schema, mutation.type.name);
     mutationsContent += `export const ${mutation.name}Mutation = gql\`
       mutation ${mutation.name} {
         ${mutation.name} {
-          # Add fields here
+          ${fields}
         }
       }
     \`;\n\n`;

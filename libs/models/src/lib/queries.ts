@@ -3,7 +3,7 @@ import { gql } from 'apollo-angular';
 export const _Query = gql`
       query _ {
         _ {
-          # Add fields here
+          
         }
       }
     `;
@@ -11,7 +11,10 @@ export const _Query = gql`
 export const albumQuery = gql`
       query album {
         album {
-          # Add fields here
+          id
+          photos
+          title
+          user
         }
       }
     `;
@@ -19,7 +22,9 @@ export const albumQuery = gql`
 export const albumsQuery = gql`
       query albums {
         albums {
-          # Add fields here
+          data
+          links
+          meta
         }
       }
     `;
@@ -27,7 +32,11 @@ export const albumsQuery = gql`
 export const commentQuery = gql`
       query comment {
         comment {
-          # Add fields here
+          body
+          email
+          id
+          name
+          post
         }
       }
     `;
@@ -35,7 +44,9 @@ export const commentQuery = gql`
 export const commentsQuery = gql`
       query comments {
         comments {
-          # Add fields here
+          data
+          links
+          meta
         }
       }
     `;
@@ -43,7 +54,11 @@ export const commentsQuery = gql`
 export const photoQuery = gql`
       query photo {
         photo {
-          # Add fields here
+          album
+          id
+          thumbnailUrl
+          title
+          url
         }
       }
     `;
@@ -51,7 +66,9 @@ export const photoQuery = gql`
 export const photosQuery = gql`
       query photos {
         photos {
-          # Add fields here
+          data
+          links
+          meta
         }
       }
     `;
@@ -59,7 +76,11 @@ export const photosQuery = gql`
 export const postQuery = gql`
       query post {
         post {
-          # Add fields here
+          body
+          comments
+          id
+          title
+          user
         }
       }
     `;
@@ -67,7 +88,9 @@ export const postQuery = gql`
 export const postsQuery = gql`
       query posts {
         posts {
-          # Add fields here
+          data
+          links
+          meta
         }
       }
     `;
@@ -75,7 +98,10 @@ export const postsQuery = gql`
 export const todoQuery = gql`
       query todo {
         todo {
-          # Add fields here
+          completed
+          id
+          title
+          user
         }
       }
     `;
@@ -83,7 +109,9 @@ export const todoQuery = gql`
 export const todosQuery = gql`
       query todos {
         todos {
-          # Add fields here
+          data
+          links
+          meta
         }
       }
     `;
@@ -91,7 +119,17 @@ export const todosQuery = gql`
 export const userQuery = gql`
       query user {
         user {
-          # Add fields here
+          address
+          albums
+          company
+          email
+          id
+          name
+          phone
+          posts
+          todos
+          username
+          website
         }
       }
     `;
@@ -99,7 +137,9 @@ export const userQuery = gql`
 export const usersQuery = gql`
       query users {
         users {
-          # Add fields here
+          data
+          links
+          meta
         }
       }
     `;

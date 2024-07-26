@@ -3,7 +3,7 @@ import { gql } from 'apollo-angular';
 export const _Mutation = gql`
       mutation _ {
         _ {
-          # Add fields here
+          
         }
       }
     `;
@@ -11,7 +11,10 @@ export const _Mutation = gql`
 export const createAlbumMutation = gql`
       mutation createAlbum {
         createAlbum {
-          # Add fields here
+          id
+          photos
+          title
+          user
         }
       }
     `;
@@ -19,7 +22,11 @@ export const createAlbumMutation = gql`
 export const createCommentMutation = gql`
       mutation createComment {
         createComment {
-          # Add fields here
+          body
+          email
+          id
+          name
+          post
         }
       }
     `;
@@ -27,7 +34,11 @@ export const createCommentMutation = gql`
 export const createPhotoMutation = gql`
       mutation createPhoto {
         createPhoto {
-          # Add fields here
+          album
+          id
+          thumbnailUrl
+          title
+          url
         }
       }
     `;
@@ -35,7 +46,11 @@ export const createPhotoMutation = gql`
 export const createPostMutation = gql`
       mutation createPost {
         createPost {
-          # Add fields here
+          body
+          comments
+          id
+          title
+          user
         }
       }
     `;
@@ -43,7 +58,10 @@ export const createPostMutation = gql`
 export const createTodoMutation = gql`
       mutation createTodo {
         createTodo {
-          # Add fields here
+          completed
+          id
+          title
+          user
         }
       }
     `;
@@ -51,7 +69,17 @@ export const createTodoMutation = gql`
 export const createUserMutation = gql`
       mutation createUser {
         createUser {
-          # Add fields here
+          address
+          albums
+          company
+          email
+          id
+          name
+          phone
+          posts
+          todos
+          username
+          website
         }
       }
     `;
@@ -59,7 +87,7 @@ export const createUserMutation = gql`
 export const deleteAlbumMutation = gql`
       mutation deleteAlbum {
         deleteAlbum {
-          # Add fields here
+          
         }
       }
     `;
@@ -67,7 +95,7 @@ export const deleteAlbumMutation = gql`
 export const deleteCommentMutation = gql`
       mutation deleteComment {
         deleteComment {
-          # Add fields here
+          
         }
       }
     `;
@@ -75,7 +103,7 @@ export const deleteCommentMutation = gql`
 export const deletePhotoMutation = gql`
       mutation deletePhoto {
         deletePhoto {
-          # Add fields here
+          
         }
       }
     `;
@@ -83,7 +111,7 @@ export const deletePhotoMutation = gql`
 export const deletePostMutation = gql`
       mutation deletePost {
         deletePost {
-          # Add fields here
+          
         }
       }
     `;
@@ -91,7 +119,7 @@ export const deletePostMutation = gql`
 export const deleteTodoMutation = gql`
       mutation deleteTodo {
         deleteTodo {
-          # Add fields here
+          
         }
       }
     `;
@@ -99,7 +127,7 @@ export const deleteTodoMutation = gql`
 export const deleteUserMutation = gql`
       mutation deleteUser {
         deleteUser {
-          # Add fields here
+          
         }
       }
     `;
@@ -107,7 +135,10 @@ export const deleteUserMutation = gql`
 export const updateAlbumMutation = gql`
       mutation updateAlbum {
         updateAlbum {
-          # Add fields here
+          id
+          photos
+          title
+          user
         }
       }
     `;
@@ -115,7 +146,11 @@ export const updateAlbumMutation = gql`
 export const updateCommentMutation = gql`
       mutation updateComment {
         updateComment {
-          # Add fields here
+          body
+          email
+          id
+          name
+          post
         }
       }
     `;
@@ -123,7 +158,11 @@ export const updateCommentMutation = gql`
 export const updatePhotoMutation = gql`
       mutation updatePhoto {
         updatePhoto {
-          # Add fields here
+          album
+          id
+          thumbnailUrl
+          title
+          url
         }
       }
     `;
@@ -131,7 +170,11 @@ export const updatePhotoMutation = gql`
 export const updatePostMutation = gql`
       mutation updatePost {
         updatePost {
-          # Add fields here
+          body
+          comments
+          id
+          title
+          user
         }
       }
     `;
@@ -139,7 +182,10 @@ export const updatePostMutation = gql`
 export const updateTodoMutation = gql`
       mutation updateTodo {
         updateTodo {
-          # Add fields here
+          completed
+          id
+          title
+          user
         }
       }
     `;
@@ -147,7 +193,17 @@ export const updateTodoMutation = gql`
 export const updateUserMutation = gql`
       mutation updateUser {
         updateUser {
-          # Add fields here
+          address
+          albums
+          company
+          email
+          id
+          name
+          phone
+          posts
+          todos
+          username
+          website
         }
       }
     `;
