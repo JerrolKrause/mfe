@@ -1,23 +1,18 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 import fs from 'fs';
-const introspectionSchema = JSON.parse(
-  fs.readFileSync(
-    'libs/models/src/lib/schema/introspection-result.json',
-    'utf-8'
-  )
-);
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// const introspectionSchema = require('libs/models/src/lib/schema/introspection-result.json');
-// eslint-disable-next-line @nx/enforce-module-boundaries
-// import * as introspectionSchema from 'libs/models/src/lib/schema/introspection-result.json';
-// import introspectionSchema = require('libs/models/src/lib/schema/introspection-result.json');
-console.log('introspectionSchema', introspectionSchema);
 
+// Filename and directory constants
+const MODELS_FILE = 'libs/models/src/lib/global.models.ts';
+const SCHEMA_FILE = 'libs/models/src/lib/schema/introspection-result.json';
+
+// Import JSON schema to pass to generate-queries-and-mutations.js plugin
+// The plugin code errors out if using require or a normal import as statement
+const introspectionSchema = JSON.parse(fs.readFileSync(SCHEMA_FILE, 'utf-8'));
 // Generate graph models and dependencies
 const config: CodegenConfig = {
   schema: 'https://graphqlzero.almansi.me/api',
   generates: {
-    'libs/models/src/lib/global.models.ts': {
+    [MODELS_FILE]: {
       plugins: [
         'libs/models/src/lib/plugins/pre.plugin.js',
         'typescript',
@@ -35,8 +30,8 @@ const config: CodegenConfig = {
         schema: introspectionSchema,
       },
     },
-    // Generate default queries and mutations from the schema
-    'libs/models/src/lib/schema/introspection-result.json': {
+    // Generate schema which will be used to generate queries and mutations
+    [SCHEMA_FILE]: {
       plugins: ['introspection'],
     },
   },

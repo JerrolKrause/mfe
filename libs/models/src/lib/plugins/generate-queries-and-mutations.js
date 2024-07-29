@@ -78,10 +78,7 @@ const generateQueriesAndMutations = (schema, outputPath) => {
  */
 module.exports = {
   plugin: (schema, documents, config) => {
-    console.log(1, config);
-
     generateQueriesAndMutations(config.schema, 'libs/models/src/lib/');
-    // generateQueriesAndMutations(introspectionSchema, 'libs/models/src/lib/');
     return ''; // Return an empty string or any other content if needed
   },
 };
