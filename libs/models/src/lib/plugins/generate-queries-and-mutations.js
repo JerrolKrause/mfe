@@ -37,20 +37,31 @@ module.exports = {
         if (nestedFields) {
           fieldStr += ` {\n${nestedFields}\n}`;
         }
-      } else if (type.ofType && type.ofType.kind === 'LIST') {
-        const nestedType = type.ofType.ofType;
-        const nestedFields = getFields(nestedType)
-          .map((nestedField) =>
-            generateFieldString(nestedField, processedTypes)
-          )
-          .filter((nestedFieldStr) => nestedFieldStr) // filter out empty fields
-          .join('\n');
-        if (nestedFields) {
-          fieldStr += ` {\n${nestedFields}\n}`;
-        }
       }
 
       return fieldStr;
+    };
+
+    const removeEmptyFields = (fieldString) => {
+      const fieldLines = fieldString.split('\n');
+      const resultLines = [];
+      let depth = 0;
+
+      fieldLines.forEach((line) => {
+        if (line.includes('{')) depth++;
+        if (line.includes('}')) depth--;
+
+        if (
+          !(
+            line.includes('{') &&
+            fieldLines[fieldLines.indexOf(line) + 1].includes('}')
+          )
+        ) {
+          resultLines.push(line);
+        }
+      });
+
+      return resultLines.join('\n');
     };
 
     const generateQueriesAndMutations = (parsedSchema) => {
@@ -78,7 +89,8 @@ module.exports = {
                 .join(', ')})`
             : '';
 
-          const fieldStr = generateFieldString(field);
+          let fieldStr = generateFieldString(field);
+          fieldStr = removeEmptyFields(fieldStr);
 
           if (fieldStr.includes('{')) {
             // include only if there are subfields
