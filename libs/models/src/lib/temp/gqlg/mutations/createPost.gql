@@ -1,0 +1,15 @@
+mutation createPost($input: CreatePostInput!){
+    createPost(input: $input){
+        body
+        id
+        title
+        user{
+            email
+            id
+            name
+            phone
+            username
+            website
+        }
+    }
+}

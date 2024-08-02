@@ -1,0 +1,15 @@
+query todo($id: ID!){
+    todo(id: $id){
+        completed
+        id
+        title
+        user{
+            email
+            id
+            name
+            phone
+            username
+            website
+        }
+    }
+}

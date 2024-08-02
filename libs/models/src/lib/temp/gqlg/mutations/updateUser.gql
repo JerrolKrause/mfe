@@ -1,0 +1,21 @@
+mutation updateUser($id: ID!, $input: UpdateUserInput!){
+    updateUser(id: $id, input: $input){
+        address{
+            city
+            street
+            suite
+            zipcode
+        }
+        company{
+            bs
+            catchPhrase
+            name
+        }
+        email
+        id
+        name
+        phone
+        username
+        website
+    }
+}

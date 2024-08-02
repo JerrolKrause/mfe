@@ -1,0 +1,13 @@
+query comments($options: PageQueryOptions){
+    comments(options: $options){
+        data{
+            body
+            email
+            id
+            name
+        }
+        meta{
+            totalCount
+        }
+    }
+}

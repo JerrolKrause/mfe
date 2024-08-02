@@ -1,0 +1,12 @@
+mutation createPhoto($input: CreatePhotoInput!){
+    createPhoto(input: $input){
+        album{
+            id
+            title
+        }
+        id
+        thumbnailUrl
+        title
+        url
+    }
+}

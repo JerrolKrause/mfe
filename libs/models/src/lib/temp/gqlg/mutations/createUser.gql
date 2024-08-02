@@ -1,0 +1,21 @@
+mutation createUser($input: CreateUserInput!){
+    createUser(input: $input){
+        address{
+            city
+            street
+            suite
+            zipcode
+        }
+        company{
+            bs
+            catchPhrase
+            name
+        }
+        email
+        id
+        name
+        phone
+        username
+        website
+    }
+}
