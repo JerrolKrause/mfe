@@ -1,13 +1,13 @@
-mutation createComment($input: CreateCommentInput!){
-    createComment(input: $input){
-        body
-        email
-        id
-        name
-        post{
-            body
-            id
-            title
-        }
+mutation createComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    body
+    email
+    id
+    name
+    post {
+      body
+      id
+      title
     }
+  }
 }

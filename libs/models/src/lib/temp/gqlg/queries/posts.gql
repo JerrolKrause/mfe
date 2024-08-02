@@ -1,12 +1,12 @@
-query posts($options: PageQueryOptions){
-    posts(options: $options){
-        data{
-            body
-            id
-            title
-        }
-        meta{
-            totalCount
-        }
+query posts($options: PageQueryOptions) {
+  posts(options: $options) {
+    data {
+      body
+      id
+      title
     }
+    meta {
+      totalCount
+    }
+  }
 }

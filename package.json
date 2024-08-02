@@ -20,7 +20,7 @@
     "docs": "compodoc -p tsconfig.json",
     "docs:serve": "compodoc -p tsconfig.json -s",
     "docs:watch": "compodoc -p tsconfig.json -s -w",
-    "models:graph": "graphql-codegen --verbose --debug --config libs/models/src/lib/models.codegen.ts && npx gqlg --schemaFilePath libs/models/src/lib/temp/global.graphql --destDirPath libs/models/src/lib/temp/gqlg/ --depthLimit 2 && graphql-codegen --verbose --debug --config libs/models/src/lib/models2.codegen.ts && prettier --write libs/models/src/lib/**/*.{ts,tsx,js,jsx,json,scss,css,html,md,gql}",
+    "models:graph": "graphql-codegen --verbose --debug --config libs/models/src/lib/models.codegen.ts && npx gqlg --schemaFilePath libs/models/src/lib/dist/global.graphql --destDirPath libs/models/src/lib/temp/gqlg/ --depthLimit 2 && graphql-codegen --verbose --debug --config libs/models/src/lib/models2.codegen.ts && prettier --write libs/models/src/lib/**/*.{ts,tsx,js,jsx,json,scss,css,html,md,gql}",
     "models:graph2": "graphql-codegen --verbose --debug --config libs/models/src/lib/models2.codegen.ts",
     "ssr:prerender": "npx nx app-shell:prerender --routes-file routes.txt",
     "ssr:dev": "ng run app-shell:serve-ssr",

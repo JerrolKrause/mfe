@@ -6,14 +6,10 @@ const config: CodegenConfig = {
   schema: 'https://graphqlzero.almansi.me/api',
   overwrite: true,
   generates: {
-    'libs/models/src/lib/temp/global.graphql': {
+    'libs/models/src/lib/dist/global.graphql': {
       plugins: ['schema-ast'],
     },
-    'libs/models/src/lib/temp/global.models.ts': {
-      preset: 'near-operation-file',
-      presetConfig: {
-        baseTypesPath: 'types.ts',
-      },
+    'libs/models/src/lib/dist/global.models.ts': {
       plugins: [
         'libs/models/src/lib/plugins/pre.plugin.js',
         'typescript',

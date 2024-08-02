@@ -1,15 +1,15 @@
-mutation updateTodo($id: ID!, $input: UpdateTodoInput!){
-    updateTodo(id: $id, input: $input){
-        completed
-        id
-        title
-        user{
-            email
-            id
-            name
-            phone
-            username
-            website
-        }
+mutation updateTodo($id: ID!, $input: UpdateTodoInput!) {
+  updateTodo(id: $id, input: $input) {
+    completed
+    id
+    title
+    user {
+      email
+      id
+      name
+      phone
+      username
+      website
     }
+  }
 }

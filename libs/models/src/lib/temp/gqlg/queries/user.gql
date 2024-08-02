@@ -1,21 +1,21 @@
-query user($id: ID!){
-    user(id: $id){
-        address{
-            city
-            street
-            suite
-            zipcode
-        }
-        company{
-            bs
-            catchPhrase
-            name
-        }
-        email
-        id
-        name
-        phone
-        username
-        website
+query user($id: ID!) {
+  user(id: $id) {
+    address {
+      city
+      street
+      suite
+      zipcode
     }
+    company {
+      bs
+      catchPhrase
+      name
+    }
+    email
+    id
+    name
+    phone
+    username
+    website
+  }
 }
