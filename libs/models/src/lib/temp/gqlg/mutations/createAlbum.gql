@@ -1,14 +1,14 @@
-mutation createAlbum($input: CreateAlbumInput!) {
-  createAlbum(input: $input) {
-    id
-    title
-    user {
-      email
-      id
-      name
-      phone
-      username
-      website
+mutation createAlbum($input: CreateAlbumInput!){
+    createAlbum(input: $input){
+        id
+        title
+        user{
+            email
+            id
+            name
+            phone
+            username
+            website
+        }
     }
-  }
 }

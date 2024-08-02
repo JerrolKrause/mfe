@@ -10,17 +10,22 @@ const config: CodegenConfig = {
   ],
   generates: {
     'libs/models/src/lib/temp/angular.ts': {
-      config: {
-        // serviceProvidedInRoot: false,
-      },
       preset: 'near-operation-file',
       plugins: [
         'libs/models/src/lib/plugins/generate-queries-and-mutations.plugin.js',
-        // 'typescript-apollo-angular',
       ],
       presetConfig: {
         baseTypesPath: 'types.ts',
       },
+    },
+    'libs/models/src/lib/temp/cleanup.ts': {
+      plugins: [
+        {
+          'libs/models/src/lib/plugins/delete-dir-plugin.js': {
+            directoryToDelete: 'libs/models/src/lib/temp',
+          },
+        },
+      ],
     },
   },
 };

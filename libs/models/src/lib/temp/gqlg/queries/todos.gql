@@ -1,12 +1,12 @@
-query todos($options: PageQueryOptions) {
-  todos(options: $options) {
-    data {
-      completed
-      id
-      title
+query todos($options: PageQueryOptions){
+    todos(options: $options){
+        data{
+            completed
+            id
+            title
+        }
+        meta{
+            totalCount
+        }
     }
-    meta {
-      totalCount
-    }
-  }
 }

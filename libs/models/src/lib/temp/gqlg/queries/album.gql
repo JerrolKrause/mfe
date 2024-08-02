@@ -1,14 +1,14 @@
-query album($id: ID!) {
-  album(id: $id) {
-    id
-    title
-    user {
-      email
-      id
-      name
-      phone
-      username
-      website
+query album($id: ID!){
+    album(id: $id){
+        id
+        title
+        user{
+            email
+            id
+            name
+            phone
+            username
+            website
+        }
     }
-  }
 }

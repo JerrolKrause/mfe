@@ -1,13 +1,13 @@
-query comment($id: ID!) {
-  comment(id: $id) {
-    body
-    email
-    id
-    name
-    post {
-      body
-      id
-      title
+query comment($id: ID!){
+    comment(id: $id){
+        body
+        email
+        id
+        name
+        post{
+            body
+            id
+            title
+        }
     }
-  }
 }

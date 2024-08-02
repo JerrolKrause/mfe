@@ -1,15 +1,15 @@
-mutation updatePost($id: ID!, $input: UpdatePostInput!) {
-  updatePost(id: $id, input: $input) {
-    body
-    id
-    title
-    user {
-      email
-      id
-      name
-      phone
-      username
-      website
+mutation updatePost($id: ID!, $input: UpdatePostInput!){
+    updatePost(id: $id, input: $input){
+        body
+        id
+        title
+        user{
+            email
+            id
+            name
+            phone
+            username
+            website
+        }
     }
-  }
 }

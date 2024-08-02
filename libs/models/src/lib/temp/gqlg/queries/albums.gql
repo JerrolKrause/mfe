@@ -1,11 +1,11 @@
-query albums($options: PageQueryOptions) {
-  albums(options: $options) {
-    data {
-      id
-      title
+query albums($options: PageQueryOptions){
+    albums(options: $options){
+        data{
+            id
+            title
+        }
+        meta{
+            totalCount
+        }
     }
-    meta {
-      totalCount
-    }
-  }
 }

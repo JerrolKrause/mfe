@@ -1,14 +1,14 @@
-mutation updateAlbum($id: ID!, $input: UpdateAlbumInput!) {
-  updateAlbum(id: $id, input: $input) {
-    id
-    title
-    user {
-      email
-      id
-      name
-      phone
-      username
-      website
+mutation updateAlbum($id: ID!, $input: UpdateAlbumInput!){
+    updateAlbum(id: $id, input: $input){
+        id
+        title
+        user{
+            email
+            id
+            name
+            phone
+            username
+            website
+        }
     }
-  }
 }

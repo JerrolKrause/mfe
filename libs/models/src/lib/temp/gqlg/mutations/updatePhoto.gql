@@ -1,12 +1,12 @@
-mutation updatePhoto($id: ID!, $input: UpdatePhotoInput!) {
-  updatePhoto(id: $id, input: $input) {
-    album {
-      id
-      title
+mutation updatePhoto($id: ID!, $input: UpdatePhotoInput!){
+    updatePhoto(id: $id, input: $input){
+        album{
+            id
+            title
+        }
+        id
+        thumbnailUrl
+        title
+        url
     }
-    id
-    thumbnailUrl
-    title
-    url
-  }
 }

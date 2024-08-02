@@ -1,15 +1,15 @@
-query users($options: PageQueryOptions) {
-  users(options: $options) {
-    data {
-      email
-      id
-      name
-      phone
-      username
-      website
+query users($options: PageQueryOptions){
+    users(options: $options){
+        data{
+            email
+            id
+            name
+            phone
+            username
+            website
+        }
+        meta{
+            totalCount
+        }
     }
-    meta {
-      totalCount
-    }
-  }
 }
