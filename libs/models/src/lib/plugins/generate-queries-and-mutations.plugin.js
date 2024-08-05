@@ -88,10 +88,10 @@ export module ${moduleName} {
     );
 
     // Create index.ts barrel file
-    createBarrelFile(outputDir);
+    // createBarrelFile(outputDir);
 
     // Delete the temp directory
-    deleteDirectory('libs/models/src/lib/temp/');
+    // deleteDirectory('libs/models/src/lib/temp/');
 
     return '';
   },

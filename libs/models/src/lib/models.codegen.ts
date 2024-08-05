@@ -5,6 +5,7 @@ const config: CodegenConfig = {
   schema: 'https://graphqlzero.almansi.me/api',
   overwrite: true,
   generates: {
+    /**
     removeDist: {
       plugins: [
         {
@@ -14,7 +15,7 @@ const config: CodegenConfig = {
         },
       ],
     },
-
+ */
     'libs/models/src/lib/dist/global.graphql': {
       plugins: ['schema-ast'],
     },

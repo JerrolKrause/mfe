@@ -13,5 +13,11 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts", "src/lib/plugins/add-override.plugin.js"]
+  "include": [
+    "src/**/*.ts",
+    "src/lib/plugins/add-override.plugin.js",
+    "src/lib/utils/post-processing.util.js",
+    "src/lib/utils/delete-directory.util.js",
+    "src/lib/utils/pre-processing.util.js"
+  ]
 }
