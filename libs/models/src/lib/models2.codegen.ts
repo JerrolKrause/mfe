@@ -18,15 +18,6 @@ const config: CodegenConfig = {
         baseTypesPath: 'types.ts',
       },
     },
-    'libs/models/src/lib/temp/cleanup.ts': {
-      plugins: [
-        {
-          'libs/models/src/lib/plugins/delete-dir-plugin.js': {
-            directoryToDelete: 'libs/models/src/lib/temp',
-          },
-        },
-      ],
-    },
   },
 };
 

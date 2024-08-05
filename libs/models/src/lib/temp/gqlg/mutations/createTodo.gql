@@ -1,15 +1,15 @@
-mutation createTodo($input: CreateTodoInput!){
-    createTodo(input: $input){
-        completed
-        id
-        title
-        user{
-            email
-            id
-            name
-            phone
-            username
-            website
-        }
+mutation createTodo($input: CreateTodoInput!) {
+  createTodo(input: $input) {
+    completed
+    id
+    title
+    user {
+      email
+      id
+      name
+      phone
+      username
+      website
     }
+  }
 }

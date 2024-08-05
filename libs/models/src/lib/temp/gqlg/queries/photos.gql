@@ -1,13 +1,13 @@
-query photos($options: PageQueryOptions){
-    photos(options: $options){
-        data{
-            id
-            thumbnailUrl
-            title
-            url
-        }
-        meta{
-            totalCount
-        }
+query photos($options: PageQueryOptions) {
+  photos(options: $options) {
+    data {
+      id
+      thumbnailUrl
+      title
+      url
     }
+    meta {
+      totalCount
+    }
+  }
 }

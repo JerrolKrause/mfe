@@ -2,7 +2,6 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 // Generate graph models and dependencies
 const config: CodegenConfig = {
-  // schema: 'libs/models/src/lib/graphql/global.graphql',
   schema: 'https://graphqlzero.almansi.me/api',
   overwrite: true,
   generates: {
