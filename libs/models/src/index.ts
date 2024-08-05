@@ -1,2 +1,1 @@
-export * from './lib/global.graphql';
-export * from './lib/global.models';
+export * from './lib/dist';

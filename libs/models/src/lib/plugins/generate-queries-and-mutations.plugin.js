@@ -3,6 +3,23 @@ const path = require('path');
 const { parse, print } = require('graphql');
 const { deleteDirectory } = require('./delete-dir-plugin.js');
 
+/**
+ * Create a barrel file that exports all TS files in that barrel
+ * @param {*} outputDir
+ */
+const createBarrelFile = (outputDir) => {
+  const files = fs.readdirSync(outputDir);
+  const exportStatements = files
+    .filter((file) => file.endsWith('.ts') && file !== 'index.ts')
+    .map((file) => {
+      const fileName = path.basename(file, '.ts');
+      return `export * from './${fileName}';`;
+    })
+    .join('\n');
+
+  fs.writeFileSync(path.join(outputDir, 'index.ts'), exportStatements);
+};
+
 module.exports = {
   plugin: async (schema, documents, config, info) => {
     // Update these paths to match your project structure
@@ -55,7 +72,6 @@ export module ${moduleName} {
     );
 
     // Mutations
-    // Queries
     const mutationsOutput = moduleWrapper(
       printIndividualContent('Mutation', mutationsContent),
       'Mutations'
@@ -71,7 +87,12 @@ export module ${moduleName} {
       mutationsOutput
     );
 
+    // Create index.ts barrel file
+    createBarrelFile(outputDir);
+
+    // Delete the temp directory
     deleteDirectory('libs/models/src/lib/temp/');
+
     return '';
   },
 };

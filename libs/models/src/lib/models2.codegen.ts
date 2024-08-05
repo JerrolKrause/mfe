@@ -18,16 +18,6 @@ const config: CodegenConfig = {
         baseTypesPath: 'types.ts',
       },
     },
-    /**
-    removeTemp: {
-      plugins: [
-        {
-          'libs/models/src/lib/plugins/delete-dir-plugin.js': {
-            directoryToDelete: 'libs/models/src/lib/temp',
-          },
-        },
-      ],
-    }, */
   },
 };
 
