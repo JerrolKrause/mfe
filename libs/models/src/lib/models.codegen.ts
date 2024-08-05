@@ -5,25 +5,14 @@ const config: CodegenConfig = {
   schema: 'https://graphqlzero.almansi.me/api',
   overwrite: true,
   generates: {
-    /**
-    removeDist: {
-      plugins: [
-        {
-          'libs/models/src/lib/plugins/delete-dir-plugin.js': {
-            directoryToDelete: 'libs/models/src/lib/dist',
-          },
-        },
-      ],
-    },
- */
     'libs/models/src/lib/dist/global.graphql': {
       plugins: ['schema-ast'],
     },
     'libs/models/src/lib/dist/global.models.ts': {
       plugins: [
-        'libs/models/src/lib/plugins/pre.plugin.js',
+        'libs/models/src/lib/plugins/prepend-to-models.plugin.js',
         'typescript',
-        'libs/models/src/lib/plugins/post.plugin.js',
+        'libs/models/src/lib/plugins/append-to-models.plugin.js',
       ],
       config: {
         wrapModule: {
