@@ -9,6 +9,7 @@ const config: CodegenConfig = {
     'libs/models/src/lib/dist/global.models.ts',
   ],
   generates: {
+    // Generate default queries and mutations
     generateQueriesAndMutations: {
       preset: 'near-operation-file',
       plugins: [

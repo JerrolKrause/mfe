@@ -5,9 +5,11 @@ const config: CodegenConfig = {
   schema: 'https://graphqlzero.almansi.me/api',
   overwrite: true,
   generates: {
+    // Generate a graphql file from the endpoint
     'libs/models/src/lib/dist/global.graphql': {
       plugins: ['schema-ast'],
     },
+    // Generate typescript models from the endpoint
     'libs/models/src/lib/dist/global.models.ts': {
       plugins: [
         'libs/models/src/lib/plugins/prepend-to-models.plugin.js',
