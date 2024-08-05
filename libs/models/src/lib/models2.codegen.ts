@@ -9,7 +9,7 @@ const config: CodegenConfig = {
     'libs/models/src/lib/dist/global.models.ts',
   ],
   generates: {
-    'libs/models/src/lib/temp/angular.ts': {
+    generateQueriesAndMutations: {
       preset: 'near-operation-file',
       plugins: [
         'libs/models/src/lib/plugins/generate-queries-and-mutations.plugin.js',
@@ -18,6 +18,16 @@ const config: CodegenConfig = {
         baseTypesPath: 'types.ts',
       },
     },
+    /**
+    removeTemp: {
+      plugins: [
+        {
+          'libs/models/src/lib/plugins/delete-dir-plugin.js': {
+            directoryToDelete: 'libs/models/src/lib/temp',
+          },
+        },
+      ],
+    }, */
   },
 };
 

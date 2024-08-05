@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { parse, print } = require('graphql');
+const { deleteDirectory } = require('./delete-dir-plugin.js');
 
 module.exports = {
   plugin: async (schema, documents, config, info) => {
@@ -70,6 +71,7 @@ export module ${moduleName} {
       mutationsOutput
     );
 
+    deleteDirectory('libs/models/src/lib/temp/');
     return '';
   },
 };
