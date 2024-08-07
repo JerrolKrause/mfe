@@ -25,7 +25,6 @@
       },
       "configurations": {
         "production": {
-          "budgets": [],
           "outputHashing": "all"
         },
         "development": {
