@@ -1,5 +1,5 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { AuthGuard } from '$shared';
+import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Route } from '@angular/router';
 
 export const appRoutes: Route[] = [
@@ -9,6 +9,34 @@ export const appRoutes: Route[] = [
       import('./routes/login/login.module').then((m) => m.LoginModule),
   },
 
+  {
+    path: 'assets',
+    loadChildren: () =>
+      loadRemoteModule({
+        remoteEntry: 'http://localhost:4201/remoteEntry.js',
+        remoteName: 'assets',
+        exposedModule: './Module',
+      }).then((m) => m.AssetsModule),
+  },
+  {
+    path: 'loan-products',
+    loadChildren: () =>
+      loadRemoteModule({
+        remoteEntry: 'http://localhost:4202/remoteEntry.js',
+        remoteName: 'loan-products',
+        exposedModule: './Module',
+      }).then((m) => m.LoanProductsModule),
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      loadRemoteModule({
+        remoteEntry: 'http://localhost:4201/remoteEntry.js',
+        remoteName: 'assets',
+        exposedModule: './Module',
+      }).then((m) => m.AssetsModule),
+  },
+  /**
   {
     path: 'loan',
     loadChildren: () =>
@@ -45,4 +73,5 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('../../../loan/loan.module').then((m) => m.LoanModule),
   },
+   */
 ];

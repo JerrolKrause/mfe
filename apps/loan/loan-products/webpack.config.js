@@ -7,8 +7,7 @@ module.exports = withModuleFederationPlugin({
   name: 'loan-products',
 
   exposes: {
-    './Component':
-      './apps/loan/loan-products/src/app/loan-products.component.ts',
+    './Module': './apps/loan/loan-products/src/app/loan-products.module.ts',
   },
 
   shared: {

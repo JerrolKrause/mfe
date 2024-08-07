@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "npx nx serve app-shell",
+    "start": "concurrently \"npx nx serve app-shell\" \"npx nx serve assets\" \"npx nx serve loan-products\"",
     "dashboard": "npx nx serve dashboard",
     "sandbox": "npx nx serve sandbox",
     "reinstall": "rmdir node_modules /s /q && rmdir .angular /s /q && del package-lock.json /q &&  npm i",
@@ -107,6 +107,7 @@
     "@typescript-eslint/parser": "7.3.0",
     "@typescript-eslint/utils": "^8.0.0-alpha.28",
     "browser-sync": "^3.0.0",
+    "concurrently": "^8.2.2",
     "cypress": "13.8.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "^9.0.0",
