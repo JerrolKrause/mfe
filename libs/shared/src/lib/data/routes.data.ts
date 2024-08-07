@@ -1,6 +1,6 @@
 export const applicationRoutes = [
   { label: 'Applicant Info', path: 'applicant-info' },
-  { label: 'Assets', path: 'assets' },
+  // { label: 'Assets', path: 'assets', remoteEntry:'http://localhost:4201/remoteEntry.js' },
   { label: 'Income', path: 'income' },
   { label: 'Expenses', path: 'expenses' },
   /**

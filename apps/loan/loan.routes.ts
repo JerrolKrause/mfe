@@ -1,7 +1,7 @@
+import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Route } from '@angular/router';
 import { applicationRoutes } from '../../libs/shared/src';
 import { NoContentComponent } from './loan-products/src/app/routes/no-content/no-content.component';
-
 /**
  * Generate loan routes from global routes file. Manually attach correct component for routing
  * @param routes
@@ -14,22 +14,25 @@ export const appRoutesGenerator = (
   }[]
 ) => {
   const appRoutes: Route[] = [
-    /**
     {
-      path: ':loanId',
-      component: SelectLoanTaskComponent,
-      data: { title: 'Loan Products' },
-      children: [],
+      path: 'assets',
+      loadChildren: () =>
+        loadRemoteModule({
+          remoteEntry: 'http://localhost:4201/remoteEntry.js',
+          remoteName: 'assets',
+          exposedModule: './Module',
+        }).then((m) => m.AssetsModule),
+    },
+    {
+      path: 'loan-products',
+      loadChildren: () =>
+        loadRemoteModule({
+          remoteEntry: 'http://localhost:4202/remoteEntry.js',
+          remoteName: 'loan-products',
+          exposedModule: './Module',
+        }).then((m) => m.LoanProductsModule),
     },
 
-
-    {
-      path: '',
-      component: SelectLoanIdComponent,
-      data: { title: 'Loan Products' },
-      children: [],
-    },
-     */
     {
       path: ':loanId/*',
       component: NoContentComponent,

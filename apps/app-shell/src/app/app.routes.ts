@@ -8,6 +8,20 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('./routes/login/login.module').then((m) => m.LoginModule),
   },
+
+  {
+    path: 'loan',
+    loadChildren: () =>
+      import('../../../loan/loan.module').then((m) => m.LoanModule),
+  },
+
+  // Demo Routes
+  {
+    path: 'quoting',
+    loadChildren: () =>
+      import('@quoting/app/quoting.module').then((m) => m.QuotingModule),
+    canActivate: [AuthGuard],
+  },
   {
     path: 'users',
     loadChildren: () =>
@@ -18,17 +32,7 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@sandbox/app/sandbox.module').then((m) => m.SandboxModule),
   },
-  {
-    path: 'loan',
-    loadChildren: () =>
-      import('../../../loan/loan.module').then((m) => m.LoanModule),
-  },
-  {
-    path: 'quoting',
-    loadChildren: () =>
-      import('@quoting/app/quoting.module').then((m) => m.QuotingModule),
-    canActivate: [AuthGuard],
-  },
+
   {
     path: 'class-web',
     loadChildren: () =>
