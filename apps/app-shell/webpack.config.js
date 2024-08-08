@@ -6,9 +6,8 @@ const {
 module.exports = withModuleFederationPlugin({
   remotes: {
     assets: 'http://localhost:4201/remoteEntry.js',
-    loanProducts: 'http://localhost:4202/remoteEntry.js',
+    'loan-products': 'http://localhost:4202/remoteEntry.js',
   },
-
   shared: {
     ...shareAll({
       singleton: true,

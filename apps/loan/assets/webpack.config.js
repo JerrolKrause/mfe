@@ -5,11 +5,9 @@ const {
 
 module.exports = withModuleFederationPlugin({
   name: 'assets',
-
   exposes: {
-    './Module': './apps/loan/assets/src/app/assets.module.ts',
+    './Module': './apps/loan/assets/src/app/assets.module.ts', // Corrected path
   },
-
   shared: {
     ...shareAll({
       singleton: true,
@@ -18,3 +16,9 @@ module.exports = withModuleFederationPlugin({
     }),
   },
 });
+
+module.exports.output = {
+  uniqueName: 'assets',
+  publicPath: 'auto',
+  scriptType: 'module', // Add this line
+};
