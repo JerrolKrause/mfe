@@ -1,15 +1,13 @@
 import { AssetsModels } from '../models';
 
-/** Stub data for assets model */
-export const assetsStubData: AssetsModels.Asset[] = [
+export const assetsStub: AssetsModels.Asset[] = [
   {
     id: '1111',
-
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
-    who: 'Applicant',
-    category: 'Auto or Truck',
+    who: 0,
+    category: 0,
     type: 'Sedan',
     collateral: true,
     reasonNotCollateral: '',
@@ -36,8 +34,8 @@ export const assetsStubData: AssetsModels.Asset[] = [
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
-    who: 'Co-Applicant',
-    category: 'Auto or Truck',
+    who: 1,
+    category: 0,
     type: 'SUV',
     collateral: true,
     reasonNotCollateral: '',
@@ -64,8 +62,8 @@ export const assetsStubData: AssetsModels.Asset[] = [
     anyVehicles: true,
     vehiclesOnCreditBureau: 1,
     collateralVehicles: 1,
-    who: 'Applicant',
-    category: 'Auto or Truck',
+    who: 0,
+    category: 0,
     type: 'Truck',
     collateral: true,
     reasonNotCollateral: '',

@@ -10,11 +10,6 @@ export const vehicleAssetForm: (
 
     content: [
       {
-        type: 'html',
-        html: '<h2>Vehicle Information</h2>',
-      },
-
-      {
         type: 'container',
         cssClasses: 'bg-highlight',
         content: [

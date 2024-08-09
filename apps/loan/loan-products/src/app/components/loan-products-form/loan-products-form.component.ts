@@ -1,5 +1,5 @@
 import { FormsLib } from '$forms';
-import { AppStorageService, AssetsModels, assetsStubData } from '$shared';
+import { AppStorageService, AssetsModels, assetsStub } from '$shared';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +36,7 @@ export class LoanProductsFormComponent {
   });
 
   public assets = signal<AssetsModels.Asset[] | null | undefined>(
-    this.storage.assets ?? assetsStubData // Use data from mock localstorage, fall back to stub data
+    this.storage.assets ?? assetsStub // Use data from mock localstorage, fall back to stub data
   );
 
   public formDefaults = input<Partial<LoanProductModels.LoanProduct> | null>({

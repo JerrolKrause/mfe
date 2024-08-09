@@ -20,8 +20,14 @@
         {{ asset.valuation.year }} {{ asset.valuation.make }}
         {{ asset.valuation.model }}
       </td>
-      <td>{{ asset.who }}</td>
-      <td>{{ asset.category }}</td>
+      <td>
+        @switch (asset.who) { @case (0) {Primary} @case (1) {Coborrower} @case
+        (2) {Joint} }
+      </td>
+      <td>
+        @switch (asset.who) { @case (0) {Auto or Truck} @case (1) {Boat} @case
+        (2) {Trailer} }
+      </td>
       <td>{{ asset.type }}</td>
 
       <td>{{ asset.valuation.vin }}</td>

@@ -25,8 +25,8 @@ export module AssetsModels {
     anyVehicles: boolean | null;
     vehiclesOnCreditBureau: number;
     collateralVehicles: number;
-    who: string;
-    category: string;
+    who: number;
+    category: number;
     type: string | null;
     collateral: boolean | null;
     reasonNotCollateral?: string;
