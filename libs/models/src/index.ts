@@ -1,1 +1,1 @@
-export * from './lib/loan-products/loan-products.graphql.models';
+export * from './lib/dist';

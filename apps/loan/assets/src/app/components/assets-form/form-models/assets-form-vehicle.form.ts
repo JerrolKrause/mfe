@@ -1,15 +1,14 @@
 import { FormsLib } from '$forms';
+import { DialogService } from 'primeng/dynamicdialog';
+import { VehicleLookupModalComponent } from '../../../components/vehicle-lookup-modal/vehicle-lookup-modal.component';
 
-export const vehicleAssetForm: FormsLib.FormGenerator = [
+export const vehicleAssetForm: (
+  dialogService: DialogService
+) => FormsLib.FormGenerator = (dialogService: DialogService) => [
   {
     type: 'container',
 
     content: [
-      {
-        type: 'html',
-        html: '<h2>Vehicle Information</h2>',
-      },
-
       {
         type: 'container',
         cssClasses: 'bg-highlight',
@@ -208,8 +207,15 @@ export const vehicleAssetForm: FormsLib.FormGenerator = [
                     type: 'button',
                     label: 'Lookup',
                     cssClasses: 'p-button w-100 text-center d-block',
-                    cmd: (r) => {
-                      console.log('Launching modal at some point');
+                    cmd: () => {
+                      dialogService.open(VehicleLookupModalComponent, {
+                        header: 'Look up Vehicle Make & Modal',
+                        modal: true,
+                        closable: true,
+                        data: null,
+                        width: '800px',
+                        dismissableMask: true,
+                      });
                     },
                     offsetTop: true,
                   },

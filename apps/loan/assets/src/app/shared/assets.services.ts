@@ -1,8 +1,7 @@
 import { toFormGroup } from '$forms';
-import { AssetsModels } from '$shared';
+import { AssetsModels, assetsStub } from '$shared';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { assetsStub } from './assets.data';
 
 interface AssetForm extends AssetsModels.Asset {
   $$computed: {
@@ -32,8 +31,8 @@ export class AssetsService {
       anyVehicles: null,
       vehiclesOnCreditBureau: null,
       collateralVehicles: null,
-      who: '',
-      category: '',
+      who: 0,
+      category: 0,
       type: '',
       collateral: null,
       reasonNotCollateral: '',
@@ -63,9 +62,7 @@ export class AssetsService {
     true
   );
 
-  constructor() {
-    console.log(this.assetsForm);
-  }
+  constructor() {}
 
   /**
    * Load an existing asset into the assets form

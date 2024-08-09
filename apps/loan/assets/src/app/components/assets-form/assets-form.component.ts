@@ -1,5 +1,6 @@
 import { FormsLib } from '$forms';
 import { Component } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
 import { AssetsService } from '../../shared/assets.services';
 import { vehicleAssetForm } from './form-models/assets-form-vehicle.form';
 
@@ -18,11 +19,14 @@ export class AssetsFormComponent {
   public formModel: FormsLib.FormGenerator = [
     {
       type: 'container',
-      content: [...vehicleAssetForm],
+      content: [...vehicleAssetForm(this.dialogService)],
     },
   ];
 
-  constructor(public assetsSvc: AssetsService) {}
+  constructor(
+    public assetsSvc: AssetsService,
+    private dialogService: DialogService
+  ) {}
 
   onSubmit(): void {
     if (!this.assetsSvc.assetsForm.valid) {

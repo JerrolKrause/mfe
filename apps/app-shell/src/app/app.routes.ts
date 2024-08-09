@@ -39,13 +39,6 @@ export const appRoutes: Route[] = [
   {
     path: '',
     loadChildren: () =>
-      import('@customer/app/customer.module').then((m) => m.CustomerModule),
+      import('../../../loan/loan.module').then((m) => m.LoanModule),
   },
-  /**
-  {
-    path: '',
-    loadChildren: () =>
-      import('@dashboard/app/dashboard.module').then((m) => m.DashboardModule),
-  },
-   */
 ];

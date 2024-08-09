@@ -1,22 +1,22 @@
-<div class="mb-3 d-flex align-items-center">
-  <h2 class="mb-0">Assets Builder</h2>
-  <!--
-  <div class="ms-3">
-    <form [formGroup]="assetsSvc.assetsForm">
-      <p-selectButton
-        [options]="assetTypes"
-        formControlName="assetType"
-        optionLabel="label"
-        optionValue="value"
-      />
-    </form>
-  </div>
-  -->
+<div class="mb-3">
+  @if(assetsSvc.assetsForm.value.id) {
+  <a class="float-end" (click)="assetsSvc.assetsForm.reset()">Cancel Edit</a>
+  }
+
+  <h2 class="mb-0">
+    <lib-icons icon="cog"></lib-icons>
+    @if(assetsSvc.assetsForm.value.id) { Edit Asset } @else { Create Asset }
+  </h2>
 </div>
 
 <lib-form-generator
   [formModel]="formModel"
   [formGroup]="assetsSvc.assetsForm"
-  [options]="{ submitButton: { hide: false, label: 'Submit' } }"
+  [options]="{
+    submitButton: {
+      hide: false,
+      label: assetsSvc.assetsForm.value.id ? 'Update' : 'Submit'
+    }
+  }"
   (completed)="onSubmit()"
 ></lib-form-generator>
