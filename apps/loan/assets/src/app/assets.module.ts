@@ -15,6 +15,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 // Assets Resources
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogService } from 'primeng/dynamicdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { AssetsComponent } from './assets.component';
@@ -32,6 +33,8 @@ import { AssetsService } from './shared/assets.services';
     VehicleLookupModalComponent,
   ],
   imports: [
+    // BrowserModule,
+    BrowserAnimationsModule,
     CommonModule,
     IconsModule,
     FormsLibModule,

@@ -1,8 +1,21 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { AuthGuard } from '$shared';
 import { Route } from '@angular/router';
+import { loadRemoteModule } from '@nx/angular/mf';
 
 export const appRoutes: Route[] = [
+  {
+    path: 'assets',
+    loadChildren: () =>
+      loadRemoteModule('assets', './Module').then((m) => m.AssetsModule),
+  },
+  {
+    path: 'loan-products',
+    loadChildren: () =>
+      loadRemoteModule('loan-products', './Module').then(
+        (m) => m.LoanProductsModule
+      ),
+  },
   {
     path: 'login',
     loadChildren: () =>
