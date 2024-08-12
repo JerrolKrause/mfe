@@ -5,7 +5,8 @@ const share = mf.share;
 
 const sharedMappings = new mf.SharedMappings();
 sharedMappings.register(path.join(__dirname, '../../../tsconfig.base.json'), [
-  'libs/masterpage/src/index.ts', // Add the path to your shared library here
+  'libs/masterpage/src/index.ts',
+  'libs/icons/src/index.ts',
 ]);
 
 module.exports = {
@@ -85,11 +86,39 @@ module.exports = {
           strictVersion: true,
           requiredVersion: 'auto',
         },
+        '@fortawesome/angular-fontawesome': {
+          singleton: true,
+          strictVersion: true,
+        },
+        '@fortawesome/fontawesome-free': {
+          singleton: true,
+          strictVersion: true,
+        },
+        '@fortawesome/fontawesome-svg-core': {
+          singleton: true,
+          strictVersion: true,
+        },
+        '@fortawesome/free-brands-svg-icons': {
+          singleton: true,
+          strictVersion: true,
+        },
+        'free-regular-svg-icons': {
+          singleton: true,
+          strictVersion: true,
+        },
+        '@fortawesome/free-solid-svg-icons': {
+          singleton: true,
+          strictVersion: true,
+        },
         // Share the masterpage library
         masterpage: {
           singleton: true,
           import: 'libs/masterpage/src/index.ts',
           // requiredVersion: 'auto',
+        },
+        icons: {
+          singleton: true,
+          import: 'libs/icons/src/index.ts',
         },
         ...sharedMappings.getDescriptors(),
       }),

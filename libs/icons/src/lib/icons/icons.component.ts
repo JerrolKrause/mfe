@@ -90,6 +90,7 @@ export type AvailableIcons =
   templateUrl: './icons.component.html',
   styleUrl: './icons.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { hostID: crypto.randomUUID().toString() },
 })
 export class IconsComponent {
   @Input() icon?: AvailableIcons | null = null;

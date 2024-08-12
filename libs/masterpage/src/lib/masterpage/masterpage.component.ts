@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
   selector: 'lib-masterpage',
   templateUrl: './masterpage.component.html',
   styleUrl: './masterpage.component.scss',
+  host: { hostID: crypto.randomUUID().toString() },
 })
 export class MasterpageComponent {
   @Input() fullWidth = false;
