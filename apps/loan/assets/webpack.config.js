@@ -76,6 +76,20 @@ module.exports = {
           strictVersion: true,
           requiredVersion: 'auto',
         },
+        '@angular/forms': {
+          singleton: true,
+          strictVersion: true,
+          requiredVersion: 'auto',
+        },
+        rxjs: {
+          singleton: true,
+          strictVersion: true,
+        },
+        graphql: {
+          singleton: true,
+          strictVersion: true,
+          requiredVersion: 'auto',
+        },
         primeng: {
           singleton: true,
           strictVersion: true,
