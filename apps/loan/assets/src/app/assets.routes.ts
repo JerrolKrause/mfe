@@ -8,10 +8,4 @@ export const appRoutes: Route[] = [
     data: { title: 'Assets' },
     children: [],
   },
-  {
-    path: `*`,
-    component: AssetsComponent,
-    data: { title: 'Assets' },
-    children: [],
-  },
 ];

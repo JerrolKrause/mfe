@@ -1,26 +1,61 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { AuthGuard } from '$shared';
 import { Route } from '@angular/router';
 import { loadRemoteModule } from '@nx/angular/mf';
+import { NoContentComponent } from 'apps/app-shell/src/app/routes/no-content/no-content.component';
 
 export const appRoutes: Route[] = [
+  /**
+   * Dynamic Module Federation
+   */
   {
-    path: 'assets',
+    path: 'loan',
+    children: [
+      {
+        path: ':loanId/loan-products',
+        loadChildren: () =>
+          loadRemoteModule('loan-products', './Module').then(
+            (m) => m.LoanProductsModule
+          ),
+      },
+      {
+        path: ':loanId/assets',
+        loadChildren: () =>
+          loadRemoteModule('assets', './Module').then((m) => m.AssetsModule),
+      },
+    ],
+  },
+  /**
+   * Static Module Federation
+  {
+    path: 'loan/:loanId/assets',
     loadChildren: () =>
       loadRemoteModule('assets', './Module').then((m) => m.AssetsModule),
   },
   {
-    path: 'loan-products',
+    path: 'loan/:loanId/loan-products',
     loadChildren: () =>
       loadRemoteModule('loan-products', './Module').then(
         (m) => m.LoanProductsModule
       ),
   },
+   */
   {
     path: 'login',
     loadChildren: () =>
       import('./routes/login/login.module').then((m) => m.LoginModule),
   },
+  {
+    path: ``,
+    component: NoContentComponent,
+    data: { title: 'Coming Soon' },
+  },
+  {
+    path: `**`,
+    component: NoContentComponent,
+    data: { title: 'Coming Soon' },
+  },
+  /**
+   * POCs and legacy
   {
     path: 'users',
     loadChildren: () =>
@@ -31,11 +66,13 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@sandbox/app/sandbox.module').then((m) => m.SandboxModule),
   },
+
   {
     path: 'loan',
     loadChildren: () =>
       import('../../../loan/loan.module').then((m) => m.LoanModule),
   },
+
   {
     path: 'quoting',
     loadChildren: () =>
@@ -49,9 +86,11 @@ export const appRoutes: Route[] = [
         (m) => m.TeamMemberModule
       ),
   },
+
   {
     path: '',
     loadChildren: () =>
       import('../../../loan/loan.module').then((m) => m.LoanModule),
   },
+  */
 ];

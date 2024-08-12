@@ -12,9 +12,10 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { LibsLazyLoad } from './lazy.module';
+import { NoContentComponent } from './routes/no-content/no-content.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NoContentComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
