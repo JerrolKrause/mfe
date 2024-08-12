@@ -11,7 +11,7 @@ export class NoContentComponent {
   public title$ = this.route.url.pipe(
     map((segments) => {
       const lastSegment = segments[segments.length - 1]?.path;
-      return this.toTitleCase(lastSegment ?? 'Coming Soon');
+      return this.toTitleCase(lastSegment ?? '');
     })
   );
 
