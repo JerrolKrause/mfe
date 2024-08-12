@@ -5,7 +5,7 @@ const share = mf.share;
 
 const sharedMappings = new mf.SharedMappings();
 sharedMappings.register(path.join(__dirname, '../../../tsconfig.base.json'), [
-  /* mapped paths to share */
+  'libs/masterpage/src/index.ts', // Add the path to your shared library here
 ]);
 
 module.exports = {
@@ -75,7 +75,22 @@ module.exports = {
           strictVersion: true,
           requiredVersion: 'auto',
         },
-
+        primeng: {
+          singleton: true,
+          strictVersion: true,
+          requiredVersion: 'auto',
+        },
+        primeicons: {
+          singleton: true,
+          strictVersion: true,
+          requiredVersion: 'auto',
+        },
+        // Share the masterpage library
+        masterpage: {
+          singleton: true,
+          import: 'libs/masterpage/src/index.ts',
+          // requiredVersion: 'auto',
+        },
         ...sharedMappings.getDescriptors(),
       }),
     }),
