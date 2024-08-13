@@ -9,31 +9,71 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "$brand": ["libs/brand/src"],
-      "$forms": ["libs/forms/src/index.ts"],
-      "$icons": ["libs/icons/src/index.ts"],
-      "$masterpage": ["libs/masterpage/src/index.ts"],
-      "$quote-calculator": ["libs/quote-calculator/src/index.ts"],
-      "$shared": ["libs/shared/src/index.ts"],
-      "$state-management": ["libs/state-management/src/index.ts"],
-      "$models": ["libs/models/src/index.ts"],
-      "@assets/*": ["apps/loan/assets/src/*"],
-      "@customer/*": ["apps/customer/src/*"],
-      "@dashboard/*": ["apps/dashboard/src/*"],
-      "@loan-products/*": ["apps/loan/loan-products/src/*"],
-      "@quoting/*": ["apps/quoting/src/*"],
-      "@sandbox/*": ["apps/sandbox/src/*"],
-      "@team-member/*": ["apps/team-member/src/*"],
-      "@users/*": ["apps/users/src/*"],
-      "clickstream": ["libs/clickstream/src/index.ts"]
+      "$brand": [
+        "libs/brand/src"
+      ],
+      "$forms": [
+        "libs/forms/src/index.ts"
+      ],
+      "$icons": [
+        "libs/icons/src/index.ts"
+      ],
+      "$masterpage": [
+        "libs/masterpage/src/index.ts"
+      ],
+      "$quote-calculator": [
+        "libs/quote-calculator/src/index.ts"
+      ],
+      "$shared": [
+        "libs/shared/src/index.ts"
+      ],
+      "$state-management": [
+        "libs/state-management/src/index.ts"
+      ],
+      "$models": [
+        "libs/models/src/index.ts"
+      ],
+      "@assets/*": [
+        "apps/loan/assets/src/*"
+      ],
+      "@customer/*": [
+        "apps/customer/src/*"
+      ],
+      "@dashboard/*": [
+        "apps/dashboard/src/*"
+      ],
+      "@loan-products/*": [
+        "apps/loan/loan-products/src/*"
+      ],
+      "@quoting/*": [
+        "apps/quoting/src/*"
+      ],
+      "@sandbox/*": [
+        "apps/sandbox/src/*"
+      ],
+      "@team-member/*": [
+        "apps/team-member/src/*"
+      ],
+      "@users/*": [
+        "apps/users/src/*"
+      ],
+      "clickstream": [
+        "libs/clickstream/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

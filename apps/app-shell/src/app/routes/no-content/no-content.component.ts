@@ -10,8 +10,8 @@ import { map } from 'rxjs';
 export class NoContentComponent {
   public title$ = this.route.url.pipe(
     map((segments) => {
-      const lastSegment = segments[segments.length - 1].path;
-      return this.toTitleCase(lastSegment);
+      const lastSegment = segments[segments.length - 1]?.path;
+      return this.toTitleCase(lastSegment ?? '');
     })
   );
 
