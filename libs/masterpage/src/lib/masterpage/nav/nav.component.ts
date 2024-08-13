@@ -13,7 +13,6 @@ interface MainMenuItem {
   selector: 'lib-nav',
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss',
-  host: { hostID: crypto.randomUUID().toString() },
 })
 export class NavComponent implements OnInit, OnDestroy {
   public navMenu: MainMenuItem[] = [

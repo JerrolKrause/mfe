@@ -8,7 +8,6 @@ import { CombineEntityState } from '../../utils/combineEntityState.util';
   styleUrls: ['./api-state.component.scss'],
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
-  host: { hostID: crypto.randomUUID().toString() },
 })
 export class DomainStateComponent {
   /** Default domain state */

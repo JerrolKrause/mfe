@@ -27,7 +27,6 @@ interface App {
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   encapsulation: ViewEncapsulation.None,
-  host: { hostID: crypto.randomUUID().toString() },
 })
 export class SidebarComponent implements OnInit {
   public loanId$ = this.route.params.pipe(

@@ -13,7 +13,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
-  host: { hostID: crypto.randomUUID().toString() },
 })
 export class ErrorComponent implements OnInit {
   /** Error message to show */

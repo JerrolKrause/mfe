@@ -5,7 +5,6 @@ import { BehaviorSubject, filter, map, mergeMap } from 'rxjs';
   selector: 'lib-title',
   templateUrl: './title.component.html',
   styleUrl: './title.component.scss',
-  host: { hostID: crypto.randomUUID().toString() },
 })
 export class TitleComponent {
   // Mock http call that takes the loan ID and returns data about the loan
