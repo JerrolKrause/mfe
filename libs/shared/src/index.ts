@@ -1,5 +1,6 @@
 export * from './lib/data';
 export * from './lib/enums';
+export * from './lib/env';
 export * from './lib/guards';
 export * from './lib/interceptors';
 export * from './lib/models';

@@ -6,7 +6,7 @@ import { NoContentComponent } from 'apps/app-shell/src/app/routes/no-content/no-
 export const appRoutes: Route[] = [
   /**
    * Dynamic Module Federation
-   */
+   * Not for the faint of heart
   {
     path: 'loan',
     children: [
@@ -24,8 +24,10 @@ export const appRoutes: Route[] = [
       },
     ],
   },
+  */
   /**
    * Static Module Federation
+   */
   {
     path: 'loan/:loanId/assets',
     loadChildren: () =>
@@ -38,7 +40,7 @@ export const appRoutes: Route[] = [
         (m) => m.LoanProductsModule
       ),
   },
-   */
+
   {
     path: 'login',
     loadChildren: () =>
