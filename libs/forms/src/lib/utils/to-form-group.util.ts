@@ -1,6 +1,6 @@
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
-/** Extends formgroup interface to improve typing and add additonal functionality */
+/** Extends formgroup interface to improve typing and add additional functionality */
 interface FormGroupDynamic<T extends Record<string, any>> extends FormGroup {
   /** Add property interface typing to the .value property of the root formgroup */
   value: T;
@@ -27,7 +27,8 @@ type Nillable<T> = {
  *
  * @template T - The type of the object to be converted to a form.
  * @param {T} data - The object to be converted to a form.
- * @param {boolean} [allowNulls=false] - Optional flag to allow nullable properties.
+ * @param {object} [options] - Optional configuration for the form group.
+ * @param {boolean} [options.allowNulls=false] - Optional flag to allow nullable properties.
  * @returns {FormGroupDynamic<T> | FormGroupDynamic<Nillable<T>>} - The generated FormGroup.
  *
  * @example
@@ -51,7 +52,7 @@ type Nillable<T> = {
  *   hobbies: ['Reading', 'Hiking']
  * };
  *
- * const form = toFormGroup<MyForm>(data, true);
+ * const form = toFormGroup<MyForm>(data, { allowNulls: true });
  * console.log(form.value); // Logs the form's value with possible nulls
  */
 export function toFormGroup<T extends Record<string, any>>(
@@ -59,18 +60,18 @@ export function toFormGroup<T extends Record<string, any>>(
 ): FormGroupDynamic<T>;
 export function toFormGroup<T extends Record<string, any>>(
   data: Nillable<T>,
-  allowNulls: true
+  options: { allowNulls: true }
 ): FormGroupDynamic<Nillable<T>>;
 export function toFormGroup<T extends Record<string, any>>(
   data: T,
-  allowNulls?: false
+  options: { allowNulls: false }
 ): FormGroupDynamic<T>;
 export function toFormGroup<T extends Record<string, any>>(
   data: T | Nillable<T>,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _allowNulls = false // allowNulls not used, just used to make the input model nillable via argument
+  options?: { allowNulls?: boolean }
 ): FormGroupDynamic<T | Nillable<T>> {
   const fb = new FormBuilder();
+  const allowNulls = options?.allowNulls ?? false;
 
   /**
    * Recursively builds form controls for the provided value.
@@ -91,16 +92,42 @@ export function toFormGroup<T extends Record<string, any>>(
       return fb.group(group);
     } else {
       // Build form controls for primitives
-      return fb.control(value);
+      return fb.control(allowNulls ? value ?? null : value);
     }
   }
 
-  const formGroup = buildFormControl(data) as FormGroupDynamic<T>;
-  // Monkey patch a reset defaults method. This will restore the original values supplied by the input model
+  // If allowNulls is true, convert data to its nillable version
+  const formData = allowNulls ? makeNillable(data) : data;
+
+  const formGroup = buildFormControl(formData) as FormGroupDynamic<
+    T | Nillable<T>
+  >;
+
+  // Monkey patch a resetDefaults method. This will restore the original values supplied by the input model
   // By default the .reset() method sets everything to null which may not be desirable
   formGroup.resetDefaults = () => {
     formGroup.reset();
-    formGroup.patchValue(data);
+    formGroup.patchValue(formData);
   };
+
   return formGroup;
+}
+
+/**
+ * Converts an object to a nillable version of itself.
+ *
+ * @param {T} obj - The object to make nillable.
+ * @returns {Nillable<T>} - The nillable version of the object.
+ */
+function makeNillable<T extends Record<string, any>>(obj: T): Nillable<T> {
+  const result: any = {};
+  Object.keys(obj).forEach((key) => {
+    const value = obj[key];
+    if (typeof value === 'object' && value !== null) {
+      result[key] = makeNillable(value);
+    } else {
+      result[key] = value ?? null;
+    }
+  });
+  return result;
 }

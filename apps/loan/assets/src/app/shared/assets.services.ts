@@ -59,10 +59,10 @@ export class AssetsService {
       equity: null,
       monthlyPayment: null,
     },
-    true
+    {
+      allowNulls: true,
+    }
   );
-
-  constructor() {}
 
   /**
    * Load an existing asset into the assets form
