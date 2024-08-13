@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "npm run env && npx nx serve app-shell",
-    "start:all": "npm run env && concurrently \"npx nx serve app-shell\" \"npx nx serve assets\" \"npx nx serve loan-products\"",
+    "start": "npx nx serve app-shell",
+    "start:all": "concurrently \"npx nx serve app-shell\" \"npx nx serve assets\" \"npx nx serve loan-products\"",
     "reinstall": "rmdir node_modules /s /q && rmdir .angular /s /q && del package-lock.json /q &&  npm i",
     "ng": "ng",
     "env": "node environment-load.config.js",
