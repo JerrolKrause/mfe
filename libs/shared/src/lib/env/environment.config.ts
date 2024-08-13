@@ -6,7 +6,7 @@ declare const process: any;
 export interface EnvironmentConfig {
   /** Is this production */
   IS_PROD: boolean;
-  /** Use dynamic module federation instead of static, default false */
+  /** Use dynamic module federation instead of static, leave this false unless you really know what you are doing */
   DYNAMIC_MODULE_FEDERATION: boolean;
 }
 
