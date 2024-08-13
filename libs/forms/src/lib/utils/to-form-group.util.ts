@@ -18,17 +18,25 @@ type Nillable<T> = {
 };
 
 /**
+ * Options for configuring the toFormGroup function.
+ */
+interface FormGroupOptions<T> {
+  validator?: (value: T) => boolean;
+}
+
+/**
  * Converts a JSON object or a JavaScript object to a type-safe Angular reactive form.
  * Automatically creates nested form groups and form arrays.
  * Preserves the correct input interface for the values property.
- * Optionally makes the input form model nullable via an input argument.
+ * Optionally makes the input form model nullable via a generic parameter.
  * Ensures data read from the values property can correctly have null as an option.
  * Adds a resetDefaults method to restore the data used to initialize the form group.
+ * Allows custom validation logic to be applied via the `validator` option.
  *
  * @template T - The type of the object to be converted to a form.
+ * @template AllowNulls - Whether to make the form's fields nullable.
  * @param {T} data - The object to be converted to a form.
- * @param {object} [options] - Optional configuration for the form group.
- * @param {boolean} [options.allowNulls=false] - Optional flag to allow nullable properties.
+ * @param {FormGroupOptions<T>} [options] - Optional configuration for the form group.
  * @returns {FormGroupDynamic<T> | FormGroupDynamic<Nillable<T>>} - The generated FormGroup.
  *
  * @example
@@ -52,26 +60,19 @@ type Nillable<T> = {
  *   hobbies: ['Reading', 'Hiking']
  * };
  *
- * const form = toFormGroup<MyForm>(data, { allowNulls: true });
+ * const form = toFormGroup<MyForm, true>(data, {
+ *   validator: (value) => value.age > 18, // Custom validation: age must be greater than 18
+ * });
  * console.log(form.value); // Logs the form's value with possible nulls
  */
-export function toFormGroup<T extends Record<string, any>>(
-  data: T
-): FormGroupDynamic<T>;
-export function toFormGroup<T extends Record<string, any>>(
-  data: Nillable<T>,
-  options: { allowNulls: true }
-): FormGroupDynamic<Nillable<T>>;
-export function toFormGroup<T extends Record<string, any>>(
-  data: T,
-  options: { allowNulls: false }
-): FormGroupDynamic<T>;
-export function toFormGroup<T extends Record<string, any>>(
-  data: T | Nillable<T>,
-  options?: { allowNulls?: boolean }
-): FormGroupDynamic<T | Nillable<T>> {
+export function toFormGroup<
+  T extends Record<string, any>,
+  AllowNulls extends boolean = false
+>(
+  data: AllowNulls extends true ? Nillable<T> : T,
+  options?: FormGroupOptions<T>
+): FormGroupDynamic<AllowNulls extends true ? Nillable<T> : T> {
   const fb = new FormBuilder();
-  const allowNulls = options?.allowNulls ?? false;
 
   /**
    * Recursively builds form controls for the provided value.
@@ -92,42 +93,29 @@ export function toFormGroup<T extends Record<string, any>>(
       return fb.group(group);
     } else {
       // Build form controls for primitives
-      return fb.control(allowNulls ? value ?? null : value);
+      return fb.control(value);
     }
   }
 
-  // If allowNulls is true, convert data to its nillable version
-  const formData = allowNulls ? makeNillable(data) : data;
-
-  const formGroup = buildFormControl(formData) as FormGroupDynamic<
-    T | Nillable<T>
+  // Build the form group
+  const formGroup = buildFormControl(data) as FormGroupDynamic<
+    AllowNulls extends true ? Nillable<T> : T
   >;
 
   // Monkey patch a resetDefaults method. This will restore the original values supplied by the input model
   // By default the .reset() method sets everything to null which may not be desirable
   formGroup.resetDefaults = () => {
     formGroup.reset();
-    formGroup.patchValue(formData);
+    formGroup.patchValue(data);
   };
 
-  return formGroup;
-}
+  // Apply custom validator if provided
+  if (options?.validator) {
+    formGroup.setValidators(() => {
+      const isValid = options.validator!(formGroup.value as T);
+      return isValid ? null : { customValidation: true };
+    });
+  }
 
-/**
- * Converts an object to a nillable version of itself.
- *
- * @param {T} obj - The object to make nillable.
- * @returns {Nillable<T>} - The nillable version of the object.
- */
-function makeNillable<T extends Record<string, any>>(obj: T): Nillable<T> {
-  const result: any = {};
-  Object.keys(obj).forEach((key) => {
-    const value = obj[key];
-    if (typeof value === 'object' && value !== null) {
-      result[key] = makeNillable(value);
-    } else {
-      result[key] = value ?? null;
-    }
-  });
-  return result;
+  return formGroup;
 }
