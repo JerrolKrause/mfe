@@ -8,6 +8,8 @@ sharedMappings.register(path.join(__dirname, '../../tsconfig.base.json'), [
   'libs/masterpage/src/index.ts',
   'libs/icons/src/index.ts',
 ]);
+console.log(process.env);
+const isDynamicFederation = process.env.dynamicModuleFederation === 'false';
 
 module.exports = {
   output: {
@@ -26,32 +28,20 @@ module.exports = {
     outputModule: true,
   },
   plugins: [
+    /**
     new ModuleFederationPlugin({
       library: { type: 'module' },
-      remotes: {
-        assets: 'assets@http://localhost:4201/remoteEntry.js',
-        'loan-products': 'loan-products@http://localhost:4202/remoteEntry.js',
-      },
-      // For remotes (please adjust)
-      // name: "appShell",
-      // filename: "remoteEntry.js",
+      remotes: isDynamicFederation
+        ? {} // If dynamic federation, remotes are not statically defined
+        : {
+            assets: 'assets@http://localhost:4201/remoteEntry.js',
+            'loan-products':
+              'loan-products@http://localhost:4202/remoteEntry.js',
+          },
+      // Optionally, you can also dynamically set the remotes in the runtime code, if required
       // exposes: {
       //     './Component': './apps/app-shell/src/app/app.component.ts',
       // },
-
-      // For hosts (please adjust)
-      // remotes: {
-      //     "customer": "http://localhost:4200/remoteEntry.js",
-      //     "dashboard": "http://localhost:4201/remoteEntry.js",
-      //     "assets": "http://localhost:4200/remoteEntry.js",
-      //     "loanProducts": "http://localhost:4200/remoteEntry.js",
-      //     "quoting": "http://localhost:4200/remoteEntry.js",
-      //     "sandbox": "http://localhost:4202/remoteEntry.js",
-      //     "teamMember": "http://localhost:4200/remoteEntry.js",
-      //     "users": "http://localhost:4200/remoteEntry.js",
-
-      // },
-
       shared: share({
         '@angular/core': {
           singleton: true,
@@ -134,5 +124,6 @@ module.exports = {
       }),
     }),
     sharedMappings.getPlugin(),
+     */
   ],
 };

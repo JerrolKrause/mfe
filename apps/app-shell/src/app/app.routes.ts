@@ -1,15 +1,29 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { Route } from '@angular/router';
-import { loadRemoteModule } from '@nx/angular/mf';
 import { NoContentComponent } from 'apps/app-shell/src/app/routes/no-content/no-content.component';
 
 export const appRoutes: Route[] = [
-  /**
-   * Dynamic Module Federation
-   * Not for the faint of heart
   {
     path: 'loan',
     children: [
+      /**
+       * Static Module Federation
+       */
+      {
+        path: `:loanId/loan-products`,
+        loadChildren: () =>
+          import('@loan-products/app/loan-products.module').then(
+            (m) => m.LoanProductsModule
+          ),
+      },
+      {
+        path: `:loanId/assets`,
+        loadChildren: () =>
+          import('@assets/app/assets.module').then((m) => m.AssetsModule),
+      },
+      /**
+       * Dynamic Module Federation
+       * Not for the faint of heart
       {
         path: ':loanId/loan-products',
         loadChildren: () =>
@@ -22,23 +36,8 @@ export const appRoutes: Route[] = [
         loadChildren: () =>
           loadRemoteModule('assets', './Module').then((m) => m.AssetsModule),
       },
+      */
     ],
-  },
-  */
-  /**
-   * Static Module Federation
-   */
-  {
-    path: 'loan/:loanId/assets',
-    loadChildren: () =>
-      loadRemoteModule('assets', './Module').then((m) => m.AssetsModule),
-  },
-  {
-    path: 'loan/:loanId/loan-products',
-    loadChildren: () =>
-      loadRemoteModule('loan-products', './Module').then(
-        (m) => m.LoanProductsModule
-      ),
   },
 
   {
