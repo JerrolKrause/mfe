@@ -21,6 +21,14 @@ type Nillable<T> = {
  * Options for configuring the toFormGroup function.
  */
 interface FormGroupOptions<T> {
+  /**
+   * A custom validator function for the form group.
+   * Receives the form group's current value as an argument.
+   * Should return `true` if the form is valid, or `false` if invalid.
+   *
+   * @param {T} value - The current value of the form group.
+   * @returns {boolean} - Whether the form is valid.
+   */
   validator?: (value: T) => boolean;
 }
 
@@ -63,7 +71,15 @@ interface FormGroupOptions<T> {
  * const form = toFormGroup<MyForm, true>(data, {
  *   validator: (value) => value.age > 18, // Custom validation: age must be greater than 18
  * });
+ *
  * console.log(form.value); // Logs the form's value with possible nulls
+ * console.log(form.valid); // Logs whether the form is valid (based on the custom validator)
+ *
+ * // Check for custom validation errors
+ * form.updateValueAndValidity(); // Manually trigger validation
+ * if (form.errors?.customValidation) {
+ *   console.log('Form is invalid according to the custom validator');
+ * }
  */
 export function toFormGroup<
   T extends Record<string, any>,
