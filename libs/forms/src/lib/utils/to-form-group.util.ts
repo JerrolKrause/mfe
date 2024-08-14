@@ -1,6 +1,6 @@
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
-/** Extends formgroup interface to improve typing and add additonal functionality */
+/** Extends formgroup interface to improve typing and add additional functionality */
 interface FormGroupDynamic<T extends Record<string, any>> extends FormGroup {
   /** Add property interface typing to the .value property of the root formgroup */
   value: T;
@@ -18,16 +18,33 @@ type Nillable<T> = {
 };
 
 /**
+ * Options for configuring the toFormGroup function.
+ */
+interface FormGroupOptions<T> {
+  /**
+   * A custom validator function for the form group.
+   * Receives the form group's current value as an argument.
+   * Should return `true` if the form is valid, or `false` if invalid.
+   *
+   * @param {T} value - The current value of the form group.
+   * @returns {boolean} - Whether the form is valid.
+   */
+  validator?: (value: T) => boolean;
+}
+
+/**
  * Converts a JSON object or a JavaScript object to a type-safe Angular reactive form.
  * Automatically creates nested form groups and form arrays.
  * Preserves the correct input interface for the values property.
- * Optionally makes the input form model nullable via an input argument.
+ * Optionally makes the input form model nullable via a generic parameter.
  * Ensures data read from the values property can correctly have null as an option.
  * Adds a resetDefaults method to restore the data used to initialize the form group.
+ * Allows custom validation logic to be applied via the `validator` option.
  *
  * @template T - The type of the object to be converted to a form.
+ * @template AllowNulls - Whether to make the form's fields nullable.
  * @param {T} data - The object to be converted to a form.
- * @param {boolean} [allowNulls=false] - Optional flag to allow nullable properties.
+ * @param {FormGroupOptions<T>} [options] - Optional configuration for the form group.
  * @returns {FormGroupDynamic<T> | FormGroupDynamic<Nillable<T>>} - The generated FormGroup.
  *
  * @example
@@ -51,25 +68,26 @@ type Nillable<T> = {
  *   hobbies: ['Reading', 'Hiking']
  * };
  *
- * const form = toFormGroup<MyForm>(data, true);
+ * const form = toFormGroup<MyForm, true>(data, {
+ *   validator: (value) => value.age > 18, // Custom validation: age must be greater than 18
+ * });
+ *
  * console.log(form.value); // Logs the form's value with possible nulls
+ * console.log(form.valid); // Logs whether the form is valid (based on the custom validator)
+ *
+ * // Check for custom validation errors
+ * form.updateValueAndValidity(); // Manually trigger validation
+ * if (form.errors?.customValidation) {
+ *   console.log('Form is invalid according to the custom validator');
+ * }
  */
-export function toFormGroup<T extends Record<string, any>>(
-  data: T
-): FormGroupDynamic<T>;
-export function toFormGroup<T extends Record<string, any>>(
-  data: Nillable<T>,
-  allowNulls: true
-): FormGroupDynamic<Nillable<T>>;
-export function toFormGroup<T extends Record<string, any>>(
-  data: T,
-  allowNulls?: false
-): FormGroupDynamic<T>;
-export function toFormGroup<T extends Record<string, any>>(
-  data: T | Nillable<T>,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _allowNulls = false // allowNulls not used, just used to make the input model nillable via argument
-): FormGroupDynamic<T | Nillable<T>> {
+export function toFormGroup<
+  T extends Record<string, any>,
+  AllowNulls extends boolean = false
+>(
+  data: AllowNulls extends true ? Nillable<T> : T,
+  options?: FormGroupOptions<T>
+): FormGroupDynamic<AllowNulls extends true ? Nillable<T> : T> {
   const fb = new FormBuilder();
 
   /**
@@ -95,12 +113,25 @@ export function toFormGroup<T extends Record<string, any>>(
     }
   }
 
-  const formGroup = buildFormControl(data) as FormGroupDynamic<T>;
-  // Monkey patch a reset defaults method. This will restore the original values supplied by the input model
+  // Build the form group
+  const formGroup = buildFormControl(data) as FormGroupDynamic<
+    AllowNulls extends true ? Nillable<T> : T
+  >;
+
+  // Monkey patch a resetDefaults method. This will restore the original values supplied by the input model
   // By default the .reset() method sets everything to null which may not be desirable
   formGroup.resetDefaults = () => {
     formGroup.reset();
     formGroup.patchValue(data);
   };
+
+  // Apply custom validator if provided
+  if (options?.validator) {
+    formGroup.setValidators(() => {
+      const isValid = options.validator!(formGroup.value as T);
+      return isValid ? null : { customValidation: true };
+    });
+  }
+
   return formGroup;
 }

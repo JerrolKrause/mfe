@@ -21,48 +21,43 @@ export class AssetsService {
   private _assets$ = new BehaviorSubject<AssetsModels.Asset[]>(assetsStub);
   public assets$ = this._assets$.asObservable();
 
-  public assetsForm = toFormGroup<AssetForm>(
-    {
-      $$computed: {
-        selected: false,
-        noVinToggle: false,
-      },
-      id: '',
-      anyVehicles: null,
-      vehiclesOnCreditBureau: null,
-      collateralVehicles: null,
-      who: 0,
-      category: 0,
-      type: '',
-      collateral: null,
-      reasonNotCollateral: '',
-      valuation: {
-        year: '',
-        make: '',
-        model: '',
-        vin: '',
-        mileage: null,
-        mileageUpdated: null,
-        value: null,
-        by: '',
-        ownedFreeAndClear: null,
-        firstLienHolder: '',
-        balance: null,
-        secondLienHolder: '',
-        autoCheckComplete: null,
-        vehicleInspection: null,
-        exceptionApproved: null,
-        qualifiedForDirectAuto: null,
-      },
-      salvageTitle: null,
-      purchaseMoney: null,
-      equity: null,
-      monthlyPayment: null,
+  public assetsForm = toFormGroup<AssetForm, true>({
+    $$computed: {
+      selected: false,
+      noVinToggle: false,
     },
-    true
-  );
-
-  constructor() {}
+    id: '',
+    anyVehicles: null,
+    vehiclesOnCreditBureau: null,
+    collateralVehicles: null,
+    who: 0,
+    category: 0,
+    type: '',
+    collateral: null,
+    reasonNotCollateral: '',
+    valuation: {
+      year: '',
+      make: '',
+      model: '',
+      vin: '',
+      mileage: null,
+      mileageUpdated: null,
+      value: null,
+      by: '',
+      ownedFreeAndClear: null,
+      firstLienHolder: '',
+      balance: null,
+      secondLienHolder: '',
+      autoCheckComplete: null,
+      vehicleInspection: null,
+      exceptionApproved: null,
+      qualifiedForDirectAuto: null,
+    },
+    salvageTitle: null,
+    purchaseMoney: null,
+    equity: null,
+    monthlyPayment: null,
+  });
 
   /**
    * Load an existing asset into the assets form
