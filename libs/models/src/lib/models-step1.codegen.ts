@@ -2,7 +2,11 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 // Generate graph models and dependencies
 const config: CodegenConfig = {
-  schema: 'https://graphqlzero.almansi.me/api',
+  // schema: 'https://graphqlzero.almansi.me/api',
+  // schema: 'https://credit-app-processing-egg.brie.alt.meanion.com/christian',
+  // schema: 'https://credit-app-processing-egg.brie.alt.meanion.com/develop',
+  // schema: 'https://domain-gateway-egg.brie.alt.meanion.com/christian',
+  schema: 'https://domain-gateway-egg.brie.alt.meanion.com/develop',
   overwrite: true,
   generates: {
     // Generate a graphql file from the endpoint
