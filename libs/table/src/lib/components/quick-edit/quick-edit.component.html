@@ -1,0 +1,63 @@
+<span class="quick-edit">
+  <ng-content></ng-content>
+</span>
+<p-overlayPanel #op (onShow)="onShow()" (onHide)="onHide()">
+  @if(isEditing()){
+  <div class="quick-edit-field mb-2">
+    <div>
+      <label>{{ label() }}</label>
+    </div>
+
+    @switch(inputType()){
+    <!-- Text -->
+    @case('text') {
+    <input
+      pInputText
+      [formControl]="formControl"
+      (keydown)="keyupEvent($event)"
+    />
+    }
+    <!-- Number -->
+    @case('number') {
+    <p-inputNumber
+      #input
+      currency="USD"
+      locale="en-US"
+      [formControl]="formControl"
+      [placeholder]="''"
+      [mode]="'decimal'"
+      [useGrouping]="true"
+      [minFractionDigits]="0"
+      [maxFractionDigits]="2"
+      [showButtons]="false"
+      [prefix]="''"
+      [useGrouping]="true"
+      (onKeyDown)="keyupEvent($event)"
+    >
+    </p-inputNumber>
+    }
+    <!-- Currency -->
+    @case('currency') {
+    <p-inputNumber
+      #input
+      currency="USD"
+      locale="en-US"
+      [formControl]="formControl"
+      [placeholder]="''"
+      [mode]="'currency'"
+      [useGrouping]="true"
+      [minFractionDigits]="2"
+      [maxFractionDigits]="2"
+      [showButtons]="false"
+      [prefix]="''"
+      [useGrouping]="true"
+      (onKeyDown)="keyupEvent($event)"
+    >
+    </p-inputNumber>
+    } }
+  </div>
+  <div class="text-end small" style="justify-content: space-between">
+    <a class="quick-edit-save" (click)="updateValue(formControl.value)">Save</a>
+  </div>
+  }
+</p-overlayPanel>

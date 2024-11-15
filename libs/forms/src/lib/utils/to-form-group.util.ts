@@ -1,11 +1,15 @@
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 /** Extends formgroup interface to improve typing and add additional functionality */
-interface FormGroupDynamic<T extends Record<string, any>> extends FormGroup {
+export interface FormGroupDynamic<T extends Record<string, any>>
+  extends FormGroup {
   /** Add property interface typing to the .value property of the root formgroup */
   value: T;
   /** Resets the form with the default values used to initialize the original form. By default the .reset() method sets everything to null which may not be desirable. */
   resetDefaults: () => void;
+  /** Make valueChanges typesafe */
+  valueChanges: Observable<T>;
 }
 
 /**

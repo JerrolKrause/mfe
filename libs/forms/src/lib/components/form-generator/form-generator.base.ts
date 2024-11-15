@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormsLib } from '../../forms.model';
 
@@ -12,4 +17,6 @@ export class FormGeneratorBaseComponent {
   @Input() datafields?: FormsLib.Datafields | null = {};
   /** Form options */
   @Input() options?: FormsLib.FormOptions | null = null;
+  /** Feature templates */
+  @Input() featureTemplates: Record<string, TemplateRef<any>> = {};
 }

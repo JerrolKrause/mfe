@@ -1,18 +1,27 @@
 <div id="form-generator">
   <div class="form-generator-main" *ngIf="formModel && formGroup; else noModel">
+    @if(formErrors$ | async; as formErrors) { @if(formGroup.touched) {
+    <div class="form-generator-errors">
+      @for (error of formErrors; track $index) {
+      <span [innerHTML]="error"></span><br />
+      }
+    </div>
+    } }
     <ng-container *ngFor="let model of formModel">
       <lib-container
+        *ngIf="model.type === 'container'"
         [container]="model"
         [formGroup]="formGroup"
         [datafields]="datafields"
-        *ngIf="model.type === 'container'"
+        [featureTemplates]="featureTemplates"
       ></lib-container>
       <lib-row
+        *ngIf="model.type === 'row'"
         [row]="model"
         [formGroup]="formGroup"
         [datafields]="datafields"
-        *ngIf="model.type === 'row'"
         [options]="options"
+        [featureTemplates]="featureTemplates"
       ></lib-row>
       <lib-content
         *ngIf="model.type !== 'row' && model.type !== 'container'"
@@ -20,6 +29,7 @@
         [formGroup]="formGroup"
         [content]="model"
         [options]="options"
+        [featureTemplates]="featureTemplates"
       ></lib-content>
     </ng-container>
   </div>

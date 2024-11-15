@@ -12,7 +12,7 @@
   >
     <div class="w-100">
       <p-inputNumber
-        #num
+        #input
         currency="USD"
         locale="en-US"
         [formControl]="formControl"
@@ -32,8 +32,8 @@
         [useGrouping]="useGrouping ?? true"
         (onFocus)="focus($event)"
         (onBlur)="blur($event)"
-        (keyup)="onKeyup.emit($event)"
-        (click)="onClick.emit($event)"
+        (keyup)="keyupEvent.emit($event)"
+        (click)="clickEvent.emit($event)"
         (onInput)="onInput($event)"
       >
       </p-inputNumber>

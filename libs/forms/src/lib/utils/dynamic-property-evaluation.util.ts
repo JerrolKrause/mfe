@@ -82,7 +82,9 @@ export const dynamicPropertyEvaluation$ = (
       startWith(control.value),
       map(() => {
         const value = src.value;
-        const formControlValue = control.value;
+        const formControlValue = src.transform
+          ? src.transform(control.value)
+          : control.value;
         // Calculate operators
         // TODO: Add support for more operators
         switch (src.operator) {

@@ -22,4 +22,12 @@
     [datafields]="datafields"
   >
   </lib-button>
+  <lib-feature
+    *ngIf="is.contentType.feature(content)"
+    [feature]="content"
+    [featureTemplates]="featureTemplates"
+    [formGroup]="formGroup"
+    [datafields]="datafields"
+  >
+  </lib-feature>
 </div>

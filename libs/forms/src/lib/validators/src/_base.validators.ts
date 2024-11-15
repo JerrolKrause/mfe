@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { NtsValidators } from '../validators.models';
+import { Validators } from '../validators.models';
 
 /**
  * Is the input value required
@@ -7,14 +7,14 @@ import { NtsValidators } from '../validators.models';
  * @returns
  */
 export const isRequired = (value: any): ValidationErrors | null => {
-  if (['', null, undefined].includes(value || null)) {
+  if (['', null, undefined].includes(value)) {
     return { required: 'This field is required' };
   }
   return null;
 };
 
 /** Is this a config type */
-const isConfig = (config: any): config is NtsValidators.Config =>
+const isConfig = (config: any): config is Validators.Config =>
   typeof config === 'object' && !!config?.compareToField;
 
 /** Is this a validation errors type: Record<string, any> */
@@ -31,9 +31,9 @@ const isValidationErrors = (value: any): value is ValidationErrors =>
  */
 export const baseValidator =
   <t>(
-    compareValueSrc: t | NtsValidators.Config,
-    config: NtsValidators.BaseOptions<t>,
-    options?: NtsValidators.Options
+    compareValueSrc: t | Validators.Config,
+    config: Validators.BaseOptions<t>,
+    options?: Validators.Options
   ) =>
   (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -83,7 +83,7 @@ export const baseValidator =
  * @returns
  */
 const extractValue = <t>(
-  compareValue: t | NtsValidators.Config,
+  compareValue: t | Validators.Config,
   control: AbstractControl
 ) => {
   // If this is a config type with a compare value, get the dynamic field and then its value

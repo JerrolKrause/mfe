@@ -19,7 +19,7 @@ import { slugCreate } from '../utils';
 @Pipe({
   name: 'oid',
 })
-export class OptionsUniqueId implements PipeTransform {
+export class OptionsUniqueIdPipe implements PipeTransform {
   /**
    * Transforms a field option value into a unique identifier slug.
    *

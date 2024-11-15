@@ -7,11 +7,11 @@ declare global {
     google: any;
   }
 }
-export interface NtsAddressAutocompleteOptions {
+export interface AddressAutocompleteOptions {
   apiKey: string;
   inputId: string | string[];
 }
-export interface NtsAddressAutocompleteFormGroup {
+export interface AddressAutocompleteFormGroup {
   formGroup: FormGroup | null;
   address?: string;
   city?: string;
@@ -19,7 +19,7 @@ export interface NtsAddressAutocompleteFormGroup {
   zip?: string;
 }
 
-export interface NtsAddressAutocompleteOptions2 {
+export interface AddressAutocompleteOptions2 {
   /** Api key for google places account */
   apiKey: string;
   /** Form group of data */
@@ -60,7 +60,7 @@ const isNode =
  * Install google maps definition with `npm i @types/google.maps --save-dev`
  */
 @Injectable({ providedIn: 'root' })
-export class NtsGooglePlacesAutocomplete {
+export class GooglePlacesAutocomplete {
   private autoCompleteRefs: Record<
     string,
     {
@@ -73,8 +73,8 @@ export class NtsGooglePlacesAutocomplete {
   constructor() {}
 
   public initialize(
-    options: NtsAddressAutocompleteOptions,
-    fg?: NtsAddressAutocompleteFormGroup
+    options: AddressAutocompleteOptions,
+    fg?: AddressAutocompleteFormGroup
   ) {
     if (isNode) {
       return;
@@ -89,8 +89,8 @@ export class NtsGooglePlacesAutocomplete {
   }
 
   public attachGooglePlacesToElement(
-    options: NtsAddressAutocompleteOptions,
-    fg?: NtsAddressAutocompleteFormGroup,
+    options: AddressAutocompleteOptions,
+    fg?: AddressAutocompleteFormGroup,
     ob$ = new Subject<any>(),
     logError = true
   ) {
@@ -187,7 +187,7 @@ export class NtsGooglePlacesAutocomplete {
    * @param fg
    * @returns
    */
-  private placeToFormGroup(place: any, fg: NtsAddressAutocompleteFormGroup) {
+  private placeToFormGroup(place: any, fg: AddressAutocompleteFormGroup) {
     // console.warn(place);
     if (!fg.formGroup) {
       return;

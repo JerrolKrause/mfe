@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ColorPickerModule } from 'primeng/colorpicker';
@@ -13,6 +14,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SpinnerModule } from 'primeng/spinner';
@@ -44,9 +46,11 @@ import { FormGeneratorComponent } from './components/form-generator/form-generat
 import { HtmlComponent } from './components/form-generator/html/html.component';
 import { RowComponent } from './components/form-generator/row/row.component';
 
-// Pipe
-import { OptionsUniqueId } from './pipes/options-unique-id.pipe';
+// Pipes
+import { OptionsUniqueIdPipe } from './pipes/options-unique-id.pipe';
 import { SlugPipe } from './pipes/slug.pipe';
+
+// Directives
 
 // Exported form fields
 const COMPONENTS = [
@@ -87,13 +91,15 @@ const FORMGEN = [
  * A form generator library that generates HTML forms based on a configuration object or schema.
  */
 @NgModule({
-  declarations: [COMPONENTS, FORMGEN, SlugPipe, OptionsUniqueId],
+  declarations: [COMPONENTS, FORMGEN, SlugPipe, OptionsUniqueIdPipe],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ButtonModule,
     CalendarModule,
     InputTextModule,
+    OverlayPanelModule,
     CheckboxModule,
     RadioButtonModule,
     InputTextareaModule,

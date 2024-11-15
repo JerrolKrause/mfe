@@ -1,0 +1,106 @@
+.omf-table {
+  --highlight-border: 1px solid var(--Primary-OMF-Sky-Default, #2659d9);
+
+  tr.highlight > {
+    td {
+      border-top: var(--highlight-border);
+      border-bottom: var(--highlight-border);
+      background-color: #f6f8fc;
+    }
+    :first-child {
+      border-left: var(--highlight-border);
+    }
+    :last-child {
+      border-right: var(--highlight-border);
+    }
+  }
+  .omf-table-anim-slide-in-from-right {
+    animation: slideInFromRight 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation-fill-mode: forwards;
+    transform: translate(20px, 0px);
+  }
+  .asc {
+    transform: rotate(180deg);
+  }
+  .text-right {
+    text-align: right;
+  }
+  .text-center {
+    text-align: center;
+  }
+  p-sorticon {
+    position: absolute;
+  }
+  .expansion-trigger {
+    padding-right: 0 !important;
+  }
+  @media (max-width: 998px) {
+    .p-datatable-responsive-scroll {
+      overflow-x: auto;
+      &:before {
+        content: '\2190  Swipe to scroll left to right  \2192';
+        font-size: 0.75rem;
+        padding-left: 5px;
+        color: #a94442;
+        position: relative;
+      }
+      td,
+      th {
+        white-space: nowrap;
+      }
+    }
+  }
+  &.omf-table-compact {
+    th,
+    td {
+      padding: 0.25em 0.3em !important;
+    }
+    .p-widget {
+      font-size: 12px !important;
+    }
+  }
+  /* Responsive styles for mobile screens */
+  @media (max-width: 768px) {
+    .p-datatable-responsive-stack {
+      .p-datatable-tbody > tr {
+        & > td {
+          border-width: 0px;
+          align-items: baseline !important;
+        }
+        td:last-child {
+          border-bottom-width: 1px;
+        }
+        td::before {
+          content: attr(data-label);
+          float: left;
+          font-weight: bold;
+          margin-right: 7px;
+        }
+      }
+      /*
+      .p-datatable-tbody > tr > td {
+        border-width: 0px;
+        align-items: baseline;
+      }
+      tr td:last-child {
+        border-bottom-width: 1px;
+      }
+      */
+      /* Add pseudo-element to display headers next to data
+      td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        margin-right: 10px;
+      }*/
+    }
+  }
+}
+@keyframes slideInFromRight {
+  from {
+    transform: translate(20px, 0px);
+  }
+  to {
+    transform: translate(0px, 0px);
+  }
+}

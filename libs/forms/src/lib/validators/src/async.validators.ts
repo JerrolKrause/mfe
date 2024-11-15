@@ -5,7 +5,7 @@ import {
 } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, map, mergeMap } from 'rxjs/operators';
-import { NtsValidators } from '../validators.models';
+import { Validators } from '../validators.models';
 import { isRequired } from './_base.validators';
 
 /**
@@ -14,7 +14,7 @@ import { isRequired } from './_base.validators';
  * @returns
  */
 export const asyncValidator =
-  <apiResponse = any>(options: NtsValidators.AsyncOptions): AsyncValidatorFn =>
+  <apiResponse = any>(options: Validators.AsyncOptions): AsyncValidatorFn =>
   (control: AbstractControl): Observable<ValidationErrors | null> => {
     // Get api url, determine if this is a callback function or just a string
     const apiUrl =

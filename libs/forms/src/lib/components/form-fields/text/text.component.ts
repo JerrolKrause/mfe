@@ -1,3 +1,4 @@
+import { is } from '$forms';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -34,6 +35,10 @@ export class TextComponent
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
+    // If autoselect is set and is browser, select all the content of the input
+    if (this.autoSelectOnload() && is.browser) {
+      setTimeout(() => this.input.nativeElement.select(), 100);
+    }
     if (!this.input) {
       return;
     }

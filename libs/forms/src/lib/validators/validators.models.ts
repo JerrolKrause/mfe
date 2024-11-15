@@ -3,7 +3,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-export module NtsValidators {
+export module Validators {
   export interface AsyncOptions extends OptionsSrc {
     /** Api to submit request to */
     apiUrl: string | ((control: AbstractControl) => string);

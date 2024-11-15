@@ -28,6 +28,8 @@ export class RadioComponent
   @Input() optionLabel = 'label';
   /** Specifies the property of the option to use as the value that will be bound to the form control */
   @Input() optionValue = 'value';
+  /** Make the radio options horizontal inline instead of stacked vertically */
+  @Input() horizontal?: boolean | null = false;
 
   constructor(controlContainer: ControlContainer) {
     super(controlContainer);

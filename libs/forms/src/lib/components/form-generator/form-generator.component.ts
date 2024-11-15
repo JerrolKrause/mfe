@@ -1,14 +1,29 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ContentChildren,
   EventEmitter,
   Input,
+  OnInit,
   Output,
+  QueryList,
+  TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import {
+  BehaviorSubject,
+  debounceTime,
+  filter,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { FormsLib } from '../../forms.model';
 import { is } from '../../utils';
+
+// Export the button event emitter so that we don't have to pass the event up a large component chain
+export const buttonEvent = new EventEmitter<any>();
 
 /**
  * This is a component that generates a form based on a provided model, with options for dynamic data fields and validation, and emits the completed form data when the user submits it.
@@ -21,7 +36,15 @@ import { is } from '../../utils';
   [datafields]="myDatafields"
   [disableSubmit]="false"
   (completed)="onFormCompleted($event)"
-></lib-form-generator>
+>
+    <!-- Use a custom feature template -->
+    <ng-template featureId="myId">
+      <div class="custom-content">
+        <h3>Template 1 Content</h3>
+        <p>This is the first template content to be displayed.</p>
+      </div>
+    </ng-template>
+  </lib-form-generator>
 
 // Example Formmodel
 public formModel: FormsLib.FormGenerator = [
@@ -40,7 +63,7 @@ public formModel: FormsLib.FormGenerator = [
   ];
 
   // Form Options
-    public formOptions: FormsLib.FormOptions = {
+  public formOptions: FormsLib.FormOptions = {
     submitButton: {
       hide: true
     },
@@ -57,7 +80,7 @@ public formModel: FormsLib.FormGenerator = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class FormGeneratorComponent {
+export class FormGeneratorComponent implements OnInit {
   /** Model to generate the form */
   @Input() formModel?: FormsLib.FormGenerator | null = [];
   /** Main form group */
@@ -67,7 +90,7 @@ export class FormGeneratorComponent {
   /** Datafields for dynamic data */
   @Input() datafields?: FormsLib.Datafields | null = {};
   /** Disable submit button. Otherwise will rely on the form validators to allow submission */
-  @Input() disableSubmit: null | boolean = false;
+  @Input() disableSubmit?: null | boolean = false;
   /** Enable/disable the form */
   @Input() set disabled(disabled: boolean | null) {
     if (is.node) return; // SSR check
@@ -77,10 +100,67 @@ export class FormGeneratorComponent {
       this.formGroup?.markAsUntouched(); // Reset validation state on disable changes
     }, 1);
   }
+
+  /** Keep track of whether the form has been submitted or not at least once */
+  private hasSubmitted$ = new BehaviorSubject(false);
+  /** Display form level errors */
+  public formErrors$ = this.hasSubmitted$.pipe(
+    filter((x) => !!x), // Only allow stream on one submit
+    // Switch to form value changes
+    // Note that form group is nillable so if its not present on submit this will cause issues
+    switchMap(() => this.formGroup?.valueChanges ?? of()),
+    debounceTime(50),
+    // Extract any form level errors and turn them into a string array for display on the UI
+    map(() =>
+      !this.formGroup?.errors
+        ? null
+        : (Object.values(this.formGroup?.errors) as string[])
+    )
+  );
+
+  /** Store templates in a map or record for easier access */
+  public featureTemplates: Record<string, TemplateRef<any>> = {};
+
+  /** Extract the contents of the template references and store in the templates property */
+  @ContentChildren(TemplateRef<any>)
+  set extractTemplates(val: QueryList<TemplateRef<any>>) {
+    const templates = val.toArray();
+    if (!templates.length) {
+      return;
+    }
+    templates.forEach((template) => {
+      // Extract the attributes of the ng-template
+      // This approach is an alternative to using a directive
+      // @todo - Switch to directive for extracting this property
+      const attrs: string[] | null | undefined = (template as any)
+        ?._declarationTContainer?.attrs;
+      const key = attrs?.length ? attrs[1] : null; // Extract the key
+      // Make sure a key exists
+      if (!key) {
+        console.error(
+          'A supplied template was missing a feature id. Format is: <ng-template featureId="myId"></ng-template>'
+        );
+        return;
+      }
+      // Set a template
+      this.featureTemplates[key] = template;
+    });
+  }
+
+  /** When the user submits the form */
+  @Output() buttonEvent = buttonEvent;
+
   /** When the user submits the form */
   @Output() completed = new EventEmitter<unknown>();
 
-  constructor() {}
+  ngOnInit(): void {
+    if (
+      this.options?.validator &&
+      !this.formGroup?.hasValidator(this.options.validator as any)
+    ) {
+      this.formGroup?.addValidators(this.options.validator as any);
+    }
+  }
 
   /**
    * On form submit, run validation
@@ -89,6 +169,7 @@ export class FormGeneratorComponent {
   public submit() {
     // SSR check
     if (is.node || !this.formGroup) return;
+    this.hasSubmitted$.next(true); // Only run form validation on submit
     // Triggers update flag, needed in conjunction with markallastouched
     this.formGroup.patchValue(this.formGroup.value);
     this.formGroup.markAllAsTouched();

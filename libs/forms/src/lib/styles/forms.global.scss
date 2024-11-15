@@ -1,0 +1,4 @@
+// CSS Variables, need to be after primary scss variables
+:root {
+  --color-interact: #{$primaryColor}; // Used for interactive elements like buttons and links
+}

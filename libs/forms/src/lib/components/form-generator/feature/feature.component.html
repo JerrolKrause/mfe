@@ -1,6 +1,14 @@
-<div class="form-generator-feature" ></div>
-<!--
-    [attr.id]="formField.id || null"
-[ngClass]="formField.cssClasses"
-[ngStyle]="formField.inlineStyles"
--->
+<div
+  class="form-generator-feature"
+  [attr.id]="feature()?.id || null"
+  [ngClass]="feature()?.cssClasses"
+  [ngStyle]="feature()?.inlineStyles"
+>
+  @if(featureTemplate()) {
+  <ng-container *ngTemplateOutlet="featureTemplate()"></ng-container>
+  } @else {
+  <span class="red"
+    >No template found with an ID of {{ feature()?.featureId }}</span
+  >
+  }
+</div>

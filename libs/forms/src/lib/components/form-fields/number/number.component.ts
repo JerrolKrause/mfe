@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
+  ViewChild,
   ViewEncapsulation,
   forwardRef,
 } from '@angular/core';
@@ -11,7 +13,8 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { InputNumberInputEvent } from 'primeng/inputnumber';
+import { is } from 'libs/forms/src/lib/utils';
+import { InputNumber, InputNumberInputEvent } from 'primeng/inputnumber';
 import { BaseFormFieldComponent } from '../form-field.base';
 
 @Component({
@@ -30,7 +33,7 @@ import { BaseFormFieldComponent } from '../form-field.base';
 })
 export class NumberComponent
   extends BaseFormFieldComponent<string>
-  implements OnInit, ControlValueAccessor
+  implements OnInit, ControlValueAccessor, AfterViewInit
 {
   /** Show or hide spinner buttons */
   @Input() showButtons?: boolean | null = false;
@@ -47,9 +50,11 @@ export class NumberComponent
   /** The minimum number of fraction digits to use */
   @Input() minFractionDigits?: number | null = 0;
   /** The maximum number of fraction digits to use */
-  @Input() maxFractionDigits?: number | null = 2;
+  @Input() maxFractionDigits?: number | null = 0;
   /** Use a comma to separate thousands/millions/etc */
   @Input() currencySymbol?: string | null = null;
+
+  @ViewChild('input', { static: true }) input!: InputNumber;
 
   constructor(controlContainer: ControlContainer) {
     super(controlContainer);
@@ -58,8 +63,15 @@ export class NumberComponent
   ngOnInit(): void {
     // If mode is currency, allow cents and add currency symbol
     if (this.mode === 'currency') {
-      this.minFractionDigits = this.minFractionDigits ?? 2;
+      this.minFractionDigits = this.minFractionDigits ?? 0;
       // this.currencySymbol = this.currencySymbol ?? '$';
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // If autoselect is set and is browser, select all the content of the input
+    if (this.autoSelectOnload() && is.browser) {
+      setTimeout(() => this.input.input.nativeElement.select(), 100);
     }
   }
 

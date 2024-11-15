@@ -99,6 +99,7 @@
       [dataKey]="formField.dataKey"
       [validators]="formField.validators"
       [disabled]="disabled$ | async"
+      [stacked]="formField.stacked"
     ></lib-select-button>
 
     <lib-dropdown
@@ -187,6 +188,7 @@
       "
       [label]="formField.label"
       [hint]="formField.hint"
+      [horizontal]="formField.horizontal"
       [automationId]="formField.automationId"
       [control]="formGroup.get(formField.field)"
       [id]="formField.id"

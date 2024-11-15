@@ -2,7 +2,7 @@ import { FormGroup } from '@angular/forms';
 
 declare const window: { google: any };
 
-export interface NtsAddressAutocompleteOptions {
+export interface AddressAutocompleteOptions {
   apiKey: string;
   divID: string;
   address: string;
@@ -13,7 +13,7 @@ export interface NtsAddressAutocompleteOptions {
 
 export const ntsAddressAutocomplete = (
   formGroup: FormGroup,
-  options: NtsAddressAutocompleteOptions
+  options: AddressAutocompleteOptions
 ) => {
   loadScript(options.apiKey).then(() => {
     console.log('Loaded');

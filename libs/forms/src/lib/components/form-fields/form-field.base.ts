@@ -48,6 +48,8 @@ export class BaseFormFieldComponent<t>
   public suffix = input<string | null | undefined>(null);
   /** Small text that appears beneath the control */
   public hint = input<string | null | undefined>(null);
+  /** Should the text of the form field be selected when it loads in the DOM */
+  public autoSelectOnload = input<boolean>(false);
 
   /** A unique ID to use to help facilitate automated testing. Can be different than ID if ID is fixed */
   @Input() automationId?: string | null = null;
@@ -108,16 +110,16 @@ export class BaseFormFieldComponent<t>
   /** Input ID to use if no ID supplied. Links up label and the form ID */
   public formFieldID = 'form-field-' + Math.floor(Math.random() * 1000000000);
 
-  /** When the input is focused */
-  @Output() onFocus = new EventEmitter<Event>();
-  /** When the input is blurred */
-  @Output() onBlur = new EventEmitter<Event>();
-  /** When the input is focused */
-  @Output() onClick = new EventEmitter<MouseEvent>();
-  /** When data on the input is changed */
-  @Output() onChange = new EventEmitter<t>();
-  /** On keyup event on the input */
-  @Output() onKeyup = new EventEmitter<KeyboardEvent>();
+  /** Emits when the input is focused */
+  @Output() focusEvent = new EventEmitter<Event>();
+  /** Emits when the input is blurred */
+  @Output() blurEvent = new EventEmitter<Event>();
+  /** Emits when the input is clicked */
+  @Output() clickEvent = new EventEmitter<MouseEvent>();
+  /** Emits when the input value changes */
+  @Output() valueChange = new EventEmitter<t>(); // Consider renaming 't' to a more descriptive type, if applicable
+  /** Emits on keyup event */
+  @Output() keyupEvent = new EventEmitter<any>(); // Consider specifying the exact type instead of 'any' for better type safety
 
   /** Is this control focused */
   public focused?: boolean | null = false;
@@ -148,7 +150,7 @@ export class BaseFormFieldComponent<t>
    */
   public blur(e: Event) {
     this.focused = false;
-    this.onBlur.emit(e);
+    this.blurEvent.emit(e);
     // Run validation on blur to account for a field that has a value on load and is also invalid
     // Also fixes issues with prime controls that only update on blur
     this.formControl?.updateValueAndValidity();
@@ -159,10 +161,14 @@ export class BaseFormFieldComponent<t>
    */
   public focus(e: Event) {
     this.focused = true;
-    this.onFocus.emit(e);
+    this.focusEvent.emit(e);
   }
 
   ngOnDestroy(): void {
+    // Remove any form validators for form controls/fields not present in the DOM
+    // Validators are added in input.component.ts
+    this.formControl.clearValidators();
+    this.formControl.updateValueAndValidity();
     // Automatically destroy subs. Mainly used by children
     this.subs.forEach((s) => s.unsubscribe());
     this.subs = [];

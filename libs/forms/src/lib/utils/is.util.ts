@@ -71,5 +71,7 @@ export const is = {
       obj.type === 'formField' &&
       obj.formFieldType !== undefined &&
       obj.field !== undefined,
+    feature: (obj: any): obj is FormsLib.Feature =>
+      obj && obj.type === 'feature' && typeof obj.featureId === 'string',
   },
 };

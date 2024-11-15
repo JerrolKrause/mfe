@@ -1,13 +1,26 @@
-.input-selectbutton {
-  &.input-selectbutton-full .p-selectbutton.p-buttonset {
-    display: flex;
-    flex-flow: row;
-    .p-button {
-      width: 100%;
-      padding: 0.75rem 0.5rem;
+.input-selectbutton p-selectbutton {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.07px;
+
+  .p-button {
+    color: var(--body-moderate, #64748b);
+    background-color: transparent;
+    border-color: transparent;
+    padding: 6px 15px;
+    white-space: nowrap;
+
+    &.p-highlight {
+      background-color: white;
+      color: var(--body-emphasis, #1f1f21);
+      border-radius: var(--button-radius, 4px);
+      border: 1px solid var(--outline-emphasis, #92a0b3);
+      background: var(--content-surface, #fff);
     }
   }
 }
+
 .input-selectbutton-vertical .p-selectbutton {
   flex-direction: column !important;
   .p-button {

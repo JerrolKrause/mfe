@@ -1,0 +1,28 @@
+:host.quick-edit-enabled {
+  position: relative;
+  cursor: text;
+  &:hover::before {
+    display: block;
+    content: ' ';
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    border: 1px dashed rgb(62 111 237 / 50%) !important;
+    pointer-events: none; /* Prevents the pseudo-element from blocking mouse events */
+  }
+}
+label {
+  float: left;
+  position: relative;
+  left: 12px;
+  bottom: -10px;
+  margin-top: -10px;
+  padding: 0px var(--button-radius, 4px);
+  background: var(--content-surface, #fff);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  z-index: 2;
+}

@@ -33,7 +33,7 @@ export class DropdownComponent
   /** The default height of the dropdown */
   @Input() scrollHeight?: string | null = '200px';
   /** Append popup to this DOM element, can use "body" or another template variable */
-  @Input() appendTo: any = null;
+  @Input() appendTo: any = 'body';
   /** Use virtual scroll to handle a large list */
   @Input() virtualScroll?: boolean | null = false;
   /** Show an "X" which lets the user clear this value */

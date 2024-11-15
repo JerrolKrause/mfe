@@ -1,6 +1,6 @@
-import { NtsValidators } from '../validators.models';
-import { baseValidator } from './_base.validators';
 import * as dayjs from 'dayjs';
+import { Validators } from '../validators.models';
+import { baseValidator } from './_base.validators';
 
 /**
  * Check if date is correct type and is valid
@@ -8,7 +8,9 @@ import * as dayjs from 'dayjs';
  * @returns
  */
 const isValidDate = (date: any): date is Date =>
-  date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date);
+  date &&
+  Object.prototype.toString.call(date) === '[object Date]' &&
+  !isNaN(date);
 
 /**
  * Form value must have characters greater than
@@ -17,8 +19,8 @@ const isValidDate = (date: any): date is Date =>
  * @returns
  */
 export const dateIsGreaterThanValidator = (
-  compareValueSrc: NtsValidators.DateOption | Date | NtsValidators.Config,
-  options?: NtsValidators.Options,
+  compareValueSrc: Validators.DateOption | Date | Validators.Config,
+  options?: Validators.Options
 ) =>
   baseValidator(
     compareValueSrc,
@@ -26,7 +28,7 @@ export const dateIsGreaterThanValidator = (
       id: 'dateIsGreaterThan',
       evaluatorFn: (
         compareValue: Date | { years?: number; months?: number; days?: number },
-        formValue: Date | { years?: number; months?: number; days?: number },
+        formValue: Date | { years?: number; months?: number; days?: number }
       ) => {
         // Get date to compare against and apply the date transforms
         let today = dayjs();
@@ -42,7 +44,9 @@ export const dateIsGreaterThanValidator = (
           today = today.subtract(compareValue.days, 'day');
         }
         // Get date if dynamically supplied, today otherwise
-        const compareDate = isValidDate(compareValue) ? dayjs(compareValue) : today;
+        const compareDate = isValidDate(compareValue)
+          ? dayjs(compareValue)
+          : today;
 
         // Make sure the date is valid, if not throw error
         if (!formDate.isValid() || !compareDate.isValid()) {
@@ -51,7 +55,9 @@ export const dateIsGreaterThanValidator = (
         // If date is greater than duration
         return !!compareDate.isAfter(formDate);
       },
-      errorMessageDefault: (compareValue: Date | { years?: number; months?: number; days?: number }) => {
+      errorMessageDefault: (
+        compareValue: Date | { years?: number; months?: number; days?: number }
+      ) => {
         if (!isValidDate(compareValue) && !!compareValue.years) {
           return `Please enter a date that is over <strong>${compareValue.years}</strong> years old`;
         } else if (!isValidDate(compareValue) && !!compareValue.months) {
@@ -63,7 +69,7 @@ export const dateIsGreaterThanValidator = (
         return `Please enter a valid date`;
       },
     },
-    options,
+    options
   );
 
 /**
@@ -73,8 +79,8 @@ export const dateIsGreaterThanValidator = (
  * @returns
  */
 export const dateIsLessThanValidator = (
-  compareValueSrc: NtsValidators.DateOption | Date | NtsValidators.Config,
-  options?: NtsValidators.Options,
+  compareValueSrc: Validators.DateOption | Date | Validators.Config,
+  options?: Validators.Options
 ) =>
   baseValidator(
     compareValueSrc,
@@ -82,7 +88,7 @@ export const dateIsLessThanValidator = (
       id: 'dateIsLessThan',
       evaluatorFn: (
         compareValue: Date | { years?: number; months?: number; days?: number },
-        formValue: Date | { years?: number; months?: number; days?: number },
+        formValue: Date | { years?: number; months?: number; days?: number }
       ) => {
         // Get date to compare against and apply the date transforms
         let today = dayjs();
@@ -98,7 +104,9 @@ export const dateIsLessThanValidator = (
           today = today.subtract(compareValue.days, 'day');
         }
         // Get date if dynamically supplied, today otherwise
-        const compareDate = isValidDate(compareValue) ? dayjs(compareValue) : today;
+        const compareDate = isValidDate(compareValue)
+          ? dayjs(compareValue)
+          : today;
 
         // Make sure the date is valid, if not throw error
         if (!formDate.isValid() || !compareDate.isValid()) {
@@ -107,7 +115,9 @@ export const dateIsLessThanValidator = (
         // If date is greater than duration
         return !!compareDate.isBefore(formDate);
       },
-      errorMessageDefault: (compareValue: Date | { years?: number; months?: number; days?: number }) => {
+      errorMessageDefault: (
+        compareValue: Date | { years?: number; months?: number; days?: number }
+      ) => {
         if (!isValidDate(compareValue) && !!compareValue.years) {
           return `Please enter a date that is less than <strong>${compareValue.years}</strong> years old`;
         } else if (!isValidDate(compareValue) && !!compareValue.months) {
@@ -119,5 +129,5 @@ export const dateIsLessThanValidator = (
         return `Please enter a valid date`;
       },
     },
-    options,
+    options
   );

@@ -8,7 +8,9 @@ export const isRequired = (
   abstractControl: AbstractControl | NgControl
 ): boolean => {
   if (abstractControl.validator) {
-    const validator = abstractControl.validator({} as AbstractControl);
+    const validator = abstractControl.validator(
+      abstractControl as AbstractControl
+    );
     if (validator && validator['required']) {
       return true;
     }

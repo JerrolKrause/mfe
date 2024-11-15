@@ -1,0 +1,317 @@
+<div class="omf-table" [ngClass]="{ 'omf-table-compact': compact }">
+  <p-table
+    #tt
+    sortMode="single"
+    [value]="(rowsSrc$ | async) ?? []"
+    [columns]="columns"
+    [responsiveLayout]="responsiveLayout"
+    [paginator]="paginator"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    [rows]="paginateRows() ?? 0"
+    [expandedRowKeys]="expandedRows"
+    [autoLayout]="false"
+    [rowTrackBy]="rowTrackBy"
+    [dataKey]="dataKey"
+    [sortField]="sortField()"
+    [sortOrder]="sortOrder()"
+    (onSort)="onSort($event)"
+  >
+    <!-- Global filter-->
+    <ng-template pTemplate="caption" *ngIf="showFilter || headerText">
+      <div class="d-flex">
+        <div *ngIf="headerText" [innerHTML]="headerText"></div>
+        <div class="p-filter ms-auto" *ngIf="showFilter">
+          <i class="fas fa-search me-2" style="margin: 4px 4px 0 0"></i>
+          <input
+            #filter
+            type="text"
+            pInputText
+            size="50"
+            placeholder="Global Filter"
+            (input)="filterGlobalUpdate($event)"
+            style="width: auto"
+          />
+          <a
+            class="filter-clear"
+            (click)="filterGlobalUpdate($event); filter.value = ''"
+            *ngIf="filter.value"
+          >
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+      </div>
+    </ng-template>
+    <!-- Table Headers -->
+    <ng-template pTemplate="header" let-columns *ngIf="showHeader">
+      <tr class="omf-table-row" style="height: 30px">
+        <ng-container *ngIf="shouldShowExpandRow">
+          <th style="width: 35px" class="expansion-trigger">
+            <!-- Empty Header for Row Expand -->
+          </th>
+        </ng-container>
+        <th
+          *ngFor="let col of columns; let i = index"
+          [pSortableColumn]="col.field"
+          [pSortableColumnDisabled]="col.sortable === false"
+          #th
+          [ngStyle]="col | headerStyles"
+          class="omf-table-th-{{ col.field | slug }} omf-table-th-type-{{
+            col.type | slug
+          }}"
+        >
+          <ng-container
+            *ngIf="
+              templates[col.field] && templates[col.field].templateHeader;
+              else headerDefault
+            "
+          >
+            <ng-container
+              *ngTemplateOutlet="
+                templates[col.field].templateHeader;
+                context: {
+                  $$implicit: col.header,
+                  value: col.header,
+                  column: col,
+                  index: i
+                }
+              "
+            ></ng-container>
+          </ng-container>
+          <ng-template #headerDefault>
+            <span [innerHtml]="col.header"></span>
+          </ng-template>
+          <p-sortIcon [field]="col.field" *ngIf="col.sortable !== false" />
+        </th>
+      </tr>
+    </ng-template>
+    <!-- Table Body -->
+    <ng-template
+      pTemplate="body"
+      let-expanded="expanded"
+      let-rowData
+      let-columns="columns"
+      let-rowIndex="rowIndex"
+    >
+      <!--
+         [ngClass]="{'omf-table-anim-slide-in-from-right' : !loaded}" [ngStyle]="{'animation-delay' : (rowIndex / 25) +'s'}"
+      -->
+      <tr
+        class="omf-table-row"
+        [class.highlight]="rowData?.id && highlightRowKey() === rowData.id"
+      >
+        <!-- Expansion Icon -->
+        <ng-container *ngIf="shouldShowExpandRow">
+          <td class="expansion-trigger">
+            <a (click)="toggleRow(rowData)" tabindex="1">
+              @if (expanded) {
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+              >
+                <path
+                  d="M3.5 5.25L7 8.75L10.5 5.25"
+                  stroke="#545454"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              } @else {
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+              >
+                <path
+                  d="M5.25 10.5L8.75 7L5.25 3.5"
+                  stroke="#545454"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              }
+            </a>
+          </td>
+        </ng-container>
+        <!-- Loop through columns -->
+        <td
+          *ngFor="let col of columns"
+          [attr.data-label]="col.header"
+          [ngClass]="[
+            'omf-table-td-' + (col.field | slug),
+            'omf-table-td-type-' + (col.type | slug),
+            col.tdAlign === 'right' ? 'text-right' : '',
+            col.tdAlign === 'center' ? 'text-center' : '',
+            col.type === 'limited' ? 'omf-limited' : ''
+          ]"
+          [pTooltip]="(col.tooltip | tooltip : rowData) ? tooltipContent : ''"
+          [tooltipPosition]="col.tooltipPosition ?? 'top'"
+          libQuickEdit
+          placeholder="Right"
+          type="text"
+          pInputText
+          [label]="col.header"
+          [enabled]="col.quickEdit"
+          [value]="rowData | deepProperty : col.field"
+          [inputType]="col?.type ?? 'text'"
+          (valueChanged)="rowValueChanged(rowData, col.field, $event)"
+          (click)="col.copyToClipboard ? onCopyClick(col, rowData) : null"
+        >
+          <!-- Add support for HTML in tooltips -->
+          <ng-template #tooltipContent>
+            @if(col.tooltip) {
+            <span [innerHTML]="col.tooltip | tooltip : rowData"></span>
+            }
+          </ng-template>
+          <!-- Custom cell templates -->
+          <ng-container
+            *ngIf="templates[col.field] && templates[col.field].templateCell"
+          >
+            <ng-container
+              *ngTemplateOutlet="
+                templates[col.field].templateCell;
+                context: {
+                  $$implicit: rowData | deepProperty : col.field,
+                  value: rowData | deepProperty : col.field,
+                  column: col,
+                  row: rowData
+                }
+              "
+            ></ng-container>
+          </ng-container>
+
+          <!-- Non-custom templates. Includes custom formatting and standard-->
+          <ng-container
+            *ngIf="
+              !templates[col.field] ||
+              (templates[col.field] && !templates[col.field].templateCell)
+            "
+          >
+            <ng-container [ngSwitch]="col.type">
+              <!-- Email -->
+              <ng-container *ngSwitchCase="'email'">
+                <a href="mailto:{{ rowData | deepProperty : col.field }}">{{
+                  (rowData | deepProperty : col.field) ?? noDataCharacter()
+                }}</a>
+              </ng-container>
+
+              <!-- Phone Number -->
+              <ng-container *ngSwitchCase="'phoneNumber'">
+                <a
+                  href="tel:{{
+                    rowData | deepProperty : col.field | phoneNumber : true
+                  }}"
+                  >{{
+                    (rowData | deepProperty : col.field | phoneNumber) ??
+                      noDataCharacter()
+                  }}</a
+                >
+              </ng-container>
+
+              <!-- Date -->
+              <ng-container *ngSwitchCase="'date'">
+                {{
+                  (rowData
+                    | deepProperty : col.field
+                    | date : col.typeArgs || 'MMM d, y') ?? noDataCharacter()
+                }}
+              </ng-container>
+
+              <!-- Date Time -->
+              <ng-container *ngSwitchCase="'dateTime'">
+                {{
+                  (rowData
+                    | deepProperty : col.field
+                    | date : col.typeArgs || 'medium') ?? noDataCharacter()
+                }}
+              </ng-container>
+
+              <!-- Currency -->
+              <ng-container *ngSwitchCase="'currency'">
+                {{
+                  (rowData
+                    | deepProperty : col.field
+                    | currency : '$' : 'symbol' : col.typeArgs || '1.2-2') ??
+                    noDataCharacter()
+                }}
+              </ng-container>
+
+              <!-- Number -->
+              <ng-container *ngSwitchCase="'number'">
+                {{
+                  (rowData | deepProperty : col.field | number) ??
+                    noDataCharacter()
+                }}
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'limited'">
+                <div
+                  class="omf-limited-box"
+                  [title]="rowData | deepProperty : col.field"
+                >
+                  {{
+                    (rowData | deepProperty : col.field) ?? noDataCharacter()
+                  }}
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                {{ (rowData | deepProperty : col.field) ?? noDataCharacter() }}
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
+    <!-- Row Expansion -->
+    <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData>
+      <ng-container *ngIf="shouldShowExpandRow">
+        <tr class="drop-row">
+          <td [attr.colspan]="columns.length + 1">
+            <!-- Custom Row Expansion Template -->
+            <ng-container
+              *ngTemplateOutlet="
+                templates['expansion'].templateExpansion;
+                context: {
+                  $$implicit: rowData['expansion'],
+                  value: rowData['expansion'],
+                  column: null,
+                  row: rowData
+                }
+              "
+            >
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-template>
+    <!-- Empty messages-->
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns?.length" class="omf-table-no-content">
+          No rows found
+        </td>
+      </tr>
+    </ng-template>
+    <!-- Sort icon -->
+    <ng-template pTemplate="sorticon" field="col.field" let-sortOrder>
+      @switch (sortOrder) { @case (1) {
+      <img
+        src="assets/icon-down.svg"
+        alt="Sort Asc"
+        aria-hidden="true"
+        class="asc"
+      />
+      } @case (0) {
+      <!-- <i class="pi pi-sort-alt" aria-hidden="true"></i> -->
+      } @case (-1) {
+      <img src="assets/icon-down.svg" alt="Sort Desc" aria-hidden="true" />
+      } }
+    </ng-template>
+  </p-table>
+</div>

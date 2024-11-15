@@ -19,19 +19,9 @@ import {
 } from 'rxjs';
 
 import { toObservable } from '@angular/core/rxjs-interop';
-import { isRequired } from '../../../utils';
 import { expressionReplacer$ } from '../../../utils/expression-replacer.util';
-import { validatorsAdd } from '../../../validators';
+import { requiredValidator, validatorsAdd } from '../../../validators';
 import { BaseFormFieldComponent } from '../form-field.base';
-interface InputState {
-  hasData: boolean;
-  showErrors: boolean;
-  isValid: boolean;
-  isDisabled: boolean;
-  isInvalid: boolean;
-  required: boolean;
-  errors: any[] | null;
-}
 
 @Component({
   selector: 'lib-input',
@@ -73,10 +63,11 @@ export class InputComponent<t>
   );
 
   public inputState$ = toObservable(computed(() => this.formControl)).pipe(
+    debounceTime(1),
     mergeMap((formControl) =>
       combineLatest({
         hasData: formControl.valueChanges.pipe(
-          tap((value) => this.onChange.emit(value)), // Emit changed value to parent through template
+          tap((value) => this.valueChange.emit(value)), // Emit changed value to parent through template
           startWith(formControl.value),
           debounceTime(1),
           map((val) => val !== null && val !== undefined && val !== ''),
@@ -120,10 +111,9 @@ export class InputComponent<t>
             );
           })
         ),
-        required: of(isRequired(formControl)),
+        required: of(formControl.hasValidator(requiredValidator)),
       })
-    ),
-    debounceTime(1)
+    )
   );
 
   /** DOM element for showing required status */
@@ -133,6 +123,7 @@ export class InputComponent<t>
     super(controlContainer);
     // Add validators from form model
     // May need to defer execution if triggers ExpressionChangedAfterItHasBeenCheckedError error
+    // Validators are removed in the onDestroy method in form-field.base.ts so that non-visible controls don't contribute to validation
     effect(() => validatorsAdd(this.formControl, this.validators));
   }
 }

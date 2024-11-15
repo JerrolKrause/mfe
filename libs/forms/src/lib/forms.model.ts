@@ -1,4 +1,5 @@
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormGroupDynamic } from './utils';
 /**
  * Add ability to supply form model to formgroup instances
  */
@@ -45,7 +46,35 @@ export module FormsLib {
   /** Supported values for evaluating dynamic properties */
   export type DynamicProperty = null | boolean | string | Rule;
 
-  export interface FormOptions {
+  export interface FormOptions<T extends Record<string, any> = any> {
+    /**
+     * A form level validator. Receives the root formgroup. Multiple errors can be added at the same time by having multiple entries in the return record.
+     * @example
+     * validator: (formGroup) => {
+      const values = formGroup.value;
+      let errors: Record<string, string> = {};
+      if (
+        !values.valuation.mileage ||
+        values.valuation.mileage !== values.valuation.mileageUpdated
+      ) {
+        errors = {
+          ...errors,
+          mileageError: 'Mileage must match Mileage Updated.',
+        };
+      }
+      if (values.valuation.balance && Number(values.valuation.balance) < 1000) {
+        errors = {
+          ...errors,
+          mileageError: 'Balance must be over $1,000.',
+        };
+      }
+      // Return null if no values in error object
+      return !Object.keys(errors).length ? null : errors;
+    },
+     * @param formModel
+     * @returns
+     */
+    validator?: (formModel: FormGroupDynamic<T>) => ValidationErrors | null;
     /** Do not show footer including submit button */
     hideFooter?: boolean | null;
     /** Change the style of the submit button */
@@ -73,6 +102,8 @@ export module FormsLib {
 
   export interface Row extends FormContentTypeSrc {
     type: 'row';
+    /** Align all of the content in the row horizontally */
+    alignCenter?: boolean | null;
     columns: Column[];
   }
 
@@ -88,11 +119,33 @@ export module FormsLib {
     content: Content[];
   }
 
-  export type Content = Html | FormField | ContainerContent | Button;
+  export type Content = Html | FormField | ContainerContent | Button | Feature;
 
   export interface Html extends FormContentTypeSrc {
     type: 'html';
     html: string;
+  }
+
+  /**
+   * Add a feature component which is content projected into the form generator and rendered at the requested location
+   * @example
+   * <lib-form-generator>
+    * <ng-template featureId="myId">
+        <div class="custom-content">
+          <h3>Template 1 Content</h3>
+          <p>This is the first template content to be displayed.</p>
+        </div>
+      </ng-template>
+    </lib-form-generator>
+    ...
+    [{
+      type: 'feature',
+      featureId: 'myId',
+    }],
+   */
+  export interface Feature extends FormContentTypeSrc {
+    type: 'feature';
+    featureId: string;
   }
 
   export interface Button extends FormContentTypeSrc {
@@ -100,11 +153,36 @@ export module FormsLib {
     /** Label text of the button */
     label: string;
     /** A command to execute when the button is clicked. First value is the root formgroup, second value is this button model */
-    cmd: (response: { formGroup: FormGroup; button: Button | null }) => void;
+    cmd?: (response: { formGroup: FormGroup; button: Button | null }) => void;
+    /** An alternative to the cmd property, this event will be bubbled up through an event emitter to the parent component. This allows for event capture outside of the form model */
+    event?: any;
     /** An optional property to store any meta data which will be passed to the cmd method along with the button */
     data?: any;
     /** Add a top margin to the button which will make it inline with a form field that has a label. True will use the default option of 1.5rem, otherwise specify the offset as a valid value for margin-top. */
     offsetTop?: boolean | Record<string, string>;
+    /** Pass the `[outlined]` flag to the underlying `<p-button />` to change it's style */
+    outlined?: boolean;
+    /**
+       * Is the control disabled. Supports boolean, a string going to a form control with a truthy/falsy value or a Rule
+       *
+       * String values support the use of "!" to reverse the truthy or falsey value. IE `visible: '!isActive'`
+       *
+       * @example
+       *
+       // Boolean, static
+       disabled: true
+       // A field in the model, will be dynamically evaluated as truthy or falsey
+       disabled: 'loan.loanPurpose'
+       // A field in the model, will be dynamically evaluated as reverse of truthy or falsey
+       disabled: '!loan.loanPurpose'
+       // Rules engine example, see operators for supported operations
+       disabled: {
+          field: 'loan.loanPurposeType',
+          operator: 'eq',
+          value: 'Purchase',
+        }
+       */
+    disabled?: DynamicProperty;
   }
 
   /** Available form field types */
@@ -187,6 +265,8 @@ export module FormsLib {
   export interface Validators {
     required?: boolean;
     email?: boolean;
+    /** Must equal exactly this number of characters */
+    equalChars?: number;
     minLength?: number;
     maxLength?: number;
     /** Must match the value in another form control exactly */
@@ -197,6 +277,32 @@ export module FormsLib {
       number?: boolean;
       specialChar?: boolean;
     };
+    /**
+     * A custom validator allowing more advanced logic.
+     *
+     * Return null to indicate no validation errors.
+     * @example
+     * validators: {
+        custom: (control) => {
+          if (control.value === 2) {
+            return {
+              florida: 'Trailers not allowed collateral in Florida',
+            };
+          }
+          if (control.value === 3) {
+            return {
+              'boat-trailer': 'Only select boat trailer if boat is selected',
+            };
+          }
+          // No errors
+          return null;
+          },
+        },
+     * @param abstractControl
+     * @returns
+     */
+    custom?: (control: AbstractControl) => ValidationErrors | null;
+    async?: any; //@todo
   }
 
   // Props that apply to only allow typed user input, IE inputs but not dropdowns or radios
@@ -283,6 +389,8 @@ export module FormsLib {
     canUnselect?: boolean | null;
     /** Should the button span the entire horizontal space and have all buttons be equal width? Default true */
     fullWidth?: boolean | null;
+    /** Should the select button group be stacked (vertical) or inline (horizontal). Default stacked */
+    stacked?: boolean | null;
   }
 
   // export type DropdownField = DropdownFieldSrc & FieldPropsOptions;
@@ -309,6 +417,8 @@ export module FormsLib {
     formFieldType: 'radio';
     options?: FieldOptions[];
     datafield?: string;
+    /** Make the radio options horizontal inline instead of stacked vertically */
+    horizontal?: boolean;
   }
 
   export interface EmailField extends FieldInputSrc {
@@ -336,6 +446,29 @@ export module FormsLib {
 
   export interface Rule {
     field: string;
+    /**
+     * Method to take the value of the field and transform it before comparing it to the value.
+     * Useful for comparing a property of an object or other complex values.
+     *
+     * @example
+     * {
+     *   field: 'loan.loanPurposeType',
+     *   transform: (value) => value?.toLowerCase(),
+     *   operator: 'eq',
+     *   value: 'purchase',
+     * }
+     *
+     * @example
+     * {
+     *   field: 'vinField',
+     *   transform: (value) => value.length,
+     *   operator: 'eq',
+     *   value: 17,
+     * }
+     * @param value is the value from the field
+     * @returns some transformed value for comparison to `value`
+     */
+    transform?: (value: any) => any;
     operator: 'eq' | 'ne' | 'in' | 'nin' | 'gt' | 'lt';
     value: unknown;
   }

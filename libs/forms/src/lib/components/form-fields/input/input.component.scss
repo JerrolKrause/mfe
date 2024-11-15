@@ -10,8 +10,30 @@ $smallText: 80%;
     opacity: 0.6 !important;
   }
 
-  &.form-field-is-disabled label {
-    opacity: 0.5;
+  .p-float-label-top {
+    float: left;
+    position: relative;
+    left: 12px;
+    bottom: -10px;
+    margin-top: -10px;
+
+    padding: 0px var(--button-radius, 4px);
+    background: var(--content-surface, #fff);
+
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    z-index: 2;
+  }
+
+  &.form-field-is-disabled {
+    .p-inputgroup-addon {
+      opacity: 0.5;
+    }
+    label {
+      opacity: 1;
+      background: var(--content-surface, #fff);
+    }
   }
 
   input:hover,

@@ -23,8 +23,8 @@
       [autoResize]="autoResize ?? false"
       (focus)="focus($event)"
       (blur)="blur($event)"
-      (keyup)="onKeyup.emit($event)"
-      (click)="onClick.emit($event)"
+      (keyup)="keyupEvent.emit($event)"
+      (click)="clickEvent.emit($event)"
     ></textarea>
   </lib-input>
 </div>

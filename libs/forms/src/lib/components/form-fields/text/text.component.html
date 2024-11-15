@@ -18,10 +18,11 @@
       [name]="name || (label || placeholder | slug)"
       [ngClass]="styleClass"
       [placeholder]="placeholder ?? ''"
+      [maxlength]="maxLength ?? ''"
       (focus)="focus($event)"
       (blur)="blur($event)"
-      (keyup)="onKeyup.emit($event)"
-      (click)="onClick.emit($event)"
+      (keyup)="keyupEvent.emit($event)"
+      (click)="clickEvent.emit($event)"
       [formControl]="formControl"
     />
   </lib-input>

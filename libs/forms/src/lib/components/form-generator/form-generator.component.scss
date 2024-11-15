@@ -1,8 +1,23 @@
-$verticalSpacing: 1.5rem;
+@import './form-generator.variables.scss';
+
+// Root level variables for easy configuration
+// Use 'fl' as prefix, forms lib
+:root {
+  --fl-margin-vertical: 1.5rem; // Vertical margin between elements
+  --fl-gutter-x: 1.5rem; // Gutter width for responsive columns
+  --fl-gutter-y: 0; // Gutter top
+}
 
 #form-generator {
+  .form-generator-errors {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+    background: rgba(254, 242, 242, 0.95);
+  }
   .form-generator-formfield {
-    margin-bottom: $verticalSpacing;
+    margin-bottom: var(--fl-margin-vertical);
   }
   .form-generator-footer {
     display: flex;
@@ -12,10 +27,9 @@ $verticalSpacing: 1.5rem;
       text-align: center;
       display: inline-block;
     }
-    @media (min-width: 768px) {
+    @media (min-width: $mobileBreakpoint) {
       flex-direction: initial;
       justify-content: space-between;
-
       & > div {
         display: flex;
       }

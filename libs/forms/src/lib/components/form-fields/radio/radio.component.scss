@@ -1,7 +1,7 @@
 .radio {
   .p-radiobutton .p-radiobutton-box.p-highlight {
     border-color: #007ad9;
-    background: #007ad9 !important;
+    background: #fff !important;
   }
   .p-inputgroup > .p-float-label {
     position: initial;
@@ -9,7 +9,18 @@
   .radio-options {
     width: 100%;
     margin-top: 0.5rem;
+    &.horizontal {
+      display: flex;
+      margin-top: 1rem;
+      .radio-container {
+        margin-right: 0.5rem;
+      }
+    }
   }
+  .p-radiobutton-icon {
+    background: #007ad9 !important;
+  }
+
   .p-float-label label {
     top: 4px;
     position: relative;

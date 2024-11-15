@@ -10,6 +10,7 @@ import { FormsLib } from '../../../forms.model';
 import { is } from '../../../utils';
 import { dynamicPropertyEvaluation$ } from '../../../utils/dynamic-property-evaluation.util';
 import { FormGeneratorBaseComponent } from '../form-generator.base';
+import { buttonEvent } from '../form-generator.component';
 
 @Component({
   selector: 'lib-button',
@@ -42,6 +43,18 @@ export class ButtonComponent extends FormGeneratorBaseComponent {
     )
   );
 
+  /** Dynamically determine enabled/disabled */
+  public disabled$ = toObservable(
+    computed(() => ({ formGroup: this.formGroup, button: this.button() }))
+  ).pipe(
+    mergeMap(({ formGroup, button }) =>
+      dynamicPropertyEvaluation$(button?.disabled, formGroup, {
+        // Check if the control is currently disabled and set that to the default setting
+        defaultValue: formGroup?.get(button?.id ?? '')?.disabled ?? false,
+      })
+    )
+  );
+
   public is = is;
 
   constructor() {
@@ -51,9 +64,16 @@ export class ButtonComponent extends FormGeneratorBaseComponent {
   /**
    * Execute the onclick event
    */
-  public command() {
-    if (this.button()?.cmd) {
-      this.button()?.cmd({ formGroup: this.formGroup, button: this.button() });
+  public clickEvent() {
+    // If a command was supplied, execute the command
+    const cmd = this.button()?.cmd;
+    if (cmd) {
+      cmd({ formGroup: this.formGroup, button: this.button() });
+    }
+
+    // If an event was supplied, bubble the event up to the parent container
+    if (this.button()?.event !== undefined) {
+      buttonEvent.emit(this.button()?.event);
     }
   }
 }

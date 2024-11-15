@@ -10,9 +10,12 @@
     [validators]="validators"
     [id]="id || formFieldID"
   >
-    <div class="radio-options">
+    <div class="radio-options" [ngClass]="{ horizontal: horizontal }">
       <ng-container *ngIf="options?.length; else noOptions">
-        <div *ngFor="let option of options; let i = index">
+        <div
+          class="radio-container"
+          *ngFor="let option of options; let i = index"
+        >
           <div class="field-radiobutton">
             <p-radioButton
               [id]="id || formFieldID"

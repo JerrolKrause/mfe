@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
@@ -17,10 +16,7 @@ import { BaseFormFieldComponent } from '../form-field.base';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SelectButtonComponent
-  extends BaseFormFieldComponent<string>
-  implements OnInit
-{
+export class SelectButtonComponent extends BaseFormFieldComponent<string> {
   /** Specifies the options to be displayed in the button */
   @Input() options?: FormsLib.FieldOptions[] | null = null;
   /** Specifies whether multiple options can be selected */
@@ -32,7 +28,7 @@ export class SelectButtonComponent
   /** Specifies whether an option can be unselected once it has been selected */
   @Input() canUnselect?: boolean | null = null;
   /** Should the buttons be stacked vertically or horizontally */
-  @Input() vertical = true;
+  @Input() stacked?: boolean | null = true;
 
   // Store the previous value of the user selection, used to unselect
   private lastValue: string | null = '';
@@ -40,8 +36,6 @@ export class SelectButtonComponent
   constructor(controlContainer: ControlContainer) {
     super(controlContainer);
   }
-
-  ngOnInit(): void {}
 
   /**
    * When a user clicks on an option

@@ -12,6 +12,7 @@
         [container]="model"
         [formGroup]="formGroup"
         [datafields]="datafields"
+        [featureTemplates]="featureTemplates"
       >
       </lib-container>
       <lib-row
@@ -20,6 +21,7 @@
         [formGroup]="formGroup"
         [datafields]="datafields"
         [options]="options"
+        [featureTemplates]="featureTemplates"
       ></lib-row>
       <lib-content
         *ngIf="model.type !== 'row' && model.type !== 'container'"
@@ -27,6 +29,7 @@
         [formGroup]="formGroup"
         [content]="model"
         [options]="options"
+        [featureTemplates]="featureTemplates"
       ></lib-content>
     </ng-container>
   </ng-container>

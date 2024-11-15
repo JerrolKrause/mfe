@@ -1,4 +1,4 @@
-import { NtsValidators } from '../validators.models';
+import { Validators } from '../validators.models';
 import { baseValidator } from './_base.validators';
 
 /**
@@ -8,22 +8,24 @@ import { baseValidator } from './_base.validators';
  * @returns
  */
 export const numberIsGreaterThanValidator = (
-  compareValueSrc: number | NtsValidators.Config,
-  options?: NtsValidators.Options,
+  compareValueSrc: number | Validators.Config,
+  options?: Validators.Options
 ) =>
   baseValidator(
     compareValueSrc,
     {
       id: 'numberIsGreaterThan',
       evaluatorFn: (compareValue: unknown, formValue: unknown) =>
-        (typeof formValue === 'number' && typeof compareValue === 'number' && formValue > compareValue) ||
+        (typeof formValue === 'number' &&
+          typeof compareValue === 'number' &&
+          formValue > compareValue) ||
         (typeof formValue === 'string' &&
           typeof compareValue === 'string' &&
           parseInt(formValue) > parseInt(compareValue)),
       errorMessageDefault: (compareValue: unknown) =>
         `Please enter a number <strong>greater than ${compareValue}</strong>`,
     },
-    options,
+    options
   );
 
 /**
@@ -33,20 +35,22 @@ export const numberIsGreaterThanValidator = (
  * @returns
  */
 export const numberIsLessThanValidator = (
-  compareValueSrc: number | NtsValidators.Config,
-  options?: NtsValidators.Options,
+  compareValueSrc: number | Validators.Config,
+  options?: Validators.Options
 ) =>
   baseValidator(
     compareValueSrc,
     {
       id: 'numberIsLessThan',
       evaluatorFn: (compareValue: unknown, formValue: unknown) =>
-        (typeof formValue === 'number' && typeof compareValue === 'number' && formValue > compareValue) ||
+        (typeof formValue === 'number' &&
+          typeof compareValue === 'number' &&
+          formValue > compareValue) ||
         (typeof formValue === 'string' &&
           typeof compareValue === 'string' &&
           parseInt(formValue) < parseInt(compareValue)),
       errorMessageDefault: (compareValue: unknown) =>
         `Please enter a number <strong>less than ${compareValue}</strong>`,
     },
-    options,
+    options
   );
